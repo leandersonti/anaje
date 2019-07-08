@@ -65,6 +65,7 @@ public class LoginAD {
 			usuario = db.getBean(tituloEleitor);
 			if (usuario.getNome().length()>0) {
 				login.setNome(usuario.getNome());
+				login.setFirstName(usuario.getNome());
 				login.setTitulo(usuario.getTituloEleitor());
 				login.setIsAmbienteProducao(this.isAmbienteProducao());
 			}
