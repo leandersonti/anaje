@@ -26,8 +26,9 @@ public class ActionDataEleicao extends ActionSupport{
 	private BeanResult result;
 	private final static DataEleicaoDAO dao = DataEleicaoDAOImpl.getInstance();
 	
-	@Action(value = "listar", results = { @Result(name = "success", location = "/consulta/listar-eleicao.jsp"),
-			@Result(name = "error", location = "/login.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+	@Action(value = "listar", results = { @Result(name = "success", location = "/consultas/data-eleicao.jsp"),
+			@Result(name = "error", location = "/result.jsp")}, interceptorRefs = @InterceptorRef("authStack")
+	)
 	public String getListar() {
 		try {
 			this.lstEleicao = dao.listar();
@@ -51,9 +52,21 @@ public class ActionDataEleicao extends ActionSupport{
 		return "success";
 	}
 	
-	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmCadEleicao.jsp"),
+	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmDataEleicao.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String frmCadEleicao() {	
+		return "success";
+	}
+	
+	@Action(value = "frmEditar", results = { @Result(name = "success", location = "/forms/frmDataEleicao.jsp"),
+			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+	public String doFrmEditar() {
+		try {
+			this.eleicao = dao.getBean(this.eleicao.getId());
+		} catch (Exception e) {
+			addActionError(getText("frmsetup.error") + " Error: " + e.getMessage());
+			return "error";
+		}
 		return "success";
 	}
 	
@@ -91,17 +104,7 @@ public class ActionDataEleicao extends ActionSupport{
 		return "success";
 	}
 	
-	@Action(value = "frmEditar", results = { @Result(name = "success", location = "/forms/frmEditEleicao.jsp"),
-			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
-	public String doFrmEditar() {
-		try {
-			this.eleicao = dao.getBean(this.eleicao.getId());
-		} catch (Exception e) {
-			addActionError(getText("frmsetup.error") + " Error: " + e.getMessage());
-			return "error";
-		}
-		return "success";
-	}
+	
 	
 	@Action(value = "alterar", results = { @Result(name = "success", location = "/forms/frmEditEleicao.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
