@@ -24,7 +24,7 @@ public class ActionLogin extends ActionSupport implements SessionAware{
   
   SessionMap<String,BeanLogin> sessionmap;
   
-  @Action(value = "loginprocess", results = {@Result(name = "success", location = "/index.jsp"),
+  @Action(value = "process", results = {@Result(name = "success", location = "/index.jsp"),
 	        @Result(name = "error", location = "/frmLogin.jsp")})
 	public String getLogin(){  
 		try{
