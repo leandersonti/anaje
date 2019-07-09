@@ -29,7 +29,7 @@ public class ActionDataEleicao extends ActionSupport{
 	@Action(value = "listar", results = { @Result(name = "success", location = "/consultas/data-eleicao.jsp"),
 			@Result(name = "error", location = "/result.jsp")}, interceptorRefs = @InterceptorRef("authStack")
 	)
-	public String getListar() {
+	public String listar() {
 		try {
 			this.lstEleicao = dao.listar();
 		} catch (Exception e) {
@@ -42,7 +42,7 @@ public class ActionDataEleicao extends ActionSupport{
 	
 	@Action(value = "listarJson", results = { @Result(name = "success", type = "json", params = { "root", "lstEleicao" }),
 			@Result(name = "error", location = "/login.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
-	public String getListarJson() {
+	public String listarJson() {
 		try {
 			this.lstEleicao = dao.listar();
 		} catch (Exception e) {
@@ -79,43 +79,44 @@ public class ActionDataEleicao extends ActionSupport{
 			r.setMensagem(getText("eleicao.setcontexto"));
 			r.setId(result);
 		} catch (Exception e) {
-			r.setMensagem(getText("eleicao.setcontexto.erro"));
+			r.setMensagem(getText("eleicao.setcontexto.error"));
 			return "error";
 		}
 		this.result = r;
 		return "success";
 	}
 	
-	
-	@Action(value = "inserir", results = { @Result(name = "success", location = "/forms/frmCadEleicao.jsp"),
-			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+	@Action(value = "inserir", results = { @Result(name = "success", type = "json", params = { "root", "result" }),
+			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String doInserir() {
+		BeanResult result = new BeanResult();
 		try {
 			int ret = 0;
 			ret = dao.inserir(eleicao);
 			if (ret == 1)
-			    addActionMessage(getText("inserir.sucesso"));
+				result.setMensagem(getText("inserir.sucesso"));
 			else
-				addActionError(getText("inserir.error"));
+				result.setMensagem(getText("inserir.error"));
 		} catch (Exception e) {
-			addActionError(getText("inserir.error") + " Error: " + e.getMessage());
+			    addActionError(getText("alterar.error") + " Error: " + e.getMessage());
+			  //result.setMensagem(getText("inserir.error") + " Error: " + e.getMessage());
 			return "error";
 		}
 		return "success";
 	}
 	
 	
-	
-	@Action(value = "alterar", results = { @Result(name = "success", location = "/forms/frmEditEleicao.jsp"),
-			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+	@Action(value = "alterar", results = { @Result(name = "success", type = "json", params = { "root", "result" }),
+			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String doAlterar() {
+		BeanResult result = new BeanResult();
 		try {			
 			int ret = 0;
 			ret = dao.alterar(this.eleicao);
 			if (ret==1) {
-				addActionMessage(getText("alterar.sucesso"));
+				result.setMensagem(getText("alterar.sucesso"));
 			}else {
-				addActionError(getText("alterar.error")); 
+				result.setMensagem(getText("alterar.error")); 
 			}
 		} catch (Exception e) {
 			addActionError(getText("alterar.error") + " Error: " + e.getMessage());
@@ -134,8 +135,8 @@ public class ActionDataEleicao extends ActionSupport{
 			r.setMensagem(getText("remover.sucesso"));
 			r.setId(ret);
 		} catch (Exception e) {
-			r.setMensagem(getText("remover.error") + " Error: " + e.getMessage());
-			this.result = r;
+			addActionError(getText("remover.error") + " Error: " + e.getMessage());
+			// r.setMensagem(getText("remover.error") + " Error: " + e.getMessage());
 			return "error";
 		}
 		this.result = r;
