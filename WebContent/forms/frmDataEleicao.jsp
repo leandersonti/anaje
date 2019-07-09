@@ -82,34 +82,45 @@ $(document).ready(function() {
 		var URL = ""; 
 		if ( $('#id').length ) { URL = "atualizar"; }
 		else{ URL = "adicionar";  }	
-		 Swal.fire({
-	         title: "Confirma ?",
-	         text: "Confirma " + URL + "?",
-	         type: 'warning',
-	         showCancelButton: true,
-			  confirmButtonText: 'Incluir'
-	         }).then((result) => {
-				if (result.value) {
-					var frm = $("#form1").serialize();
-					console.log(frm);
-					$.getJSON({
-						url: URL,
-						data: frm
-				    }).done(function( data ) {
-				    	console.log(data);
-				    	if(data.ret==1)
-				    		Swal.fire(URL, data.mensagem, "success");
-				    	else 
-				    		Swal.fire(URL, data.mensagem, "error");
-					}).fail(function() {
-							Swal.fire("Update", "An error occurred", "error");
-					});
-			      } 
-		   }); // -- FIM SWAL --
+		if (verificaDados()){
+			 Swal.fire({
+		         title: "Confirma ?",
+		         text: "Confirma " + URL + "?",
+		         type: 'warning',
+		         showCancelButton: true,
+				  confirmButtonText: 'Incluir'
+		         }).then((result) => {
+					if (result.value) {
+						var frm = $("#form1").serialize();
+						console.log(frm);
+						$.getJSON({
+							url: URL,
+							data: frm
+					    }).done(function( data ) {
+					    	console.log(data);
+					    	if(data.ret==1)
+					    		Swal.fire(URL, data.mensagem, "success");
+					    	else 
+					    		Swal.fire(URL, data.mensagem, "error");
+						}).fail(function() {
+								Swal.fire("Adicionar", "Ocorreu um erro ao incluir", "error");
+						});
+				      } 
+			   }); // -- FIM SWAL --
+		   }else{
+			   Swal.fire("Dados", "Verifique os dados obrigatórios", "error");
+		   }
 	 	}); // -- FIM btnSave --
 	 
-	 
 });
+
+ function verificaDados(){
+	if ($('#dataEleicao').val().length == 0)
+		return false;
+
+
+	return true;
+ }
 
 </script>	
 <jsp:include page="/mainfooter.inc.jsp" />
