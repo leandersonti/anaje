@@ -5,7 +5,7 @@
 <div class="container">
   
 	
-	 <form class="form-signin" action="${pageContext.request.contextPath}/login/loginprocess" method="post">
+	 <form class="form-signin" action="${pageContext.request.contextPath}/login/process" method="post">
         <h2 class="form-signin-heading"><img src="${pageContext.request.contextPath}/images/brasao-peq2.png" /> Área restrita</h2>
         <label for="inputEmail" class="sr-only">Título</label>
        

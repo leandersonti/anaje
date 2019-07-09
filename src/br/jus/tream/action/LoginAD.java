@@ -67,6 +67,8 @@ public class LoginAD {
 				login.setNome(usuario.getNome());
 				login.setFirstName(usuario.getNome());
 				login.setTitulo(usuario.getTituloEleitor());
+				login.setAdmin(usuario.getAdmin());
+				login.setZona(usuario.getZona());
 				login.setIsAmbienteProducao(this.isAmbienteProducao());
 			}
 		} finally {
@@ -92,7 +94,7 @@ public class LoginAD {
 		s = l.getLogin("037337472259", "Fcd08be893");
 		System.out.println("login " + s.getLogou());
 		if (s.getLogou())
-			System.out.println("logou " + s.getNome() + " / " + s.getSigla());
+			System.out.println("logou " + s.getNome() + " / " +  " admin " + s.getAdmin());
 		else
 			System.out.println("Nao Logou");
 		

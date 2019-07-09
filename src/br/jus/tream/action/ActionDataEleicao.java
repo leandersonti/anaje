@@ -29,7 +29,7 @@ public class ActionDataEleicao extends ActionSupport{
 	@Action(value = "listar", results = { @Result(name = "success", location = "/consultas/data-eleicao.jsp"),
 			@Result(name = "error", location = "/result.jsp")}, interceptorRefs = @InterceptorRef("authStack")
 	)
-	public String getListar() {
+	public String listar() {
 		try {
 			this.lstEleicao = dao.listar();
 		} catch (Exception e) {
@@ -42,7 +42,7 @@ public class ActionDataEleicao extends ActionSupport{
 	
 	@Action(value = "listarJson", results = { @Result(name = "success", type = "json", params = { "root", "lstEleicao" }),
 			@Result(name = "error", location = "/login.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
-	public String getListarJson() {
+	public String listarJson() {
 		try {
 			this.lstEleicao = dao.listar();
 		} catch (Exception e) {
@@ -71,75 +71,73 @@ public class ActionDataEleicao extends ActionSupport{
 	}
 	
 	@Action(value = "setcontexto", results = { @Result(name = "success", type = "json", params = { "root", "result" }),
-			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String doSetContexto() {
-		BeanResult r = new BeanResult();
+		BeanResult beanResult = new BeanResult();
 		try {
-			int result = dao.ativar(this.eleicao.getId());
-			r.setMensagem(getText("eleicao.setcontexto"));
-			r.setId(result);
+			beanResult.setRet(dao.ativar(this.eleicao.getId()));
+			beanResult.setMensagem(getText("eleicao.setcontexto"));
 		} catch (Exception e) {
-			r.setMensagem(getText("eleicao.setcontexto.erro"));
+			 addActionError(getText("eleicao.setcontexto.error") + " Error: " + e.getMessage());
 			return "error";
 		}
-		this.result = r;
+		this.result = beanResult;
 		return "success";
 	}
 	
-	
-	@Action(value = "inserir", results = { @Result(name = "success", location = "/forms/frmCadEleicao.jsp"),
-			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
-	public String doInserir() {
+	@Action(value = "adicionar", results = { @Result(name = "success", type = "json", params = { "root", "result" }),
+			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+	public String doAdicionar() {
+		BeanResult beanResult = new BeanResult();
 		try {
-			int ret = 0;
-			ret = dao.inserir(eleicao);
-			if (ret == 1)
-			    addActionMessage(getText("inserir.sucesso"));
+			beanResult.setRet(dao.inserir(eleicao));
+			if (beanResult.getRet() == 1)
+				beanResult.setMensagem(getText("inserir.sucesso"));
 			else
-				addActionError(getText("inserir.error"));
+				beanResult.setMensagem(getText("inserir.error"));
 		} catch (Exception e) {
-			addActionError(getText("inserir.error") + " Error: " + e.getMessage());
+			    addActionError(getText("alterar.error") + " Error: " + e.getMessage());
+			  //result.setMensagem(getText("inserir.error") + " Error: " + e.getMessage());
 			return "error";
 		}
+		this.result = beanResult;
 		return "success";
 	}
 	
 	
-	
-	@Action(value = "alterar", results = { @Result(name = "success", location = "/forms/frmEditEleicao.jsp"),
-			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
-	public String doAlterar() {
+	@Action(value = "atualizar", results = { @Result(name = "success", type = "json", params = { "root", "result" }),
+			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+	public String doAtualizar() {
+		BeanResult beanResult = new BeanResult();
 		try {			
-			int ret = 0;
-			ret = dao.alterar(this.eleicao);
-			if (ret==1) {
-				addActionMessage(getText("alterar.sucesso"));
+			beanResult.setRet(dao.alterar(this.eleicao));
+			if (beanResult.getRet()==1) {
+				beanResult.setMensagem(getText("alterar.sucesso"));
 			}else {
-				addActionError(getText("alterar.error")); 
+				beanResult.setMensagem(getText("alterar.error")); 
 			}
 		} catch (Exception e) {
 			addActionError(getText("alterar.error") + " Error: " + e.getMessage());
 			return "error";
 		}
+		 this.result = beanResult;
 		return "success";
 	}
 	
-	@Action(value = "excluir", results = { @Result(name = "success", type = "json", params = { "root", "result" }),
+	@Action(value = "remover", results = { @Result(name = "success", type = "json", params = { "root", "result" }),
 			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
-	public String doExcluir() {
-		BeanResult r = new BeanResult();
+	public String doRemover() {
+		BeanResult beanResult = new BeanResult();
 		try {
-			int ret = 0;
-			ret = dao.remover(this.eleicao);
-			r.setMensagem(getText("remover.sucesso"));
-			r.setId(ret);
+			beanResult.setRet(dao.remover(this.eleicao));
+			beanResult.setMensagem(getText("remover.sucesso"));
 		} catch (Exception e) {
-			r.setMensagem(getText("remover.error") + " Error: " + e.getMessage());
-			this.result = r;
+			addActionError(getText("remover.error") + " Error: " + e.getMessage());
+			// r.setMensagem(getText("remover.error") + " Error: " + e.getMessage());
 			return "error";
 		}
-		this.result = r;
-		return "success";
+		this.result = beanResult;
+	  return "success";
 	}
 	
 	public List<DataEleicao> getLstEleicao() {

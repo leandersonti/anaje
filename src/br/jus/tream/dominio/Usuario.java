@@ -13,21 +13,23 @@ import javax.persistence.Table;
 public class Usuario implements Serializable{
 
 	@Id
-	@Column(name = "num_tit_ele")
+	@Column(name = "titulo_eleitor")
 	private String tituloEleitor;
-	
 	private String nome;
-	
 	private int ativo;
+	private int admin;
+	private int zona;
 		
 	public Usuario() {		
 	}
 
-	public Usuario(String tituloEleitor, int ativo, String nome) {
+	public Usuario(String tituloEleitor, int ativo, String nome, int admin, int zona) {
 		super();
 		this.tituloEleitor = tituloEleitor;
 		this.ativo = ativo;
 		this.nome = nome;
+		this.admin = admin;
+		this.zona = zona;
 	}
 
 	public Usuario(String tituloEleitor, String nome) {
@@ -58,6 +60,22 @@ public class Usuario implements Serializable{
 
 	public void setAtivo(int ativo) {
 		this.ativo = ativo;
+	}
+
+	public int getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(int admin) {
+		this.admin = admin;
+	}
+
+	public int getZona() {
+		return zona;
+	}
+
+	public void setZona(int zona) {
+		this.zona = zona;
 	}
 
 	@Override

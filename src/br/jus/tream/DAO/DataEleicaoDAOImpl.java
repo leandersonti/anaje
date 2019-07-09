@@ -68,8 +68,7 @@ public class DataEleicaoDAOImpl implements DataEleicaoDAO {
 	public int inserir (DataEleicao dateEleicao) throws Exception{
 		int ret = 0;
 		try {
-			dao.adicionar(dateEleicao);
-			ret =1;
+			ret = dao.adicionar(dateEleicao);		 
 		} catch (Exception e) {
 			//e.printStackTrace();
 		}
@@ -80,8 +79,7 @@ public class DataEleicaoDAOImpl implements DataEleicaoDAO {
 	public int alterar (DataEleicao dateEleicao) throws Exception{
 		int ret = 0;
 		try {
-			dao.atualizar(dateEleicao);
-			ret =1;
+			ret = dao.atualizar(dateEleicao);
 		} catch (Exception e) {
 			//e.printStackTrace();
 		}
@@ -92,8 +90,7 @@ public class DataEleicaoDAOImpl implements DataEleicaoDAO {
 	public int remover (DataEleicao dateEleicao) throws Exception{
 		int ret = 0;
 		try {
-			dao.remover(dateEleicao);
-			ret =1;
+			ret = dao.remover(dateEleicao);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -111,6 +108,7 @@ public class DataEleicaoDAOImpl implements DataEleicaoDAO {
 		     sql = "UPDATE data_eleicao SET ativo=1 WHERE id=?1";
 		     em.createNativeQuery(sql).setParameter(1, id).executeUpdate();
 		   em.getTransaction().commit();
+		   ret = 1;
 		  }
 		  catch (Exception e) {
 			  if (em.isOpen()) {

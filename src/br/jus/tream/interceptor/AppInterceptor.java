@@ -27,16 +27,16 @@ public class AppInterceptor implements Interceptor{
 		   HttpSession session = ServletActionContext.getRequest().getSession(true);
     	   BeanLogin b = (BeanLogin)session.getAttribute("login");
 	    	if (b.getNome()==null) {
-	    		 System.out.println("Sessão expirada");
+	    		// System.out.println("Sessão expirada");
 	    		 result = "error";
 	    	} 
 	    	else {
-	    	     System.out.println("Sessão Ativa - titulo : " + b.getTitulo());
+	    	    // System.out.println("Sessão Ativa - titulo : " + b.getTitulo());
 	    		result = invocation.invoke();
 	    	}
 		}catch (Exception e) {
 			result = "loginNecessario";
-			System.out.println("Sessão expirada xxxxxxxx " + e.getMessage());
+			//System.out.println("Sessão expirada xxxxxxxx " + e.getMessage());
 		}
 		// -----------------------   DEPOIS DA ACTION
 		// System.out.println("CustomInterceptor, after invocation.invoke()... Result........>> " + result);
