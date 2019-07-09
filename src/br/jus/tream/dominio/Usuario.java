@@ -13,7 +13,7 @@ import javax.persistence.Table;
 public class Usuario implements Serializable{
 
 	@Id
-	@Column(name = "num_tit_ele")
+	@Column(name = "titulo_eleitor")
 	private String tituloEleitor;
 	
 	private String nome;
