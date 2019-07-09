@@ -3,7 +3,7 @@
 <div class="container">
 
 	<div class="card">
-		<div class="card-header">Cadastrar Data Eleição</div>
+		<div class="card-header">Cadastrar Data Eleição:</div>
 		<div class="card-body">
 
 			<form action="" method="post" name="form1" id="form1">
@@ -13,15 +13,14 @@
 				</s:if>
 				<div class="form-row">
 					<div class="col-md-6 mb-3">
-						<label for="dataEleicao">Data Eleição</label> <input type="date"
-							class="form-control" name="eleicao.dataEleicao" id="dataEleicao"
-							placeholder="" value="" required>
+						<label for="dataEleicao">Data Eleição:</label> <input type="date"
+							class="form-control is-invalid" name="eleicao.dataEleicao" id="dataEleicao" >
 						<div class="valid-feedback">Tudo certo!</div>
 					</div>
 					<div class="col-md-6 mb-3">
-						<label for="turno">Turno</label> <input type="text"
-							class="form-control" id="turno" name="eleicao.turno"
-							placeholder="Informe o turno" value="" required>
+						<label for="turno">Turno:</label> <input type="text"
+							class="form-control is-invalid" id="turno" name="eleicao.turno"
+							placeholder="Informe o turno">
 						<div class="valid-feedback">Tudo certo!</div>
 					</div>
 
@@ -29,15 +28,15 @@
 				</div>
 				<div class="form-row">
 					<div class="col-md-6 mb-3">
-						<label for="tituloEleitor">Título de eleitor</label> <input
-							type="text" class="form-control" id="tituloEleitor"
-							name="eleicao.titTRE" placeholder="Informe o Título de eleitor">
+						<label for="siglaTre">Sigla Tre:</label> <input
+							type="text" class="form-control" id="siglaTre"
+							name="eleicao.titTRE" placeholder="TRE-AM">
 						<div class="invalid-feedback">Por favor, informe uma cidade
 							válida.</div>
 					</div>
 
 					<div class="col-md-6 mb-3">
-						<label for="email">Email</label> <input type="text"
+						<label for="email">Email:</label> <input type="text"
 							class="form-control" id="email" name="eleicao.email"
 							placeholder="Informe o email" >
 						<div class="invalid-feedback">Por favor, informe um estado
@@ -46,7 +45,7 @@
 				</div>
 
 				<div class="form-row">
-					<label for="descricao">Descrição</label> <input type="text"
+					<label for="descricao">Descrição:</label> <input type="text"
 						class="form-control" id="descricao" name="eleicao.descricao"
 						placeholder="Informe uma curta descrição">
 					<div class="invalid-feedback">Por favor, informe uma cidade
@@ -58,7 +57,7 @@
 				<div class="form-group">
 					<div class="custom-control custom-switch">
 						<input type="checkbox" class="custom-control-input"
-							id="customSwitch1" name="eleicao.ativo" value="1"> <label
+							id="customSwitch1" name="eleicao.ativo"  value="1"> <label
 							class="custom-control-label" for="customSwitch1">Ativo</label>
 					</div>
 				</div>
@@ -108,7 +107,7 @@ $(document).ready(function() {
 				      } 
 			   }); // -- FIM SWAL --
 		   }else{
-			   Swal.fire("Dados", "Verifique os dados obrigatórios", "error");
+			   Swal.fire("Dados", "Verifique os campos obrigatórios ", "error");
 		   }
 	 	}); // -- FIM btnSave --
 	 
@@ -117,8 +116,10 @@ $(document).ready(function() {
  function verificaDados(){
 	if ($('#dataEleicao').val().length == 0)
 		return false;
-
-
+	
+	if ($('#turno').val().length == 0)
+		return false;
+	
 	return true;
  }
 
