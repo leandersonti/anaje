@@ -53,7 +53,7 @@ public class Contrato implements Serializable{
 	private Cargo cargo;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "dt_insc_fim")
+	@Column(name = "dt_insc_ini")
 	private Date dataInscIni;
 	
 	@Temporal(TemporalType.TIMESTAMP)
