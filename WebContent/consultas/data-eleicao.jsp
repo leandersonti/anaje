@@ -53,34 +53,39 @@
 <jsp:include page = "/javascripts.jsp" />
 
 <script type="text/javascript" language="javascript" class="init">
-	$(document).ready(function() {
-	    $('#table1').dataTable( {
-	        "order": [[ 0, "des" ],[ 1, "des" ]]
-	    } );
+$(document).ready(function() {
+    $('#table1').dataTable( {
+        "order": [[ 0, "des" ],[ 1, "des" ]]
+   });
 
 });
-	
 				
 	$( "[id*='excluir']" ).click(function(event) {
 	    var data = $(event.delegateTarget).data();
 		var id = data.recordId; 
-		var ano = data.recordAno; 
-		var nrdoc = data.recordNrdoc; 
-		var especie = data.recordEspecie; 
 		var descricao = data.recordDescricao;
-		
 		Swal.fire({
 			  title: 'Excluir?',
-			  text: "Deseja excluir esse registro?",
+			  text: "Deseja excluir esse registro? (" + descricao + ")",
 			  type: 'warning',
 			  showCancelButton: true,
 			  confirmButtonText: 'Sim excluir!'
 			}).then((result) => {
 			  if (result.value) {
-			    console.log("excluído!!!")
-				  
-				  
-			  }
+			    
+			       $.getJSON({
+					  url: "remover?eleicao.id="+id
+				   }).done(function( data ) {
+				    	  if (data.ret==1){
+				    		  $('#tr'+id).fadeOut(); 
+				    		     Swal.fire("Remover", data.mensagem, "success");
+				    	  }
+				    	  else
+				    		  Swal.fire("Remover", "Ocorreu um erro ao remover", "error");
+					}).fail(function() {
+						Swal.fire("Remover", "Ocorreu um erro ao remover", "error");
+					});
+			   }
 			})
 			
 			

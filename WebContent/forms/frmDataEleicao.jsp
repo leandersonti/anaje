@@ -6,63 +6,46 @@
 		<div class="card-header">Cadastrar Data Eleição:</div>
 		<div class="card-body">
 
-			<form action="" method="post" name="form1" id="form1">
+			<form action="" method="post" name="form1" id="form1" class="needs-validation_" novalidate>
 				<s:if test='eleicao.id != null'>
-					<input type="hidden" id="id" name="eleicao.id"
-						value="${eleicao.id}">
+					<input type="hidden" id="id" name="eleicao.id" value="${eleicao.id}">
 				</s:if>
 				<div class="form-row">
 					<div class="col-md-6 mb-3">
-						<label for="dataEleicao">Data Eleição:</label> <input type="date"
-							class="form-control is-invalid" name="eleicao.dataEleicao" id="dataEleicao" >
-						<div class="valid-feedback">Tudo certo!</div>
+						<label for="dataEleicao">*Data Eleição:</label> 
+						<input type="date" class="form-control" name="eleicao.dataEleicao" id="dataEleicao" value="<s:property value="%{getText('format.dtUSA',{eleicao.dataEleicao})}"/>" required>
+						<div class="invalid-feedback">Por favor, informe a data de eleição.</div>
 					</div>
 					<div class="col-md-6 mb-3">
-						<label for="turno">Turno:</label> <input type="text"
-							class="form-control is-invalid" id="turno" name="eleicao.turno"
-							placeholder="Informe o turno">
-						<div class="valid-feedback">Tudo certo!</div>
+						<label for="turno">*Turno:</label> 
+						<input type="number" class="form-control" id="turno" name="eleicao.turno" placeholder="Informe o turno" value="${eleicao.turno}" required>
+						<div class="invalid-feedback">Por favor, informe o turno.</div>
 					</div>
-
-
 				</div>
+				
 				<div class="form-row">
 					<div class="col-md-6 mb-3">
-						<label for="siglaTre">Sigla Tre:</label> <input
-							type="text" class="form-control" id="siglaTre"
-							name="eleicao.titTRE" placeholder="TRE-AM">
-						<div class="invalid-feedback">Por favor, informe uma cidade
-							válida.</div>
+						<label for="titTRE">Sigla Tre:</label> 
+						<input type="text" class="form-control" id="titTRE" name="eleicao.titTRE" placeholder="TRE-AM" value="${eleicao.titTRE}">
 					</div>
-
 					<div class="col-md-6 mb-3">
-						<label for="email">Email:</label> <input type="text"
-							class="form-control" id="email" name="eleicao.email"
-							placeholder="Informe o email" >
-						<div class="invalid-feedback">Por favor, informe um estado
-							válido.</div>
+						<label for="email">Email:</label> 
+						<input type="text" class="form-control" id="email" name="eleicao.email"	placeholder="Informe o email" value="${eleicao.email}">
 					</div>
 				</div>
 
 				<div class="form-row">
-					<label for="descricao">Descrição:</label> <input type="text"
-						class="form-control" id="descricao" name="eleicao.descricao"
-						placeholder="Informe uma curta descrição">
-					<div class="invalid-feedback">Por favor, informe uma cidade
-						válida.</div>
+					<label for="descricao">*Descrição:</label> 
+					<input type="text" class="form-control" id="descricao" name="eleicao.descricao"	placeholder="Informe uma descrição" value="${eleicao.descricao}" required>
+					<div class="invalid-feedback">Por favor, informe uma descricao.</div>
 				</div>
-
 				<br>
-
 				<div class="form-group">
 					<div class="custom-control custom-switch">
-						<input type="checkbox" class="custom-control-input"
-							id="customSwitch1" name="eleicao.ativo"  value="1"> <label
-							class="custom-control-label" for="customSwitch1">Ativo</label>
+						<input type="checkbox" class="custom-control-input"	id="ativo" name="eleicao.ativo" value="1" <s:if test='eleicao.ativo == 1'>checked</s:if>> 
+							<label class="custom-control-label" for="ativo">Ativo</label>
 					</div>
 				</div>
-
-
 				<br>
 				<button class="btn btn-primary" id="btnSave" type="button">Enviar</button>
 			</form>
@@ -70,7 +53,6 @@
 	</div>
 
 </div>
-
 
 <jsp:include page="/javascripts.jsp" />
 
@@ -114,16 +96,14 @@ $(document).ready(function() {
 });
 
  function verificaDados(){
-	if ($('#dataEleicao').val().length == 0)
-		return false;
-	
-	if ($('#turno').val().length == 0)
-		return false;
-	
-	return true;
+    if ($("#form1")[0].checkValidity()===false){
+    	$("#form1")[0].classList.add('was-validated');
+    	return false;
+    }else 
+	   return true;
  }
-
-</script>	
+</script>
+	
 <jsp:include page="/mainfooter.inc.jsp" />
 
 
