@@ -6,7 +6,7 @@
 		<div class="card-header">Cadastrar Data Eleição</div>
 		<div class="card-body">
 
-			<form action="" method="post" name="form1" id="frmDt">
+			<form action="" method="post" name="form1" id="form1">
 				<s:if test='eleicao.id != null'>
 					<input type="hidden" id="id" name="eleicao.id"
 						value="${eleicao.id}">
@@ -76,53 +76,39 @@
 <jsp:include page="/javascripts.jsp" />
 
 <script type="text/javascript">
-/* DATA ELEICAO  */
 $(document).ready(function() {
-	 // CLICK DO BOTÃO SAVE 
+ 
 	 $("#btnSave").click(function() {
 		var URL = ""; 
 		if ( $('#id').length ) { URL = "atualizar"; }
 		else{ URL = "adicionar";  }	
-		
-		
-	/* 	Swal.fire({
-			  title: 'Excluir?',
-			  text: "Deseja excluir esse registro?",
-			  type: 'warning',
-			  showCancelButton: true,
-			  confirmButtonText: 'Sim excluir!'
-			}).then((result) => {
-			  if (result.value) {
-			    console.log("excluído!!!")
-				  
-				  
-			  }
-			}) */
-		
 		 Swal.fire({
 	         title: "Confirma ?",
 	         text: "Confirma " + URL + "?",
 	         type: 'warning',
 	         showCancelButton: true,
 			  confirmButtonText: 'Incluir'
-	         })
-	         .then((resp) => {
-				if (resp) {
-					var frm = $("#form1").serialize();					
+	         }).then((result) => {
+				if (result.value) {
+					var frm = $("#form1").serialize();
+					console.log(frm);
 					$.getJSON({
 						url: URL,
 						data: frm
 				    }).done(function( data ) {
+				    	console.log(data);
 				    	if(data.ret==1)
 				    		Swal.fire(URL, data.mensagem, "success");
 				    	else 
 				    		Swal.fire(URL, data.mensagem, "error");
 					}).fail(function() {
-						Swal.fire("Update", "An error occurred", "error");
+							Swal.fire("Update", "An error occurred", "error");
 					});
 			      } 
 		   }); // -- FIM SWAL --
-	 	}); 
+	 	}); // -- FIM btnSave --
+	 
+	 
 });
 
 </script>	
