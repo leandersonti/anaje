@@ -6,6 +6,28 @@ body {
   text-align: center;
 }
 
+.navbar-nav {
+	padding-left: 40px;
+}
+	
+.login-form
+{
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.login-form .row
+{
+    margin-left: 0;
+    margin-right: 0;
+}
+
+img.topmnu{
+	position: absolute;
+    z-index: -1;
+    top: 2px;
+}
+
 /* LOADING */
 .wrapper {
     /* Size and position */

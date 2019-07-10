@@ -1,7 +1,11 @@
 <!-- MENU TOP -->
 <%@page import="br.jus.tream.dominio.BeanLogin"%>
+       
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-      <a class="navbar-brand" href="#">AnaJÉ</a>
+      <!--  <a class="navbar-brand" href="#">AnaJÉ</a> -->
+      <a class="navbar-brand" href="#">
+         <img class="topmnu" src="${pageContext.request.contextPath}/images/brasao2.gif" alt="AnaJé" width="60" height="60"> 
+        </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -9,50 +13,72 @@
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="${pageContext.request.contextPath}/eleicao/listar">Eleicao <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/">AnaJé<span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/eleicao/listar">Eleicao</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contratos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Pontos Transmissão</a>
           </li>
           <li class="nav-item">
             <a class="nav-link disabled" href="#">Disabled</a>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-            <div class="dropdown-menu" aria-labelledby="dropdown01">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
+	         <li class="nav-item dropdown">
+	            <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+	            <div class="dropdown-menu" aria-labelledby="dropdown01">
+	              <a class="dropdown-item" href="#">Action</a>
+	              <a class="dropdown-item" href="#">Another action</a>
+	              <a class="dropdown-item" href="#">Something else here</a>
+	            </div>
+	          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Tabelas</a>
           </li>
+          <li class="nav-item dropdown">
+	            <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Monitoramento</a>
+	            <div class="dropdown-menu" aria-labelledby="dropdown01">
+	              <a class="dropdown-item" href="#">PPO</a>
+	              <a class="dropdown-item" href="#">Encerramento</a>
+	              <a class="dropdown-item" href="#">Equipamentos</a>
+	            </div>
+	          </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-			   <%
-					BeanLogin s = (BeanLogin)session.getAttribute("login");
-				try{
-				   if (!s.getNome().equals("")){
+             
+             <li class="nav-item dropdown">
+                <%
+			     BeanLogin s = (BeanLogin)session.getAttribute("login");
+				  try{
+				      if (!s.getNome().equals("")){
 			    %>
-			   <li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					 <i class="glyphicon glyphicon-user"></i>
-							<%=s.getTitulo() + " - " + s.getFirstName()%> 
-					    <b class="caret"></b></a>
-					<ul class="dropdown-menu">
-					  <li><a id="logout" href="${pageContext.request.contextPath}/login/logout"> Sair</a></li>
-					</ul>
-			   </li>
-			   <%
+	            <a class="nav-link dropdown-toggle" href="http://example.com" id="sessionmnu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                <%=s.getTitulo() + " - " + s.getFirstName()%>
+	             </a>
+	            <div class="dropdown-menu" aria-labelledby="sessionmnu">
+	              <a class="dropdown-item" href="${pageContext.request.contextPath}/login/logout">Sair</a>
+	            </div>
+	            
+	            <%
 				   }
 			     }catch (Exception e){
-							        // out.print("Sessão expirou! ");
-									// response.sendRedirect(pg);		
+			    	 %>
+			    	 <a class="nav-link dropdown-toggle" href="http://example.com" id="sessionmnu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	               				Sessão não iniciada
+			             </a>
+			            <div class="dropdown-menu" aria-labelledby="sessionmnu">
+			              <a class="dropdown-item" href="${pageContext.request.contextPath}/login/frmLogin">Login</a>
+			            </div> 
+			    <%	 
+			     }
 				%>
-			     <li>
-                       <a href="#">Sessão não iniciada</a>
-                 </li>
-			     <%} %>
+	          </li>
+		
 				 
-				</ul>
+			</ul>
 				
         <!--  
         <form class="form-inline my-2 my-lg-0">
