@@ -2,6 +2,9 @@ package br.jus.tream.action;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -13,6 +16,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import br.jus.tream.DAO.DataEleicaoDAO;
 import br.jus.tream.DAO.DataEleicaoDAOImpl;
+import br.jus.tream.dominio.BeanLogin;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.DataEleicao;
 
@@ -38,7 +42,6 @@ public class ActionDataEleicao extends ActionSupport{
 		}
 		return "success";
 	}
-	
 	
 	@Action(value = "listarJson", results = { @Result(name = "success", type = "json", params = { "root", "lstEleicao" }),
 			@Result(name = "error", location = "/login.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
@@ -75,8 +78,15 @@ public class ActionDataEleicao extends ActionSupport{
 	public String doSetContexto() {
 		BeanResult beanResult = new BeanResult();
 		try {
-			beanResult.setRet(dao.ativar(this.eleicao.getId()));
-			beanResult.setMensagem(getText("eleicao.setcontexto"));
+			HttpSession session = ServletActionContext.getRequest().getSession(true);
+	    	BeanLogin b = (BeanLogin)session.getAttribute("login");
+		    if (b.getAdmin()==1 && b.getZona()==0) {
+		    	beanResult.setRet(dao.ativar(this.eleicao.getId()));
+				beanResult.setMensagem(getText("eleicao.setcontexto"));
+		    } else {
+		    	beanResult.setRet(0);
+				beanResult.setMensagem(getText("permissao.negada"));				
+		    }
 		} catch (Exception e) {
 			 addActionError(getText("eleicao.setcontexto.error") + " Error: " + e.getMessage());
 			return "error";
