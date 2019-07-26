@@ -67,7 +67,7 @@ public class Contrato implements Serializable{
 	@Column(name = "dt_limite_confirmacao")
 	private Date dtLimiteConfirmacao;
 	
-	@Column(length=70)
+	@Column(name = "total_tecnicos")
 	private Integer totalTecnicos;
 	
 	public Contrato() {
