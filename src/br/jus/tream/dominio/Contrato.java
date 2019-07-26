@@ -60,8 +60,8 @@ public class Contrato implements Serializable{
 	@Column(name = "dt_insc_fim")
 	private Date dataInscFim;
 	
-	@Column(length=10)
-	private String num_contrato_tse;
+	@Column(name = "num_contrato_tse", length=10)
+	private String numContratoTse;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "dt_limite_confirmacao")
@@ -70,7 +70,6 @@ public class Contrato implements Serializable{
 	@Column(length=70)
 	private Integer totalTecnicos;
 	
-
 	public Contrato() {
 		super();
 	}
@@ -89,7 +88,7 @@ public class Contrato implements Serializable{
 		this.cargo = cargo;
 		this.dataInscIni = dataInscIni;
 		this.dataInscFim = dataInscFim;
-		this.num_contrato_tse = num_contrato_tse;
+		this.numContratoTse = num_contrato_tse;
 		this.dtLimiteConfirmacao = dtLimiteConfirmacao;
 		this.totalTecnicos = totalTecnicos;
 	}
@@ -180,12 +179,12 @@ public class Contrato implements Serializable{
 		this.dataInscFim = dataInscFim;
 	}
 
-	public String getNum_contrato_tse() {
-		return num_contrato_tse;
+	public String getNumContratoTse() {
+		return numContratoTse;
 	}
 
-	public void setNum_contrato_tse(String num_contrato_tse) {
-		this.num_contrato_tse = num_contrato_tse;
+	public void setNumContratoTse(String num_contrato_tse) {
+		this.numContratoTse = num_contrato_tse;
 	}
 
 	public Date getDtLimiteConfirmacao() {
