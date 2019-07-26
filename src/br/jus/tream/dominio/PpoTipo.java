@@ -25,17 +25,20 @@ public class PpoTipo implements Serializable{
 	private String descricao;
 	
 	@Column(length=4)
-	private String sigla;	
+	private String sigla;
+	
+	private Integer ordem;
 	
 	public PpoTipo() {
 		super();
 	}
 
-	public PpoTipo(Integer id, String descricao, String sigla) {
+	public PpoTipo(Integer id, String descricao, String sigla, Integer ordem) {
 		super();
 		this.id = id;
 		this.descricao = descricao;
 		this.sigla = sigla;
+		this.ordem = ordem;
 	}
 
 	public Integer getId() {
@@ -85,6 +88,14 @@ public class PpoTipo implements Serializable{
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public Integer getOrdem() {
+		return ordem;
+	}
+
+	public void setOrdem(Integer ordem) {
+		this.ordem = ordem;
 	}
 	
 	
