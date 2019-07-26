@@ -93,6 +93,12 @@ public class Contrato implements Serializable{
 		this.dtLimiteConfirmacao = dtLimiteConfirmacao;
 		this.totalTecnicos = totalTecnicos;
 	}
+	
+	public Contrato(Integer id, String descricao) {
+		super();
+		this.id = id;
+		this.descricao = descricao;
+	}
 
 	public Integer getId() {
 		return id;
