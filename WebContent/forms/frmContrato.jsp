@@ -40,20 +40,20 @@
 					<div class="col-md-6 mb-3">
 						<label for="dataInicio">*Data Início:</label> 
 						<input type="date" class="form-control" name="contrato.dataInicio" id="dataInicio" value="<s:property value="%{getText('format.dtUSA',{contrato.dataInicio})}"/>" required>
-						<div class="invalid-feedback">Por favor, informe a data de Inicio.</div>
+						<div class="invalid-feedback">Por favor, informe a data de início.</div>
 					</div>
 					
 					<div class="col-md-6 mb-3">
 						<label for="dataFim">*Data Fim:</label> 
 						<input type="date" class="form-control" name="contrato.dataFim" id="dataFim" value="<s:property value="%{getText('format.dtUSA',{contrato.dataFim})}"/>" required>
-						<div class="invalid-feedback">Por favor, informe a data de Inicio.</div>
+						<div class="invalid-feedback">Por favor, informe a data de fim.</div>
 					</div>
 				</div>
 				
 				<div class="form-row">
 					<label for="descricao">Cargo :</label> 
 					<input type="text" class="form-control" id="cargo" name="contrato.cargo"	placeholder=" " value="${contrato.cargo}" required>
-					<div class="invalid-feedback">Por favor, informe uma descricao.</div>
+					<div class="invalid-feedback">Por favor, informe o cargo.</div>
 				</div>
 				
 				<br>
