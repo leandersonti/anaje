@@ -19,7 +19,7 @@
             <a class="nav-link" href="${pageContext.request.contextPath}/eleicao/listar">Eleicao</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Contratos</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/contrato/listar">Contratos</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Pontos Transmissão</a>
