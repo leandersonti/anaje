@@ -25,9 +25,9 @@
 				
 				<div class="form-row">
 					
-						<label for="email">Empresa :</label> 
-						<input type="text" class="form-control" id="empresa" name="contrato.empresa"	placeholder=" " value="${contrato.empresa}">
-				
+						<label for="email">*Empresa :</label> 
+						<input type="text" class="form-control" id="empresa" name="contrato.empresa"	placeholder=" " value="${contrato.empresa}" required>
+						<div class="invalid-feedback">Por favor, informe a empresa.</div>
 				</div>
 
 				<div class="form-row">
