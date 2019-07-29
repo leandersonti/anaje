@@ -11,9 +11,11 @@ import org.apache.struts2.convention.annotation.ResultPath;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import br.jus.tream.DAO.CargoDAOImpl;
 import br.jus.tream.DAO.ContratoDAO;
 import br.jus.tream.DAO.ContratoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
+import br.jus.tream.dominio.Cargo;
 import br.jus.tream.dominio.Contrato;
 
 @SuppressWarnings("serial")
@@ -22,6 +24,8 @@ import br.jus.tream.dominio.Contrato;
 @ParentPackage(value = "default")
 public class ActionContrato extends ActionSupport {
 	private List<Contrato> lstContrato;
+	private List<Cargo> lstCargo;
+	private Cargo cargo;
 	private Contrato contrato;
 	private BeanResult result;
 	private final static ContratoDAO dao = ContratoDAOImpl.getInstance();
@@ -53,7 +57,14 @@ public class ActionContrato extends ActionSupport {
 
 	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmContrato.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
-	public String frmCadEleicao() {
+	public String frmCadContrato() {
+		try {
+			this.lstCargo = CargoDAOImpl.getInstance().listar();
+
+		} catch (Exception e) {
+			addActionError(getText("contrato.error.listar"));
+			return "error";
+		}
 		return "success";
 	}
 
@@ -62,6 +73,8 @@ public class ActionContrato extends ActionSupport {
 	public String doFrmEditar() {
 		try {
 			this.contrato = dao.getBean(this.contrato.getId());
+			this.lstCargo = CargoDAOImpl.getInstance().listar();
+
 		} catch (Exception e) {
 			addActionError(getText("frmsetup.error") + " Error: " + e.getMessage());
 			return "error";
@@ -145,6 +158,22 @@ public class ActionContrato extends ActionSupport {
 
 	public void setResult(BeanResult result) {
 		this.result = result;
+	}
+
+	public List<Cargo> getLstCargo() {
+		return lstCargo;
+	}
+
+	public void setLstCargo(List<Cargo> lstCargo) {
+		this.lstCargo = lstCargo;
+	}
+
+	public Cargo getCargo() {
+		return cargo;
+	}
+
+	public void setCargo(Cargo cargo) {
+		this.cargo = cargo;
 	}
 
 }

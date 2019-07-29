@@ -49,12 +49,15 @@
 						<div class="invalid-feedback">Por favor, informe a data de fim.</div>
 					</div>
 				</div>
-				
+							
 				<div class="form-row">
-					<label for="descricao">Cargo :</label> 
-					<input type="text" class="form-control" id="cargo" name="contrato.cargo"	placeholder=" " value="${contrato.cargo}" required>
-					<div class="invalid-feedback">Por favor, informe o cargo.</div>
-				</div>
+			      <label for="cargo">Cargo :</label>
+			     	 <s:select label="Cargo" headerKey="-1" headerValue="Selecione o cargo" tooltip="Informe um Cargo"
+						list="lstCargo" 
+						listKey="id"
+						listValue="descricao"
+						name="cargo.id" theme="simple" cssClass="form-control"/>
+			    </div>
 				
 				<br>
 				<button class="btn btn-primary" id="btnSave" type="button">Enviar</button>

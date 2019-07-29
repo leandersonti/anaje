@@ -32,7 +32,7 @@
 			<td><s:property value="descricao"/></td>
 			<td><s:property value="%{getText('format.date',{dataInicio})}"/></td>
 			<td><s:property value="%{getText('format.date',{dataFim})}"/></td>
-			<td><s:property value="cargo"/></td>
+			<td><s:property value="cargo.id"/></td>
 		
 			<td>  		    
 				    <a href="frmEditar?contrato.id=${id}" id="idedit" class="btn btn-sm btn-warning" role="button">
