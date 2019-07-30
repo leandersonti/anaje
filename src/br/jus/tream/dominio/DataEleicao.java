@@ -14,35 +14,34 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
-
 @SuppressWarnings("serial")
 @Entity
-@Table(name="data_eleicao")
-public class DataEleicao implements Serializable{
+@Table(name = "data_eleicao")
+public class DataEleicao implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="native")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name = "native", strategy = "native")
 	private Integer id;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data_elei")
 	private Date dataEleicao;
-	
+
 	private int turno;
-	
+
 	private int ativo;
-	
-	@Column(length=50)
+
+	@Column(length = 50)
 	private String descricao;
-	
-	@Column(name = "titulo_tre", length=70)
+
+	@Column(name = "titulo_tre", length = 70)
 	private String titTRE;
-	
-	@Column(length=70)
+
+	@Column(length = 70)
 	private String email;
-		
-	public DataEleicao() {		
+
+	public DataEleicao() {
 	}
 
 	public DataEleicao(Integer id, Date dataEleicao, int turno, int ativo, String descricao, String titTRE,
@@ -56,11 +55,12 @@ public class DataEleicao implements Serializable{
 		this.titTRE = titTRE;
 		this.email = email;
 	}
-	
-	public DataEleicao(Integer id, Date dataEleicao) {
+
+	public DataEleicao(Integer id, Date dataEleicao, String descricao) {
 		super();
 		this.id = id;
 		this.dataEleicao = dataEleicao;
+		this.descricao = descricao;
 	}
 
 	public Integer getId() {
@@ -140,5 +140,5 @@ public class DataEleicao implements Serializable{
 			return false;
 		return true;
 	}
-	
+
 }

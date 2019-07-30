@@ -14,9 +14,11 @@ import com.opensymphony.xwork2.ActionSupport;
 import br.jus.tream.DAO.CargoDAOImpl;
 import br.jus.tream.DAO.ContratoDAO;
 import br.jus.tream.DAO.ContratoDAOImpl;
+import br.jus.tream.DAO.DataEleicaoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.Cargo;
 import br.jus.tream.dominio.Contrato;
+import br.jus.tream.dominio.DataEleicao;
 
 @SuppressWarnings("serial")
 @Namespace("/contrato")
@@ -25,6 +27,7 @@ import br.jus.tream.dominio.Contrato;
 public class ActionContrato extends ActionSupport {
 	private List<Contrato> lstContrato;
 	private List<Cargo> lstCargo;
+	private List<DataEleicao> lstDataEleicao;
 	private Cargo cargo;
 	private Contrato contrato;
 	private BeanResult result;
@@ -72,9 +75,8 @@ public class ActionContrato extends ActionSupport {
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String doFrmEditar() {
 		try {
-			this.contrato = dao.getBean(this.contrato.getId());
 			this.lstCargo = CargoDAOImpl.getInstance().listar();
-
+			this.contrato = dao.getBean(this.contrato.getId());
 		} catch (Exception e) {
 			addActionError(getText("frmsetup.error") + " Error: " + e.getMessage());
 			return "error";
@@ -87,6 +89,7 @@ public class ActionContrato extends ActionSupport {
 	public String doAdicionar() {
 		BeanResult beanResult = new BeanResult();
 		try {
+			contrato.setDataEleicao(DataEleicaoDAOImpl.getInstance().getBeanAtiva());
 			beanResult.setRet(dao.inserir(contrato));
 			if (beanResult.getRet() == 1)
 				beanResult.setMensagem(getText("inserir.sucesso"));
@@ -174,6 +177,14 @@ public class ActionContrato extends ActionSupport {
 
 	public void setCargo(Cargo cargo) {
 		this.cargo = cargo;
+	}
+
+	public List<DataEleicao> getLstDataEleicao() {
+		return lstDataEleicao;
+	}
+
+	public void setLstDataEleicao(List<DataEleicao> lstDataEleicao) {
+		this.lstDataEleicao = lstDataEleicao;
 	}
 
 }

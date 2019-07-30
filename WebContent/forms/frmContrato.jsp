@@ -11,24 +11,21 @@
 					<input type="hidden" id="id" name="contrato.id" value="${contrato.id}">
 				</s:if>
 				<div class="form-row">
-					<div class="col-md-6 mb-3">
-						<label for="dataEleicao">*Data Eleição:</label> 
-						<input type="date" class="form-control" name="contrato.dataEleicao" id="dataEleicao" value="<s:property value="%{getText('format.dtUSA',{contrato.dataEleicao})}"/>" required>
-						<div class="invalid-feedback">Por favor, informe a data de eleição.</div>
-					</div>
 					
 					<div class="col-md-6 mb-3">
 						<label for="sigla">Sigla :</label> 
 						<input type="text" class="form-control" id="sigla" name="contrato.sigla" placeholder="" value="${contrato.sigla}">
 					</div>
-				</div>
-				
-				<div class="form-row">
 					
+					<div  class="col-md-6 mb-3">
 						<label for="email">*Empresa :</label> 
 						<input type="text" class="form-control" id="empresa" name="contrato.empresa"	placeholder=" " value="${contrato.empresa}" required>
 						<div class="invalid-feedback">Por favor, informe a empresa.</div>
+				    </div>
+					
 				</div>
+				
+				
 
 				<div class="form-row">
 					<label for="descricao">*Descrição :</label> 
@@ -56,7 +53,7 @@
 						list="lstCargo" 
 						listKey="id"
 						listValue="descricao"
-						name="cargo.id" theme="simple" cssClass="form-control"/>
+						name="contrato.cargo.id" theme="simple" cssClass="form-control"/>
 			    </div>
 				
 				<br>

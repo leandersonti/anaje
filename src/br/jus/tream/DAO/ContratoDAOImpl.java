@@ -2,12 +2,15 @@ package br.jus.tream.DAO;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import br.jus.tream.dominio.Cargo;
 import br.jus.tream.dominio.Contrato;
+import br.jus.tream.dominio.DataEleicao;
 
 public class ContratoDAOImpl implements ContratoDAO {
 	private DAO<Contrato> dao = new DAO<Contrato>(Contrato.class);
@@ -119,15 +122,13 @@ public class ContratoDAOImpl implements ContratoDAO {
 
 	    
 	public static void main(String[] args) throws Exception{
-		//ContratoDAO dao = ContratoDAOImpl.getInstance();
-		//Contrato c = new Contrato();
+		ContratoDAO dao = ContratoDAOImpl.getInstance();
+		Contrato c = new Contrato();
 		
-		/*
-		DataEleicao dataeleicao = new DataEleicao();
-		dataeleicao.setId(1);
+		c.setDataEleicao(DataEleicaoDAOImpl.getInstance().getBeanAtiva());
+	
 		Cargo cargo = new Cargo();
 		cargo.setId(3);
-		c.setDataEleicao(dataeleicao);
 		c.setDescricao("TECNICO URNAS");
 		c.setEmpresa("UFAM");
 		c.setNumContratoTse("UFAMEA021");
@@ -138,7 +139,7 @@ public class ContratoDAOImpl implements ContratoDAO {
 		c.setDataInicio(new Date(System.currentTimeMillis()));
 		c.setDataFim(new Date(System.currentTimeMillis()));
 		int ret = dao.inserir(c);
-		*/
+		
 		
 		//c = dao.getBean(97);
 		//System.out.println("Cargo " + c.getCargo().getDescricao());
