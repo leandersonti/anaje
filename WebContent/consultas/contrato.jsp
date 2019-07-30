@@ -12,10 +12,9 @@
     <table id="table1" class="table">
 	<thead>
 		<tr>
-			<th width="2%">Data Eleição</th>
+		<th width="10%">Descrição</th>
 			<th width="3%">Sigla</th>
-			<th width="5%">Empresa</th> 
-			<th width="10%">Descrição</th>
+			<th width="5%">Empresa</th> 		
 			<th width="8%">Data Início</th>
 			<th width="8%">Data Fim</th> 
 			<th width="6%">Cargo</th>
@@ -26,13 +25,12 @@
 	<tbody>
 	<s:iterator value="lstContrato">
 		<tr id="tr${id}">
-		    <td><s:property value="%{getText('format.date',{dataEleicao})}"/></td>
-			<td><s:property value="sigla"/></td>
-			<td><s:property value="empresa"/></td>
 			<td><s:property value="descricao"/></td>
+			<td><s:property value="sigla"/></td>
+			<td><s:property value="empresa"/></td>	
 			<td><s:property value="%{getText('format.date',{dataInicio})}"/></td>
 			<td><s:property value="%{getText('format.date',{dataFim})}"/></td>
-			<td><s:property value="cargo.id"/></td>
+			<td><s:property value="cargo.descricao"/></td>
 		
 			<td>  		    
 				    <a href="frmEditar?contrato.id=${id}" id="idedit" class="btn btn-sm btn-warning" role="button">
