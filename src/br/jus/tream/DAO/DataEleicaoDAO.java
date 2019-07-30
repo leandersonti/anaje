@@ -10,6 +10,8 @@ public interface DataEleicaoDAO {
 	
 	public List<DataEleicao> listarCbx() throws Exception; // para preenchimento de combobox
 	
+	public DataEleicao getBeanAtiva( ) throws Exception;
+	
 	public DataEleicao getBean(Integer id) throws Exception;
 	
 	public int inserir (DataEleicao dateEleicao) throws Exception;
