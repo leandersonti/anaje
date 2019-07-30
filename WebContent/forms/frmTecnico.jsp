@@ -135,8 +135,7 @@ $(document).ready(function() {
 				  confirmButtonText: 'Incluir'
 		         }).then((result) => {
 					if (result.value) {
-						var frm = $("#form1").serialize();
-						console.log(frm);
+						var frm = $("#form1").serialize();						
 						$.getJSON({
 							url: URL,
 							data: frm
