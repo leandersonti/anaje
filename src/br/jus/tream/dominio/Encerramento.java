@@ -16,7 +16,7 @@ import javax.persistence.TemporalType;
 public class Encerramento implements Serializable {
 
 	@EmbeddedId
-	private EncerramentoPK id = new EncerramentoPK();
+	private IDEleicaoPK id = new IDEleicaoPK();
 
 	@Column(length = 20, nullable = false)
 	private String codigo;
@@ -31,7 +31,7 @@ public class Encerramento implements Serializable {
 		super();
 	}
 
-	public Encerramento(EncerramentoPK id, String codigo, Date dataCad, Integer status) {
+	public Encerramento(IDEleicaoPK id, String codigo, Date dataCad, Integer status) {
 		super();
 		this.id = id;
 		this.codigo = codigo;
@@ -39,11 +39,11 @@ public class Encerramento implements Serializable {
 		this.status = status;
 	}
 
-	public EncerramentoPK getId() {
+	public IDEleicaoPK getId() {
 		return id;
 	}
 
-	public void setId(EncerramentoPK id) {
+	public void setId(IDEleicaoPK id) {
 		this.id = id;
 	}
 
