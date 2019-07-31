@@ -10,25 +10,23 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
 @SuppressWarnings("serial")
 @Entity
-@Table(name="encerramento")
-public class Encerramento implements Serializable{
+@Table(name = "encerramento")
+public class Encerramento implements Serializable {
 
 	@EmbeddedId
 	private EncerramentoPK id = new EncerramentoPK();
-	
+
 	@Column(length = 20, nullable = false)
 	private String codigo;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "data_cad", nullable = false)
+	@Column(name = "datacad", nullable = false)
 	private Date dataCad;
-		
+
 	private Integer status;
-	
-	
+
 	public Encerramento() {
 		super();
 	}
@@ -97,7 +95,5 @@ public class Encerramento implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
-	
+
 }
