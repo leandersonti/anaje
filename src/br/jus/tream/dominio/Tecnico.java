@@ -25,8 +25,8 @@ public class Tecnico implements Serializable{
 	private Integer id;
 	
 	@NotNull
-	@Column(length=15)
-	private String titulo_eleitor;	
+	@Column(name="titulo_eleitor")
+	private String tituloEleitor;	
 	
 	private Integer zona;
 	
@@ -44,7 +44,8 @@ public class Tecnico implements Serializable{
 	
 	private String endereco;
 	
-	private String num_casa;
+	@Column(name="num_casa")
+	private String numCasa;
 	
 	private String bairro;
 	
@@ -74,14 +75,12 @@ public class Tecnico implements Serializable{
 		
 	}
 
-
-
-	public Tecnico(Integer id, String titulo_eleitor, Integer zona, Integer secao, String nome, Date dataNasc,
-			String telefone, String celular, String endereco, String num_casa, String bairro, String cep, String cidade,
+	public Tecnico(Integer id, String tituloEleitor, Integer zona, Integer secao, String nome, Date dataNasc,
+			String telefone, String celular, String endereco, String numCasa, String bairro, String cep, String cidade,
 			String uf, String sexo, String email, String rg, String orgaoRg, String cpf, Date dataCad) {
 		super();
 		this.id = id;
-		this.titulo_eleitor = titulo_eleitor;
+		this.tituloEleitor = tituloEleitor;
 		this.zona = zona;
 		this.secao = secao;
 		this.nome = nome;
@@ -89,7 +88,7 @@ public class Tecnico implements Serializable{
 		this.telefone = telefone;
 		this.celular = celular;
 		this.endereco = endereco;
-		this.num_casa = num_casa;
+		this.numCasa = numCasa;
 		this.bairro = bairro;
 		this.cep = cep;
 		this.cidade = cidade;
@@ -104,6 +103,30 @@ public class Tecnico implements Serializable{
 
 
 
+	public String getTituloEleitor() {
+		return tituloEleitor;
+	}
+
+
+
+	public void setTituloEleitor(String tituloEleitor) {
+		this.tituloEleitor = tituloEleitor;
+	}
+
+
+
+	public String getNumCasa() {
+		return numCasa;
+	}
+
+
+
+	public void setNumCasa(String numCasa) {
+		this.numCasa = numCasa;
+	}
+
+
+
 	public Integer getId() {
 		return id;
 	}
@@ -112,13 +135,6 @@ public class Tecnico implements Serializable{
 		this.id = id;
 	}
 
-	public String getTitulo_eleitor() {
-		return titulo_eleitor;
-	}
-
-	public void setTitulo_eleitor(String titulo_eleitor) {
-		this.titulo_eleitor = titulo_eleitor;
-	}
 
 	public Integer getZona() {
 		return zona;
@@ -181,13 +197,7 @@ public class Tecnico implements Serializable{
 		this.endereco = endereco;
 	}
 
-	public String getNum_casa() {
-		return num_casa;
-	}
-
-	public void setNum_casa(String num_casa) {
-		this.num_casa = num_casa;
-	}
+	
 
 	public String getBairro() {
 		return bairro;
