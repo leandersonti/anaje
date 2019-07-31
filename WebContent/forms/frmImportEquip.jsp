@@ -31,7 +31,8 @@
 		<fieldset>
 		<table id="table1" class="table table-hover">
 			<thead>
-				<tr>					
+				<tr>
+					<th width="10%">Tipo</th>					
 					<th width="10%">Série</th>
 					<th width="10%">Tombo</th>
 					<th width="10%">Fone</th>
@@ -47,7 +48,8 @@
 				</s:if>
 				<s:else>
 					<tr id="tr${id}" class="table-danger">
-				</s:else>						
+				</s:else>
+						<td><s:property value="tipo.descricao"/></td>						
 						<td><s:property value="serie"/></td>
 						<td><s:property value="tomb"/></td>
 						<td><s:property value="fone"/></td>

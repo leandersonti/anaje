@@ -47,6 +47,7 @@ public class ActionTecnico extends ActionSupport{
 	private File fileUpload;
 	private final static TecnicoDAO dao = TecnicoDAOImpl.getInstance();
 	private final EquipamentoDAO daoEquip = EquipamentoDAOImpl.getInstance();
+	private final static Permissao permissao = Permissao.getInstance();
 	
 	@Action(value = "listar", results = { @Result(name = "success", location = "/consultas/listar-tecnico.jsp"),
 			@Result(name = "error", location = "/result.jsp") },interceptorRefs = @InterceptorRef("authStack") 
@@ -72,48 +73,58 @@ public class ActionTecnico extends ActionSupport{
 				            		   "maximumSize", "2097152" }, 
 				            value = "fileUpload"),
 					@InterceptorRef("authStack")})
-	public String importarEleitor() {
+	public String importarTecnico() {
 		BufferedReader reader = null;
-		
+		BeanResult beanResult = new BeanResult();
 		try {
+			
 			this.lstEquipamento = daoEquip.listar();
 			this.lstEquipamentoTipo = EquipamentoTipoDAOImpl.getInstance().listar();
-			if (getFileUpload() != null && this.getEquipamento() != null) {
-			
-				List<String> list = new ArrayList<String>();
-			    reader = new BufferedReader(new FileReader(getFileUpload()));
-			    String text = null;
-			    this.setLstEquipamento(new ArrayList<Equipamento>());
-			    
-			    while ((text = reader.readLine()) != null) {
-			    	
-			    	final String row[] = text.split(";");
-			    	final Equipamento equipamento = new Equipamento();			    	
-					DataEleicao dt = new DataEleicao();			    	
-					
-					dt = DataEleicaoDAOImpl.getInstance().getBeanAtiva();					
-					equipamento.setDataEleicao(dt);
-					equipamento.setTipo(this.equipamento.getTipo());
-			    	equipamento.setSerie(row[0]);
-			    	equipamento.setTomb(row[1]);
-			    	equipamento.setParam(row[2]);
-			    	equipamento.setFone(row[3]);	
-			    	equipamento.setChave(row[4]);			    	
-			    	
-			    	int ret = daoEquip.inserir(equipamento);
-			    	
-			    	equipamento.setInserted(false);
-			    	if (ret != 0) {
-			    		equipamento.setInserted(true);
-			    	}
-			    	
-			    	getLstEquipamento().add(equipamento);
-			    }
-			}		
+			System.out.println("Permissao ==== " + permissao.getAdmin());
+			if (permissao.getAdmin()) {
+					if (getFileUpload() != null && this.getEquipamento() != null) {
+				
+						List<String> list = new ArrayList<String>();
+					    reader = new BufferedReader(new FileReader(getFileUpload()));
+					    String text = null;
+					    this.setLstEquipamento(new ArrayList<Equipamento>());
+						    
+						    while ((text = reader.readLine()) != null) {
+						    	
+						    	final String row[] = text.split(";");
+						    	final Equipamento equipamento = new Equipamento();			    	
+								DataEleicao dt = new DataEleicao();			    	
+								
+								dt = DataEleicaoDAOImpl.getInstance().getBeanAtiva();					
+								equipamento.setDataEleicao(dt);
+								equipamento.setTipo(this.equipamento.getTipo());
+						    	equipamento.setSerie(row[0]);
+						    	equipamento.setTomb(row[1]);
+						    	equipamento.setParam(row[2]);
+						    	equipamento.setFone(row[3]);	
+						    	equipamento.setChave(row[4]);			    	
+						    	
+						    	int ret = daoEquip.inserir(equipamento);
+						    	
+						    	equipamento.setInserted(false);
+								    	if (ret != 0) {
+								    		equipamento.setInserted(true);
+								    	}
+						    	
+						    	getLstEquipamento().add(equipamento);
+						    }
+						    
+						    beanResult.setMensagem(getText("inserir.sucesso"));
+					}
+				
+			}else {
+		    	beanResult.setRet(0);
+				beanResult.setMensagem(getText("permissao.negada"));				
+		    }		
 			
 			if (getLstEquipamento() != null && getLstEquipamento().size() > 0) {
 				return "importFailed";
-			}			
+			}
 			
 		} catch (FileNotFoundException e) {
 		    e.printStackTrace();
@@ -133,6 +144,7 @@ public class ActionTecnico extends ActionSupport{
 	        }
 		}
 		
+		this.result = beanResult;
 		return "success";
 	}
 	

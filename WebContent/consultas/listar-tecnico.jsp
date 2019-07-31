@@ -64,7 +64,8 @@
 			<td><s:property value="orgaoRg"/></td>
 			<td><s:property value="cpf"/></td>		
 		    <td><s:property value="%{getText('format.date',{dataCad})}"/></td>		
-			<td>  		    
+			<td> 
+			 		    
 				    <a href="frmEditar?tecnico.id=${id}" id="idedit" class="btn btn-sm btn-warning" role="button">
 							Editar
 				    </a>
