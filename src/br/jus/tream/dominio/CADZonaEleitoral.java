@@ -3,67 +3,58 @@ package br.jus.tream.dominio;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name="cad_zona_eleitoral")
 public class CADZonaEleitoral implements Serializable{
-
-	@Id
-	@Column(name="cod_objeto")
-	private String id;
 	
-	private Integer zona;
-	
-	@Column(name="cod_localidade_tse")
-	private Integer codmunic;
+	@EmbeddedId
+	private CadZonaEleitoralPK id = new CadZonaEleitoralPK();
 	
 	private String municipio;
 	
 	@Column(name="des_endereco")
 	private String endereco;
 	
-	public CADZonaEleitoral(Integer zona, Integer codmunic, String municipio) {
-		super();
-		this.zona = zona;
-		this.codmunic = codmunic;
-		this.municipio = municipio;
+	@Column(name="cod_objeto")
+	private String codObjeto;
+	
+	public CADZonaEleitoral() {
+		super();	
 	}
 	
-	public CADZonaEleitoral(String id, Integer zona, Integer codmunic, String municipio, String endereco) {
+	public CADZonaEleitoral(CadZonaEleitoralPK id, String municipio) {
 		super();
 		this.id = id;
-		this.zona = zona;
-		this.codmunic = codmunic;
 		this.municipio = municipio;
-		this.endereco = endereco;
 	}
 	
-	public String getId() {
+	public CADZonaEleitoral(CadZonaEleitoralPK id, String municipio, String endereco, String cod_objeto) {
+		super();
+		this.id = id;
+		this.municipio = municipio;
+		this.endereco = endereco;
+		this.codObjeto = cod_objeto;
+	}
+	
+	public CadZonaEleitoralPK getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(CadZonaEleitoralPK id) {
 		this.id = id;
 	}
 
-	public Integer getZona() {
-		return zona;
-	}
-
-	public void setZona(Integer zona) {
-		this.zona = zona;
-	}
-
 	public Integer getCodmunic() {
-		return codmunic;
+		return id.getCodmunic();
 	}
 
-	public void setCodmunic(Integer codmunic) {
-		this.codmunic = codmunic;
+	public Integer getZona() {
+		return id.getZona();
 	}
 
 	public String getMunicipio() {
