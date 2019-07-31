@@ -95,8 +95,8 @@ public class CargoDAOImpl implements CargoDAO {
 	public static void main(String[] args) throws Exception {
 
 		// teste para inserir Cargo [OK]
-		CargoDAO dao = CargoDAOImpl.getInstance();
-		Cargo cargo = new Cargo();
+		//CargoDAO dao = CargoDAOImpl.getInstance();
+		//Cargo cargo = new Cargo();
 		/*
 		 * cargo.setDescricao("teste add cargo 2"); int ret = dao.inserir(cargo);
 		 * System.out.println(ret);
