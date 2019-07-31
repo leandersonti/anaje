@@ -31,6 +31,9 @@ public class UnidadeServico implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "id_tipo", nullable=false)
 	private UnidadeServicoTipo tipo;
+	
+	@Column(name="cod_objeto")
+	private String codObjeto;
 		
 	private Integer zona;
 	
@@ -45,7 +48,7 @@ public class UnidadeServico implements Serializable{
 	private String endereco;	
 	
 	@Column(name = "id_municipio")
-	private Integer idMunicipio;	
+	private Integer codmunic;	
 	
 	@Column(length=1)
 	private String sexo;
@@ -54,10 +57,10 @@ public class UnidadeServico implements Serializable{
 	private String sala;
 	
 	@Column(length=60)
-	private String contrato;
+	private String contato;
 	
-	@Column(name = "cargo_contrato", length=30)
-	private String cargoContrato;
+	@Column(name = "cargo_contato", length=30)
+	private String cargoContato;
 	
 	@Column(length=20)
 	private String telefone;
@@ -78,10 +81,17 @@ public class UnidadeServico implements Serializable{
 	public UnidadeServico() {
 		super();
 	}
-
-	public UnidadeServico(Integer id, DataEleicao dataEleicao, UnidadeServicoTipo tipo, Integer zona, Integer local,
-			Integer secao, String descricao, String endereco, Integer idMunicipio, String sexo, String sala,
-			String contrato, String cargoContrato, String telefone, String latitude, String logitude, Integer status,
+	public UnidadeServico(Integer id, String codObjeto, Integer local,	String descricao) {
+		super();
+		this.id = id;
+		this.local = local;
+		this.descricao = descricao;
+		this.codObjeto = codObjeto;
+	}
+	
+	public UnidadeServico(Integer id, DataEleicao dataEleicao, UnidadeServicoTipo tipo, String codObjeto, Integer zona, Integer local,
+			Integer secao, String descricao, String endereco, Integer codmunic, String sexo, String sala,
+			String contato, String cargoContato, String telefone, String latitude, String logitude, Integer status,
 			Integer oficial, Integer jecon) {
 		super();
 		this.id = id;
@@ -92,17 +102,18 @@ public class UnidadeServico implements Serializable{
 		this.secao = secao;
 		this.descricao = descricao;
 		this.endereco = endereco;
-		this.idMunicipio = idMunicipio;
+		this.codmunic = codmunic;
 		this.sexo = sexo;
 		this.sala = sala;
-		this.contrato = contrato;
-		this.cargoContrato = cargoContrato;
+		this.contato = contato;
+		this.cargoContato = cargoContato;
 		this.telefone = telefone;
 		this.latitude = latitude;
 		this.logitude = logitude;
 		this.status = status;
 		this.oficial = oficial;
 		this.jecon = jecon;
+		this.codObjeto = codObjeto;
 	}
 
 	public Integer getId() {
@@ -131,6 +142,14 @@ public class UnidadeServico implements Serializable{
 
 	public Integer getZona() {
 		return zona;
+	}
+	
+	public String getCodObjeto() {
+		return codObjeto;
+	}
+
+	public void setCodObjeto(String codObjeto) {
+		this.codObjeto = codObjeto;
 	}
 
 	public void setZona(Integer zona) {
@@ -169,12 +188,12 @@ public class UnidadeServico implements Serializable{
 		this.endereco = endereco;
 	}
 
-	public Integer getIdMunicipio() {
-		return idMunicipio;
+	public Integer getCodmunico() {
+		return codmunic;
 	}
 
-	public void setIdMunicipio(Integer idMunicipio) {
-		this.idMunicipio = idMunicipio;
+	public void setCodmunic(Integer codmu) {
+		this.codmunic = codmu;
 	}
 
 	public String getSexo() {
@@ -193,20 +212,20 @@ public class UnidadeServico implements Serializable{
 		this.sala = sala;
 	}
 
-	public String getContrato() {
-		return contrato;
+	public String getContato() {
+		return contato;
 	}
 
-	public void setContrato(String contrato) {
-		this.contrato = contrato;
+	public void setContato(String contrato) {
+		this.contato = contrato;
 	}
 
-	public String getCargoContrato() {
-		return cargoContrato;
+	public String getCargoContato() {
+		return cargoContato;
 	}
 
-	public void setCargoContrato(String cargoContrato) {
-		this.cargoContrato = cargoContrato;
+	public void setCargoContato(String cargoContrato) {
+		this.cargoContato = cargoContrato;
 	}
 
 	public String getTelefone() {
@@ -255,6 +274,30 @@ public class UnidadeServico implements Serializable{
 
 	public void setJecon(Integer jecon) {
 		this.jecon = jecon;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UnidadeServico other = (UnidadeServico) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 	
 	
