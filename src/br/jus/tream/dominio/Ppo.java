@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -22,18 +24,26 @@ public class Ppo implements Serializable{
 	@GenericGenerator(name = "native", strategy = "native")
 	private Integer id;
 	
+	@ManyToOne
+	@JoinColumn(name = "id_eleicao", nullable=false)
 	private DataEleicao dataEleicao;
 	
+	@ManyToOne
+	@JoinColumn(name = "id_tecnico", nullable=false)
 	private Tecnico tecnico;
 	
+	@ManyToOne
+	@JoinColumn(name = "id_ppo_tipo", nullable=false)
 	private PpoTipo ppoTipo;
 	
+	@Column(name="datacad")
 	private Date dataCad;
 	
 	@Column(length=10)
 	private String codigo;
 
-	@Column(name="id_tecnico_resp")
+	@ManyToOne
+	@JoinColumn(name = "id_tecnico_resp", nullable=false)
 	private Tecnico tecnicoResp;
 	
 	public Ppo() {
