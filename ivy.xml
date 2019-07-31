@@ -48,7 +48,8 @@
 			
 			<dependency org="dom4j" name="dom4j" rev="1.6.1" transitive="false"/>
 			
-			
+			<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-text -->
+			<dependency org="org.apache.commons" name="commons-text" rev="1.6" transitive="false"/>
 			
  
 		</dependencies>
