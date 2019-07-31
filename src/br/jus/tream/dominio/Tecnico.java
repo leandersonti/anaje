@@ -35,7 +35,8 @@ public class Tecnico implements Serializable{
 	@NotNull
 	private String nome;
 	
-	private Date data_nasc;
+	@Column(name="data_nasc")
+	private Date dataNasc;
 	
 	private String telefone;
 	
@@ -73,7 +74,9 @@ public class Tecnico implements Serializable{
 		
 	}
 
-	public Tecnico(Integer id, String titulo_eleitor, Integer zona, Integer secao, String nome, Date data_nasc,
+
+
+	public Tecnico(Integer id, String titulo_eleitor, Integer zona, Integer secao, String nome, Date dataNasc,
 			String telefone, String celular, String endereco, String num_casa, String bairro, String cep, String cidade,
 			String uf, String sexo, String email, String rg, String orgaoRg, String cpf, Date dataCad) {
 		super();
@@ -82,7 +85,7 @@ public class Tecnico implements Serializable{
 		this.zona = zona;
 		this.secao = secao;
 		this.nome = nome;
-		this.data_nasc = data_nasc;
+		this.dataNasc = dataNasc;
 		this.telefone = telefone;
 		this.celular = celular;
 		this.endereco = endereco;
@@ -98,6 +101,8 @@ public class Tecnico implements Serializable{
 		this.cpf = cpf;
 		this.dataCad = dataCad;
 	}
+
+
 
 	public Integer getId() {
 		return id;
@@ -139,13 +144,18 @@ public class Tecnico implements Serializable{
 		this.nome = nome;
 	}
 
-	public Date getData_nasc() {
-		return data_nasc;
+
+	public Date getDataNasc() {
+		return dataNasc;
 	}
 
-	public void setData_nasc(Date data_nasc) {
-		this.data_nasc = data_nasc;
+
+
+	public void setDataNasc(Date dataNasc) {
+		this.dataNasc = dataNasc;
 	}
+
+
 
 	public String getTelefone() {
 		return telefone;
