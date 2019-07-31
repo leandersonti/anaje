@@ -3,15 +3,11 @@ package br.jus.tream.dominio;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
 
 
 @SuppressWarnings("serial")
@@ -19,14 +15,8 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name="unidade_servico")
 public class UnidadeServico implements Serializable{
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="native")
-	@GenericGenerator(name = "native", strategy = "native")
-	private Integer id;
-	
-	@ManyToOne
-	@JoinColumn(name = "id_eleicao", nullable=false)
-	private DataEleicao dataEleicao;
+	@EmbeddedId
+	private IDEleicaoPK id = new IDEleicaoPK();
 	
 	@ManyToOne
 	@JoinColumn(name = "id_tipo", nullable=false)
@@ -69,7 +59,7 @@ public class UnidadeServico implements Serializable{
 	private String latitude;
 	
 	@Column(length=40)
-	private String logitude;
+	private String longitude;
 		
 	private Integer status;
 	
@@ -81,7 +71,7 @@ public class UnidadeServico implements Serializable{
 	public UnidadeServico() {
 		super();
 	}
-	public UnidadeServico(Integer id, String codObjeto, Integer local,	String descricao) {
+	public UnidadeServico(IDEleicaoPK id, String codObjeto, Integer local,	String descricao) {
 		super();
 		this.id = id;
 		this.local = local;
@@ -89,13 +79,12 @@ public class UnidadeServico implements Serializable{
 		this.codObjeto = codObjeto;
 	}
 	
-	public UnidadeServico(Integer id, DataEleicao dataEleicao, UnidadeServicoTipo tipo, String codObjeto, Integer zona, Integer local,
+	public UnidadeServico(IDEleicaoPK id, DataEleicao dataEleicao, UnidadeServicoTipo tipo, String codObjeto, Integer zona, Integer local,
 			Integer secao, String descricao, String endereco, Integer codmunic, String sexo, String sala,
-			String contato, String cargoContato, String telefone, String latitude, String logitude, Integer status,
+			String contato, String cargoContato, String telefone, String latitude, String longitude, Integer status,
 			Integer oficial, Integer jecon) {
 		super();
 		this.id = id;
-		this.dataEleicao = dataEleicao;
 		this.tipo = tipo;
 		this.zona = zona;
 		this.local = local;
@@ -109,27 +98,27 @@ public class UnidadeServico implements Serializable{
 		this.cargoContato = cargoContato;
 		this.telefone = telefone;
 		this.latitude = latitude;
-		this.logitude = logitude;
+		this.longitude = longitude;
 		this.status = status;
 		this.oficial = oficial;
 		this.jecon = jecon;
 		this.codObjeto = codObjeto;
 	}
 
-	public Integer getId() {
+	public IDEleicaoPK getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(IDEleicaoPK id) {
 		this.id = id;
 	}
 
 	public DataEleicao getDataEleicao() {
-		return dataEleicao;
+		return id.getDataEleicao();
 	}
-
-	public void setDataEleicao(DataEleicao dataEleicao) {
-		this.dataEleicao = dataEleicao;
+	
+	public Integer getIdUnidadeServivo() {
+		return id.getId();
 	}
 
 	public UnidadeServicoTipo getTipo() {
@@ -245,11 +234,11 @@ public class UnidadeServico implements Serializable{
 	}
 
 	public String getLogitude() {
-		return logitude;
+		return longitude;
 	}
 
-	public void setLogitude(String logitude) {
-		this.logitude = logitude;
+	public void setLogitude(String longitude) {
+		this.longitude = longitude;
 	}
 
 	public Integer getStatus() {
