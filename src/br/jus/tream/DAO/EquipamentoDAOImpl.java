@@ -98,23 +98,19 @@ public class EquipamentoDAOImpl implements EquipamentoDAO {
 
 		
 	
-		EquipamentoTipo et = new EquipamentoTipo();
-		DataEleicao dt = new DataEleicao();
-		
-		
-		Equipamento e = new Equipamento();
-		
-		et = EquipamentoTipoDAOImpl.getInstance().getBean(121);
-		dt = DataEleicaoDAOImpl.getInstance().getBean(76);
-		e.setTipo(et);
-		e.setDataEleicao(dt);
-		e.setSerie("3°");
-		e.setTomb("26.936");
-		e.setFone("36361312");
-		e.setParam("10E");
-		e.setChave("10");
-		int ret = EquipamentoDAOImpl.getInstance().inserir(e);
-		System.out.println(ret);
+		/*
+		 * EquipamentoTipo et = new EquipamentoTipo(); DataEleicao dt = new
+		 * DataEleicao();
+		 * 
+		 * 
+		 * Equipamento e = new Equipamento();
+		 * 
+		 * et = EquipamentoTipoDAOImpl.getInstance().getBean(121); dt =
+		 * DataEleicaoDAOImpl.getInstance().getBean(76); e.setTipo(et);
+		 * e.setDataEleicao(dt); e.setSerie("3°"); e.setTomb("26.936");
+		 * e.setFone("36361312"); e.setParam("10E"); e.setChave("10"); int ret =
+		 * EquipamentoDAOImpl.getInstance().inserir(e); System.out.println(ret);
+		 */
 		/*
 		 * cargo.setDescricao("teste add cargo 2"); int ret = dao.inserir(cargo);
 		  System.out.println(ret);

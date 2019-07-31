@@ -11,12 +11,13 @@
 	<div class="card-body">
 		
 	<s:form id="frmImportar" action="frmImportar"  method="POST" enctype="multipart/form-data">
+	
 		<div class="row">
 			<s:select id="idEquipamento"
-					  label="Equipamento" 
-					  class="form-control" name="equipamento.id"
-									headerKey="-1" headerValue="--Selecione--" list="lstEquipamento"
-									listKey="id" listValue="tipo.descricao" required="true" 
+					  label="Tipo do Equipamento" 
+					  class="form-control" name="equipamento.tipo.id"
+									headerKey="-1" headerValue="--Selecione--" list="lstEquipamentoTipo"
+									listKey="id" listValue="descricao" required="true" 
 									disabled="editar"/>
 		</div>
 		<div class="row">
@@ -25,12 +26,12 @@
 				
 		</div>
 		<s:submit value="Enviar arquivo" name="btnEnviar" />
-	</s:form>		
+	</s:form>	
+	<br>	
 		<fieldset>
 		<table id="table1" class="table table-hover">
 			<thead>
-				<tr>
-					<th width="15%">Tipo</th>
+				<tr>					
 					<th width="10%">Série</th>
 					<th width="10%">Tombo</th>
 					<th width="10%">Fone</th>
@@ -46,9 +47,7 @@
 				</s:if>
 				<s:else>
 					<tr id="tr${id}" class="table-danger">
-				</s:else>
-					
-						<td><s:property value="tipo.descricao"/></td>
+				</s:else>						
 						<td><s:property value="serie"/></td>
 						<td><s:property value="tomb"/></td>
 						<td><s:property value="fone"/></td>

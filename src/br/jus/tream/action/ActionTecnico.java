@@ -39,6 +39,7 @@ import br.jus.tream.dominio.Tecnico;
 public class ActionTecnico extends ActionSupport{
 	private List<Tecnico> lstTecnico;
 	private List<Equipamento> lstEquipamento;
+	private List<EquipamentoTipo> lstEquipamentoTipo;
 	private String DtNasc;
 	private Tecnico tecnico;
 	private Equipamento equipamento;
@@ -62,8 +63,8 @@ public class ActionTecnico extends ActionSupport{
 	
 	@Action(value = "frmImportar", 
 			results = { 
-					@Result(name = "success", location = "/forms/frmImportEquip.jsp", params = {"root", "lstEquipamento"}),
-					@Result(name = "importFailed", location = "/forms/frmImportEquip.jsp", params = {"root", "lstEquipamento"}),
+					@Result(name = "success", location = "/forms/frmImportEquip.jsp", params = {"root", "lstEquipamentoTipo"}),
+					@Result(name = "importFailed", location = "/forms/frmImportEquip.jsp", params = {"root", "lstEquipamentoTipo"}),
 					@Result(name = "error", location = "/pages /error.jsp")}, 
 			interceptorRefs = {
 					@InterceptorRef(
@@ -76,6 +77,7 @@ public class ActionTecnico extends ActionSupport{
 		
 		try {
 			this.lstEquipamento = daoEquip.listar();
+			this.lstEquipamentoTipo = EquipamentoTipoDAOImpl.getInstance().listar();
 			if (getFileUpload() != null && this.getEquipamento() != null) {
 			
 				List<String> list = new ArrayList<String>();
@@ -86,24 +88,17 @@ public class ActionTecnico extends ActionSupport{
 			    while ((text = reader.readLine()) != null) {
 			    	
 			    	final String row[] = text.split(";");
-			    	final Equipamento equipamento = new Equipamento();
-			    	EquipamentoTipo et = new EquipamentoTipo();
-					DataEleicao dt = new DataEleicao();
-			    	
-					et = EquipamentoTipoDAOImpl.getInstance().getBean(this.equipamento.getTipo().getId());
-					dt = DataEleicaoDAOImpl.getInstance().getBean(this.equipamento.getDataEleicao().getId());
-			    	
+			    	final Equipamento equipamento = new Equipamento();			    	
+					DataEleicao dt = new DataEleicao();			    	
 					
-					Integer str =Integer.parseInt(row[0]);
-					equipamento.setId(str); 
-					equipamento.setTipo(et);
+					dt = DataEleicaoDAOImpl.getInstance().getBeanAtiva();					
 					equipamento.setDataEleicao(dt);
-			    	equipamento.setSerie(row[1]);
-			    	equipamento.setTomb(row[2]);
-			    	equipamento.setParam(row[3]);
-			    	equipamento.setFone(row[4]);
-			    
-			    	
+					equipamento.setTipo(this.equipamento.getTipo());
+			    	equipamento.setSerie(row[0]);
+			    	equipamento.setTomb(row[1]);
+			    	equipamento.setParam(row[2]);
+			    	equipamento.setFone(row[3]);	
+			    	equipamento.setChave(row[4]);			    	
 			    	
 			    	int ret = daoEquip.inserir(equipamento);
 			    	
@@ -154,7 +149,6 @@ public class ActionTecnico extends ActionSupport{
 	}
 	
 	
-	
 	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmTecnico.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String frmCadTecnico() {	
@@ -181,7 +175,7 @@ public class ActionTecnico extends ActionSupport{
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Date datanasc = sdf.parse(DtNasc);
 		try {			
-			tecnico.setData_nasc(datanasc);			
+			tecnico.setDataNasc(datanasc);			
 			tecnico.setDataCad(new Date());			
 			beanResult.setRet(dao.inserir(tecnico));
 			if (beanResult.getRet() == 1)
@@ -205,7 +199,7 @@ public class ActionTecnico extends ActionSupport{
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Date datanasc = sdf.parse(DtNasc);
 		try {
-			tecnico.setData_nasc(datanasc);		
+			tecnico.setDataNasc(datanasc);		
 			beanResult.setRet(dao.alterar(this.tecnico));
 			if (beanResult.getRet()==1) {
 				beanResult.setMensagem(getText("alterar.sucesso"));
@@ -290,6 +284,14 @@ public class ActionTecnico extends ActionSupport{
 
 	public void setEquipamento(Equipamento equipamento) {
 		this.equipamento = equipamento;
+	}
+
+	public List<EquipamentoTipo> getLstEquipamentoTipo() {
+		return lstEquipamentoTipo;
+	}
+
+	public void setLstEquipamentoTipo(List<EquipamentoTipo> lstEquipamentoTipo) {
+		this.lstEquipamentoTipo = lstEquipamentoTipo;
 	}
 	
 	

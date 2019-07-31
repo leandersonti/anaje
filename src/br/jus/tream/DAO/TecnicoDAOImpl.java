@@ -111,26 +111,16 @@ public class TecnicoDAOImpl implements TecnicoDAO {
 		TecnicoDAO dao = TecnicoDAOImpl.getInstance();
 		Tecnico t = new Tecnico();
 		
-		t.setTitulo_eleitor("034068942259");
-		t.setZona(59);
-		t.setSecao(139);
-		t.setNome("Estevan Gomez");
-		t.setTelefone("36366363");
-		t.setCelular("929292952");
-		t.setEndereco("Rua Pardal");
-		t.setNum_casa("59");
-		t.setBairro("Jesus Me Deu");
-		t.setCep("6900000");
-		t.setCidade("Manaus");
-		t.setUf("AM");
-		t.setSexo("M");
-		t.setEmail("email@gmail.com");
-		t.setRg("58595458");
-		t.setOrgaoRg("SSP");
-		t.setCpf("0123687668");
-		t.setDataCad(new Date());
-		int ret = dao.inserir(t);
-		System.out.println("Retorno = " + ret);
+		/*
+		 * t.setTitulo_eleitor("034068942259"); t.setZona(59); t.setSecao(139);
+		 * t.setNome("Estevan Gomez"); t.setTelefone("36366363");
+		 * t.setCelular("929292952"); t.setEndereco("Rua Pardal"); t.setNum_casa("59");
+		 * t.setBairro("Jesus Me Deu"); t.setCep("6900000"); t.setCidade("Manaus");
+		 * t.setUf("AM"); t.setSexo("M"); t.setEmail("email@gmail.com");
+		 * t.setRg("58595458"); t.setOrgaoRg("SSP"); t.setCpf("0123687668");
+		 * t.setDataCad(new Date()); int ret = dao.inserir(t);
+		 * System.out.println("Retorno = " + ret);
+		 */
 	
 		
 		//

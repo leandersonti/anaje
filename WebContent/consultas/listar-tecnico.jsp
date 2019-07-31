@@ -4,7 +4,11 @@
 
 
 <div class="container-full"> 
- <div class="container-fluid">    
+ <div class="container-fluid">   
+ <div class="card">
+  <div class="card-header"><strong><i>Técnicos</i></strong></div>
+  <div class="card-body">
+   
     <table id="table1" class="table table-hover">
 	<thead>
 		<tr>
@@ -42,7 +46,7 @@
 			<td><s:property value="titulo_eleitor"/></td>
 			<td><s:property value="zona"/></td>
 			<td><s:property value="secao"/></td>
-			<td><s:property value="data_nasc"/></td>
+			<td><s:property value="%{getText('format.date',{dataNasc})}"/></td>
 			
 			<td><s:property value="telefone"/></td>
 			<td><s:property value="celular"/></td>
@@ -77,7 +81,8 @@
   </div>
 </div>
 
-   
+   </div>
+</div>  
 
 <jsp:include page = "/javascripts.jsp" />
 

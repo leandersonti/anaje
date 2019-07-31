@@ -21,6 +21,9 @@
           <li class="nav-item">
             <a class="nav-link" href="${pageContext.request.contextPath}/contrato/listar">Contratos</a>
           </li>
+              <li class="nav-item">
+            <a class="nav-link" href="${pageContext.request.contextPath}/tecnico/listar">Técnico</a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Pontos Transmissão</a>
           </li>
