@@ -2,27 +2,30 @@ package br.jus.tream.dominio;
 
 import java.io.Serializable;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-public class EncerramentoPK implements Serializable{
+import org.hibernate.annotations.GenericGenerator;
 
-	private static final long serialVersionUID = 1L;
-
-	@ManyToOne
-	   @JoinColumn(name="id_unidade_servico")
-	   private UnidadeServico unidadeServico;
+@SuppressWarnings("serial")
+public class IDEleicaoPK implements Serializable{
+	
+	@GeneratedValue(strategy=GenerationType.AUTO, generator="native")
+	@GenericGenerator(name = "native", strategy = "native")
+    private Integer id;
 	   
-	   @ManyToOne
-	   @JoinColumn(name="id_eleicao")
-	   private DataEleicao dataEleicao;
+	@ManyToOne
+	@JoinColumn(name="id_eleicao")
+	private DataEleicao dataEleicao;
 
-	public UnidadeServico getUnidadeServico() {
-		return unidadeServico;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setUnidadeServico(UnidadeServico unidadeServico) {
-		this.unidadeServico = unidadeServico;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public DataEleicao getDataEleicao() {
@@ -38,7 +41,7 @@ public class EncerramentoPK implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((dataEleicao == null) ? 0 : dataEleicao.hashCode());
-		result = prime * result + ((unidadeServico == null) ? 0 : unidadeServico.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -50,21 +53,18 @@ public class EncerramentoPK implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		EncerramentoPK other = (EncerramentoPK) obj;
+		IDEleicaoPK other = (IDEleicaoPK) obj;
 		if (dataEleicao == null) {
 			if (other.dataEleicao != null)
 				return false;
 		} else if (!dataEleicao.equals(other.dataEleicao))
 			return false;
-		if (unidadeServico == null) {
-			if (other.unidadeServico != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!unidadeServico.equals(other.unidadeServico))
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}
-
-	
-	
 	
 }
