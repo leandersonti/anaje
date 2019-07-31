@@ -7,6 +7,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.RollbackException;
 import javax.persistence.criteria.CriteriaQuery;
 
+import org.apache.commons.text.CharacterPredicates;
+import org.apache.commons.text.RandomStringGenerator;
+
 public class DAO<T> implements Serializable {
 	private static final long serialVersionUID = 8422517898877133523L;
 	
@@ -157,6 +160,15 @@ public class DAO<T> implements Serializable {
  	      T ret = (T) em.find(classe, id);
  		   em.close();	
 		return ret;		
+	}
+	
+	public String gerarCodigoAlpha() {
+		RandomStringGenerator randomStringGenerator =
+		        new RandomStringGenerator.Builder()
+		                .withinRange('0', 'z')
+		                .filteredBy(CharacterPredicates.LETTERS, CharacterPredicates.DIGITS)
+		                .build();
+		return randomStringGenerator.generate(8).toUpperCase();
 	}
 	
 
