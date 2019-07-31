@@ -24,6 +24,9 @@ public class CADSecao implements Serializable{
 	@Column(name="num_secao")
 	private Integer secao;	
 	
+	@Column(name="secao_principal")
+	private Integer secaoPrincipal;
+	
 	@Column(name="num_local")
 	private Integer numLocal;
 	
@@ -36,15 +39,16 @@ public class CADSecao implements Serializable{
 		this.secao = secao;
 	}
 
-	public CADSecao(String id, Integer zona, Integer secao, Integer codmunic, Integer numLocal) {
+	public CADSecao(String id, Integer zona, Integer secao, Integer secaoPrincipal, Integer codmunic, Integer numLocal) {
 		super();
 		this.id = id;
 		this.zona = zona;
 		this.secao = secao;
+		this.secaoPrincipal = secaoPrincipal;
 		this.codmunic = codmunic;
 		this.numLocal = numLocal;
 	}
-
+	
 	public String getId() {
 		return id;
 	}
@@ -63,13 +67,24 @@ public class CADSecao implements Serializable{
 	public void setCodmunic(Integer codmunic) {
 		this.codmunic = codmunic;
 	}
+	public Integer getSecao() {
+		return secao;
+	}
+	public void setSecao(Integer secao) {
+		this.secao = secao;
+	}
+	public Integer getSecaoPrincipal() {
+		return secaoPrincipal;
+	}
+	public void setSecaoPrincipal(Integer secaoPrincipal) {
+		this.secaoPrincipal = secaoPrincipal;
+	}
 	public Integer getNumLocal() {
 		return numLocal;
 	}
 	public void setNumLocal(Integer numLocal) {
 		this.numLocal = numLocal;
 	}
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
