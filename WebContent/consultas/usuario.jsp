@@ -52,8 +52,7 @@
 							Editar
 				    </a>
 					
-					<a href="#" id="excluir${tituloEleitor}" class="btn btn-sm btn-danger" role="button" data-record-id="${tituloEleitor}"  data-record-nome="${nome}" 
-					    >
+					<a href="#" id="excluir${tituloEleitor}" class="btn btn-sm btn-danger" role="button" data-record-id="${tituloEleitor}"  data-record-nome="${nome}">
 					  		Remover
 				    </a>
 			</td>
@@ -83,7 +82,7 @@ $(document).ready(function() {
 		var nome = data.recordNome;
 		Swal.fire({
 			  title: 'Excluir?',
-			  text: "Deseja excluir esse Técnico? (" + nome + ")",
+			  text: "Deseja excluir esse Usuário? (" + nome + ")",
 			  type: 'warning',
 			  showCancelButton: true,
 			  confirmButtonText: 'Sim excluir!'
@@ -91,7 +90,7 @@ $(document).ready(function() {
 			  if (result.value) {
 			    
 			       $.getJSON({
-					  url: "remover?tecnico.id="+id
+					  url: "remover?usuario.tituloEleitor="+id
 				   }).done(function( data ) {
 				    	  if (data.ret==1){
 				    		  $('#tr'+id).fadeOut(); 
