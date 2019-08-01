@@ -2,7 +2,6 @@ package br.jus.tream.DAO;
 
 import java.util.List;
 
-import br.jus.tream.dominio.Equipamento;
 import br.jus.tream.dominio.EquipamentoTipo;
 
 public interface EquipamentoTipoDAO {
