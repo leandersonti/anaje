@@ -66,7 +66,7 @@ public class ActionContrato extends ActionSupport {
 			this.lstCargo = CargoDAOImpl.getInstance().listar();
 
 		} catch (Exception e) {
-			addActionError(getText("contrato.error.listar"));
+			addActionError(getText("frmsetup.error") + " Error: " + e.getMessage());
 			return "error";
 		}
 		return "success";
@@ -102,7 +102,7 @@ public class ActionContrato extends ActionSupport {
 				beanResult.setMensagem(getText("permissao.negada"));				
 		    }	
 		} catch (Exception e) {
-			addActionError(getText("alterar.error") + " Error: " + e.getMessage());
+			addActionError(getText("inserir.error") + " Error: " + e.getMessage());
 			// result.setMensagem(getText("inserir.error") + " Error: " + e.getMessage());
 			return "error";
 		}
