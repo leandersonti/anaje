@@ -27,6 +27,18 @@ public class ActionEquipamentoTipo extends ActionSupport {
 	private final static EquipamentoTipoDAO dao = EquipamentoTipoDAOImpl.getInstance();
 	private final static Permissao permissao = Permissao.getInstance();
 
+	@Action(value = "listar", results = { @Result(name = "success", location = "/consultas/equipamentoTipo.jsp"),
+			@Result(name = "error", location = "/result.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+	public String listar() {
+		try {
+			this.lstEquipamentoTipo = dao.listar();
+		} catch (Exception e) {
+			addActionError(getText("listar.error"));
+			return "error";
+		}
+		return "success";
+	}
+
 	@Action(value = "listarJson", results = {
 			@Result(name = "success", type = "json", params = { "root", "lstEquipamentoTipo" }),
 			@Result(name = "error", location = "/login.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
@@ -40,7 +52,7 @@ public class ActionEquipamentoTipo extends ActionSupport {
 		return "success";
 	}
 
-	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frm"),
+	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmEquipamentoTipo.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String frmCadContrato() {
 		try {
@@ -53,7 +65,7 @@ public class ActionEquipamentoTipo extends ActionSupport {
 		return "success";
 	}
 
-	@Action(value = "frmEditar", results = { @Result(name = "success", location = "/forms/frm"),
+	@Action(value = "frmEditar", results = { @Result(name = "success", location = "/forms/frmEquipamentoTipo.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String doFrmEditar() {
 		try {
@@ -71,6 +83,16 @@ public class ActionEquipamentoTipo extends ActionSupport {
 	public String doAdicionar() {
 		BeanResult beanResult = new BeanResult();
 		try {
+			if (permissao.getAdmin()) {
+				beanResult.setRet(dao.inserir(equipamentoTipo));
+				if (beanResult.getRet() == 1)
+					beanResult.setMensagem(getText("inserir.sucesso"));
+				else
+					beanResult.setMensagem(getText("inserir.error"));
+			}else {
+				beanResult.setRet(0);
+				beanResult.setMensagem(getText("permissao.negada"));
+			}
 
 		} catch (Exception e) {
 			addActionError(getText("alterar.error") + " Error: " + e.getMessage());
@@ -158,5 +180,7 @@ public class ActionEquipamentoTipo extends ActionSupport {
 	public static Permissao getPermissao() {
 		return permissao;
 	}
+	
+	
 
 }
