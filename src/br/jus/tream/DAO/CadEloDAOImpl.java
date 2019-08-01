@@ -172,7 +172,7 @@ public class CadEloDAOImpl implements CadEloDAO {
 		}
 		*/
 		
-		CADLocalvotacao local = dao.getBeanLocalVotacao(60, 2895, 1015);
+		CADLocalvotacao local = dao.getBeanLocalVotacao(31, 2550, 1910);
 		System.out.println(local.getId() + " :: Zona " + local.getZona() + " " + local.getNumLocal() + " " + local.getNomeLocal());
 		
 		System.out.println("Done!!");
