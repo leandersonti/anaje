@@ -28,7 +28,7 @@ public class ActionUsuario extends ActionSupport{
 	private final static UsuarioDAO dao = UsuarioDAOImpl.getInstance();
 	
 	
-	@Action(value = "listar", results = { @Result(name = "success", location = "/consultas/listar-usuario.jsp"),
+	@Action(value = "listar", results = { @Result(name = "success", location = "/consultas/usuario.jsp"),
 			@Result(name = "error", location = "/result.jsp") },interceptorRefs = @InterceptorRef("authStack") 
 	)
 	public String listar() {

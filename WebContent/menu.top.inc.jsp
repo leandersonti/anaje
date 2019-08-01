@@ -50,6 +50,7 @@
 	              <a class="dropdown-item" href="${pageContext.request.contextPath}/contrato/listar">Contratos</a>
 	              <a class="dropdown-item" href="${pageContext.request.contextPath}/EquipamentoTipo/listar">Tipo Equipamentos</a>
 	              <a class="dropdown-item" href="${pageContext.request.contextPath}/tecnico/frmImportar">Importar Equipamentos</a>
+	               <a class="dropdown-item" href="${pageContext.request.contextPath}/usuario/listar">Usuários</a>
 	            </div>
 	          </li>        
               

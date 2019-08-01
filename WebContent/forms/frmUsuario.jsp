@@ -3,7 +3,7 @@
 <div class="container">
 
 	<div class="card">
-		<div class="card-header"> <b><i>Cadastrar/Atualizar Técnico : </i> </b></div>
+		<div class="card-header"> <b><i>Cadastrar/Atualizar Usuário : </i> </b></div>
 		<div class="card-body">
 
 			<form action="" method="post" name="form1" id="form1" class="needs-validation_" novalidate>
@@ -30,12 +30,12 @@
 				</div>		
 				
 					<div class="form-group">
-					<div class="custom-control custom-switch">
-						<input type="checkbox" class="custom-control-input"	id="ativo" name="usuario.ativo" value="1"> 
-							<label class="custom-control-label" for="ativo">Ativo</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<div class="custom-control custom-switch">						
+			                  <input type="checkbox" class="custom-control-input"	id="ativo" name="usuario.ativo" value="1"<s:if test="usuario.ativo ==1"> checked</s:if>>  
+						      <label class="custom-control-label" for="ativo">Ativo</label>			         				         						
 					</div>	
 					<div class="custom-control custom-switch">
-							<input type="checkbox" class="custom-control-input"	id="admin" name="usuario.admin" value="1"> 
+							<input type="checkbox" class="custom-control-input"	id="admin" name="usuario.admin" value="1" <s:if test="usuario.admin ==1"> checked</s:if>> 
 							<label class="custom-control-label" for="admin">Admin</label>
 				
 					</div>
