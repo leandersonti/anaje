@@ -34,6 +34,8 @@
 	            </div>
 	          </li>
 	          
+	          
+	          
 	          <li class="nav-item dropdown">
 	            <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Monitoramento</a>
 	            <div class="dropdown-menu" aria-labelledby="dropdown01">
@@ -41,20 +43,24 @@
 	              <a class="dropdown-item" href="#">Encerramento</a>
 	              <a class="dropdown-item" href="#">Equipamentos</a>
 	            </div>
-	          </li>   
-
+	          </li> 				
 	         <li class="nav-item dropdown">
 	            <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tabelas</a>
-	            <div class="dropdown-menu" aria-labelledby="dropdown01">
-	              <a class="dropdown-item" href="${pageContext.request.contextPath}/eleicao/listar">Eleição</a>
-	              <a class="dropdown-item" href="${pageContext.request.contextPath}/contrato/listar">Contratos</a>
-	              <a class="dropdown-item" href="${pageContext.request.contextPath}/EquipamentoTipo/listar">Tipo Equipamentos</a>
-	              <a class="dropdown-item" href="${pageContext.request.contextPath}/tecnico/frmImportar">Importar Equipamentos</a>
-	               <a class="dropdown-item" href="${pageContext.request.contextPath}/usuario/listar">Usuários</a>
-	            </div>
+	             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink"> 
+	             		<li><a class="dropdown-item" href="${pageContext.request.contextPath}/eleicao/listar">Eleição</a></li>
+	             		<li><a class="dropdown-item" href="${pageContext.request.contextPath}/contrato/listar">Contratos</a></li>	                                        
+                                <li><a class="dropdown-item dropdown-toggle" href="#">Equipamento</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item"  href="${pageContext.request.contextPath}/tecnico/frmImportar">Importar</a></li>
+                                        <li><a class="dropdown-item"  href="${pageContext.request.contextPath}/EquipamentoTipo/listar">Tipos</a></li>
+                   					</ul> 
+                  			    </li> 
+             			<li> <a class="dropdown-item" href="${pageContext.request.contextPath}/usuario/listar">Usuários</a></li>
+                    </ul>  
+	   
 	          </li>        
-              
-        </ul>
+         </ul>
+    
         <ul class="nav navbar-nav navbar-right">
              
              <li class="nav-item dropdown">
