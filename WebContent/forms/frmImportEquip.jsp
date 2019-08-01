@@ -102,6 +102,9 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
+	   setTimeout(function() {
+  		 $( "#error_message" ).fadeOut( "slow"); 
+  	   }, 1000);
 	$('#table1').dataTable( {
         "order": [[ 2, "asc" ]],
         language: {

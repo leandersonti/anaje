@@ -80,7 +80,7 @@ public class ActionTecnico extends ActionSupport{
 			
 			this.lstEquipamento = daoEquip.listar();
 			this.lstEquipamentoTipo = EquipamentoTipoDAOImpl.getInstance().listar();
-			System.out.println("Permissao ==== " + permissao.getAdmin());
+			
 			if (permissao.getAdmin()) {
 					if (getFileUpload() != null && this.getEquipamento() != null) {
 				
@@ -119,7 +119,8 @@ public class ActionTecnico extends ActionSupport{
 				
 			}else {
 		    	beanResult.setRet(0);
-				beanResult.setMensagem(getText("permissao.negada"));				
+				beanResult.setMensagem(getText("permissao.negada"));
+				addActionError(getText("permissao.negada"));
 		    }		
 			
 			if (getLstEquipamento() != null && getLstEquipamento().size() > 0) {
@@ -167,11 +168,14 @@ public class ActionTecnico extends ActionSupport{
 		return "success";
 	}
 	
+	
+	
 	@Action(value = "frmEditar", results = { @Result(name = "success", location = "/forms/frmTecnico.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String doFrmEditar() {
 		try {
-			this.tecnico = dao.getBean(this.tecnico.getId());			
+			this.tecnico = dao.getBean(this.tecnico.getId());	
+			System.out.println("datnasc===" + tecnico.getDataNasc());
 		} catch (Exception e) {
 			addActionError(getText("frmsetup.error") + " Error: " + e.getMessage());
 			return "error";

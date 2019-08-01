@@ -18,7 +18,7 @@
 					
 					<div class="col-md-3 mb-3">
 						<label for="dtNasc">Dt de Nasc. :</label> 
-						<input type="text" class="form-control" id="dtNasc" name="DtNasc" value="<s:text name="format.date"><s:param value="tecnico.data_nasc"/></s:text>" placeholder="dd/mm/aaaa"/>						
+						<input type="text" class="form-control" id="dtNasc" name="DtNasc" value="<s:text name="format.date"><s:param value="tecnico.dataNasc"/></s:text>" placeholder="dd/mm/aaaa"/>						
 					</div>
 					
 					<div class="col-md-3 mb-3">
@@ -37,13 +37,12 @@
 						<label for="bairro">Bairro:</label> 
 						<input type="text" class="form-control" id="bairro" name="tecnico.bairro"	placeholder="Informe a zona" value="${tecnico.bairro}">
 					</div>			
-				</div>
-				
+				</div>				
 				
 				<div class="form-row">
 					<div class="col-md-3 mb-3">
 						<label for="ncada">N° Casa:</label> 
-						<input type="text" class="form-control" id="ncasa" name="tecnico.num_casa"  value="${tecnico.num_casa}" maxlength="10" placeholder="Num Casa" >
+						<input type="text" class="form-control" id="ncasa" name="tecnico.numCasa"  value="${tecnico.numCasa}" maxlength="10" placeholder="Num Casa" >
 					</div>
 				
 					<div class="col-md-3 mb-3">
@@ -64,7 +63,7 @@
 				<div class="form-row">
 					<div class="col-md-3 mb-3">
 						<label for="rg">Título:</label> 
-						<input type="text" class="form-control" id="titulo" name="tecnico.titulo_eleitor" placeholder="titulo" value="${tecnico.titulo_eleitor}">
+						<input type="text" class="form-control" id="titulo" name="tecnico.tituloEleitor" placeholder="titulo" value="${tecnico.tituloEleitor}">
 					</div>
 					
 					<div class="col-md-3 mb-3">
@@ -114,13 +113,12 @@
 			</form>
 		</div>
 	</div>
-
 </div>
 
 <jsp:include page="/javascripts.jsp" />
 
 <script type="text/javascript">
-$(document).ready(function() {
+$(document).ready(function() {	
 	$('#dtNasc').mask('99/99/9999');
 	 $("#btnSave").click(function() {
 		var URL = ""; 
@@ -134,7 +132,7 @@ $(document).ready(function() {
 		         showCancelButton: true,
 				  confirmButtonText: 'Incluir'
 		         }).then((result) => {
-					if (result.value) {
+					if (result.value) { 
 						var frm = $("#form1").serialize();						
 						$.getJSON({
 							url: URL,

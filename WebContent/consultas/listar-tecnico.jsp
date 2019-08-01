@@ -43,7 +43,7 @@
 	<s:iterator value="lstTecnico">
 		<tr id="tr${id}">
 			<td><s:property value="nome"/></td>
-			<td><s:property value="titulo_eleitor"/></td>
+			<td><s:property value="tituloEleitor"/></td>
 			<td><s:property value="zona"/></td>
 			<td><s:property value="secao"/></td>
 			<td><s:property value="%{getText('format.date',{dataNasc})}"/></td>
@@ -51,7 +51,7 @@
 			<td><s:property value="telefone"/></td>
 			<td><s:property value="celular"/></td>
 			<td><s:property value="endereco"/></td>
-			<td><s:property value="num_casa"/></td>
+			<td><s:property value="numCasa"/></td>
 			<td><s:property value="bairro"/></td>
 			
 			<td><s:property value="cep"/></td>
