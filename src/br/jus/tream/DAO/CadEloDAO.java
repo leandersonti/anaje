@@ -11,6 +11,7 @@ public interface CadEloDAO {
 	public List<CADLocalvotacao> listarLocalVotacao(Integer zona, Integer codmunic) throws Exception;
 	public List<CADLocalvotacao> listarLocalVotacaoParaCadastrar(Integer zona, Integer codmunic) throws Exception;
 	public CADLocalvotacao getBeanLocalVotacao(String codObjeto) throws Exception;
+	public CADLocalvotacao getBeanLocalVotacao(Integer zona, Integer codmunic, Integer numLocal) throws Exception;
 	
 	public List<CADSecao> listarSecao(Integer zona, Integer codmunic) throws Exception; 
 	public List<CADSecao> listarSecao(Integer zona, Integer codmunic, Integer numLocal) throws Exception;

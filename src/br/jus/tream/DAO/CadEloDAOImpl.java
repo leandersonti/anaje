@@ -76,6 +76,25 @@ public class CadEloDAOImpl implements CadEloDAO {
 		}
 		return localvotacao;
 	}
+	
+	public CADLocalvotacao getBeanLocalVotacao(Integer zona, Integer codmunic, Integer numLocal) throws Exception{
+		CADLocalvotacao localvotacao = new CADLocalvotacao();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		try {
+			TypedQuery<CADLocalvotacao> query = em.createQuery("SELECT c FROM CADLocalvotacao c "
+													+ "WHERE c.zona=?1 AND c.codmunic=?2 AND c.numLocal=?3",
+					CADLocalvotacao.class);
+			query.setParameter(1, zona);
+			query.setParameter(2, codmunic);
+			localvotacao = query.setParameter(3, numLocal).getSingleResult();
+		} catch (Exception e) {
+			em.close();
+			// e.printStackTrace();
+		} finally {
+			em.close();
+		}
+		return localvotacao;
+	}
 
 	@Override
 	public List<CADSecao> listarSecao(Integer zona, Integer codmunic) throws Exception {
@@ -147,15 +166,15 @@ public class CadEloDAOImpl implements CadEloDAO {
 			System.out.println(local.getId() + " :: Zona " + local.getZona() + " " + local.getNumLocal() + " " + local.getNomeLocal());
 		}
 		*/
-		
+		/*
 		for(CADZonaEleitoral z : dao.listarZonaEleitoral()) {
 			System.out.println(z.getZona() + " :: Zona " + z.getZona() + " " + z.getMunicipio() + " " + z.getCodmunic());
 		}
-		
-		/*
-		CADLocalvotacao local = dao.getBeanLocalVotacao("E55415013017143831");
-		System.out.println(local.getId() + " :: Zona " + local.getZona() + " " + local.getNumLocal() + " " + local.getNomeLocal());
 		*/
+		
+		CADLocalvotacao local = dao.getBeanLocalVotacao(60, 2895, 1015);
+		System.out.println(local.getId() + " :: Zona " + local.getZona() + " " + local.getNumLocal() + " " + local.getNomeLocal());
+		
 		System.out.println("Done!!");
 	}
 
