@@ -9,80 +9,80 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
 @SuppressWarnings("serial")
 @Entity
-@Table(name="unidade_servico")
-public class UnidadeServico implements Serializable{
+@Table(name = "unidade_servico")
+public class UnidadeServico implements Serializable {
 
 	@EmbeddedId
 	private IDEleicaoPK id = new IDEleicaoPK();
-	
+
 	@ManyToOne
-	@JoinColumn(name = "id_tipo", nullable=false)
+	@JoinColumn(name = "id_tipo", nullable = false)
 	private UnidadeServicoTipo tipo;
-	
-	@Column(name="cod_objeto")
+
+	@Column(name = "cod_objeto")
 	private String codObjeto;
-		
+
 	private Integer zona;
-	
+
 	private Integer local;
-	
+
 	private Integer secao;
-	
-	@Column(length=70, nullable=false)
-	private String descricao;	
-	
-	@Column(length=100)
-	private String endereco;	
-	
+
+	@Column(length = 70, nullable = false)
+	private String descricao;
+
+	@Column(length = 100)
+	private String endereco;
+
 	@Column(name = "id_municipio")
-	private Integer codmunic;	
-	
-	@Column(length=1)
+	private Integer codmunic;
+
+	@Column(length = 1)
 	private String sexo;
-	
-	@Column(length=40)
+
+	@Column(length = 40)
 	private String sala;
-	
-	@Column(length=60)
+
+	@Column(length = 60)
 	private String contato;
-	
-	@Column(name = "cargo_contato", length=30)
+
+	@Column(name = "cargo_contato", length = 30)
 	private String cargoContato;
-	
-	@Column(length=20)
+
+	@Column(length = 20)
 	private String telefone;
-	
-	@Column(length=40)
+
+	@Column(length = 40)
 	private String latitude;
-	
-	@Column(length=40)
+
+	@Column(length = 40)
 	private String longitude;
-		
+
 	private Integer status;
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private Integer oficial;
-	
+
 	private Integer jecon;
 
 	public UnidadeServico() {
 		super();
 	}
-	public UnidadeServico(IDEleicaoPK id, String codObjeto, Integer local,	String descricao) {
+
+	public UnidadeServico(IDEleicaoPK id, String codObjeto, Integer local, String descricao) {
 		super();
 		this.id = id;
 		this.local = local;
 		this.descricao = descricao;
 		this.codObjeto = codObjeto;
 	}
-	
-	public UnidadeServico(IDEleicaoPK id, DataEleicao dataEleicao, UnidadeServicoTipo tipo, String codObjeto, Integer zona, Integer local,
-			Integer secao, String descricao, String endereco, Integer codmunic, String sexo, String sala,
-			String contato, String cargoContato, String telefone, String latitude, String longitude, Integer status,
-			Integer oficial, Integer jecon) {
+
+	public UnidadeServico(IDEleicaoPK id, DataEleicao dataEleicao, UnidadeServicoTipo tipo, String codObjeto,
+			Integer zona, Integer local, Integer secao, String descricao, String endereco, Integer codmunic,
+			String sexo, String sala, String contato, String cargoContato, String telefone, String latitude,
+			String longitude, Integer status, Integer oficial, Integer jecon) {
 		super();
 		this.id = id;
 		this.tipo = tipo;
@@ -113,14 +113,6 @@ public class UnidadeServico implements Serializable{
 		this.id = id;
 	}
 
-	public DataEleicao getDataEleicao() {
-		return id.getDataEleicao();
-	}
-	
-	public Integer getIdUnidadeServivo() {
-		return id.getId();
-	}
-
 	public UnidadeServicoTipo getTipo() {
 		return tipo;
 	}
@@ -129,16 +121,16 @@ public class UnidadeServico implements Serializable{
 		this.tipo = tipo;
 	}
 
-	public Integer getZona() {
-		return zona;
-	}
-	
 	public String getCodObjeto() {
 		return codObjeto;
 	}
 
 	public void setCodObjeto(String codObjeto) {
 		this.codObjeto = codObjeto;
+	}
+
+	public Integer getZona() {
+		return zona;
 	}
 
 	public void setZona(Integer zona) {
@@ -177,12 +169,12 @@ public class UnidadeServico implements Serializable{
 		this.endereco = endereco;
 	}
 
-	public Integer getCodmunico() {
+	public Integer getCodmunic() {
 		return codmunic;
 	}
 
-	public void setCodmunic(Integer codmu) {
-		this.codmunic = codmu;
+	public void setCodmunic(Integer codmunic) {
+		this.codmunic = codmunic;
 	}
 
 	public String getSexo() {
@@ -205,16 +197,16 @@ public class UnidadeServico implements Serializable{
 		return contato;
 	}
 
-	public void setContato(String contrato) {
-		this.contato = contrato;
+	public void setContato(String contato) {
+		this.contato = contato;
 	}
 
 	public String getCargoContato() {
 		return cargoContato;
 	}
 
-	public void setCargoContato(String cargoContrato) {
-		this.cargoContato = cargoContrato;
+	public void setCargoContato(String cargoContato) {
+		this.cargoContato = cargoContato;
 	}
 
 	public String getTelefone() {
@@ -233,11 +225,11 @@ public class UnidadeServico implements Serializable{
 		this.latitude = latitude;
 	}
 
-	public String getLogitude() {
+	public String getLongitude() {
 		return longitude;
 	}
 
-	public void setLogitude(String longitude) {
+	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
 
@@ -264,7 +256,7 @@ public class UnidadeServico implements Serializable{
 	public void setJecon(Integer jecon) {
 		this.jecon = jecon;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -272,6 +264,7 @@ public class UnidadeServico implements Serializable{
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -288,8 +281,5 @@ public class UnidadeServico implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
-	
-	
+
 }

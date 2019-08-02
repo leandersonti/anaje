@@ -121,10 +121,16 @@ public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 	}
 
 	public static void main(String[] args) throws Exception{
+		
 		UnidadeServicoDAO dao = UnidadeServicoDAOImpl.getInstance();
-		for(UnidadeServico u : dao.listar(31,2046)) {
-			System.out.println(u.getDescricao());
-		}
+		UnidadeServico us = new UnidadeServico();
+		
+		  
+		  for(UnidadeServico u : dao.listar()) {
+			  System.out.println(u.getDescricao());
+			
+		  }
+		 
 		
 		/*
 		UnidadeServico u2 = new UnidadeServico();
@@ -136,7 +142,7 @@ public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 		u2 = dao.getBean(pk);
 		System.out.println("Ponto Trans " + u2.getZona() + "/" + u2.getLocal() + " " + u2.getDescricao());
 		*/
-		System.out.println("Done!!");
+		//System.out.println("Done!!");
 
 	}
 
