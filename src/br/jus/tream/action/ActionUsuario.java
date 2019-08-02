@@ -12,9 +12,11 @@ import org.apache.struts2.convention.annotation.ResultPath;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import br.jus.tream.DAO.SRHServidoresDAOImpl;
 import br.jus.tream.DAO.UsuarioDAO;
 import br.jus.tream.DAO.UsuarioDAOImpl;
 import br.jus.tream.dominio.BeanResult;
+import br.jus.tream.dominio.SRHServidores;
 import br.jus.tream.dominio.Usuario;
 
 @SuppressWarnings("serial")
@@ -22,7 +24,9 @@ import br.jus.tream.dominio.Usuario;
 @ResultPath(value = "/")
 @ParentPackage(value = "default")
 public class ActionUsuario extends ActionSupport{
-	private List<Usuario> lstUsuario;	
+	private List<Usuario> lstUsuario;
+	private List<SRHServidores> lstServidores;
+	private SRHServidores servidor;
 	private Usuario usuario;
 	private BeanResult result;
 	private final static UsuarioDAO dao = UsuarioDAOImpl.getInstance();
@@ -56,7 +60,9 @@ public class ActionUsuario extends ActionSupport{
 	
 	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmUsuario.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
-	public String frmCadTecnico() {	
+	public String frmCadTecnico() throws Exception {	
+		this.lstServidores = SRHServidoresDAOImpl.getInstance().listar();
+		
 		return "success";
 	}
 	
@@ -153,6 +159,22 @@ public class ActionUsuario extends ActionSupport{
 
 	public void setResult(BeanResult result) {
 		this.result = result;
+	}
+
+	public List<SRHServidores> getLstServidores() {
+		return lstServidores;
+	}
+
+	public void setLstServidores(List<SRHServidores> lstServidores) {
+		this.lstServidores = lstServidores;
+	}
+
+	public SRHServidores getServidor() {
+		return servidor;
+	}
+
+	public void setServidor(SRHServidores servidor) {
+		this.servidor = servidor;
 	}
 
 
