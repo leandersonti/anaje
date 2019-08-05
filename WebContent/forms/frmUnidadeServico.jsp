@@ -16,13 +16,12 @@
 				</s:if>
 				<div class="form-row">
 					<div class="col-md-6 mb-6">
-						<label for="zona">Zona :</label>
-						<%-- <s:select label="Zona" headerKey="-1" headerValue="Selecione a zona" tooltip="Informe a Zona"
-						list="lstZona" 
-						listKey="id"
-						listValue="zona"
-						name="zona" theme="simple" cssClass="form-control"/> --%>
-						<select class="form-control" id="selectzona"></select>
+						 <s:select label="Zona" headerKey="-1" headerValue="Selecione a zona" tooltip="Informe a Zona"
+						list="lstZonaEleitoral" 
+						listKey="id.zona"
+						listValue="zona +' - '+ municipio"
+						name="cadZonaEleitoral.municipio" theme="simple" cssClass="form-control"/> 
+						
 					</div>
 
 					<div class="col-md-6 mb-6">
