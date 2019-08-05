@@ -12,6 +12,8 @@ public interface SRHServidoresDAO {
 	
 	public List<SRHServidores> ListUnidade(String siglaUnid) throws Exception;
 	
+	public List<SRHServidores> ListParaUser() throws Exception;
+	
 	public SRHServidores getBean(String matricula) throws Exception;
 	
 	

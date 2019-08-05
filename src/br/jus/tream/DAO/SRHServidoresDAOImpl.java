@@ -34,6 +34,22 @@ public class SRHServidoresDAOImpl implements SRHServidoresDAO {
 		return lista;	
 	}
 	
+	public List<SRHServidores> ListParaUser() throws Exception{		
+		List<SRHServidores> lista = new ArrayList<SRHServidores>();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		try {
+			TypedQuery<SRHServidores> query = em.createQuery("SELECT s FROM SRHServidores s WHERE s.tituloEleitor NOT IN (SELECT u.tituloEleitor FROM Usuario u)", 
+					SRHServidores.class);
+			lista = query.getResultList();
+		} catch (Exception e) {
+			em.close();
+			e.printStackTrace();
+		}finally {
+				em.close();
+		  }
+		return lista;
+	}
+	
 	@Override
 	public SRHServidores getBean(String matricula) throws Exception{
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
@@ -101,7 +117,7 @@ public class SRHServidoresDAOImpl implements SRHServidoresDAO {
 		
 		//u = dao.getBean("2301619");
 		
-		  for(SRHServidores s:dao.ListUnidade("SEDS")) { 
+		  for(SRHServidores s:dao.ListParaUser()) { 
 			  System.out.println("Nome == "+ s.getNome() + "Matricula == " + s.getMatricula() + " Titulo === " +
 		  s.getTituloEleitor() + "SiglaUnidade ==== "+ s.getSiglaUnid());
 		  
