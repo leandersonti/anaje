@@ -16,12 +16,14 @@
 				</s:if>
 				<div class="form-row">
 					<div class="col-md-6 mb-6">
-						 <s:select label="Zona" headerKey="-1" headerValue="Selecione a zona" tooltip="Informe a Zona"
-						list="lstZonaEleitoral" 
-						listKey="id.zona"
-						listValue="zona +' - '+ municipio"
-						name="cadZonaEleitoral.municipio" theme="simple" cssClass="form-control"/> 
-						
+						<label for="zona">Zona:</label>
+						<s:select label="Zona" headerKey="-1"
+							headerValue="Selecione a zona" tooltip="Informe a Zona"
+							list="lstZonaEleitoral" listKey="id.zona+';'+id.codmunic"
+							listValue="zona +' - '+ municipio"
+							name="cadZonaEleitoral.municipio"  id="codZonaMunic" theme="simple"
+							cssClass="form-control" />
+
 					</div>
 
 					<div class="col-md-6 mb-6">
@@ -33,12 +35,11 @@
 						name="" theme="simple" cssClass="form-control"/> --%>
 						<select class="form-control" id="selectlocal"></select>
 					</div>
-					<br>
-
-				</div>
+				
+				</div><br>
 
 				<div class="form-row">
-					<label for="sexo">Descrição :</label> <input type="text"
+					<label for="descricao">Descrição :</label> <input type="text"
 						class="form-control" id="descricao" name="uservico.descricao"
 						value="${uservico.descricao}" placeholder=" ">
 				</div>
@@ -53,8 +54,11 @@
 
 				<div class="form-row">
 					<div class="col-md-3 mb-3">
-						<label for="sexo">sexo:</label> <select class="form-control"
-							id="selectsexo"></select>
+						<label for="sexo">Sexo:</label>
+						<s:select label="Sexo" headerKey="-1" headerValue="Selecione sexo"
+							tooltip="Informe o sexo" list="lstUnidadeServico" listKey="id"
+							listValue="sexo" name="uservico.sexo" theme="simple"
+							cssClass="form-control" />
 					</div>
 
 					<div class="col-md-3 mb-3">
@@ -120,6 +124,33 @@
 			return false;
 		} else
 			return true;
+	}
+
+	$('#codZonaMunic').change(function(event) {
+		CarregaLocalVotacao();
+	});
+
+	function CarregaLocalVotacao() {
+
+		var codZonaMunic = $("#codZonaMunic option:selected").val().split(';');
+		var select = $('#selectlocal');
+		select.find('option').remove();
+		console.log(codZonaMunic);
+		//console.log("zona : "+codZonaMunic[0] +" codMunic: "+codZonaMunic[1]);
+	 	$.getJSON(
+				'../elo/listarJsonLocalVotacao?zona=' + codZonaMunic[0] +'&codmunic=' + codZonaMunic[1], 
+				function(jsonResponse) {
+					$('<option>').val(-1).text("Informe o local").appendTo(
+							select);
+					$('<option>').val(0).text("Cadastro Manual").appendTo(
+							select);
+					$.each(jsonResponse, function(key, value) {
+						$('<option>').val(value.numLocal).text(
+								value.numLocal + " " + value.nomeLocal)
+								.appendTo(select);
+						// console.log("key " + key + " value " + value.descricao)
+					});
+				}); 
 	}
 </script>
 

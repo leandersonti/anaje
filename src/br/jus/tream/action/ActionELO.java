@@ -73,6 +73,20 @@ public class ActionELO extends ActionSupport {
 		}
 		return "success";
 	}
+	
+	@Action(value = "listarJsonLocalVotacao", results = {
+			@Result(name = "success", type = "json", params = { "root", "lstLocalVotacao" }),
+			@Result(name = "error", location = "/pages/resultAjax.jsp") })
+	public String listarJsonLocalVotacao() {
+		try {
+			this.lstLocalVotacao = dao.listarLocalVotacaoParaCadastrar(zona, codmunic);
+					
+		} catch (Exception e) {
+			addActionError(getText("listar.error") + " table: LocalVotacao");
+			return "error";
+		}
+		return "success";
+	}
 
 	public List<CADLocalvotacao> getLstLocalVotacao() {
 		return lstLocalVotacao;
