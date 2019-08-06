@@ -68,6 +68,23 @@ public class SRHServidoresDAOImpl implements SRHServidoresDAO {
 	}
 	
 	@Override
+	public SRHServidores getBeanTitulo(String titulo) throws Exception{
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		SRHServidores servidor = new SRHServidores();
+		try {
+			TypedQuery<SRHServidores> query = em.createQuery("SELECT u FROM SRHServidores u WHERE u.tituloEleitor=?1", 
+					SRHServidores.class);
+			servidor = query.setParameter(1, titulo).getSingleResult(); 
+		} catch (Exception e) {
+			em.close();
+			e.printStackTrace();
+		}finally {
+				em.close();
+		  }
+		return servidor;
+	}
+	
+	@Override
 	public List<SRHServidores> ListUnidade(String siglaUnid) throws Exception{		
 		List<SRHServidores> lista = new ArrayList<SRHServidores>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();

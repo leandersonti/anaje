@@ -16,5 +16,7 @@ public interface SRHServidoresDAO {
 	
 	public SRHServidores getBean(String matricula) throws Exception;
 	
+	public SRHServidores getBeanTitulo(String titulo) throws Exception;
+	
 	
 } 

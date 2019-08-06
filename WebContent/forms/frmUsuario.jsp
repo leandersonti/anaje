@@ -6,7 +6,7 @@
 		<div class="card-header"> <b><i>Cadastrar/Atualizar Usuário : </i> </b></div>
 		<div class="card-body">
 
-			<form action="" method="post" name="form1" id="form1" class="needs-validation_" novalidate>
+			<form action="adicionar" method="post" name="form1" id="form1" >
 				<s:if test='usuario.tituloEleitor != null'>
 					<input type="hidden" id="id" name="usuario.tituloEleitor" value="${usuario.tituloEleitor}">
 				</s:if>
@@ -14,7 +14,7 @@
 				<!-- MULTISELECT DE CONVOCADOS -->
 				<div class="panel-body">
 					<div class="row">								  								
-		 	 				<select name="lstServidores" id="multiselect2"
+		 	 				<select name="lstTitulos" id="multiselect2"
 						 		class="listbox" multiple="multiple" size="8">										
 							</select>
 					</div>
@@ -44,7 +44,7 @@
 					</div>
 				</div>
 	
-				<button class="btn btn-primary" id="btnSave" type="button">Enviar</button>
+				<button type="submit" class="btn btn-success">Enviar</button>
 			</form>
 		</div>
 	</div>
@@ -57,7 +57,7 @@
 $(document).ready(function() {
 	loadServidores();
 	
-	 $("#btnSave").click(function() {
+/* 	 $("#").click(function() {
 		var URL = ""; 
 		if ( $('#id').length ) { URL = "atualizar"; }
 		else{ URL = "adicionar";  }	
@@ -87,7 +87,7 @@ $(document).ready(function() {
 		   }else{
 			   Swal.fire("Dados", "Verifique os campos obrigatórios ", "error");
 		   }
-	 	}); // -- FIM btnSave --
+	 	}); // -- FIM btnSave -- */
 	 
 });
 
@@ -98,7 +98,7 @@ function loadServidores() {
 		//select2.find('option').remove(); 
 		//$('<option>').val(999999).text("Selecione a escola").appendTo(select);
 		$.each(jsonResponse, function(key, value) {		
-			$('<option>').val(value.id).text(value.siglaUnid +" - " +value.nome).appendTo(select2);
+			$('<option>').val(value.tituloEleitor + ';' + value.nome).text(value.siglaUnid +" - " +value.nome).appendTo(select2);
 		});  
 		  $('.listbox').bootstrapDualListbox({
 	 			moveOnSelect: false, 

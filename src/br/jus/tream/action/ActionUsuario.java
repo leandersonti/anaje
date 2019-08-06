@@ -1,6 +1,8 @@
 package br.jus.tream.action;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.struts2.convention.annotation.Action;
@@ -12,10 +14,12 @@ import org.apache.struts2.convention.annotation.ResultPath;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import br.jus.tream.DAO.CadZonaEleitoralDAOImpl;
 import br.jus.tream.DAO.SRHServidoresDAOImpl;
 import br.jus.tream.DAO.UsuarioDAO;
 import br.jus.tream.DAO.UsuarioDAOImpl;
 import br.jus.tream.dominio.BeanResult;
+import br.jus.tream.dominio.CADZonaEleitoral;
 import br.jus.tream.dominio.SRHServidores;
 import br.jus.tream.dominio.Usuario;
 
@@ -24,8 +28,10 @@ import br.jus.tream.dominio.Usuario;
 @ResultPath(value = "/")
 @ParentPackage(value = "default")
 public class ActionUsuario extends ActionSupport{
-	private List<Usuario> lstUsuario;
+	private List<Usuario> lstUsuario;	
+	private List<CADZonaEleitoral> lstZonas;
 	private List<SRHServidores> lstServidores;
+	private List<String> lstTitulos;
 	private SRHServidores servidor;
 	private Usuario usuario;
 	private BeanResult result;
@@ -62,6 +68,7 @@ public class ActionUsuario extends ActionSupport{
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String frmCadTecnico() throws Exception {	
 		this.lstServidores = SRHServidoresDAOImpl.getInstance().listar();
+		this.lstZonas = CadZonaEleitoralDAOImpl.getInstance().listar();
 		
 		return "success";
 	}
@@ -80,22 +87,24 @@ public class ActionUsuario extends ActionSupport{
 
 	
 	@Action(value = "adicionar", results = { @Result(name = "success", type = "json", params = { "root", "result" }),
-			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
-	public String doAdicionar() throws ParseException {
-		BeanResult beanResult = new BeanResult();		
+			@Result(name = "error", location = "/pages/resultAjax.jsp")},interceptorRefs = @InterceptorRef("authStack"))
+	public String doAdicionar() {
+		BeanResult beanResult = new BeanResult();	
+		int ret = 0;
+		
 		try {			
-				
-			beanResult.setRet(dao.inserir(usuario));		
-			if (beanResult.getRet() == 1)
-				beanResult.setMensagem(getText("inserir.sucesso"));
-			else
-				beanResult.setMensagem(getText("inserir.error"));
-		} catch (Exception e) {
-			    addActionError(getText("inserir.error") + " Error: " + e.getMessage());
-			  //result.setMensagem(getText("inserir.error") + " Error: " + e.getMessage());
-			return "error";
-		}
-		this.result = beanResult;
+			
+			for (String item : this.lstTitulos) {
+				String s[] = item.split(";");			
+				this.usuario.setTituloEleitor(s[0]);
+				this.usuario.setNome(s[1]);			
+				UsuarioDAOImpl.getInstance().inserir(usuario);
+			}
+		
+	} catch (Exception e) {
+		addActionError(getText("inserir.error") + " SystemError: " + e.getMessage());
+		return "error";
+	}
 		return "success";
 	}
 	
@@ -136,6 +145,8 @@ public class ActionUsuario extends ActionSupport{
 		this.result = beanResult;
 	  return "success";
 	}
+	
+
 
 	public List<Usuario> getLstUsuario() {
 		return lstUsuario;
@@ -177,7 +188,22 @@ public class ActionUsuario extends ActionSupport{
 		this.servidor = servidor;
 	}
 
+	public List<CADZonaEleitoral> getLstZonas() {
+		return lstZonas;
+	}
 
-	
+	public void setLstZonas(List<CADZonaEleitoral> lstZonas) {
+		this.lstZonas = lstZonas;
+	}
+
+	public List<String> getLstTitulos() {
+		return lstTitulos;
+	}
+
+	public void setLstTitulos(List<String> lstTitulos) {
+		this.lstTitulos = lstTitulos;
+	}
+
+
 
 }
