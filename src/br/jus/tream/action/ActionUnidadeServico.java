@@ -65,8 +65,10 @@ public class ActionUnidadeServico extends ActionSupport {
 
 			if (permissao.getAdmin()) {
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoral();
+				this.lstUnidadeServico = UnidadeServicoDAOImpl.getInstance().listar();
 			} else {
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoral(permissao.getZona());
+				this.lstUnidadeServico = UnidadeServicoDAOImpl.getInstance().listar();
 			}
 
 		} catch (Exception e) {
@@ -204,7 +206,5 @@ public class ActionUnidadeServico extends ActionSupport {
 	public void setCadZonaEleitoral(CADZonaEleitoral cadZonaEleitoral) {
 		this.cadZonaEleitoral = cadZonaEleitoral;
 	}
-	
-	
 
 }
