@@ -4,12 +4,13 @@
 
 	<div class="card">
 		<div class="card-header">
-			<b>Nova Unidade Serviço</b>
+			<b>Cadastrar Ponto de Transmissão</b>
 		</div>
 		<div class="card-body">
 
 			<form action="" method="post" name="form1" id="form1"
 				class="needs-validation_" novalidate>
+					<input type="hidden" id="tipo" name="uservico.tipo.id" value="1">
 				<s:if test='uservico.id != null'>
 					<input type="hidden" id="id" name="uservico.id" value="${uservico.id}">
 					<input type="hidden" id="id" name="uservico.cadZonaEleitoral.id" value="${uservico.cadZonaEleitoral.id}">

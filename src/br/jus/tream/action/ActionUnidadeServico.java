@@ -12,11 +12,13 @@ import org.apache.struts2.convention.annotation.ResultPath;
 import com.opensymphony.xwork2.ActionSupport;
 
 import br.jus.tream.DAO.CadEloDAOImpl;
+import br.jus.tream.DAO.DataEleicaoDAOImpl;
 import br.jus.tream.DAO.UnidadeServicoDAO;
 import br.jus.tream.DAO.UnidadeServicoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.CADLocalvotacao;
 import br.jus.tream.dominio.CADZonaEleitoral;
+import br.jus.tream.dominio.DataEleicao;
 import br.jus.tream.dominio.IDEleicaoPK;
 import br.jus.tream.dominio.UnidadeServico;
 
@@ -47,17 +49,6 @@ public class ActionUnidadeServico extends ActionSupport {
 		return "success";
 	}
 
-	/*
-	 * @Action(value = "listarJson", results = {
-	 * 
-	 * @Result(name = "success", type = "json", params = { "root", "lstContrato" }),
-	 * 
-	 * @Result(name = "error", location = "/login.jsp") }, interceptorRefs
-	 * = @InterceptorRef("authStack")) public String listarJson() { try {
-	 * this.lstContrato = dao.listar(); } catch (Exception e) {
-	 * addActionError(getText("listar.error")); return "error"; } return "success";
-	 * }
-	 */
 	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmUnidadeServico.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String frmCadUnidadeServico() {
@@ -96,6 +87,12 @@ public class ActionUnidadeServico extends ActionSupport {
 	public String doAdicionar() {
 		BeanResult beanResult = new BeanResult();
 		try {
+			IDEleicaoPK pk = new IDEleicaoPK();
+			DataEleicao dtEleicao = new DataEleicao();
+			dtEleicao = DataEleicaoDAOImpl.getInstance().getBeanAtiva();
+			pk.setDataEleicao(dtEleicao);
+			this.uservico.setId(pk);
+
 			beanResult.setRet(dao.inserir(this.uservico));
 			if (beanResult.getRet() == 1)
 				beanResult.setMensagem(getText("inserir.sucesso"));
