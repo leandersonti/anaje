@@ -11,8 +11,8 @@
 			<form action="" method="post" name="form1" id="form1"
 				class="needs-validation_" novalidate>
 				<s:if test='uservico.id != null'>
-					<input type="hidden" id="id" name="uservico.id"
-						value="${uservico.id}">
+					<input type="hidden" id="id" name="uservico.id" value="${uservico.id}">
+					<input type="hidden" id="id" name="uservico.cadZonaEleitoral.id" value="${uservico.cadZonaEleitoral.id}">
 				</s:if>
 				<div class="form-row">
 					<div class="col-md-6 mb-6">
@@ -27,12 +27,7 @@
 					</div>
 
 					<div class="col-md-6 mb-6">
-						<label for="local">Local :</label>
-						<%-- <s:select label="Local" headerKey="-1" headerValue="Selecione o Local" tooltip="Informe o Local"
-						list="" 
-						listKey=""
-						listValue=""
-						name="" theme="simple" cssClass="form-control"/> --%>
+						<label for="local">Local :</label>		
 						<select class="form-control" id="selectlocal"></select>
 					</div>
 				
@@ -53,12 +48,14 @@
 				<br>
 
 				<div class="form-row">
-					<div class="col-md-3 mb-3">
-						<label for="sexo">Sexo:</label>
-						<s:select label="Sexo" headerKey="-1" headerValue="Selecione sexo"
-							tooltip="Informe o sexo" list="lstUnidadeServico" listKey="id"
-							listValue="sexo" name="uservico.sexo" theme="simple"
-							cssClass="form-control" />
+					<div class="form-group col-md-3">
+						<label for="inputState">Sexo:</label>
+						<select id="inputState" class="form-control" name="uservico.sexo">
+						        <option selected>Selecione sexo</option>
+						        <option value="M">Masculino</option>
+						        <option value="F">Feminino</option>
+						        <option value="O">Outros</option>
+     					 </select>						
 					</div>
 
 					<div class="col-md-3 mb-3">
@@ -118,13 +115,43 @@
 <jsp:include page="/javascripts.jsp" />
 
 <script type="text/javascript">
-	function verificaDados() {
-		if ($("#form1")[0].checkValidity() === false) {
-			$("#form1")[0].classList.add('was-validated');
-			return false;
-		} else
-			return true;
-	}
+$(document).ready(function() {
+	 
+	 $("#btnSave").click(function() {
+		var URL = ""; 
+		if ( $('#id').length ) { URL = "atualizar"; }
+		else{ URL = "adicionar";  }	
+		if (verificaDados()){
+			 Swal.fire({
+		         title: "Confirma ?",
+		         text: "Confirma " + URL + "?",
+		         type: 'warning',
+		         showCancelButton: true,
+				  confirmButtonText: 'Incluir'
+		         }).then((result) => {
+					if (result.value) {
+						var frm = $("#form1").serialize();
+						console.log(frm);
+						$.getJSON({
+							url: URL,
+							data: frm
+					    }).done(function( data ) {
+					    	console.log(data);
+					    	if(data.ret==1)
+					    		Swal.fire(URL, data.mensagem, "success");
+					    	else 
+					    		Swal.fire(URL, data.mensagem, "error");
+						}).fail(function() {
+								Swal.fire("Adicionar", "Ocorreu um erro ao incluir", "error");
+						});
+				      } 
+			   }); // -- FIM SWAL --
+		   }else{
+			   Swal.fire("Dados", "Verifique os campos obrigatórios ", "error");
+		   }
+	 	}); // -- FIM btnSave --
+	 
+	});
 
 	$('#codZonaMunic').change(function(event) {
 		CarregaLocalVotacao();
@@ -135,7 +162,7 @@
 		var codZonaMunic = $("#codZonaMunic option:selected").val().split(';');
 		var select = $('#selectlocal');
 		select.find('option').remove();
-		console.log(codZonaMunic);
+		//console.log(codZonaMunic);
 		//console.log("zona : "+codZonaMunic[0] +" codMunic: "+codZonaMunic[1]);
 	 	$.getJSON(
 				'../elo/listarJsonLocalVotacao?zona=' + codZonaMunic[0] +'&codmunic=' + codZonaMunic[1], 
@@ -151,6 +178,14 @@
 						// console.log("key " + key + " value " + value.descricao)
 					});
 				}); 
+	}
+	
+	function verificaDados() {
+		if ($("#form1")[0].checkValidity() === false) {
+			$("#form1")[0].classList.add('was-validated');
+			return false;
+		} else
+			return true;
 	}
 </script>
 
