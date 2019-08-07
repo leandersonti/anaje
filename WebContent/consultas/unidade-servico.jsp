@@ -6,7 +6,7 @@
 <div class="container-full"> 
  <div class="container-fluid">   
  <div class="card">
-  <div class="card-header"><strong>Unidade Serviço</strong></div>
+  <div class="card-header"><strong>Ponto de Transmissão</strong></div>
   <div class="card-body">
    
     <table id="table1" class="table table-hover">
