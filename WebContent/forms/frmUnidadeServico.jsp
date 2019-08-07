@@ -156,14 +156,15 @@ $(document).ready(function() {
 	$('#codZonaMunic').change(function(event) {
 		CarregaLocalVotacao();
 	});
+	
+	$('#selectlocal').change(function(event) {
+		getLocalVotacao();
+	});
 
 	function CarregaLocalVotacao() {
-
 		var codZonaMunic = $("#codZonaMunic option:selected").val().split(';');
 		var select = $('#selectlocal');
 		select.find('option').remove();
-		//console.log(codZonaMunic);
-		//console.log("zona : "+codZonaMunic[0] +" codMunic: "+codZonaMunic[1]);
 	 	$.getJSON(
 				'../elo/listarJsonLocalVotacao?zona=' + codZonaMunic[0] +'&codmunic=' + codZonaMunic[1], 
 				function(jsonResponse) {
@@ -178,6 +179,22 @@ $(document).ready(function() {
 						// console.log("key " + key + " value " + value.descricao)
 					});
 				}); 
+	}
+	
+	function getLocalVotacao() {
+		var codZonaMunic = $("#codZonaMunic option:selected").val().split(';');
+		var numLocal = $("#selectlocal option:selected").val();
+		//console.log(codZonaMunic);
+	 	$.getJSON('../elo/getBeanJsonLocalVotacao?zona=' + codZonaMunic[0] 
+				      +'&codmunic=' + codZonaMunic[1] + '&numLocal=' + numLocal, 
+			function(dados) {
+				//console.log(dados);
+				$("#descricao").val(dados.nomeLocal);
+				$("#endereco").val(dados.endereco);
+				$("#latitude").val(dados.latitude);
+				$("#longitude").val(dados.longitude);	
+		 });
+		  
 	}
 	
 	function verificaDados() {
