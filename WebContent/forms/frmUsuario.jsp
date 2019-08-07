@@ -1,7 +1,6 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <jsp:include page="/mainhead.inc.jsp" />
 <div class="container">
-
 	<div class="card">
 		<div class="card-header"> <b><i>Cadastrar/Atualizar Usuário : </i> </b></div>
 		<div class="card-body">
@@ -44,7 +43,7 @@
 					</div>
 				</div>
 	
-				<button type="submit" class="btn btn-success">Enviar</button>
+				<button class="btn btn-primary" id="btnSave" type="button">Enviar</button>
 			</form>
 		</div>
 	</div>
@@ -54,49 +53,55 @@
 <jsp:include page="/javascripts.jsp" />
 
 <script type="text/javascript">
-$(document).ready(function() {
-	loadServidores();
-	
-/* 	 $("#").click(function() {
-		var URL = ""; 
-		if ( $('#id').length ) { URL = "atualizar"; }
-		else{ URL = "adicionar";  }	
-		if (verificaDados()){
-			 Swal.fire({
-		         title: "Confirma ?",
-		         text: "Confirma " + URL + "?",
-		         type: 'warning',
-		         showCancelButton: true,
-				  confirmButtonText: 'Incluir'
-		         }).then((result) => {
-					if (result.value) {
-						var frm = $("#form1").serialize();						
-						$.getJSON({
-							url: URL,
-							data: frm
-					    }).done(function( data ) {					    	
-					    	if(data.ret==1)
-					    		Swal.fire(URL, data.mensagem, "success");
-					    	else 
-					    		Swal.fire(URL, data.mensagem, "error");
-						}).fail(function() {
-								Swal.fire("Adicionar", "Ocorreu um erro ao incluir", "error");
-						});
-				      } 
-			   }); // -- FIM SWAL --
-		   }else{
-			   Swal.fire("Dados", "Verifique os campos obrigatórios ", "error");
-		   }
+$(document).ready(function() {	
+	loadServidores();	
+ 	 $("#btnSave").click(function() {
+ 		 var user =  $("#multiselect2").val(); 	 		
+ 		 if(user!=null){
+ 			var URL = ""; 
+ 			if ( $('#id').length ) { URL = "atualizar"; }
+ 			else{ URL = "adicionar";  }	
+ 			if (verificaDados()){
+ 				 Swal.fire({
+ 			         title: "Confirma ?",
+ 			         text: "Confirma " + URL + "?",
+ 			         type: 'warning',
+ 			         showCancelButton: true,
+ 					  confirmButtonText: 'Incluir'
+ 			         }).then((result) => {
+ 						if (result.value) {
+ 							var frm = $("#form1").serialize();						
+ 							$.getJSON({
+ 								url: URL,
+ 								data: frm
+ 						    }).done(function( data ) {					    	
+ 						    	if(data.ret==1)
+ 						    		Swal.fire(URL, data.mensagem, "success");
+ 						    	else 
+ 						    		Swal.fire(URL, data.mensagem, "error");
+ 							}).fail(function() {
+ 									Swal.fire("Adicionar", "Ocorreu um erro ao incluir", "error");
+ 							});
+ 					      } 
+ 				   }); // -- FIM SWAL --
+ 			   }else{
+ 				   Swal.fire("Dados", "Verifique os campos obrigatórios ", "error");
+ 			   }
+ 			 
+ 		 }else{
+ 			 alert("Escolha ao menos um Usuário !");
+ 		 }
+
 	 	}); // -- FIM btnSave -- */
 	 
 });
 
 function loadServidores() {
-	 
+	
 	$.getJSON('../servidor/listarJson', function(jsonResponse) {
 		var select2 = $('#multiselect2');			
 		//select2.find('option').remove(); 
-		//$('<option>').val(999999).text("Selecione a escola").appendTo(select);
+		
 		$.each(jsonResponse, function(key, value) {		
 			$('<option>').val(value.tituloEleitor + ';' + value.nome).text(value.siglaUnid +" - " +value.nome).appendTo(select2);
 		});  
@@ -104,6 +109,10 @@ function loadServidores() {
 	 			moveOnSelect: false, 
 	 			moveOnDoubleClick: true,
 	 			preserveSelectionOnMove: 'all',
+	 			nonSelectedListLabel: 'Não-selecionados',
+	 			selectedListLabel: 'Selecionados',
+	 			
+
 	 		});  
 	});		
 	  	   
