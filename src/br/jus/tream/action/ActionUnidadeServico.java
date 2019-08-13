@@ -38,7 +38,7 @@ public class ActionUnidadeServico extends ActionSupport {
 	private final static Permissao permissao = Permissao.getInstance();
 
 	@Action(value = "listar", results = { @Result(name = "success", location = "/consultas/unidade-servico.jsp"),
-			@Result(name = "error", location = "/result.jsp") })
+			@Result(name = "error", location = "/result.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String listar() {
 		try {
 			this.lstUnidadeServico = dao.listar();
