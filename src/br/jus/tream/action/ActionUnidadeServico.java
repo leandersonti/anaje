@@ -53,20 +53,15 @@ public class ActionUnidadeServico extends ActionSupport {
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String frmCadUnidadeServico() {
 		try {
-
 			if (permissao.getAdmin()) {
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoral();
-				//this.lstUnidadeServico = UnidadeServicoDAOImpl.getInstance().listar();
 			} else {
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoral(permissao.getZona());
-				//this.lstUnidadeServico = UnidadeServicoDAOImpl.getInstance().listar();
 			}
-
 		} catch (Exception e) {
 			addActionError(getText("frmsetup.error") + " Error: " + e.getMessage());
 			return "error";
 		}
-
 		return "success";
 	}
 
