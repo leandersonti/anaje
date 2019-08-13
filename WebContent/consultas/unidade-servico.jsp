@@ -34,7 +34,7 @@
 			<td><s:property value="status"/></td>
 		
 			<td> 	    
-				    <a href="frmEditar?uservico.id=${id}" id="idedit" class="btn btn-sm btn-warning" role="button">
+				    <a href="frmEditar?id.id=${id.id}&id.dataEleicao.id=${id.dataEleicao.id}" id="idedit" class="btn btn-sm btn-warning" role="button">
 							Editar
 				    </a>
 					

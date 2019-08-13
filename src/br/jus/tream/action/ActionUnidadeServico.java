@@ -56,10 +56,10 @@ public class ActionUnidadeServico extends ActionSupport {
 
 			if (permissao.getAdmin()) {
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoral();
-				this.lstUnidadeServico = UnidadeServicoDAOImpl.getInstance().listar();
+				//this.lstUnidadeServico = UnidadeServicoDAOImpl.getInstance().listar();
 			} else {
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoral(permissao.getZona());
-				this.lstUnidadeServico = UnidadeServicoDAOImpl.getInstance().listar();
+				//this.lstUnidadeServico = UnidadeServicoDAOImpl.getInstance().listar();
 			}
 
 		} catch (Exception e) {
@@ -75,11 +75,21 @@ public class ActionUnidadeServico extends ActionSupport {
 	public String doFrmEditar() {
 		try {
 			this.uservico = dao.getBean(this.id);
+			if (permissao.getAdmin()) {
+				return "success";
+			} else {
+				if (permissao.getZona()==this.uservico.getZona()) {
+					return "success";
+				}else {
+					addActionError(getText("permissao.negada"));
+					return "error";
+				}
+			}
 		} catch (Exception e) {
 			addActionError(getText("frmsetup.error") + " Error: " + e.getMessage());
 			return "error";
 		}
-		return "success";
+		
 	}
 
 	@Action(value = "adicionar", results = { @Result(name = "success", type = "json", params = { "root", "result" }),

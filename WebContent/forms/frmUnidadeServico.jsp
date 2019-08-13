@@ -8,28 +8,40 @@
 		</div>
 		<div class="card-body">
 
-			<form action="" method="post" name="form1" id="form1"
-				class="needs-validation_" novalidate>
+			<form action="" method="post" name="form1" id="form1" class="needs-validation_" novalidate>
 					<input type="hidden" id="tipo" name="uservico.tipo.id" value="1">
 				<s:if test='uservico.id != null'>
-					<input type="hidden" id="id" name="uservico.id" value="${uservico.id}">
-					<input type="hidden" id="id" name="uservico.cadZonaEleitoral.id" value="${uservico.cadZonaEleitoral.id}">
+					<input type="hidden" id="id" name="uservico.id.id" value="${uservico.id}">
+					<input type="hidden" id="id" name="uservico.zona" value="${uservico.zona}">
+					<input type="hidden" id="id" name="uservico.id.dataEleicao.id" value="${uservico.id.dataEleicao.id}">
 				</s:if>
 				<div class="form-row">
 					<div class="col-md-6 mb-6">
 						<label for="zona">Zona:</label>
-						<s:select label="Zona" headerKey="-1"
-							headerValue="Selecione a zona" tooltip="Informe a Zona"
-							list="lstZonaEleitoral" listKey="id.zona+';'+id.codmunic"
-							listValue="zona +' - '+ municipio"
-							name="cadZonaEleitoral.municipio"  id="codZonaMunic" theme="simple"
-							cssClass="form-control" />
+						 <s:if test='uservico.id != null'>
+							${uservico.zona}
+						 </s:if>
+						 <s:else>
+						    <s:select label="Zona" headerKey="-1"
+								headerValue="Selecione a zona" tooltip="Informe a Zona"
+								list="lstZonaEleitoral" listKey="id.zona+';'+id.codmunic"
+								listValue="zona +' - '+ municipio"
+								name="cadZonaEleitoral.municipio"  id="codZonaMunic" theme="simple"
+								cssClass="form-control" />  
+						 </s:else>	
 
 					</div>
 
 					<div class="col-md-6 mb-6">
-						<label for="local">Local :</label>		
-						<select class="form-control" id="selectlocal"></select>
+						<label for="local">Local :</label>	
+						
+						 <s:if test='uservico.id != null'>
+						     ${uservico.local}
+						 </s:if>
+						 <s:else>
+						      <select class="form-control" id="selectlocal"></select>
+						 </s:else>	
+						
 					</div>
 				
 				</div><br>
@@ -53,9 +65,9 @@
 						<label for="inputState">Sexo:</label>
 						<select id="inputState" class="form-control" name="uservico.sexo">
 						        <option selected>Selecione sexo</option>
-						        <option value="M">Masculino</option>
-						        <option value="F">Feminino</option>
-						        <option value="O">Outros</option>
+						        <option value="M"<s:if test='uservico.sexo=="M"'> selected</s:if>>Masculino</option>
+						        <option value="F"<s:if test='uservico.sexo=="F"'> selected</s:if>>Feminino</option>
+						        <option value="O"<s:if test='uservico.sexo=="O"'> selected</s:if>>Outros</option>
      					 </select>						
 					</div>
 
