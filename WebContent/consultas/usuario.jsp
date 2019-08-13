@@ -6,7 +6,7 @@
 <div class="container-full"> 
  <div class="container-fluid">   
  <div class="card">
-  <div class="card-header"><strong><i>Técnicos</i></strong></div>
+  <div class="card-header"><strong><i>Usuários</i></strong></div>
   <div class="card-body">
    
     <table id="table1" class="table table-hover">
@@ -15,63 +15,44 @@
 			<th width="18%">Nome</th>
 			<th width="8%">Titulo</th>
 			<th width="5%">Zona</th>
-			<th width="5%">Seção</th>			
-			<th width="18%">Dt de Nasc.</th>
-			
-			<th width="18%">Telefone</th>
-			<th width="18%">Celular</th>
-			<th width="18%">Endereço</th>
-			<th width="5%">N° Casa</th>
-			<th width="18%">Bairro</th>
-			
-			<th width="18%">Cep</th>
-			<th width="18%">Cidade</th>
-			<th width="5%">Uf</th>
-			<th width="1%">Sexo</th>
-			<th width="18%">Email</th>
-			
-			<th width="18%">Rg</th>
-			<th width="18%">Orgão Exp.</th>		
-			<th width="18%">Cpf</th>
-			<th width="18%">Data de Cadastro</th>
-			
+			<th width="5%">Ativo</th>			
+			<th width="10%">Admin</th>		
 			<th width="15%"><a href="frmCad" class="btn btn-sm btn-primary" role="button">Novo</a>
 		    </th>
 		</tr>
 	</thead>
 	<tbody>
-	<s:iterator value="lstTecnico">
-		<tr id="tr${id}">
+	<s:iterator value="lstUsuario">
+		<tr id="tr${tituloEleitor}">
 			<td><s:property value="nome"/></td>
 			<td><s:property value="tituloEleitor"/></td>
 			<td><s:property value="zona"/></td>
-			<td><s:property value="secao"/></td>
-			<td><s:property value="%{getText('format.date',{dataNasc})}"/></td>
+			<td>
+			<s:if test="ativo ==1">
+				<img  src="${pageContext.request.contextPath}/images/check_ok.png" style="width: 20px;height: 20px;">
+			</s:if>			
+			<s:else>
+			<img  src="${pageContext.request.contextPath}/images/check_error.png" style="width: 20px;height: 20px;">
 			
-			<td><s:property value="telefone"/></td>
-			<td><s:property value="celular"/></td>
-			<td><s:property value="endereco"/></td>
-			<td><s:property value="numCasa"/></td>
-			<td><s:property value="bairro"/></td>
+			</s:else>			
+			<td>
+				<s:if test="admin ==1">
+					<img  src="${pageContext.request.contextPath}/images/check_ok.png" style="width: 20px;height: 20px;">
+			   </s:if>			
+			<s:else>
+				<img  src="${pageContext.request.contextPath}/images/check_error.png" style="width: 20px;height: 20px;">			
+			</s:else>			
 			
-			<td><s:property value="cep"/></td>
-			<td><s:property value="cidade"/></td>
-			<td><s:property value="uf"/></td>
-			<td><s:property value="sexo"/></td>
-			<td><s:property value="email"/></td>
 			
-			<td><s:property value="rg"/></td>
-			<td><s:property value="orgaoRg"/></td>
-			<td><s:property value="cpf"/></td>		
-		    <td><s:property value="%{getText('format.date',{dataCad})}"/></td>		
+			</td>
+
 			<td> 
 			 		    
-				    <a href="frmEditar?tecnico.id=${id}" id="idedit" class="btn btn-sm btn-warning" role="button">
+				    <a href="frmEditar?usuario.tituloEleitor=${tituloEleitor}" id="idedit" class="btn btn-sm btn-warning" role="button">
 							Editar
 				    </a>
 					
-					<a href="#" id="excluir${id}" class="btn btn-sm btn-danger" role="button" data-record-id="${id}"  data-record-nome="${nome}" 
-					     data-record-data="<s:property value="%{getText('format.date',{dataCad})}"/>">
+					<a href="#" id="excluir${tituloEleitor}" class="btn btn-sm btn-danger" role="button" data-record-id="${tituloEleitor}"  data-record-nome="${nome}">
 					  		Remover
 				    </a>
 			</td>
@@ -101,7 +82,7 @@ $(document).ready(function() {
 		var nome = data.recordNome;
 		Swal.fire({
 			  title: 'Excluir?',
-			  text: "Deseja excluir esse Técnico? (" + nome + ")",
+			  text: "Deseja excluir esse Usuário? (" + nome + ")",
 			  type: 'warning',
 			  showCancelButton: true,
 			  confirmButtonText: 'Sim excluir!'
@@ -109,7 +90,7 @@ $(document).ready(function() {
 			  if (result.value) {
 			    
 			       $.getJSON({
-					  url: "remover?tecnico.id="+id
+					  url: "remover?usuario.tituloEleitor="+id
 				   }).done(function( data ) {
 				    	  if (data.ret==1){
 				    		  $('#tr'+id).fadeOut(); 

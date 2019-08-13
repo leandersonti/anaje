@@ -12,11 +12,13 @@ import org.apache.struts2.convention.annotation.ResultPath;
 import com.opensymphony.xwork2.ActionSupport;
 
 import br.jus.tream.DAO.CadEloDAOImpl;
+import br.jus.tream.DAO.DataEleicaoDAOImpl;
 import br.jus.tream.DAO.UnidadeServicoDAO;
 import br.jus.tream.DAO.UnidadeServicoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
+import br.jus.tream.dominio.CADLocalvotacao;
 import br.jus.tream.dominio.CADZonaEleitoral;
-import br.jus.tream.dominio.Cargo;
+import br.jus.tream.dominio.DataEleicao;
 import br.jus.tream.dominio.IDEleicaoPK;
 import br.jus.tream.dominio.UnidadeServico;
 
@@ -25,9 +27,10 @@ import br.jus.tream.dominio.UnidadeServico;
 @ResultPath(value = "/")
 @ParentPackage(value = "default")
 public class ActionUnidadeServico extends ActionSupport {
-	private List<UnidadeServico> lstContrato;
-	private List<Cargo> lstLocalVotacao;
+	private List<UnidadeServico> lstUnidadeServico;
+	private List<CADLocalvotacao> lstLocalVotacao;
 	private List<CADZonaEleitoral> lstZonaEleitoral;
+	private CADZonaEleitoral cadZonaEleitoral;
 	private UnidadeServico uservico;
 	private IDEleicaoPK id = new IDEleicaoPK();
 	private BeanResult result;
@@ -35,47 +38,35 @@ public class ActionUnidadeServico extends ActionSupport {
 	private final static Permissao permissao = Permissao.getInstance();
 
 	@Action(value = "listar", results = { @Result(name = "success", location = "/consultas/unidade-servico.jsp"),
-			@Result(name = "error", location = "/result.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+			@Result(name = "error", location = "/result.jsp") })
 	public String listar() {
 		try {
-			this.lstContrato = dao.listar();
+			this.lstUnidadeServico = dao.listar();
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";
 		}
 		return "success";
 	}
-/*
-	@Action(value = "listarJson", results = {
-			@Result(name = "success", type = "json", params = { "root", "lstContrato" }),
-			@Result(name = "error", location = "/login.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
-	public String listarJson() {
-		try {
-			this.lstContrato = dao.listar();
-		} catch (Exception e) {
-			addActionError(getText("listar.error"));
-			return "error";
-		}
-		return "success";
-	}
-*/
+
 	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmUnidadeServico.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
-	public String frmCadContrato() {
+	public String frmCadUnidadeServico() {
 		try {
+
 			if (permissao.getAdmin()) {
-			    this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoral();
-			}else {
-				if (permissao.getZona()!=0)
-				  this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoral(permissao.getZona());
-				else
-					addActionError(getText("frmsetup.error") + ". " + getText("permissao.negada"));
+				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoral();
+				this.lstUnidadeServico = UnidadeServicoDAOImpl.getInstance().listar();
+			} else {
+				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoral(permissao.getZona());
+				this.lstUnidadeServico = UnidadeServicoDAOImpl.getInstance().listar();
 			}
 
 		} catch (Exception e) {
-			addActionError(getText("frmsetup.error"));
+			addActionError(getText("frmsetup.error") + " Error: " + e.getMessage());
 			return "error";
 		}
+
 		return "success";
 	}
 
@@ -96,6 +87,12 @@ public class ActionUnidadeServico extends ActionSupport {
 	public String doAdicionar() {
 		BeanResult beanResult = new BeanResult();
 		try {
+			IDEleicaoPK pk = new IDEleicaoPK();
+			DataEleicao dtEleicao = new DataEleicao();
+			dtEleicao = DataEleicaoDAOImpl.getInstance().getBeanAtiva();
+			pk.setDataEleicao(dtEleicao);
+			this.uservico.setId(pk);
+
 			beanResult.setRet(dao.inserir(this.uservico));
 			if (beanResult.getRet() == 1)
 				beanResult.setMensagem(getText("inserir.sucesso"));
@@ -120,7 +117,7 @@ public class ActionUnidadeServico extends ActionSupport {
 				beanResult.setMensagem(getText("alterar.sucesso"));
 			} else {
 				beanResult.setMensagem(getText("alterar.error"));
-			}		
+			}
 		} catch (Exception e) {
 			addActionError(getText("alterar.error") + " Error: " + e.getMessage());
 			return "error";
@@ -138,10 +135,10 @@ public class ActionUnidadeServico extends ActionSupport {
 				beanResult.setRet(dao.remover(this.uservico));
 				beanResult.setMensagem(getText("remover.sucesso"));
 			} else {
-		    	beanResult.setRet(0);
-				beanResult.setMensagem(getText("permissao.negada"));				
-			}	
-		
+				beanResult.setRet(0);
+				beanResult.setMensagem(getText("permissao.negada"));
+			}
+
 		} catch (Exception e) {
 			addActionError(getText("remover.error") + " Error: " + e.getMessage());
 			// r.setMensagem(getText("remover.error") + " Error: " + e.getMessage());
@@ -150,42 +147,61 @@ public class ActionUnidadeServico extends ActionSupport {
 		this.result = beanResult;
 		return "success";
 	}
-	public List<UnidadeServico> getLstContrato() {
-		return lstContrato;
+
+	public List<UnidadeServico> getLstUnidadeServico() {
+		return lstUnidadeServico;
 	}
-	public void setLstContrato(List<UnidadeServico> lstContrato) {
-		this.lstContrato = lstContrato;
+
+	public void setLstUnidadeServico(List<UnidadeServico> lstUnidadeServico) {
+		this.lstUnidadeServico = lstUnidadeServico;
 	}
-	public List<Cargo> getLstLocalVotacao() {
+
+	public List<CADLocalvotacao> getLstLocalVotacao() {
 		return lstLocalVotacao;
 	}
-	public void setLstLocalVotacao(List<Cargo> lstLocalVotacao) {
+
+	public void setLstLocalVotacao(List<CADLocalvotacao> lstLocalVotacao) {
 		this.lstLocalVotacao = lstLocalVotacao;
 	}
+
 	public List<CADZonaEleitoral> getLstZonaEleitoral() {
 		return lstZonaEleitoral;
 	}
+
 	public void setLstZonaEleitoral(List<CADZonaEleitoral> lstZonaEleitoral) {
 		this.lstZonaEleitoral = lstZonaEleitoral;
 	}
+
 	public UnidadeServico getUservico() {
 		return uservico;
 	}
+
 	public void setUservico(UnidadeServico uservico) {
 		this.uservico = uservico;
 	}
+
 	public IDEleicaoPK getId() {
 		return id;
 	}
+
 	public void setId(IDEleicaoPK id) {
 		this.id = id;
 	}
+
 	public BeanResult getResult() {
 		return result;
 	}
+
 	public void setResult(BeanResult result) {
 		this.result = result;
 	}
 
+	public CADZonaEleitoral getCadZonaEleitoral() {
+		return cadZonaEleitoral;
+	}
+
+	public void setCadZonaEleitoral(CADZonaEleitoral cadZonaEleitoral) {
+		this.cadZonaEleitoral = cadZonaEleitoral;
+	}
 
 }

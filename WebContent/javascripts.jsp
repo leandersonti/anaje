@@ -3,8 +3,11 @@
      <script type="text/javascript" src="${pageContext.request.contextPath}/js/select2.min.js"></script>    
      <script type="text/javascript" src="${pageContext.request.contextPath}/js/sweetalert2.min.js"></script>
      <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.dataTables.min.js"></script>
-      <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.mask.min.js"></script>
+     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.mask.min.js"></script>
      <script type="text/javascript" src="${pageContext.request.contextPath}/js/dataTables.bootstrap4.min.js"></script>
+     <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap-4-navbar.min.js"></script>
+      <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.bootstrap-duallistbox.js"></script>
+     																				
      
      
     <script>

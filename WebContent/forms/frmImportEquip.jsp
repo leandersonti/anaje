@@ -35,6 +35,7 @@
 					<th width="10%">Tipo</th>					
 					<th width="10%">Série</th>
 					<th width="10%">Tombo</th>
+					
 					<th width="10%">Fone</th>
 					<th width="10%">Param</th>
 					<th width="10%">Chaves</th>
@@ -52,9 +53,13 @@
 						<td><s:property value="tipo.descricao"/></td>						
 						<td><s:property value="serie"/></td>
 						<td><s:property value="tomb"/></td>
+						
 						<td><s:property value="fone"/></td>
+						
 						<td><s:property value="param"/></td>
-						<td><s:property value="chave"/></td>						
+						
+						<td><s:property value="chave"/></td>	
+											
 						<td>
 						<s:if test="inserted">
 							<img  src="${pageContext.request.contextPath}/images/check_ok.png" style="width: 20px;height: 20px;">
@@ -102,6 +107,9 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
+	   setTimeout(function() {
+  		 $( "#error_message" ).fadeOut( "slow"); 
+  	   }, 1000);
 	$('#table1').dataTable( {
         "order": [[ 2, "asc" ]],
         language: {

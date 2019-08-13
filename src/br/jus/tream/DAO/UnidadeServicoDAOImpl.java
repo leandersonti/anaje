@@ -127,18 +127,31 @@ public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 	
 
 	public static void main(String[] args) throws Exception{
+		
 		UnidadeServicoDAO dao = UnidadeServicoDAOImpl.getInstance();
+<<<<<<< HEAD
 		/*
 		for(UnidadeServico u : dao.listar(31,2046)) {
 			System.out.println(u.getDescricao());
 		}
 		*/
+=======
+		UnidadeServico us = new UnidadeServico();
+		
+		  
+		  for(UnidadeServico u : dao.listar()) {
+			  System.out.println(u.getDescricao());
+			
+		  }
+		 
+>>>>>>> branch 'master' of http://10.22.1.119/gitlab/tre-sti/anaje.git
 		
 		UnidadeServico u2 = new UnidadeServico();
 		DataEleicao dt = new DataEleicao();
 		dt.setId(1);
 		IDEleicaoPK pk = new IDEleicaoPK();
 		pk.setDataEleicao(dt);
+<<<<<<< HEAD
 		u2.setId(pk);
 		
 		UnidadeServicoTipo tipo = new UnidadeServicoTipo();
@@ -155,6 +168,13 @@ public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 		System.out.println("RET ==  " + ret);
 		
 		System.out.println("Done!!");
+=======
+		pk.setId(1);
+		u2 = dao.getBean(pk);
+		System.out.println("Ponto Trans " + u2.getZona() + "/" + u2.getLocal() + " " + u2.getDescricao());
+		*/
+		//System.out.println("Done!!");
+>>>>>>> branch 'master' of http://10.22.1.119/gitlab/tre-sti/anaje.git
 
 	}
 
