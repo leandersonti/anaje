@@ -13,27 +13,10 @@
 	<thead>
 		<tr>
 			<th width="18%">Nome</th>
-			<th width="8%">Titulo</th>
-			<th width="5%">Zona</th>
-			<th width="5%">Seção</th>			
-			<th width="18%">Dt de Nasc.</th>
+			<th width="8%">Titulo</th>			
 			
-			<th width="18%">Telefone</th>
-			<th width="18%">Celular</th>
-			<th width="18%">Endereço</th>
-			<th width="5%">N° Casa</th>
-			<th width="18%">Bairro</th>
-			
-			<th width="18%">Cep</th>
-			<th width="18%">Cidade</th>
-			<th width="5%">Uf</th>
-			<th width="1%">Sexo</th>
-			<th width="18%">Email</th>
-			
-			<th width="18%">Rg</th>
-			<th width="18%">Orgão Exp.</th>		
-			<th width="18%">Cpf</th>
-			<th width="18%">Data de Cadastro</th>
+			<th width="10%">Telefone</th>
+			<th width="10%">Celular</th>			
 			
 			<th width="15%"><a href="frmCad" class="btn btn-sm btn-primary" role="button">Novo</a>
 		    </th>
@@ -42,28 +25,15 @@
 	<tbody>
 	<s:iterator value="lstTecnico">
 		<tr id="tr${id}">
-			<td><s:property value="nome"/></td>
-			<td><s:property value="tituloEleitor"/></td>
-			<td><s:property value="zona"/></td>
-			<td><s:property value="secao"/></td>
-			<td><s:property value="%{getText('format.date',{dataNasc})}"/></td>
-			
+			<td>
+				 <a href="#" id="modal${id}" role="button" data-record-id="${id}"  data-record-nome="${nome}" 
+					    data-record-data="<s:property value="%{getText('format.date',{dataNasc})}"/>"   data-record-datacad="<s:property value="%{getText('format.date',{dataCad})}"/>" >
+					  	<s:property value="nome"/>	
+				    </a>
+			</td>	
+			<td><s:property value="tituloEleitor"/></td>	
 			<td><s:property value="telefone"/></td>
-			<td><s:property value="celular"/></td>
-			<td><s:property value="endereco"/></td>
-			<td><s:property value="numCasa"/></td>
-			<td><s:property value="bairro"/></td>
-			
-			<td><s:property value="cep"/></td>
-			<td><s:property value="cidade"/></td>
-			<td><s:property value="uf"/></td>
-			<td><s:property value="sexo"/></td>
-			<td><s:property value="email"/></td>
-			
-			<td><s:property value="rg"/></td>
-			<td><s:property value="orgaoRg"/></td>
-			<td><s:property value="cpf"/></td>		
-		    <td><s:property value="%{getText('format.date',{dataCad})}"/></td>		
+			<td><s:property value="celular"/></td>			
 			<td> 
 			 		    
 				    <a href="frmEditar?tecnico.id=${id}" id="idedit" class="btn btn-sm btn-warning" role="button">
@@ -74,6 +44,7 @@
 					     data-record-data="<s:property value="%{getText('format.date',{dataCad})}"/>">
 					  		Remover
 				    </a>
+				   
 			</td>
 		</tr>
 		</s:iterator>
@@ -81,9 +52,51 @@
 	</table>	
   </div>
 </div>
-
-   </div>
+</div>
 </div>  
+
+<!-- Large modal -->
+
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="modalTecnico">
+  <div class="modal-dialog modal-lg mw-100 w-75">
+    <div class="modal-content">
+    
+			    <div class="card">
+			  <div class="card-header">
+			  Detalhes do Técnico
+			  </div>
+			  <div class="card-body">
+			   	    <table id="tabcomp" class="table table-striped" width=100% >
+						   <thead>
+								<tr>
+									<th >Endereço</th>
+									<th  width="8%" align="center">N° Casa</th>
+									<th align="center">Bairro</th>
+									<th align="center">Cidade</th>
+									<th align="center">Uf</th>									
+									<th align="center">Zona</th>
+									<th align="center">Seção</th>
+									<th align="center">RG</th>
+									<th align="center">Orgão Expedidor</th>
+									<th align="center">Cpf</th>
+									<th align="center">Dt de Nasc.</th>
+									<th align="left">Sexo</th>
+									<th align="right">E-mail</th>
+									<th align="center">Dt de Cadastro</th>
+								</tr>
+							</thead>
+						  <tbody id="corpotab">
+						  </tbody>
+					</table>
+			   
+			   
+			  </div>
+			</div>
+  
+    </div>
+  </div>
+</div>
 
 <jsp:include page = "/javascripts.jsp" />
 
@@ -91,9 +104,46 @@
 $(document).ready(function() {
     $('#table1').dataTable( {
         "order": [[ 0, "des" ],[ 1, "des" ]]
-   });
+   });   
+
 
 });
+
+$( "[id*='modal']" ).click(function(event) {
+	
+    var data = $(event.delegateTarget).data();
+	var id = data.recordId; 
+	var nome = data.recordNome;
+	var dataNasc = data.recordData;
+	var dataCad = data.recordDatacad;
+	var tr = ''; 
+	console.log("Cadastro == " +dataCad);
+	$("#corpotab").empty();
+	$.getJSON('../tecnico/getBeanJson?id='+id,function(jsonResponse) {		
+			
+					 tr += '<tr><td>' + jsonResponse.endereco + '</td>'
+					 tr += '<td align="center">' +  jsonResponse.numCasa+ '</td>'
+					 tr += '<td align="center">' +  jsonResponse.bairro + '</td>'
+					 tr += '<td align="center">' +  jsonResponse.cidade + '</td>'
+					 tr += '<td align="center">' +  jsonResponse.uf + '</td>'
+					 tr += '<td align="center">' +  jsonResponse.zona + '</td>'
+					 tr += '<td align="center">' +  jsonResponse.secao + '</td>'
+					 tr += '<td align="center">' +  jsonResponse.rg + '</td>'
+					 tr += '<td align="center">' +  jsonResponse.orgaoRg + '</td>'
+					 tr += '<td align="center">' +  jsonResponse.cpf + '</td>'
+					 tr += '<td align="center">' +  (jsonResponse.dataNasc==null?'-':dataNasc) + '</td>'
+					 tr += '<td align="center">' +  jsonResponse.sexo + '</td>'
+					 tr += '<td align="center">' +  jsonResponse.email + '</td>'
+					 tr += '<td align="center">' +  (jsonResponse.dataCad==null?'-':dataCad) + '</td></tr>'
+					
+		
+		 $('#tabcomp > tbody:last-child').append(tr);
+	});
+	$('#modalTecnico').modal('show');
+	
+  
+  });
+  
 				
 	$( "[id*='excluir']" ).click(function(event) {
 	    var data = $(event.delegateTarget).data();
@@ -124,38 +174,7 @@ $(document).ready(function() {
 			})
 	  });
 		
-$( "[id*='setcontext']" ).click(function(event) {
-    var data = $(event.delegateTarget).data();
-	var id = data.recordId;  
-	var turno = data.recordTurno;
-	var dt = data.recordData;
-	Swal.fire({
-		  title: 'Ativar Eleição?',
-		  text: "Deseja tornar a eleição " + dt + " turno " + turno + " ativa?",
-		  type: 'warning',
-		  showCancelButton: true,
-		  confirmButtonText: 'Ativar'
-		}).then((result) => {
-		  if (result.value) {
-		    
-		       $.getJSON({
-				  url: "setcontexto?eleicao.id="+id
-			   }).done(function( data ) {
-			    	  if (data.ret==1){	    		  
-			    		  $( "span:contains('Ativo')" ).attr('class', 'badge badge-pill badge-secondary');
-			    		  $( "span:contains('Ativo')" ).text("Desativado");
-			    		  $('#ele'+id).text("Ativo");
-			    		  $('#ele'+id).attr('class', 'badge badge-pill badge-success');
-			    		  // Swal.fire("Ativar Eleição", data.mensagem, "success");
-			    	  }
-			    	  else
-			    		  Swal.fire("Ativar Eleição", data.mensagem, "error");
-				}).fail(function() {
-					Swal.fire("Ativar Eleição", "Ocorreu um erro ao realizar esse procedimento", "error");
-				});
-		   }
-		})
-   });		
+	
 </script>
 
 <jsp:include page = "/mainfooter.inc.jsp" />
