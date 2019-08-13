@@ -21,7 +21,7 @@
           </li>
           
           <li class="nav-item">
-            <a class="nav-link" href="#">Ponto Trans</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/uservico/listar">Ponto Trans</a>
           </li>
           
           <li class="nav-item dropdown">

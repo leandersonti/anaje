@@ -6,8 +6,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import br.jus.tream.dominio.DataEleicao;
 import br.jus.tream.dominio.IDEleicaoPK;
 import br.jus.tream.dominio.UnidadeServico;
+import br.jus.tream.dominio.UnidadeServicoTipo;
 
 public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 
@@ -91,9 +93,12 @@ public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 	public int inserir(UnidadeServico us) throws Exception {
 		int ret = 0;
 		try {
+			IDEleicaoPK pk = us.getId();
+			pk.setId(dao.gerarId());
+			us.setId(pk);
 			ret = dao.adicionar(us);
 		} catch (Exception e) {
-			// e.printStackTrace();
+			 e.printStackTrace();
 		}
 		return ret;
 	}
@@ -119,23 +124,36 @@ public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 		}
 		return ret;
 	}
+	
 
 	public static void main(String[] args) throws Exception{
 		UnidadeServicoDAO dao = UnidadeServicoDAOImpl.getInstance();
+		/*
 		for(UnidadeServico u : dao.listar(31,2046)) {
 			System.out.println(u.getDescricao());
 		}
+		*/
 		
-		/*
 		UnidadeServico u2 = new UnidadeServico();
 		DataEleicao dt = new DataEleicao();
 		dt.setId(1);
 		IDEleicaoPK pk = new IDEleicaoPK();
 		pk.setDataEleicao(dt);
-		pk.setId(1);
-		u2 = dao.getBean(pk);
-		System.out.println("Ponto Trans " + u2.getZona() + "/" + u2.getLocal() + " " + u2.getDescricao());
-		*/
+		u2.setId(pk);
+		
+		UnidadeServicoTipo tipo = new UnidadeServicoTipo();
+		tipo.setId(1);
+		u2.setTipo(tipo);
+		u2.setDescricao("XXX xxTESTE TESTE ZZZ WWWWW");
+		u2.setCodmunic(2550);
+		u2.setZona(40);
+		u2.setLocal(1900);
+		u2.setOficial(0);
+		
+		int ret = dao.inserir(u2);
+		
+		System.out.println("RET ==  " + ret);
+		
 		System.out.println("Done!!");
 
 	}

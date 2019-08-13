@@ -1,6 +1,7 @@
 package br.jus.tream.DAO;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -18,6 +19,28 @@ public class DAO<T> implements Serializable {
 	public DAO(Class<T> classe) {
 		this.classe = classe;
 	}
+	
+	
+	public int  gerarId() {
+		Integer ret = 0;
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		try {
+			BigDecimal cod = (BigDecimal)em.createNativeQuery("SELECT to_number(gera_id) FROM dual").getSingleResult(); 
+			ret  = cod.intValue();
+			em.close();			
+		} catch (Exception e) {
+			ret = 5; // ocorreu um erro
+			if (em.isOpen()) {
+				em.close();
+			}
+		} finally {
+			if (em.isOpen()) {
+				em.close();
+			}
+		}
+		return ret;
+	}
+	
 	
 	public int  adicionar(T t) {
 		//new JPAUtility();

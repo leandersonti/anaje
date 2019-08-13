@@ -45,7 +45,7 @@ public class ActionDataEleicao extends ActionSupport{
 	}
 	
 	@Action(value = "listarJson", results = { @Result(name = "success", type = "json", params = { "root", "lstEleicao" }),
-			@Result(name = "error", location = "/login.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String listarJson() {
 		try {
 			this.lstEleicao = dao.listar();
