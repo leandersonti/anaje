@@ -38,7 +38,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		Usuario usuario = new Usuario();
 		try {
-			TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u WHERE u.tituloEleitor=?1", 
+			TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u WHERE u.tituloEleitor=lpad(?1,12,0)", 
 		    		   Usuario.class);
 			usuario = query.setParameter(1, tituloEleitor).getSingleResult(); 
 		} catch (Exception e) {
@@ -117,7 +117,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		System.out.println("Retorno = " + ret);
 		*/
 		
-		u = dao.getBean("015697172275");
+		u = dao.getBean("15697172275");
 		System.out.println(u.getNome());
 		
 		System.out.println("Done!!");
