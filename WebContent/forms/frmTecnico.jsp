@@ -22,8 +22,13 @@
 					</div>
 					
 					<div class="col-md-3 mb-3">
-						<label for="sexo">Sexo :</label> 
-						<input type="text" class="form-control" id="sexo" name="tecnico.sexo" placeholder="Ex:M" maxlength="1" value="${tecnico.sexo}" >						
+							<label for="inputState">Sexo:</label>
+						<select id="sexo" class="form-control" name="tecnico.sexo">
+						        <option value="">Selecione...</option>
+						        <option value="M">Masculino</option>
+						        <option value="F">Feminino</option>
+						        <option value="O">Outros</option>
+     					 </select>												
 					</div>
 				</div>				
 				
@@ -119,7 +124,8 @@
 
 <script type="text/javascript">
 $(document).ready(function() {	
-	$('#dtNasc').mask('99/99/9999');
+	$('#dtNasc').mask('99/99/9999');	
+	
 	 $("#btnSave").click(function() {
 		var URL = ""; 
 		if ( $('#id').length ) { URL = "atualizar"; }
@@ -154,6 +160,12 @@ $(document).ready(function() {
 	 	}); // -- FIM btnSave --
 	 
 });
+
+var idtec =  $('#id').val();
+$.getJSON('../tecnico/getBeanJson?id='+idtec,function(jsonResponse) {		
+	 document.getElementById("sexo").value = jsonResponse.sexo;
+});
+
 
  function verificaDados(){
     if ($("#form1")[0].checkValidity()===false){

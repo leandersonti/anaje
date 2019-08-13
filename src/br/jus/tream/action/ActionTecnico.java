@@ -42,6 +42,7 @@ public class ActionTecnico extends ActionSupport{
 	private List<EquipamentoTipo> lstEquipamentoTipo;
 	private String DtNasc;
 	private Tecnico tecnico;
+	private Integer id;
 	private Equipamento equipamento;
 	private BeanResult result;
 	private File fileUpload;
@@ -161,6 +162,17 @@ public class ActionTecnico extends ActionSupport{
 		return "success";
 	}
 	
+	@Action(value = "getBeanJson", results = { @Result(name = "success", type = "json", params = { "root", "tecnico" }),
+			@Result(name = "error", location = "/login.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+	public String getBeanJson() {
+		try {
+			this.tecnico = TecnicoDAOImpl.getInstance().getBean(this.id);
+		} catch (Exception e) {
+			addActionError(getText("listar.error"));
+			return "error";
+		}
+		return "success";
+	}
 	
 	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmTecnico.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
@@ -189,9 +201,13 @@ public class ActionTecnico extends ActionSupport{
 	public String doAdicionar() throws ParseException {
 		BeanResult beanResult = new BeanResult();		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date datanasc = sdf.parse(DtNasc);
-		try {			
-			tecnico.setDataNasc(datanasc);			
+	
+		try {
+			
+			if(DtNasc!=null) {
+				Date datanasc = sdf.parse(DtNasc);
+				tecnico.setDataNasc(datanasc);			
+			}		
 			tecnico.setDataCad(new Date());			
 			beanResult.setRet(dao.inserir(tecnico));
 			if (beanResult.getRet() == 1)
@@ -308,6 +324,14 @@ public class ActionTecnico extends ActionSupport{
 
 	public void setLstEquipamentoTipo(List<EquipamentoTipo> lstEquipamentoTipo) {
 		this.lstEquipamentoTipo = lstEquipamentoTipo;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 	
