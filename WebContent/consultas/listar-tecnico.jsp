@@ -26,8 +26,7 @@
 	<s:iterator value="lstTecnico">
 		<tr id="tr${id}">
 			<td>
-				 <a href="#" id="modal${id}" role="button" data-record-id="${id}"  data-record-nome="${nome}" 
-					    data-record-data="<s:property value="%{getText('format.date',{dataNasc})}"/>"   data-record-datacad="<s:property value="%{getText('format.date',{dataCad})}"/>" >
+				 <a href="#" id="modal${id}" role="button" data-record-id="${id}" data-record-nome="${nome}" data-record-data="<s:property value="%{getText('format.date',{dataNasc})}"/>"   data-record-datacad="<s:property value="%{getText('format.date',{dataCad})}"/>" >
 					  	<s:property value="nome"/>	
 				    </a>
 			</td>	
@@ -59,37 +58,22 @@
 
 
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="modalTecnico">
-  <div class="modal-dialog modal-lg mw-100 w-75">
+  <div class="modal-dialog modal-lg mw-100 w-50">
     <div class="modal-content">
     
 			    <div class="card">
 			  <div class="card-header">
-			  Detalhes do Técnico
+			  <h5 id="nometecnico"></h5>
 			  </div>
 			  <div class="card-body">
 			   	    <table id="tabcomp" class="table table-striped" width=100% >
-						   <thead>
-								<tr>
-									<th >Endereço</th>
-									<th  width="8%" align="center">N° Casa</th>
-									<th align="center">Bairro</th>
-									<th align="center">Cidade</th>
-									<th align="center">Uf</th>									
-									<th align="center">Zona</th>
-									<th align="center">Seção</th>
-									<th align="center">RG</th>
-									<th align="center">Orgão Expedidor</th>
-									<th align="center">Cpf</th>
-									<th align="center">Dt de Nasc.</th>
-									<th align="left">Sexo</th>
-									<th align="right">E-mail</th>
-									<th align="center">Dt de Cadastro</th>
-								</tr>
+						   <thead>						   	
+						   		
+								
 							</thead>
 						  <tbody id="corpotab">
 						  </tbody>
 					</table>
-			   
 			   
 			  </div>
 			</div>
@@ -112,31 +96,38 @@ $(document).ready(function() {
 $( "[id*='modal']" ).click(function(event) {
 	
     var data = $(event.delegateTarget).data();
-	var id = data.recordId; 
-	var nome = data.recordNome;
+	var id = data.recordId;	
+	var nome = data.recordNome;	
 	var dataNasc = data.recordData;
 	var dataCad = data.recordDatacad;
-	var tr = ''; 
-	console.log("Cadastro == " +dataCad);
+	var tr = ''; 	
 	$("#corpotab").empty();
-	$.getJSON('../tecnico/getBeanJson?id='+id,function(jsonResponse) {		
-			
-					 tr += '<tr><td>' + jsonResponse.endereco + '</td>'
-					 tr += '<td align="center">' +  jsonResponse.numCasa+ '</td>'
-					 tr += '<td align="center">' +  jsonResponse.bairro + '</td>'
-					 tr += '<td align="center">' +  jsonResponse.cidade + '</td>'
-					 tr += '<td align="center">' +  jsonResponse.uf + '</td>'
-					 tr += '<td align="center">' +  jsonResponse.zona + '</td>'
-					 tr += '<td align="center">' +  jsonResponse.secao + '</td>'
-					 tr += '<td align="center">' +  jsonResponse.rg + '</td>'
-					 tr += '<td align="center">' +  jsonResponse.orgaoRg + '</td>'
-					 tr += '<td align="center">' +  jsonResponse.cpf + '</td>'
-					 tr += '<td align="center">' +  (jsonResponse.dataNasc==null?'-':dataNasc) + '</td>'
-					 tr += '<td align="center">' +  jsonResponse.sexo + '</td>'
-					 tr += '<td align="center">' +  jsonResponse.email + '</td>'
-					 tr += '<td align="center">' +  (jsonResponse.dataCad==null?'-':dataCad) + '</td></tr>'
+	$.getJSON('../tecnico/getBeanJson?id='+id,function(jsonResponse) {
+		       		 $('#nometecnico').empty();
+		             $('#nometecnico').append(jsonResponse.nome);
+					 tr += '<tr><td><b> Endereço: </b> &nbsp; '+ jsonResponse.endereco +'</td>'					
+					 tr += '<td> <b>N° Casa: </b>  &nbsp; '+ jsonResponse.numCasa +'</td></tr>'					 
 					
-		
+					 tr += '<tr><td><b> Bairro: </b> &nbsp; '+ jsonResponse.bairro +'</td>'
+					 tr += '<td> <b>Cep: </b>   &nbsp; '+ jsonResponse.cep +'</td></tr>'
+					 
+					 tr += '<tr><td> <b>Cidade: </b> &nbsp; '+ jsonResponse.cidade +'</td>'
+					 tr += '<td> <b>Uf: </b> &nbsp; '+ jsonResponse.uf +'</td></tr>'
+				
+					 tr += '<tr><td> <b>Zona: </b>  &nbsp; '+ jsonResponse.zona +'</td>'
+					 tr += '<td> <b>Seção: </b> &nbsp; '+ jsonResponse.secao +'</td></tr>'
+					
+					 tr += '<tr><td> <b>Rg: </b>  &nbsp; '+ jsonResponse.rg +'</td>'
+					 tr += '<td> <b>Orgão Expedidor: </b> &nbsp; '+ jsonResponse.orgaoRg +'</td></tr>'
+					 
+					 tr += '<tr><td> <b>Cpf: </b>  &nbsp; '+ jsonResponse.cpf +'</td>'
+					 tr += '<td> <b>Dt de Nasc : </b> &nbsp; '+  (jsonResponse.dataNasc==null?'-':dataNasc) +'</td></tr>'
+					
+					 tr += '<tr><td> <b>Sexo: </b>  &nbsp; '+ jsonResponse.sexo +'</td>'
+					 tr += '<td> <b> E-mail: </b> &nbsp; '+  jsonResponse.email +'</td></tr>'
+					
+					 tr += '<tr><td> <b>Dt de Cadastro: </b>  &nbsp; '+  (jsonResponse.dataCad==null?'-':dataCad) +'</td></tr>'		
+
 		 $('#tabcomp > tbody:last-child').append(tr);
 	});
 	$('#modalTecnico').modal('show');
