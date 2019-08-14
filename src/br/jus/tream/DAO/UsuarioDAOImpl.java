@@ -38,7 +38,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		Usuario usuario = new Usuario();
 		try {
-			TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u WHERE u.tituloEleitor=lpad(?1,12,0)", 
+			TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u WHERE u.ativo=1 AND u.tituloEleitor=lpad(?1,12,0)", 
 		    		   Usuario.class);
 			usuario = query.setParameter(1, tituloEleitor).getSingleResult(); 
 		} catch (Exception e) {
