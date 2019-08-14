@@ -95,6 +95,7 @@ public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 		try {
 			IDEleicaoPK pk = us.getId();
 			pk.setId(dao.gerarId());
+			System.out.println("Codigo == " + pk.getId());
 			us.setId(pk);
 			ret = dao.adicionar(us);
 		} catch (Exception e) {
@@ -139,18 +140,22 @@ public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 		dt.setId(1);
 		IDEleicaoPK pk = new IDEleicaoPK();
 		pk.setDataEleicao(dt);
+		pk.setId(2262019);
 		u2.setId(pk);
 		
+		/*
 		UnidadeServicoTipo tipo = new UnidadeServicoTipo();
 		tipo.setId(1);
 		u2.setTipo(tipo);
-		u2.setDescricao("XXX xxTESTE TESTE ZZZ WWWWW");
+		u2.setDescricao("alteração dos dados".toUpperCase());
 		u2.setCodmunic(2550);
 		u2.setZona(40);
 		u2.setLocal(1900);
 		u2.setOficial(0);
+		u2.setSexo("N");
+		*/
 		
-		int ret = dao.inserir(u2);
+		int ret = dao.remover(u2);
 		
 		System.out.println("RET ==  " + ret);
 		

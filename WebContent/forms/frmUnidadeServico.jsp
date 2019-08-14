@@ -3,18 +3,27 @@
 <div class="container">
 
 	<div class="card">
-		<div class="card-header">
-			<b>Cadastrar Ponto de Transmissão</b>
-		</div>
+		<div class="card-header">Cadastrar Ponto de Transmissão</div>
 		<div class="card-body">
 
 			<form action="" method="post" name="form1" id="form1" class="needs-validation_" novalidate>
-					<input type="hidden" id="tipo" name="uservico.tipo.id" value="1">
+				<input type="hidden" id="tipo" name="uservico.tipo.id" value="1">
 				<s:if test='uservico.id != null'>
-					<input type="hidden" id="id" name="uservico.id.id" value="${uservico.id}">
-					<input type="hidden" id="id" name="uservico.zona" value="${uservico.zona}">
-					<input type="hidden" id="id" name="uservico.id.dataEleicao.id" value="${uservico.id.dataEleicao.id}">
+					<input type="hidden" id="id" name="uservico.id.id" value="${uservico.id.id}">	
+					<input type="hidden" id="oficial" name="uservico.oficial" value="${uservico.oficial}">				
+					<input type="hidden" id="zona" name="uservico.zona" value="${uservico.zona}">
+					<input type="hidden" id="local" name="uservico.local" value="${uservico.local}">
+					<input type="hidden" id="codObjeto" name="uservico.codObjeto" value="${uservico.codObjeto}">
+					<input type="hidden" id="codmunic" name="uservico.codmunic" value="${uservico.codmunic}">
+					<input type="hidden" id="status" name="uservico.status" value="${uservico.status}">
+					<input type="hidden" id="dataeleicao" name="uservico.id.dataEleicao.id" value="${uservico.id.dataEleicao.id}">
 				</s:if>
+				<s:else>
+				    <input type="hidden" id="oficial" name="uservico.oficial" value="0">
+				    <input type="hidden" id="oficial" name="uservico.status" value="1">
+				    <input type="hidden" id="codObjeto" name="uservico.codObjeto" value="">
+				</s:else>
+				
 				<div class="form-row">
 					<div class="col-md-6 mb-6">
 						<label for="zona">Zona:</label>
@@ -26,7 +35,7 @@
 								headerValue="Selecione a zona" tooltip="Informe a Zona"
 								list="lstZonaEleitoral" listKey="id.zona+';'+id.codmunic"
 								listValue="zona +' - '+ municipio"
-								name="cadZonaEleitoral.municipio"  id="codZonaMunic" theme="simple"
+								name="codZonaMunic"  id="codZonaMunic" theme="simple"
 								cssClass="form-control" />  
 						 </s:else>	
 
@@ -37,9 +46,15 @@
 						
 						 <s:if test='uservico.id != null'>
 						     ${uservico.local}
+						     <s:if test='uservico.oficial == 1'>
+							      <span class="badge badge-pill badge-success">Oficial</span>
+						 	 </s:if>
+						 	 <s:if test='uservico.oficial == 0'>
+							      <span class="badge badge-pill badge-danger">Homologação</span>
+						 	 </s:if>
 						 </s:if>
 						 <s:else>
-						      <select class="form-control" id="selectlocal"></select>
+						      <select class="form-control" id="selectlocal" name="uservico.local"></select>
 						 </s:else>	
 						
 					</div>
@@ -64,7 +79,7 @@
 					<div class="form-group col-md-3">
 						<label for="inputState">Sexo:</label>
 						<select id="inputState" class="form-control" name="uservico.sexo">
-						        <option selected>Selecione sexo</option>
+						        <option value='N'>Selecione sexo</option>
 						        <option value="M"<s:if test='uservico.sexo=="M"'> selected</s:if>>Masculino</option>
 						        <option value="F"<s:if test='uservico.sexo=="F"'> selected</s:if>>Feminino</option>
 						        <option value="O"<s:if test='uservico.sexo=="O"'> selected</s:if>>Outros</option>
@@ -73,7 +88,7 @@
 
 					<div class="col-md-3 mb-3">
 						<label for="telefone">Telefone:</label> <input type="text"
-							class="form-control" id="codmunic'" name="uservico.telefone"
+							class="form-control" id="telefone" name="uservico.telefone"
 							value="${uservico.telefone}" placeholder=" ">
 					</div>
 
@@ -129,31 +144,35 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-	 
 	 $("#btnSave").click(function() {
 		var URL = ""; 
 		if ( $('#id').length ) { URL = "atualizar"; }
-		else{ URL = "adicionar";  }	
+		else{ URL = "adicionar";  }
 		if (verificaDados()){
 			 Swal.fire({
-		         title: "Confirma ?",
+		         title: "Confirma?",
 		         text: "Confirma " + URL + "?",
 		         type: 'warning',
 		         showCancelButton: true,
-				  confirmButtonText: 'Incluir'
+				  confirmButtonText: 'Salvar'
 		         }).then((result) => {
 					if (result.value) {
 						var frm = $("#form1").serialize();
-						console.log(frm);
+						// console.log(frm);
 						$.getJSON({
 							url: URL,
 							data: frm
 					    }).done(function( data ) {
-					    	console.log(data);
-					    	if(data.ret==1)
+					    	if(data.ret==1){
+					    		if (! $('#id').length ) { 
+					    			limparDados();
+					    			CarregaLocalVotacao();
+					    		}
 					    		Swal.fire(URL, data.mensagem, "success");
-					    	else 
+					        }	
+					    	else {
 					    		Swal.fire(URL, data.mensagem, "error");
+					    	}
 						}).fail(function() {
 								Swal.fire("Adicionar", "Ocorreu um erro ao incluir", "error");
 						});
@@ -188,8 +207,7 @@ $(document).ready(function() {
 					$.each(jsonResponse, function(key, value) {
 						$('<option>').val(value.numLocal).text(
 								value.numLocal + " " + value.nomeLocal)
-								.appendTo(select);
-						// console.log("key " + key + " value " + value.descricao)
+								.appendTo(select);						
 					});
 				}); 
 	}
@@ -201,13 +219,24 @@ $(document).ready(function() {
 	 	$.getJSON('../elo/getBeanJsonLocalVotacao?zona=' + codZonaMunic[0] 
 				      +'&codmunic=' + codZonaMunic[1] + '&numLocal=' + numLocal, 
 			function(dados) {
-				//console.log(dados);
 				$("#descricao").val(dados.nomeLocal);
 				$("#endereco").val(dados.endereco);
 				$("#latitude").val(dados.latitude);
-				$("#longitude").val(dados.longitude);	
-		 });
-		  
+				$("#longitude").val(dados.longitude);
+				$("#codObjeto").val(dados.id);	
+		 });	  
+	}
+	
+	function limparDados() {
+		$("#descricao").val("");
+		 $("#endereco").val("");
+		 $("#latitude").val("");
+		$("#longitude").val("");
+		$("#codObjeto").val("");
+		$("#sala").val("");
+		$("#contato").val("");
+		$("#telefone").val("");
+		$("#cargoContato").val("");
 	}
 	
 	function verificaDados() {

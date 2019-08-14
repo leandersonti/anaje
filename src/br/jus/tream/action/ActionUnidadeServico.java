@@ -34,6 +34,7 @@ public class ActionUnidadeServico extends ActionSupport {
 	private UnidadeServico uservico;
 	private IDEleicaoPK id = new IDEleicaoPK();
 	private BeanResult result;
+	private String codZonaMunic;
 	private final static UnidadeServicoDAO dao = UnidadeServicoDAOImpl.getInstance();
 	private final static Permissao permissao = Permissao.getInstance();
 
@@ -94,17 +95,29 @@ public class ActionUnidadeServico extends ActionSupport {
 		try {
 			IDEleicaoPK pk = new IDEleicaoPK();
 			DataEleicao dtEleicao = new DataEleicao();
+			// PEGANDO ELEIÇÃO ATIVA
 			dtEleicao = DataEleicaoDAOImpl.getInstance().getBeanAtiva();
 			pk.setDataEleicao(dtEleicao);
 			this.uservico.setId(pk);
-
+			
+			// PEGANDO CODZONAMUNIC
+			String[] zonamunic = this.codZonaMunic.split(";");
+			System.out.println(zonamunic[0]);
+			System.out.println(zonamunic[1]);
+			this.uservico.setCodmunic(Integer.valueOf(zonamunic[1]));
+			this.uservico.setZona(Integer.valueOf(zonamunic[0]));
+			
+			//beanResult.setRet(1);
+			
 			beanResult.setRet(dao.inserir(this.uservico));
 			if (beanResult.getRet() == 1)
 				beanResult.setMensagem(getText("inserir.sucesso"));
 			else
 				beanResult.setMensagem(getText("inserir.error"));
+			
 		} catch (Exception e) {
-			addActionError(getText("inserir.error") + " Error: " + e.getMessage());
+			    System.out.println("Erro " + e.getMessage());
+			  addActionError(getText("inserir.error") + " Error: " + e.getMessage());
 			// result.setMensagem(getText("inserir.error") + " Error: " + e.getMessage());
 			return "error";
 		}
@@ -117,7 +130,7 @@ public class ActionUnidadeServico extends ActionSupport {
 	public String doAtualizar() {
 		BeanResult beanResult = new BeanResult();
 		try {
-			beanResult.setRet(dao.alterar(this.uservico));
+			beanResult.setRet(dao.alterar(this.uservico));			
 			if (beanResult.getRet() == 1) {
 				beanResult.setMensagem(getText("alterar.sucesso"));
 			} else {
@@ -136,19 +149,19 @@ public class ActionUnidadeServico extends ActionSupport {
 	public String doRemover() {
 		BeanResult beanResult = new BeanResult();
 		try {
-			if (permissao.getAdmin()) {
+			if (permissao.getAdmin()) {			
 				beanResult.setRet(dao.remover(this.uservico));
 				beanResult.setMensagem(getText("remover.sucesso"));
 			} else {
 				beanResult.setRet(0);
 				beanResult.setMensagem(getText("permissao.negada"));
 			}
-
-		} catch (Exception e) {
-			addActionError(getText("remover.error") + " Error: " + e.getMessage());
+		 } catch (Exception e) {
+			  addActionError(getText("remover.error") + " Error: " + e.getMessage());
+			 beanResult.setMensagem(getText("remover.error") + " Error: " + e.getMessage());
 			// r.setMensagem(getText("remover.error") + " Error: " + e.getMessage());
 			return "error";
-		}
+		 }
 		this.result = beanResult;
 		return "success";
 	}
@@ -207,6 +220,14 @@ public class ActionUnidadeServico extends ActionSupport {
 
 	public void setCadZonaEleitoral(CADZonaEleitoral cadZonaEleitoral) {
 		this.cadZonaEleitoral = cadZonaEleitoral;
+	}
+
+	public String getCodZonaMunic() {
+		return codZonaMunic;
+	}
+
+	public void setCodZonaMunic(String codZonaMunic) {
+		this.codZonaMunic = codZonaMunic;
 	}
 
 }
