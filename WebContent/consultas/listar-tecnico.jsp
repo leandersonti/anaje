@@ -62,8 +62,9 @@
     <div class="modal-content">
     
 			    <div class="card">
-			  <div class="card-header">
+			 		 <div class="card-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
 			  <h5 id="nometecnico"></h5>
+			  		
 			  </div>
 			  <div class="card-body">
 			   	    <table id="tabcomp" class="table table-striped" width=100% >
