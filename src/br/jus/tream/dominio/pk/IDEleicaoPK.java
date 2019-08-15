@@ -1,4 +1,4 @@
-package br.jus.tream.dominio;
+package br.jus.tream.dominio.pk;
 
 import java.io.Serializable;
 
@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import br.jus.tream.dominio.DataEleicao;
 
 @SuppressWarnings("serial")
 public class IDEleicaoPK implements Serializable{

@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import br.jus.tream.dominio.pk.IDEleicaoPK;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "unidade_servico")

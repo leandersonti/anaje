@@ -10,6 +10,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import br.jus.tream.dominio.pk.IDEleicaoPK;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "encerramento")

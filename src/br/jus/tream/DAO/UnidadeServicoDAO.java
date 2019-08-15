@@ -2,8 +2,8 @@ package br.jus.tream.DAO;
 
 import java.util.List;
 
-import br.jus.tream.dominio.IDEleicaoPK;
 import br.jus.tream.dominio.UnidadeServico;
+import br.jus.tream.dominio.pk.IDEleicaoPK;
 
 public interface UnidadeServicoDAO {
 	

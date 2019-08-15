@@ -7,9 +7,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import br.jus.tream.dominio.DataEleicao;
-import br.jus.tream.dominio.IDEleicaoPK;
 import br.jus.tream.dominio.UnidadeServico;
 import br.jus.tream.dominio.UnidadeServicoTipo;
+import br.jus.tream.dominio.pk.IDEleicaoPK;
 
 public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 
@@ -75,7 +75,7 @@ public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	  
 		     TypedQuery<UnidadeServico> query = em.createQuery("SELECT u FROM UnidadeServico u "
-		     						+ "WHERE u.id.dataEleicao.id=?1 AND u.id.id=?2", 
+		     												  + "WHERE u.id.dataEleicao.id=?1 AND u.id.id=?2", 
 		    		 UnidadeServico.class);
 		     query.setParameter(1, id.getDataEleicao().getId());
 		     uservico =  query.setParameter(2, id.getId()).getSingleResult();
