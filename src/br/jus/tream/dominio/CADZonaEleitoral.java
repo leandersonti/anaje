@@ -7,6 +7,8 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name="cad_zona_eleitoral")

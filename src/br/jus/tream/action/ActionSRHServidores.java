@@ -17,9 +17,9 @@ import br.jus.tream.DAO.UnidadeServicoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.CADLocalvotacao;
 import br.jus.tream.dominio.CADZonaEleitoral;
-import br.jus.tream.dominio.IDEleicaoPK;
 import br.jus.tream.dominio.SRHServidores;
 import br.jus.tream.dominio.UnidadeServico;
+import br.jus.tream.dominio.pk.IDEleicaoPK;
 
 @SuppressWarnings("serial")
 @Namespace("/servidor")

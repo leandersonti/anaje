@@ -1,4 +1,4 @@
-package br.jus.tream.dominio;
+package br.jus.tream.dominio.pk;
 
 import java.io.Serializable;
 
