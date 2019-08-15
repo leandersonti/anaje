@@ -31,7 +31,7 @@ public class DistribuicaoSecao implements Serializable{
 	private Integer codmunic;
 
 	public DistribuicaoSecao() {}
-	
+		
 	public DistribuicaoSecao(DistribuicaoSecaoPK id, Date dataRecebimento, Integer zona, Integer secao,
 			Integer codmunic) {
 		super();

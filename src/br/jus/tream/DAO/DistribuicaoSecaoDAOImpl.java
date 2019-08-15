@@ -124,19 +124,15 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 		ds.setSecao(30);
 		ds.setCodmunic(2895);
 		
-		//ds = dao.getBean(dspk);
-		
 		//for(DistribuicaoSecao d : dao.listar(dspk)) {
 		//	System.out.println("Zona " + d.getZona() + " " + d.getSecao() + " " + d.getCodmunic());
 		//}
 		
-		int ret = dao.remover(ds);
+		int ret = dao.inserir(ds);
+		
 		System.out.println("ret == " + ret);
 		
 		System.out.println("Done!!");
-		
-		
-
 	}
 
 }

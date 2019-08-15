@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import br.jus.tream.dominio.DataEleicao;
 import br.jus.tream.dominio.UnidadeServico;
-import br.jus.tream.dominio.UnidadeServicoTipo;
 import br.jus.tream.dominio.pk.IDEleicaoPK;
 
 public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
@@ -43,10 +42,32 @@ public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 		return lista;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<UnidadeServico> listarSemDistribuicaoSecao() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<UnidadeServico> lista = new ArrayList<UnidadeServico>();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+	   try {	 
+		   String sql = "SELECT a.id, a.id_eleicao, a.id_tipo, a.zona, a.local, a.secao,\r\n" + 
+		   		"       a.descricao, a.endereco, a.id_municipio, a.sexo, a.sala,\r\n" + 
+		   		"       a.contato, a.cargo_contato, a.telefone, a.latitude, a.longitude,\r\n" + 
+		   		"       a.status, a.oficial, a.jecon, a.cod_objeto\r\n" + 
+		   		"  FROM unidade_servico a \r\n" + 
+		   		"  WHERE a.id_eleicao = (SELECT id FROM data_eleicao WHERE ativo=1)\r\n" + 
+		   		"  AND (a.id, a.id_eleicao) NOT IN (\r\n" + 
+		   		"     SELECT distinct ds.id_unidade_servico, ds.id_eleicao\r\n" + 
+		   		"        FROM distribuicao_secao ds\r\n" + 
+		   		"        WHERE ds.id_eleicao in (SELECT id FROM data_eleicao WHERE ativo=1)) ORDER BY a.zona, a.local";
+		      Query query = em.createNativeQuery(sql, UnidadeServico.class);
+		      lista = query.getResultList();
+		  }
+		  catch (Exception e) {
+			     em.close();
+				 e.printStackTrace();
+		  }	finally {
+				em.close();
+		  }
+		return lista;
 	}
 
 	@Override
@@ -55,7 +76,7 @@ public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	  
 		     TypedQuery<UnidadeServico> query = em.createQuery("SELECT u FROM UnidadeServico u "
-		     						+ "WHERE u.zona=?1 AND u.codmunic=?2 ORDER BY u.local", 
+		     						+ "WHERE u.id.dataEleicao.ativo=1 AND u.zona=?1 AND u.codmunic=?2 ORDER BY u.local", 
 		    		 UnidadeServico.class);
 		      query.setParameter(1, zona);
 		      lista = query.setParameter(2, codmunic).getResultList();
@@ -129,12 +150,13 @@ public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 
 	public static void main(String[] args) throws Exception{
 		UnidadeServicoDAO dao = UnidadeServicoDAOImpl.getInstance();
-		/*
-		for(UnidadeServico u : dao.listar(31,2046)) {
-			System.out.println(u.getDescricao());
-		}
-		*/
 		
+		for(UnidadeServico u : dao.listarSemDistribuicaoSecao()) {
+			System.out.println("Zona = " + u.getZona() + " " + u.getLocal() + " " + u.getDescricao());
+		}
+		
+		
+		/*
 		UnidadeServico u2 = new UnidadeServico();
 		DataEleicao dt = new DataEleicao();
 		dt.setId(1);
@@ -142,6 +164,7 @@ public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 		pk.setDataEleicao(dt);
 		pk.setId(2262019);
 		u2.setId(pk);
+		*/
 		
 		/*
 		UnidadeServicoTipo tipo = new UnidadeServicoTipo();
@@ -155,9 +178,9 @@ public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 		u2.setSexo("N");
 		*/
 		
-		int ret = dao.remover(u2);
+		// int ret = dao.remover(u2);
 		
-		System.out.println("RET ==  " + ret);
+		//System.out.println("RET ==  " + ret);
 		
 		System.out.println("Done!!");
 
