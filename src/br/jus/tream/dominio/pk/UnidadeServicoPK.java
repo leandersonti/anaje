@@ -2,20 +2,16 @@ package br.jus.tream.dominio.pk;
 
 import java.io.Serializable;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
-import org.hibernate.annotations.GenericGenerator;
 
 import br.jus.tream.dominio.DataEleicao;
 
 @SuppressWarnings("serial")
-public class IDEleicaoPK implements Serializable{
+public class UnidadeServicoPK implements Serializable{
 	
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="native")
-	@GenericGenerator(name = "native", strategy = "native")
+	@Column(name="idus")
     private Integer id;
 	   
 	@ManyToOne
@@ -55,7 +51,7 @@ public class IDEleicaoPK implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		IDEleicaoPK other = (IDEleicaoPK) obj;
+		UnidadeServicoPK other = (UnidadeServicoPK) obj;
 		if (dataEleicao == null) {
 			if (other.dataEleicao != null)
 				return false;
