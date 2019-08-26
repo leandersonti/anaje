@@ -7,7 +7,7 @@ import br.jus.tream.dominio.pk.DistribuicaoSecaoPK;
 
 public interface DistribuicaoSecaoDAO {
 	
-	public List<DistribuicaoSecao> listar(DistribuicaoSecaoPK pk) throws Exception;
+	public List<DistribuicaoSecao> listar(Integer idUnidadeServico) throws Exception;
 		
 	public List<DistribuicaoSecao> listarParaDistribuir() throws Exception;
 	

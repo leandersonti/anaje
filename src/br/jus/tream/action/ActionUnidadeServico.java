@@ -20,7 +20,7 @@ import br.jus.tream.dominio.CADLocalvotacao;
 import br.jus.tream.dominio.CADZonaEleitoral;
 import br.jus.tream.dominio.DataEleicao;
 import br.jus.tream.dominio.UnidadeServico;
-import br.jus.tream.dominio.pk.IDEleicaoPK;
+import br.jus.tream.dominio.pk.UnidadeServicoPK;
 
 @SuppressWarnings("serial")
 @Namespace("/uservico")
@@ -32,7 +32,7 @@ public class ActionUnidadeServico extends ActionSupport {
 	private List<CADZonaEleitoral> lstZonaEleitoral;
 	private CADZonaEleitoral cadZonaEleitoral;
 	private UnidadeServico uservico;
-	private IDEleicaoPK id = new IDEleicaoPK();
+	private UnidadeServicoPK id = new UnidadeServicoPK();
 	private BeanResult result;
 	private String codZonaMunic;
 	private final static UnidadeServicoDAO dao = UnidadeServicoDAOImpl.getInstance();
@@ -93,7 +93,7 @@ public class ActionUnidadeServico extends ActionSupport {
 	public String doAdicionar() {
 		BeanResult beanResult = new BeanResult();
 		try {
-			IDEleicaoPK pk = new IDEleicaoPK();
+			UnidadeServicoPK pk = new UnidadeServicoPK();
 			DataEleicao dtEleicao = new DataEleicao();
 			// PEGANDO ELEIÇÃO ATIVA
 			dtEleicao = DataEleicaoDAOImpl.getInstance().getBeanAtiva();
@@ -198,11 +198,11 @@ public class ActionUnidadeServico extends ActionSupport {
 		this.uservico = uservico;
 	}
 
-	public IDEleicaoPK getId() {
+	public UnidadeServicoPK getId() {
 		return id;
 	}
 
-	public void setId(IDEleicaoPK id) {
+	public void setId(UnidadeServicoPK id) {
 		this.id = id;
 	}
 

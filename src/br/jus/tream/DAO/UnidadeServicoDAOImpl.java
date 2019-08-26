@@ -8,7 +8,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import br.jus.tream.dominio.UnidadeServico;
-import br.jus.tream.dominio.pk.IDEleicaoPK;
+import br.jus.tream.dominio.pk.UnidadeServicoPK;
 
 public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 
@@ -48,14 +48,14 @@ public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 		List<UnidadeServico> lista = new ArrayList<UnidadeServico>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	 
-		   String sql = "SELECT a.id, a.id_eleicao, a.id_tipo, a.zona, a.local, a.secao,\r\n" + 
+		   String sql = "SELECT a.idus, a.id_eleicao, a.id_tipo, a.zona, a.local, a.secao,\r\n" + 
 		   		"       a.descricao, a.endereco, a.id_municipio, a.sexo, a.sala,\r\n" + 
 		   		"       a.contato, a.cargo_contato, a.telefone, a.latitude, a.longitude,\r\n" + 
 		   		"       a.status, a.oficial, a.jecon, a.cod_objeto\r\n" + 
 		   		"  FROM unidade_servico a \r\n" + 
 		   		"  WHERE a.id_eleicao = (SELECT id FROM data_eleicao WHERE ativo=1)\r\n" + 
-		   		"  AND (a.id, a.id_eleicao) NOT IN (\r\n" + 
-		   		"     SELECT distinct ds.id_unidade_servico, ds.id_eleicao\r\n" + 
+		   		"  AND (a.idus, a.id_eleicao) NOT IN (\r\n" + 
+		   		"     SELECT distinct ds.idus, ds.id_eleicao\r\n" + 
 		   		"        FROM distribuicao_secao ds\r\n" + 
 		   		"        WHERE ds.id_eleicao in (SELECT id FROM data_eleicao WHERE ativo=1)) ORDER BY a.zona, a.local";
 		      Query query = em.createNativeQuery(sql, UnidadeServico.class);
@@ -91,7 +91,7 @@ public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 	}
 
 	@Override
-	public UnidadeServico getBean(IDEleicaoPK id) throws Exception {
+	public UnidadeServico getBean(UnidadeServicoPK id) throws Exception {
 		UnidadeServico uservico = new UnidadeServico();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	  
@@ -114,7 +114,7 @@ public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 	public int inserir(UnidadeServico us) throws Exception {
 		int ret = 0;
 		try {
-			IDEleicaoPK pk = us.getId();
+			UnidadeServicoPK pk = us.getId();
 			pk.setId(dao.gerarId());
 			System.out.println("Codigo == " + pk.getId());
 			us.setId(pk);

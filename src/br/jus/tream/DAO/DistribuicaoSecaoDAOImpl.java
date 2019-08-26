@@ -24,15 +24,14 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 
 
 	@Override
-	public List<DistribuicaoSecao> listar(DistribuicaoSecaoPK pk) throws Exception {
+	public List<DistribuicaoSecao> listar(Integer idUnidadeServico) throws Exception {
 		List<DistribuicaoSecao> lista = new ArrayList<DistribuicaoSecao>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
 			TypedQuery<DistribuicaoSecao> query = em
-					.createQuery("SELECT s FROM DistribuicaoSecao s WHERE s.id.idEleicao=?1 AND s.id.idUnidadeServico=?2 ORDER BY s.secao",
+					.createQuery("SELECT s FROM DistribuicaoSecao s ORDER BY s.secao",
 							DistribuicaoSecao.class);
-			query.setParameter(1, pk.getIdEleicao());
-			query.setParameter(2, pk.getIdUnidadeServico());
+			// query.setParameter(1, idUnidadeServico);
 			lista = query.getResultList();
 		} catch (Exception e) {
 			em.close();
@@ -63,8 +62,8 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 			TypedQuery<DistribuicaoSecao> query = em.createQuery("SELECT s FROM DistribuicaoSecao s "
 											+ "WHERE s.id.idEleicao=?1 AND s.id.idUnidadeServico=?2 AND s.id.codOjeto=?3", 
 							DistribuicaoSecao.class);
-			query.setParameter(1, id.getIdEleicao());
-			query.setParameter(2, id.getIdUnidadeServico());
+			//query.setParameter(1, id.getIdEleicao());
+			//query.setParameter(2, id.getIdUnidadeServico());
 			query.setParameter(3, id.getCodOjeto());
 			ds = query.getSingleResult();
 		} catch (Exception e) {
@@ -115,22 +114,22 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 		DistribuicaoSecaoPK dspk = new DistribuicaoSecaoPK();
 		DistribuicaoSecao ds = new DistribuicaoSecao();
 		
-		dspk.setIdUnidadeServico(2432019);
-		dspk.setIdEleicao(1);
-		dspk.setCodOjeto("Eec517041012551913");
+		//dspk.setIdUnidadeServico(2432019);
+		//dspk.setIdEleicao(1);
+		//dspk.setCodOjeto("Eec517041012551913");
 		
-		ds.setId(dspk);
-		ds.setZona(60);
-		ds.setSecao(30);
-		ds.setCodmunic(2895);
+		//ds.setId(dspk);
+		//ds.setZona(60);
+		//ds.setSecao(30);
+		//ds.setCodmunic(2895);
 		
-		//for(DistribuicaoSecao d : dao.listar(dspk)) {
-		//	System.out.println("Zona " + d.getZona() + " " + d.getSecao() + " " + d.getCodmunic());
-		//}
+		for(DistribuicaoSecao d : dao.listar(2432019)) {
+			System.out.println("Zona " + d.getZona() + " " + d.getSecao() + " " + d.getCodmunic());
+		}
 		
-		int ret = dao.inserir(ds);
+		//int ret = dao.inserir(ds);
 		
-		System.out.println("ret == " + ret);
+		// System.out.println("ret == " + ret);
 		
 		System.out.println("Done!!");
 	}

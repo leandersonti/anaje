@@ -9,7 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import br.jus.tream.dominio.pk.IDEleicaoPK;
+import br.jus.tream.dominio.pk.UnidadeServicoPK;
 
 @SuppressWarnings("serial")
 @Entity
@@ -17,7 +17,7 @@ import br.jus.tream.dominio.pk.IDEleicaoPK;
 public class UnidadeServico implements Serializable {
 
 	@EmbeddedId
-	private IDEleicaoPK id = new IDEleicaoPK();
+	private UnidadeServicoPK id = new UnidadeServicoPK();
 
 	@ManyToOne
 	@JoinColumn(name = "id_tipo", nullable = false)
@@ -68,26 +68,29 @@ public class UnidadeServico implements Serializable {
 	private Integer oficial;
 
 	private Integer jecon;
+	
+	/*
+	@OneToMany(cascade = {CascadeType.REFRESH,CascadeType.REMOVE}, mappedBy = "id.unidadeServico", fetch = FetchType.EAGER)
+	@Fetch(FetchMode.SUBSELECT)
+	private List<DistribuicaoSecao> distribuicaoSecao = new ArrayList<DistribuicaoSecao>();
+	*/
+	//@OneToMany(cascade = {CascadeType.REFRESH,CascadeType.REMOVE}, mappedBy = "id.venda", fetch = FetchType.EAGER)
+	//@Fetch(FetchMode.SUBSELECT)
+	//private List<DistribuicaoEquipamento> distribuicaoEquipamentp = new ArrayList<DistribuicaoEquipamento>();
+	
 
 	public UnidadeServico() {
 		super();
 	}
-
-	public UnidadeServico(IDEleicaoPK id, String codObjeto, Integer local, String descricao) {
-		super();
-		this.id = id;
-		this.local = local;
-		this.descricao = descricao;
-		this.codObjeto = codObjeto;
-	}
-
-	public UnidadeServico(IDEleicaoPK id, DataEleicao dataEleicao, UnidadeServicoTipo tipo, String codObjeto,
-			Integer zona, Integer local, Integer secao, String descricao, String endereco, Integer codmunic,
-			String sexo, String sala, String contato, String cargoContato, String telefone, String latitude,
-			String longitude, Integer status, Integer oficial, Integer jecon) {
+	
+	public UnidadeServico(UnidadeServicoPK id, UnidadeServicoTipo tipo, String codObjeto, Integer zona, Integer local,
+			Integer secao, String descricao, String endereco, Integer codmunic, String sexo, String sala,
+			String contato, String cargoContato, String telefone, String latitude, String longitude, Integer status,
+			Integer oficial, Integer jecon) {
 		super();
 		this.id = id;
 		this.tipo = tipo;
+		this.codObjeto = codObjeto;
 		this.zona = zona;
 		this.local = local;
 		this.secao = secao;
@@ -104,14 +107,22 @@ public class UnidadeServico implements Serializable {
 		this.status = status;
 		this.oficial = oficial;
 		this.jecon = jecon;
-		this.codObjeto = codObjeto;
 	}
 
-	public IDEleicaoPK getId() {
+	/*
+	public List<DistribuicaoSecao> getDistribuicaoSecao() {
+		return distribuicaoSecao;
+	}
+
+	public void setDistribuicaoSecao(List<DistribuicaoSecao> distribuicaoSecao) {
+		this.distribuicaoSecao = distribuicaoSecao;
+	}
+*/
+	public UnidadeServicoPK getId() {
 		return id;
 	}
 
-	public void setId(IDEleicaoPK id) {
+	public void setId(UnidadeServicoPK id) {
 		this.id = id;
 	}
 
@@ -283,5 +294,13 @@ public class UnidadeServico implements Serializable {
 			return false;
 		return true;
 	}
+/*
+	public List<DistribuicaoEquipamento> getDistribuicaoEquipamentp() {
+		return distribuicaoEquipamentp;
+	}
 
+	public void setDistribuicaoEquipamentp(List<DistribuicaoEquipamento> distribuicaoEquipamentp) {
+		this.distribuicaoEquipamentp = distribuicaoEquipamentp;
+	}
+*/
 }

@@ -19,7 +19,7 @@ import br.jus.tream.dominio.CADLocalvotacao;
 import br.jus.tream.dominio.CADZonaEleitoral;
 import br.jus.tream.dominio.SRHServidores;
 import br.jus.tream.dominio.UnidadeServico;
-import br.jus.tream.dominio.pk.IDEleicaoPK;
+import br.jus.tream.dominio.pk.UnidadeServicoPK;
 
 @SuppressWarnings("serial")
 @Namespace("/servidor")
