@@ -36,7 +36,7 @@
 							Editar
 				    </a>
 					
-					<a href="#" id="excluir${id.id}" class="btn btn-sm btn-danger" role="button" data-record-id="${id.id}"  
+					<a href="#" id="excluir${id.id}${id.dataEleicao.id}" class="btn btn-sm btn-danger" role="button" data-record-id="${id.id}"  
 					     data-record-ideleicao="${id.dataEleicao.id}" data-record-descricao="${descricao}" 
 					     data-record-data="<s:property value="%{getText('format.date',{dataCad})}"/>">
 					  		Remover
@@ -69,7 +69,7 @@ $(document).ready(function() {
 			  confirmButtonText: 'Sim excluir!'
 			}).then((result) => {
 			  if (result.value) {
-			      var vurl = "remover?uservico.id.id="+id+'&uservico.id.dataEleicao.id='+idDtElei;
+			      var vurl = "remover?uservico.id.id="+id+'&uservico.id.dataEleicao.id='+idDtElei; 
 			      $.getJSON({
 					  url: vurl
 				  }).done(function( data ) {
@@ -78,7 +78,7 @@ $(document).ready(function() {
 				    		     Swal.fire("Remover", data.mensagem, "success");
 				    	  }
 				    	  else
-				    		  Swal.fire("Remover", "Ocorreu um erro ao remover", "error");
+				    		  Swal.fire("Remover", data.mensagem, "error");
 					}).fail(function() {
 						Swal.fire("Remover", "Ocorreu um erro ao remover", "error");
 					});
