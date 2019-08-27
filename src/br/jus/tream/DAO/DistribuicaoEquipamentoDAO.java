@@ -10,7 +10,7 @@ public interface DistribuicaoEquipamentoDAO {
 
 	//public List<DistribuicaoEquipamento> listarCbx() throws Exception; // para preenchimento de combobox
 
-	public DistribuicaoEquipamento getBean(DistribuicaoEquipamento depk) throws Exception;
+	public DistribuicaoEquipamento getBean(Integer id) throws Exception;
 
 	public int inserir(DistribuicaoEquipamento equipamento) throws Exception;
 

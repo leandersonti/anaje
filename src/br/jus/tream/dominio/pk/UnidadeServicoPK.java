@@ -17,7 +17,7 @@ public class UnidadeServicoPK implements Serializable{
 	@ManyToOne
 	@JoinColumn(name="id_eleicao")
 	private DataEleicao dataEleicao;
-
+	
 	public Integer getId() {
 		return id;
 	}

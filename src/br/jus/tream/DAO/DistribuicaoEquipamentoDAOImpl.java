@@ -1,7 +1,6 @@
 package br.jus.tream.DAO;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -13,7 +12,7 @@ import br.jus.tream.dominio.Equipamento;
 import br.jus.tream.dominio.Tecnico;
 import br.jus.tream.dominio.UnidadeServico;
 import br.jus.tream.dominio.pk.DistribuicaoEquipamentoPK;
-import br.jus.tream.dominio.pk.IDEleicaoPK;
+import br.jus.tream.dominio.pk.UnidadeServicoPK;
 
 public class DistribuicaoEquipamentoDAOImpl implements DistribuicaoEquipamentoDAO {
 	
@@ -49,14 +48,13 @@ public class DistribuicaoEquipamentoDAOImpl implements DistribuicaoEquipamentoDA
 
 
 	@Override
-	public DistribuicaoEquipamento getBean(DistribuicaoEquipamento pk) throws Exception {
+	public DistribuicaoEquipamento getBean(Integer id) throws Exception {
 		DistribuicaoEquipamento ds = new DistribuicaoEquipamento();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
-			TypedQuery<DistribuicaoEquipamento> query = em.createQuery("WHERE s.id.dataEleicao.id=?1 AND s.id.equipamento.id=?2 ", 
+			TypedQuery<DistribuicaoEquipamento> query = em.createQuery("WHERE s.id.unidadeServico.id.dataEleicao.ativo=1 AND s.id.equipamento.id=?1 ", 
 					DistribuicaoEquipamento.class);
-			query.setParameter(1, pk.getId().getDataEleicao().getId());
-			query.setParameter(2, pk.getId().getEquipamento().getId());
+			query.setParameter(1, id);
 			ds = query.getSingleResult();
 		} catch (Exception e) {
 			em.close();
@@ -101,33 +99,33 @@ public class DistribuicaoEquipamentoDAOImpl implements DistribuicaoEquipamentoDA
 	}
 
 	public static void main(String[] args) throws Exception {
-	
+		DistribuicaoEquipamentoDAO dao = DistribuicaoEquipamentoDAOImpl.getInstance();
+		DataEleicao dataEleicao = new DataEleicao();
+		dataEleicao.setId(1);
 		Equipamento eq = new Equipamento();
-		DataEleicao dt = new DataEleicao();
-		Tecnico tec= new Tecnico();
-		IDEleicaoPK eleipk = new IDEleicaoPK();
-
-		DistribuicaoEquipamentoPK dspk = new DistribuicaoEquipamentoPK();
-		DistribuicaoEquipamento ds = new DistribuicaoEquipamento();
+		eq.setId(144);
 		
-		dt = DataEleicaoDAOImpl.getInstance().getBean(2);	
-		eq = EquipamentoDAOImpl.getInstance().getBean(169);
-		tec= TecnicoDAOImpl.getInstance().getBean(165);
-		eleipk.setDataEleicao(dt);
-		eleipk.setId(12019);
-		UnidadeServico us =	new UnidadeServico();
-		us = UnidadeServicoDAOImpl.getInstance().getBean(eleipk);
+		UnidadeServicoPK uspk = new UnidadeServicoPK();
+		uspk.setId(2832019);
+		uspk.setDataEleicao(dataEleicao);	
 		
-		dspk.setDataEleicao(eleipk.getDataEleicao());
-		dspk.setEquipamento(eq);
-		ds.setId(dspk);
-		ds.setTecnico(tec);
-		ds.setUnidade(us);
-
+		UnidadeServico us= new UnidadeServico();
+		us.setId(uspk);
 		
+		DistribuicaoEquipamentoPK pke = new DistribuicaoEquipamentoPK();
+		pke.setEquipamento(eq);
+		pke.setUnidadeServicoPK(uspk);
 		
-		int ret = DistribuicaoEquipamentoDAOImpl.getInstance().inserir(ds);
-		System.out.println("Ret === " + ret);
+		DistribuicaoEquipamento de = new DistribuicaoEquipamento();
+		de.setId(pke);
+		
+		Tecnico t = new Tecnico();
+		t.setId(165);
+		de.setTecnico(t);
+		
+		int ret =dao.inserir(de);
+		System.out.println("Retorno = " + ret);
+		
 		
 		
 	   

@@ -2,19 +2,24 @@ package br.jus.tream.dominio.pk;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
 
-import br.jus.tream.dominio.DataEleicao;
 import br.jus.tream.dominio.Equipamento;
 
 @SuppressWarnings("serial")
 public class DistribuicaoEquipamentoPK implements Serializable{
 	
-	@Column(name="id_equipamento")	
+	@ManyToOne
+	@JoinColumn(name="id_equipamento")	
 	private Equipamento equipamento;
 	
-	@Column(name="id_eleicao")
-	private DataEleicao dataEleicao;
+	@ManyToOne
+	@JoinColumns(value = {
+	        @JoinColumn(name = "idus", referencedColumnName = "idus", updatable = false, insertable = false),
+	        @JoinColumn(name = "id_eleicao", referencedColumnName = "id_eleicao", updatable = false, insertable = false)})
+	private UnidadeServicoPK unidadeServico;
 
 	public Equipamento getEquipamento() {
 		return equipamento;
@@ -24,20 +29,20 @@ public class DistribuicaoEquipamentoPK implements Serializable{
 		this.equipamento = equipamento;
 	}
 
-	public DataEleicao getDataEleicao() {
-		return dataEleicao;
+	public UnidadeServicoPK getUnidadeServicoPK() {
+		return unidadeServico;
 	}
 
-	public void setDataEleicao(DataEleicao dataEleicao) {
-		this.dataEleicao = dataEleicao;
+	public void setUnidadeServicoPK(UnidadeServicoPK unidadeServico) {
+		this.unidadeServico = unidadeServico;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((dataEleicao == null) ? 0 : dataEleicao.hashCode());
 		result = prime * result + ((equipamento == null) ? 0 : equipamento.hashCode());
+		result = prime * result + ((unidadeServico == null) ? 0 : unidadeServico.hashCode());
 		return result;
 	}
 
@@ -50,15 +55,15 @@ public class DistribuicaoEquipamentoPK implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		DistribuicaoEquipamentoPK other = (DistribuicaoEquipamentoPK) obj;
-		if (dataEleicao == null) {
-			if (other.dataEleicao != null)
-				return false;
-		} else if (!dataEleicao.equals(other.dataEleicao))
-			return false;
 		if (equipamento == null) {
 			if (other.equipamento != null)
 				return false;
 		} else if (!equipamento.equals(other.equipamento))
+			return false;
+		if (unidadeServico == null) {
+			if (other.unidadeServico != null)
+				return false;
+		} else if (!unidadeServico.equals(other.unidadeServico))
 			return false;
 		return true;
 	}

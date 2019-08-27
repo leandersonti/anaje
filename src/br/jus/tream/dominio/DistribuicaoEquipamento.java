@@ -7,11 +7,13 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import br.jus.tream.dominio.pk.DistribuicaoEquipamentoPK;
+import br.jus.tream.dominio.pk.UnidadeServicoPK;
 
 @SuppressWarnings("serial")
 @Entity
@@ -25,23 +27,18 @@ public class DistribuicaoEquipamento implements Serializable{
 	@Column(name = "dt_devolucao", nullable = true)
 	private Date dataRecebimento;
 	
-	@JoinColumn(name = "tecnico_resp", nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "tecnico_resp", nullable = true)
 	private Tecnico tecnico;	
 	
-	@JoinColumn(name = "id_unidade_servico", nullable = false)
-	private UnidadeServico unidade;
-
 	public DistribuicaoEquipamento() {}
 	
 	
-	
-	public DistribuicaoEquipamento(DistribuicaoEquipamentoPK id, Date dataRecebimento, Tecnico tecnico,
-			UnidadeServico unidade) {
+	public DistribuicaoEquipamento(DistribuicaoEquipamentoPK id, Date dataRecebimento, Tecnico tecnico) {
 		super();
 		this.id = id;
 		this.dataRecebimento = dataRecebimento;
 		this.tecnico = tecnico;
-		this.unidade = unidade;
 	}
 
 	public DistribuicaoEquipamentoPK getId() {
@@ -52,8 +49,8 @@ public class DistribuicaoEquipamento implements Serializable{
 		this.id = id;
 	}
 	
-	public DataEleicao getDataEleicao() {
-		return this.id.getDataEleicao();
+	public UnidadeServicoPK getUnidadeServicoPK() {
+		return this.id.getUnidadeServicoPK();
 	}
 	
 	public Date getDataRecebimento() {
@@ -72,15 +69,6 @@ public class DistribuicaoEquipamento implements Serializable{
 		this.tecnico = tecnico;
 	}
 	
-	public UnidadeServico getUnidade() {
-		return unidade;
-	}
-
-	public void setUnidade(UnidadeServico unidade) {
-		this.unidade = unidade;
-	}
-		
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
