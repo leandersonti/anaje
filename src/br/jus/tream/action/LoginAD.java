@@ -91,7 +91,7 @@ public class LoginAD {
 	public static void main(String[] args) throws SQLException, Exception {
 		BeanLogin s = new BeanLogin();
 		LoginAD l = LoginAD.getInstance();
-		s = l.getLogin("015697172275", "mmv321@TREAM");
+		s = l.getLogin("015697172275", "123123");
 		System.out.println("login " + s.getLogou());
 		if (s.getLogou())
 			System.out.println("logou " + s.getNome() + " / " +  " admin " + s.getAdmin());
