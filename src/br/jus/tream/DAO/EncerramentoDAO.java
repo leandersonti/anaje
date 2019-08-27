@@ -6,7 +6,7 @@ import br.jus.tream.dominio.Encerramento;
 
 public interface EncerramentoDAO {
 
-	public List<Encerramento> listar() throws Exception;
+	public List<Encerramento> listar(int zona,int codmunic) throws Exception;
 
 	public Encerramento getBean(int id) throws Exception;
 

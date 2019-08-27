@@ -1,6 +1,10 @@
 package br.jus.tream.DAO;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import br.jus.tream.dominio.Encerramento;
 
@@ -29,12 +33,20 @@ public class EncerramentoDAOImpl implements EncerramentoDAO {
 	}
 
 	@Override
-	public List<Encerramento> listar() throws Exception {
-		List<Encerramento> lista = null;
+	public List<Encerramento> listar(int zona,int codmunic) throws Exception {
+		List<Encerramento> lista = new ArrayList<Encerramento>();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
-			lista = dao.listarTodos();
+			TypedQuery<Encerramento> query = em.createQuery("SELECT e FROM Encerramento e WHERE e.id.dataEleicao.ativo=1 AND e.id.id IN (SELECT us.id.id FROM UnidadeServico us "
+					+ " WHERE us.zona=?1 AND us.codmunic=?2 AND us.id.dataEleicao.ativo=1)",Encerramento.class);
+			 query.setParameter(1, zona);
+			 query.setParameter(2, codmunic);
+			lista = query.getResultList();
 		} catch (Exception e) {
-			e.printStackTrace();
+			em.close();
+			 e.printStackTrace();
+		} finally {
+			em.close();
 		}
 		return lista;
 	}
@@ -74,7 +86,13 @@ public class EncerramentoDAOImpl implements EncerramentoDAO {
 	}
 
 	public static void main(String[] args) throws Exception {
+		//Encerramento e = new Encerramento();
+		EncerramentoDAO dao = EncerramentoDAOImpl.getInstance();
 		
+		for(Encerramento e:dao.listar(33, 2038)) {
+			System.out.println("Status===" + e.getStatus());
+			System.out.println("Status===" + e.getId().getDataEleicao().getDescricao());
+		}
 
 	}
 }
