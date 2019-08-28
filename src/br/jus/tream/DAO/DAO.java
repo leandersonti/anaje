@@ -25,11 +25,18 @@ public class DAO<T> implements Serializable {
 		Integer ret = 0;
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
-			BigDecimal cod = (BigDecimal)em.createNativeQuery("SELECT to_number(gera_id) FROM dual").getSingleResult(); 
-			ret  = cod.intValue();
+			// GERAR CODIGO ORACLE
+			 BigDecimal cod = (BigDecimal)em.createNativeQuery("SELECT to_number(gera_id) FROM dual").getSingleResult(); 
+			 ret  = cod.intValue();
+			// GERAR CODIGO MYSQL
+			//StoredProcedureQuery query = em.createStoredProcedureQuery("prox_id").registerStoredProcedureParameter("vid",Integer.class,ParameterMode.OUT);
+			//query.execute();
+			//ret = (Integer)query.getOutputParameterValue("vid");
+			// System.out.println("cod id == " + ret);
 			em.close();			
 		} catch (Exception e) {
-			ret = 5; // ocorreu um erro
+			System.out.println("Erro " + e.getMessage());
+			ret = 0; // ocorreu um erro
 			if (em.isOpen()) {
 				em.close();
 			}
