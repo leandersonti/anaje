@@ -51,6 +51,7 @@
 			<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-text -->
 			<dependency org="org.apache.commons" name="commons-text" rev="1.6" transitive="false"/>
 			
+			<dependency org="mysql" name="mysql-connector-java" rev="8.0.15"/>
  
 		</dependencies>
 </ivy-module>

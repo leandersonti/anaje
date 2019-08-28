@@ -98,17 +98,11 @@ public class ActionUnidadeServico extends ActionSupport {
 			// PEGANDO ELEIÇÃO ATIVA
 			dtEleicao = DataEleicaoDAOImpl.getInstance().getBeanAtiva();
 			pk.setDataEleicao(dtEleicao);
-			this.uservico.setId(pk);
-			
+			this.uservico.setId(pk);			
 			// PEGANDO CODZONAMUNIC
 			String[] zonamunic = this.codZonaMunic.split(";");
-			System.out.println(zonamunic[0]);
-			System.out.println(zonamunic[1]);
 			this.uservico.setCodmunic(Integer.valueOf(zonamunic[1]));
 			this.uservico.setZona(Integer.valueOf(zonamunic[0]));
-			
-			//beanResult.setRet(1);
-			
 			beanResult.setRet(dao.inserir(this.uservico));
 			if (beanResult.getRet() == 1)
 				beanResult.setMensagem(getText("inserir.sucesso"));
@@ -116,7 +110,7 @@ public class ActionUnidadeServico extends ActionSupport {
 				beanResult.setMensagem(getText("inserir.error"));
 			
 		} catch (Exception e) {
-			    System.out.println("Erro " + e.getMessage());
+			    // System.out.println("Erro " + e.getMessage());
 			  addActionError(getText("inserir.error") + " Error: " + e.getMessage());
 			// result.setMensagem(getText("inserir.error") + " Error: " + e.getMessage());
 			return "error";

@@ -116,7 +116,6 @@ public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 		try {
 			UnidadeServicoPK pk = us.getId();
 			pk.setId(dao.gerarId());
-			System.out.println("Codigo == " + pk.getId());
 			us.setId(pk);
 			ret = dao.adicionar(us);
 		} catch (Exception e) {
@@ -151,7 +150,7 @@ public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 	public static void main(String[] args) throws Exception{
 		UnidadeServicoDAO dao = UnidadeServicoDAOImpl.getInstance();
 		
-		for(UnidadeServico u : dao.listarSemDistribuicaoSecao()) {
+		for(UnidadeServico u : dao.listar()) {
 			System.out.println("Zona = " + u.getZona() + " " + u.getLocal() + " " + u.getDescricao());
 		}
 		

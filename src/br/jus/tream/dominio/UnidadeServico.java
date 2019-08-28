@@ -37,8 +37,7 @@ public class UnidadeServico implements Serializable {
 
 	@Column(length = 100)
 	private String endereco;
-
-	@Column(name = "id_municipio")
+	
 	private Integer codmunic;
 
 	@Column(length = 1)
