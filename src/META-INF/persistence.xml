@@ -23,5 +23,24 @@
 		</properties>
 	</persistence-unit>
 	
+	<persistence-unit name="mysql" transaction-type="RESOURCE_LOCAL">
+		<properties>
+			<property name="eclipselink.allow-zero-id" value="true"/>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://172.16.20.192:3306/anajedb" />
+			<!-- 
+			<property name="javax.persistence.jdbc.user" value="root" />
+			<property name="javax.persistence.jdbc.password" value="usbw" />  --> 
+			
+			<property name="javax.persistence.jdbc.user" value="root" />
+			<property name="javax.persistence.jdbc.password" value="cdes02550" />
+			
+			<property name="hibernate.transaction.auto_close_session" value="false" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
+            <property name="hibernate.hbm2ddl.auto" value="none" />
+		</properties>
+	</persistence-unit>
 	
 </persistence>
