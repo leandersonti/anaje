@@ -100,36 +100,34 @@ public class DistribuicaoEquipamentoDAOImpl implements DistribuicaoEquipamentoDA
 
 	public static void main(String[] args) throws Exception {
 		
-		
-		/*
 		DistribuicaoEquipamentoDAO dao = DistribuicaoEquipamentoDAOImpl.getInstance();
 		DataEleicao dataEleicao = new DataEleicao();
 		dataEleicao.setId(1);
 		Equipamento eq = new Equipamento();
-		eq.setId(144);
+		eq.setId(1);
 		
 		UnidadeServicoPK uspk = new UnidadeServicoPK();
-		uspk.setId(2832019);
+		uspk.setId(1);
 		uspk.setDataEleicao(dataEleicao);	
-		
 		UnidadeServico us= new UnidadeServico();
 		us.setId(uspk);
 		
 		DistribuicaoEquipamentoPK pke = new DistribuicaoEquipamentoPK();
 		pke.setEquipamento(eq);
-		pke.setUnidadeServicoPK(uspk);
+		pke.setUnidadeServico(us);
 		
 		DistribuicaoEquipamento de = new DistribuicaoEquipamento();
 		de.setId(pke);
 		
 		Tecnico t = new Tecnico();
-		t.setId(165);
+		t.setId(1);
 		de.setTecnico(t);
-		*/
 		
 		
-		// int ret =dao.inserir(de);
-		// System.out.println("Retorno = " + ret);
+		
+		 int ret =dao.inserir(de);
+		 
+		 System.out.println("Retorno = " + ret);
 		
 		
 		
