@@ -13,7 +13,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import br.jus.tream.dominio.pk.DistribuicaoEquipamentoPK;
-import br.jus.tream.dominio.pk.UnidadeServicoPK;
 
 @SuppressWarnings("serial")
 @Entity
@@ -48,11 +47,7 @@ public class DistribuicaoEquipamento implements Serializable{
 	public void setId(DistribuicaoEquipamentoPK id) {
 		this.id = id;
 	}
-	
-	public UnidadeServicoPK getUnidadeServicoPK() {
-		return this.id.getUnidadeServicoPK();
-	}
-	
+		
 	public Date getDataRecebimento() {
 		return dataRecebimento;
 	}

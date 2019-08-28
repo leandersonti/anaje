@@ -99,6 +99,9 @@ public class DistribuicaoEquipamentoDAOImpl implements DistribuicaoEquipamentoDA
 	}
 
 	public static void main(String[] args) throws Exception {
+		
+		
+		/*
 		DistribuicaoEquipamentoDAO dao = DistribuicaoEquipamentoDAOImpl.getInstance();
 		DataEleicao dataEleicao = new DataEleicao();
 		dataEleicao.setId(1);
@@ -122,9 +125,11 @@ public class DistribuicaoEquipamentoDAOImpl implements DistribuicaoEquipamentoDA
 		Tecnico t = new Tecnico();
 		t.setId(165);
 		de.setTecnico(t);
+		*/
 		
-		int ret =dao.inserir(de);
-		System.out.println("Retorno = " + ret);
+		
+		// int ret =dao.inserir(de);
+		// System.out.println("Retorno = " + ret);
 		
 		
 		

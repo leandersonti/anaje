@@ -107,21 +107,11 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
 	    
 	public static void main(String[] args) throws Exception{
-		UsuarioDAO dao = UsuarioDAOImpl.getInstance();
-		Usuario u = new Usuario();
-		/*
-		u.setTituloEleitor("037337472259");
-		u.setAtivo(1);
-		u.setNome("VINICIUS CAVALCANTE");
-		int ret = dao.inserir(u);
-		System.out.println("Retorno = " + ret);
-		*/
 		
-		u = dao.getBean("15697172275");
-		System.out.println(u.getNome());
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		
 		System.out.println("Done!!");
-
+		
 		
 	}
 }

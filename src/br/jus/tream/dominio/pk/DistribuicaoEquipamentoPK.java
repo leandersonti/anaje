@@ -7,20 +7,29 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 
 import br.jus.tream.dominio.Equipamento;
+import br.jus.tream.dominio.UnidadeServico;
 
 @SuppressWarnings("serial")
 public class DistribuicaoEquipamentoPK implements Serializable{
 	
+	/*
+	private Integer idus;
+	
+	@Column(name="id_eleicao")
+	private Integer idEleicao;
+	*/
+	
 	@ManyToOne
 	@JoinColumn(name="id_equipamento")	
 	private Equipamento equipamento;
+
 	
 	@ManyToOne
 	@JoinColumns(value = {
 	        @JoinColumn(name = "idus", referencedColumnName = "idus", updatable = false, insertable = false),
 	        @JoinColumn(name = "id_eleicao", referencedColumnName = "id_eleicao", updatable = false, insertable = false)})
-	private UnidadeServicoPK unidadeServico;
-
+	private UnidadeServico unidadeServico;
+	
 	public Equipamento getEquipamento() {
 		return equipamento;
 	}
@@ -29,11 +38,11 @@ public class DistribuicaoEquipamentoPK implements Serializable{
 		this.equipamento = equipamento;
 	}
 
-	public UnidadeServicoPK getUnidadeServicoPK() {
+	public UnidadeServico getUnidadeServico() {
 		return unidadeServico;
 	}
 
-	public void setUnidadeServicoPK(UnidadeServicoPK unidadeServico) {
+	public void setUnidadeServico(UnidadeServico unidadeServico) {
 		this.unidadeServico = unidadeServico;
 	}
 
@@ -68,5 +77,5 @@ public class DistribuicaoEquipamentoPK implements Serializable{
 		return true;
 	}
 
-		
+			
 }
