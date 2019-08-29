@@ -3,13 +3,30 @@
 <div class="container">
 
 	<div class="card">
-		<div class="card-header"> <b><i>Cadastrar/Atualizar Técnico : </i> </b></div>
+		<div class="card-header"><b>Técnico</b> <s:if test='tecnico.id != null'> - Editar</s:if></div>
 		<div class="card-body">
 
 			<form action="" method="post" name="form1" id="form1" class="needs-validation_" novalidate>
 				<s:if test='tecnico.id != null'>
 					<input type="hidden" id="id" name="tecnico.id" value="${tecnico.id}">
 				</s:if>
+				<s:else>
+					<div class="form-row">
+						<div class="col-md-6 mb-3">
+							<label for="Tecnico"><b>Contrato</b></label>
+							<s:select label="Zona" headerKey="-1"
+									headerValue="Selecione Contrato" tooltip="Informe contrato"
+									list="lstContrato" listKey="id"
+									listValue="sigla +' - '+ descricao"
+									name="contrato.id"  id="codZonaMunic" theme="simple"
+									cssClass="form-control" />  
+						</div>					
+						<div class="col-md-3 mb-3"></div>
+						<div class="col-md-3 mb-3"></div>
+					</div>
+				</s:else>
+				
+				
 				<div class="form-row">
 					<div class="col-md-6 mb-3">
 						<label for="Tecnico">Nome:</label> 
@@ -37,10 +54,11 @@
 						<label for="endereco">Endereço - Rua :</label> 
 						<input type="text" class="form-control" id="rua" name="tecnico.endereco" placeholder="Rua" value="${tecnico.endereco}">
 					</div>	
+					
 						
 					<div class="col-md-6 mb-3">
 						<label for="bairro">Bairro:</label> 
-						<input type="text" class="form-control" id="bairro" name="tecnico.bairro"	placeholder="Informe a zona" value="${tecnico.bairro}">
+						<input type="text" class="form-control" id="bairro" name="tecnico.bairro"	placeholder="Informe o bairro" value="${tecnico.bairro}">
 					</div>			
 				</div>				
 				
@@ -59,7 +77,7 @@
 						<input type="text" class="form-control" id="cidade" name="tecnico.cidade" placeholder="cidade" value="${tecnico.cidade}">
 					</div>
 					<div class="col-md-3 mb-3">
-						<label for="uf">Uf (Estado):</label> 
+						<label for="uf">Uf:</label> 
 						<input type="text" class="form-control" id="uf" name="tecnico.uf" placeholder="Ex:AM" maxlength="2" value="${tecnico.uf}">
 					</div>					
 				</div>

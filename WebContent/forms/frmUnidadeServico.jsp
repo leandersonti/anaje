@@ -3,7 +3,7 @@
 <div class="container">
 
 	<div class="card">
-		<div class="card-header">Cadastrar Ponto de Transmissão</div>
+		<div class="card-header">Ponto de Transmissão <s:if test='uservico.id != null'> - Editar</s:if><s:else> - Novo</s:else></div>
 		<div class="card-body">
 
 			<form action="" method="post" name="form1" id="form1" class="needs-validation_" novalidate>
