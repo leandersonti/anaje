@@ -12,13 +12,6 @@ import br.jus.tream.dominio.UnidadeServico;
 @SuppressWarnings("serial")
 public class DistribuicaoEquipamentoPK implements Serializable{
 	
-	/*
-	private Integer idus;
-	
-	@Column(name="id_eleicao")
-	private Integer idEleicao;
-	*/
-	
 	@ManyToOne
 	@JoinColumn(name="id_equipamento")	
 	private Equipamento equipamento;
