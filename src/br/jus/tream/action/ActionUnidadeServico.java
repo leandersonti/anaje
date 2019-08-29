@@ -55,7 +55,7 @@ public class ActionUnidadeServico extends ActionSupport {
 	public String frmCadUnidadeServico() {
 		try {
 			if (permissao.getAdmin()) {
-				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoral();
+				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX();
 			} else {
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoral(permissao.getZona());
 			}
