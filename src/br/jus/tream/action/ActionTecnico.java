@@ -20,17 +20,22 @@ import org.apache.struts2.convention.annotation.ResultPath;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import br.jus.tream.DAO.ContratoDAOImpl;
 import br.jus.tream.DAO.DataEleicaoDAOImpl;
+import br.jus.tream.DAO.DistribuicaoTecContratoDAOImpl;
 import br.jus.tream.DAO.EquipamentoDAO;
 import br.jus.tream.DAO.EquipamentoDAOImpl;
 import br.jus.tream.DAO.EquipamentoTipoDAOImpl;
 import br.jus.tream.DAO.TecnicoDAO;
 import br.jus.tream.DAO.TecnicoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
+import br.jus.tream.dominio.Contrato;
 import br.jus.tream.dominio.DataEleicao;
+import br.jus.tream.dominio.DistribuicaoTecnicoContrato;
 import br.jus.tream.dominio.Equipamento;
 import br.jus.tream.dominio.EquipamentoTipo;
 import br.jus.tream.dominio.Tecnico;
+import br.jus.tream.dominio.pk.DistribuicaoTecContratoPK;
 
 @SuppressWarnings("serial")
 @Namespace("/tecnico")
@@ -40,6 +45,9 @@ public class ActionTecnico extends ActionSupport{
 	private List<Tecnico> lstTecnico;
 	private List<Equipamento> lstEquipamento;
 	private List<EquipamentoTipo> lstEquipamentoTipo;
+	private List<Contrato> lstContrato;
+	private List<DistribuicaoTecnicoContrato> lstDistribuicaoTecnicoContrato;
+	private Contrato contrato;
 	private String DtNasc;
 	private Tecnico tecnico;
 	private Integer id;
@@ -78,24 +86,18 @@ public class ActionTecnico extends ActionSupport{
 		BufferedReader reader = null;
 		BeanResult beanResult = new BeanResult();
 		try {
-			
 			this.lstEquipamento = daoEquip.listar();
 			this.lstEquipamentoTipo = EquipamentoTipoDAOImpl.getInstance().listar();
-			
 			if (permissao.getAdmin()) {
 					if (getFileUpload() != null && this.getEquipamento() != null) {
-				
-						List<String> list = new ArrayList<String>();
+						// List<String> list = new ArrayList<String>();
 					    reader = new BufferedReader(new FileReader(getFileUpload()));
 					    String text = null;
 					    this.setLstEquipamento(new ArrayList<Equipamento>());
-						    
 						    while ((text = reader.readLine()) != null) {
-						    	
 						    	final String row[] = text.split(";");
 						    	final Equipamento equipamento = new Equipamento();			    	
 								DataEleicao dt = new DataEleicao();			    	
-								
 								dt = DataEleicaoDAOImpl.getInstance().getBeanAtiva();					
 								equipamento.setDataEleicao(dt);
 								equipamento.setTipo(this.equipamento.getTipo());
@@ -104,20 +106,16 @@ public class ActionTecnico extends ActionSupport{
 						    	equipamento.setParam(row[2]);
 						    	equipamento.setFone(row[3]);	
 						    	equipamento.setChave(row[4]);			    	
-						    	
 						    	int ret = daoEquip.inserir(equipamento);
-						    	
 						    	equipamento.setInserted(false);
 								    	if (ret != 0) {
 								    		equipamento.setInserted(true);
 								    	}
-						    	
 						    	getLstEquipamento().add(equipamento);
 						    }
 						    
 						    beanResult.setMensagem(getText("inserir.sucesso"));
-					}
-				
+					}				
 			}else {
 		    	beanResult.setRet(0);
 				beanResult.setMensagem(getText("permissao.negada"));
@@ -132,8 +130,7 @@ public class ActionTecnico extends ActionSupport{
 		    e.printStackTrace();
 		} catch (IOException e) {
 		    e.printStackTrace();
-		} catch (Exception e) {
-			
+		} catch (Exception e) {			
 			e.printStackTrace();
 		} finally {
 	        if (reader != null) {
@@ -145,7 +142,6 @@ public class ActionTecnico extends ActionSupport{
 				}
 	        }
 		}
-		
 		this.result = beanResult;
 		return "success";
 	}
@@ -176,7 +172,13 @@ public class ActionTecnico extends ActionSupport{
 	
 	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmTecnico.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
-	public String frmCadTecnico() {	
+	public String frmCadTecnico() {
+		try {
+			this.lstContrato = ContratoDAOImpl.getInstance().listar();
+		} catch (Exception e) {
+			addActionError(getText("frmsetup.error"));
+			return "error";
+		}
 		return "success";
 	}
 	
@@ -186,8 +188,8 @@ public class ActionTecnico extends ActionSupport{
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String doFrmEditar() {
 		try {
-			this.tecnico = dao.getBean(this.tecnico.getId());	
-			System.out.println("datnasc===" + tecnico.getDataNasc());
+			this.tecnico = dao.getBean(this.tecnico.getId());
+			lstDistribuicaoTecnicoContrato = DistribuicaoTecContratoDAOImpl.getInstance().listar(this.tecnico.getId());
 		} catch (Exception e) {
 			addActionError(getText("frmsetup.error") + " Error: " + e.getMessage());
 			return "error";
@@ -201,17 +203,25 @@ public class ActionTecnico extends ActionSupport{
 	public String doAdicionar() throws ParseException {
 		BeanResult beanResult = new BeanResult();		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-	
-		try {
-			
+		try {			
 			if(DtNasc!=null) {
 				Date datanasc = sdf.parse(DtNasc);
 				tecnico.setDataNasc(datanasc);			
 			}		
 			tecnico.setDataCad(new Date());			
 			beanResult.setRet(dao.inserir(tecnico));
-			if (beanResult.getRet() == 1)
+			if (beanResult.getRet() == 1) {
 				beanResult.setMensagem(getText("inserir.sucesso"));
+				//ADICIONA CONTRATO
+				DistribuicaoTecContratoPK tecContratopk = new DistribuicaoTecContratoPK();
+				tecContratopk.setDataEleicao(DataEleicaoDAOImpl.getInstance().getBeanAtiva());
+				tecContratopk.setContrato(this.contrato);
+				tecContratopk.setTecnico(this.tecnico);
+				DistribuicaoTecnicoContrato dtc = new DistribuicaoTecnicoContrato();
+				dtc.setId(tecContratopk);
+				DistribuicaoTecContratoDAOImpl.getInstance().inserir(dtc);
+				//
+			}	
 			else
 				beanResult.setMensagem(getText("inserir.error"));
 		} catch (Exception e) {
@@ -260,6 +270,14 @@ public class ActionTecnico extends ActionSupport{
 		}
 		this.result = beanResult;
 	  return "success";
+	}
+	
+	public Contrato getContrato() {
+		return contrato;
+	}
+
+	public void setContrato(Contrato contrato) {
+		this.contrato = contrato;
 	}
 
 	public List<Tecnico> getLstTecnico() {
@@ -332,6 +350,22 @@ public class ActionTecnico extends ActionSupport{
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public List<Contrato> getLstContrato() {
+		return lstContrato;
+	}
+
+	public void setLstContrato(List<Contrato> lstContrato) {
+		this.lstContrato = lstContrato;
+	}
+
+	public List<DistribuicaoTecnicoContrato> getLstDistribuicaoTecnicoContrato() {
+		return lstDistribuicaoTecnicoContrato;
+	}
+
+	public void setLstDistribuicaoTecnicoContrato(List<DistribuicaoTecnicoContrato> lstDistribuicaoTecnicoContrato) {
+		this.lstDistribuicaoTecnicoContrato = lstDistribuicaoTecnicoContrato;
 	}
 	
 	

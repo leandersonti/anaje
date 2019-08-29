@@ -10,6 +10,7 @@ public class BeanLogin {
 	private String descSigla;
 	private Integer admin;
 	private Integer zona;
+	private Integer idEleicao;
 	private String email;
 	private Boolean logou;
 	private Boolean isAmbienteProducao;
@@ -85,6 +86,12 @@ public class BeanLogin {
 	}
 	public void setIsAmbienteProducao(Boolean isAmbienteProducao) {
 		this.isAmbienteProducao = isAmbienteProducao;
+	}
+	public Integer getIdEleicao() {
+		return idEleicao;
+	}
+	public void setIdEleicao(Integer idEleicao) {
+		this.idEleicao = idEleicao;
 	}
 	
 	

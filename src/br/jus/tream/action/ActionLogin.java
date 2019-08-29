@@ -12,6 +12,7 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import br.jus.tream.DAO.DataEleicaoDAOImpl;
 import br.jus.tream.dominio.BeanLogin;
 
 @SuppressWarnings("serial")
@@ -35,6 +36,7 @@ public class ActionLogin extends ActionSupport implements SessionAware{
 	public String getLogin(){  
 		try{
 			this.beanlogin = LoginAD.getInstance().getLogin(this.getUsername(), this.getUserpass());
+			this.beanlogin.setIdEleicao(DataEleicaoDAOImpl.getInstance().getBeanAtiva().getId());
 		    if(this.beanlogin.getLogou()){ 		    	
 		    	sessionmap.put("login",this.beanlogin);  
 		        return "success";  
