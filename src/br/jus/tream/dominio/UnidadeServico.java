@@ -25,7 +25,7 @@ public class UnidadeServico implements Serializable {
 
 	@Column(name = "cod_objeto")
 	private String codObjeto;
-
+	
 	private Integer zona;
 
 	private Integer local;
