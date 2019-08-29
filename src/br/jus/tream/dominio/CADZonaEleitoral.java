@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 
@@ -16,6 +17,9 @@ public class CADZonaEleitoral implements Serializable{
 	
 	@EmbeddedId
 	private CadZonaEleitoralPK id = new CadZonaEleitoralPK();
+	
+	@Transient
+	private String fzona;
 	
 	private String municipio;
 	
@@ -33,8 +37,9 @@ public class CADZonaEleitoral implements Serializable{
 		super();
 		this.id = id;
 		this.municipio = municipio;
+		this.fzona = String.format("%03d",id.getZona()); 
 	}
-	
+		
 	public CADZonaEleitoral(CadZonaEleitoralPK id, String municipio, String endereco, String cod_objeto) {
 		super();
 		this.id = id;
@@ -43,6 +48,22 @@ public class CADZonaEleitoral implements Serializable{
 		this.codObjeto = cod_objeto;
 	}
 	
+	public String getFzona() {
+		return fzona;
+	}
+
+	public void setFzona(String fzona) {
+		this.fzona = fzona;
+	}
+
+	public String getCodObjeto() {
+		return codObjeto;
+	}
+
+	public void setCodObjeto(String codObjeto) {
+		this.codObjeto = codObjeto;
+	}
+
 	public CadZonaEleitoralPK getId() {
 		return id;
 	}

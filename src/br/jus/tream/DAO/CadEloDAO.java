@@ -17,6 +17,8 @@ public interface CadEloDAO {
 	public List<CADSecao> listarSecao(Integer zona, Integer codmunic, Integer numLocal) throws Exception;
 	
 	public List<CADZonaEleitoral> listarZonaEleitoral() throws Exception;
+	public List<CADZonaEleitoral> listarZonaEleitoralCBX() throws Exception;
+	public List<CADZonaEleitoral> listarZonaEleitoralCBX(Integer zona) throws Exception;
 	public List<CADZonaEleitoral> listarZonaEleitoral(Integer zona) throws Exception;
 	
 	public CADZonaEleitoral getZonaEleitoral(String id) throws Exception;

@@ -120,13 +120,47 @@ public class CadEloDAOImpl implements CadEloDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	@Override
+	public List<CADZonaEleitoral> listarZonaEleitoralCBX() throws Exception{
+		List<CADZonaEleitoral> lst = new ArrayList<CADZonaEleitoral>();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		try {
+			TypedQuery<CADZonaEleitoral> query = em.createQuery("SELECT NEW CADZonaEleitoral(id, municipio) FROM CADZonaEleitoral z "
+					+ "ORDER BY z.municipio, z.id.zona",
+					CADZonaEleitoral.class);
+			lst = query.getResultList();
+		} catch (Exception e) {
+			em.close();
+		} finally {
+			em.close();
+		}
+		return lst;
+	}
+	
+	@Override
+	public List<CADZonaEleitoral> listarZonaEleitoralCBX(Integer zona) throws Exception{
+		List<CADZonaEleitoral> lst = new ArrayList<CADZonaEleitoral>();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		try {
+			TypedQuery<CADZonaEleitoral> query = em.createQuery("SELECT NEW CADZonaEleitoral(id, municipio) FROM CADZonaEleitoral z "
+					+ "WHERE z.id.zona=?1 ORDER BY z.municipio, z.id.zona",
+					CADZonaEleitoral.class);
+			lst = query.setParameter(1, zona).getResultList();
+		} catch (Exception e) {
+			em.close();
+		} finally {
+			em.close();
+		}
+		return lst;
+	}
+	
 	@Override
 	public List<CADZonaEleitoral> listarZonaEleitoral() throws Exception {
 		List<CADZonaEleitoral> lst = new ArrayList<CADZonaEleitoral>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
-			TypedQuery<CADZonaEleitoral> query = em.createQuery("SELECT z FROM CADZonaEleitoral z ORDER BY z.municipio, z.id.zona",
+			TypedQuery<CADZonaEleitoral> query = em.createQuery("SELECT z FROM CADZonaEleitoral z ORDER BY z.id.zona, z.municipio",
 					CADZonaEleitoral.class);
 			lst = query.getResultList();
 		} catch (Exception e) {
