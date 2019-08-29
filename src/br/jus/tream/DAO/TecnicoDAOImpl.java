@@ -73,6 +73,7 @@ public class TecnicoDAOImpl implements TecnicoDAO {
 	public int inserir (Tecnico tecnico) throws Exception{
 		int ret = 0;
 		try {
+			tecnico.setDataCad(new Date(System.currentTimeMillis()) );
 			dao.adicionar(tecnico);
 			ret =1;
 		} catch (Exception e) {
@@ -108,8 +109,8 @@ public class TecnicoDAOImpl implements TecnicoDAO {
 
 	    
 	public static void main(String[] args) throws Exception{
-		TecnicoDAO dao = TecnicoDAOImpl.getInstance();
-		Tecnico t = new Tecnico();
+		//TecnicoDAO dao = TecnicoDAOImpl.getInstance();
+		//Tecnico t = new Tecnico();
 		
 		/*
 		 * t.setTitulo_eleitor("034068942259"); t.setZona(59); t.setSecao(139);
