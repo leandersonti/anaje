@@ -31,5 +31,10 @@ public class Permissao implements Serializable{
 	    return b.getZona();
 	}
 	
+	public final int getIdEleicao() {
+		HttpSession session = ServletActionContext.getRequest().getSession(true);
+    	BeanLogin b = (BeanLogin)session.getAttribute("login");
+	    return b.getIdEleicao();
+	}
 	
 }
