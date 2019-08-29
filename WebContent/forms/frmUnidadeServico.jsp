@@ -34,7 +34,7 @@
 						    <s:select label="Zona" headerKey="-1"
 								headerValue="Selecione a zona" tooltip="Informe a Zona"
 								list="lstZonaEleitoral" listKey="id.zona+';'+id.codmunic"
-								listValue="zona +' - '+ municipio"
+								listValue="fzona +' - '+ municipio"
 								name="codZonaMunic"  id="codZonaMunic" theme="simple"
 								cssClass="form-control" />  
 						 </s:else>	
