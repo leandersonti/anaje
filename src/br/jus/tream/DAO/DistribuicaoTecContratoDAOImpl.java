@@ -51,7 +51,8 @@ public class DistribuicaoTecContratoDAOImpl implements DistribuicaoTecContratoDA
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
 			TypedQuery<DistribuicaoTecnicoContrato> query = em.createQuery("SELECT d FROM DistribuicaoTecnicoContrato d "
-					+ "WHERE d.ativo=1 AND d.id.tecnico.id=?1 ORDER BY d.datacad DESC",DistribuicaoTecnicoContrato.class);
+					+ "WHERE d.ativo=1 AND d.id.tecnico.id=?1 AND d.id.dataEleicao.id=(SELECT a.id FROM DataEleicao a WHERE a.ativo=1) "
+					+ "ORDER BY d.datacad DESC",DistribuicaoTecnicoContrato.class);
 			 query.setParameter(1, idTecnico);
 			 dt = query.getSingleResult();
 		} catch (Exception e) {
@@ -83,17 +84,15 @@ public class DistribuicaoTecContratoDAOImpl implements DistribuicaoTecContratoDA
 		int ret = 0;
 		try {
 			em.getTransaction().begin();
-			   Query query = em.createQuery("UPDATE DistribuicaoTecnicoContrato d SET "
-					+ "d.ativo=0 WHERE d.id.tecnico.id=?1");
+			   Query query = em.createQuery("UPDATE DistribuicaoTecnicoContrato d SET d.ativo=0"
+			   		       + " WHERE d.id.tecnico.id=?1 AND d.id.dataEleicao.id=(SELECT a.id FROM DataEleicao a WHERE a.ativo=1)");
 			   query.setParameter(1, distec.getTecnico().getId());
-			   query.executeUpdate();
-			   
-			   query = em.createQuery("UPDATE DistribuicaoTecnicoContrato d SET "
-						+ "d.ativo=1 WHERE d.id.tecnico.id=?1 AND d.id.contrato.id=?2");
+			   query.executeUpdate();			  
+			   query = em.createQuery("UPDATE DistribuicaoTecnicoContrato d SET d.ativo=1"
+			   		       + " WHERE d.id.tecnico.id=?1 AND d.id.contrato.id=?2");
 				   query.setParameter(1, distec.getTecnico().getId());
 				   query.setParameter(2, distec.getContrato().getId());
 			   query.executeUpdate();
-			   
 			 em.getTransaction().commit();
 		} catch (Exception e) {
 			em.close();
@@ -129,31 +128,31 @@ public class DistribuicaoTecContratoDAOImpl implements DistribuicaoTecContratoDA
 
 	public static void main(String[] args) throws Exception {
 		DistribuicaoTecContratoDAO dao = DistribuicaoTecContratoDAOImpl.getInstance();
-		DistribuicaoTecnicoContrato dt = new DistribuicaoTecnicoContrato();
+
 		
+		/*
+		DistribuicaoTecnicoContrato dt = new DistribuicaoTecnicoContrato();
 		DataEleicao eleicao = new DataEleicao();
 		eleicao = DataEleicaoDAOImpl.getInstance().getBeanAtiva();
-		
 		Tecnico t = new Tecnico();
-		t.setId(227);
+		t.setId(289);
 		Contrato c = new Contrato();
-		c = ContratoDAOImpl.getInstance().getBean(94);
-		
+		c = ContratoDAOImpl.getInstance().getBean(96);
 		
 		DistribuicaoTecContratoPK pk = new DistribuicaoTecContratoPK();
 		pk.setContrato(c);
 		pk.setTecnico(t);
 		pk.setDataEleicao(eleicao);
 		dt.setId(pk);
-		
 		int ret = dao.inserir(dt);
 		System.out.println("Ret = " + ret);
+		*/
 		
 		
-		/*
-		DistribuicaoTecnicoContrato d = dao.getBean(247);
+		DistribuicaoTecnicoContrato d = dao.getBean(289);
 		System.out.println(".................... Contrato ativo = " + d.getId().getContrato().getDescricao() + " " +d.getDatacad());
 		
+		/*
 		for (DistribuicaoTecnicoContrato dd : dao.listar(247)) {
 			System.out.println("..........Contarto " + dd.getId().getContrato().getDescricao() + " " + dd.getDatacad());
 		}
