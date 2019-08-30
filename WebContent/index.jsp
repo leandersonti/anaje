@@ -103,6 +103,7 @@
 			var id = data.recordId;  
 			var descricao = data.recordDescricao;
 			var titulo =  $('#tituloEleitor').val();
+			$("#result").hide();
 			$('#result').html("");
 				if (titulo == ""){
 					$('#result').attr("class","alert alert-danger");
@@ -124,7 +125,7 @@
 				       		    	vClass = "alert alert-danger";
 				       		        break; 
 				       			case 5:
-				       				vClass = "alert alert-info";
+				       				vClass = "alert alert-warning";
 				    		        break;
 				       			case 9:
 				       				vClass = "alert alert-info";
@@ -135,7 +136,11 @@
 				       		     $('#result').attr("class",vClass);
 				       		     $('#result').html(descricao + " - " + msg);
 				       		   	 $("#result").show(); 
-				   		     });
+				   		     }).fail(function() {
+				   		    	 $('#result').attr("class","alert alert-danger");
+				       		     $('#result').html("Servidor não encontrado");
+				       		   	 $("#result").show(); 
+				   		     })
 		          }
 			  }
 		   });

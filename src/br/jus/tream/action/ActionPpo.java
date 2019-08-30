@@ -76,7 +76,7 @@ public class ActionPpo extends ActionSupport {
 				if (beanResult.getRet() == 1)
 					beanResult.setMensagem(getText("inserir.sucesso"));
 				else
-					beanResult.setMensagem(getText("inserir.error"));
+					beanResult.setMensagem(getText("inserir.violado"));
 				
 		} catch (Exception e) {
 			  addActionError(getText("alterar.error") + " Error: " + e.getMessage());
