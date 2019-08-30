@@ -51,6 +51,22 @@ public class TecnicoDAOImpl implements TecnicoDAO {
 		return tecnico;
 	}
 	
+	public Tecnico getBean(String tituloEleitor) throws Exception{
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		Tecnico tecnico = new Tecnico();
+		try {
+			TypedQuery<Tecnico> query = em.createQuery("SELECT t FROM Tecnico t WHERE t.tituloEleitor=?1", 
+					Tecnico.class);
+			tecnico = query.setParameter(1, tituloEleitor).getSingleResult(); 
+		} catch (Exception e) {
+			em.close();
+			e.printStackTrace();
+		}finally {
+				em.close();
+		  }
+		return tecnico;
+	}
+	
 	@Override
 	public List<Tecnico> listarCbx() throws Exception{
 		List<Tecnico> lista = new ArrayList<Tecnico>();
