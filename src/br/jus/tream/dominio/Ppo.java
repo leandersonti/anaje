@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -39,11 +40,14 @@ public class Ppo implements Serializable{
 	@Column(name="datacad")
 	private Date dataCad;
 	
+	@Transient
+	private String dataCadf;
+	
 	@Column(length=10)
 	private String codigo;
 
 	@ManyToOne
-	@JoinColumn(name = "id_tecnico_resp", nullable=false)
+	@JoinColumn(name = "id_tecnico_resp", nullable=true)
 	private Tecnico tecnicoResp;
 	
 	public Ppo() {
@@ -115,6 +119,14 @@ public class Ppo implements Serializable{
 
 	public void setTecnicoResp(Tecnico tecnicoResp) {
 		this.tecnicoResp = tecnicoResp;
+	}
+	
+	public String getDataCadf() {
+		return dataCadf;
+	}
+
+	public void setDataCadf(String dataCadf) {
+		this.dataCadf = dataCadf;
 	}
 
 	@Override

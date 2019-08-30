@@ -14,9 +14,9 @@ public interface PpoDAO {
 
 	public Ppo getBean(Integer id) throws Exception;
 
-	public int inserir(Ppo ppo) throws Exception;
+	public int adicionar(Ppo ppo) throws Exception;
 
-	public int alterar(Ppo ppo) throws Exception;
+	public int atualizar(Ppo ppo) throws Exception;
 
 	public int remover(Ppo ppo) throws Exception;
 }
