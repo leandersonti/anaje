@@ -14,9 +14,9 @@ public interface TecnicoDAO {
 	
 	public Tecnico getBean(String tituloEleitor) throws Exception;
 	
-	public int inserir (Tecnico tecnico) throws Exception;
+	public int adicionar (Tecnico tecnico) throws Exception;
 	
-	public int alterar (Tecnico tecnico) throws Exception;
+	public int atualizar (Tecnico tecnico) throws Exception;
 	
 	public int remover (Tecnico tecnico) throws Exception;
 	

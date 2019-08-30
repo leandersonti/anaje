@@ -86,7 +86,7 @@ public class TecnicoDAOImpl implements TecnicoDAO {
 	} 
 	
 	@Override
-	public int inserir (Tecnico tecnico) throws Exception{
+	public int adicionar (Tecnico tecnico) throws Exception{
 		int ret = 0;
 		try {
 			tecnico.setDataCad(new Date(System.currentTimeMillis()) );
@@ -99,7 +99,7 @@ public class TecnicoDAOImpl implements TecnicoDAO {
 	}
 	
 	@Override
-	public int alterar (Tecnico tecnico) throws Exception{
+	public int atualizar (Tecnico tecnico) throws Exception{
 		int ret = 0;
 		try {
 			dao.atualizar(tecnico);
@@ -125,8 +125,10 @@ public class TecnicoDAOImpl implements TecnicoDAO {
 
 	    
 	public static void main(String[] args) throws Exception{
-		//TecnicoDAO dao = TecnicoDAOImpl.getInstance();
-		//Tecnico t = new Tecnico();
+		TecnicoDAO dao = TecnicoDAOImpl.getInstance();
+		Tecnico t = new Tecnico();
+		t = dao.getBean("034068942566");
+		System.out.println("Nome " + t.getId());
 		
 		/*
 		 * t.setTitulo_eleitor("034068942259"); t.setZona(59); t.setSecao(139);
