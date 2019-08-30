@@ -14,9 +14,9 @@ public interface ContratoDAO {
 	
 	public Contrato getBean(Integer id) throws Exception;
 	
-	public int inserir (Contrato contrato) throws Exception;
+	public int adicionar (Contrato contrato) throws Exception;
 	
-	public int alterar (Contrato contrato) throws Exception;
+	public int atualizar (Contrato contrato) throws Exception;
 	
 	public int remover (Contrato contrato) throws Exception;
 	

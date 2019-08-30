@@ -10,7 +10,6 @@ import javax.persistence.TypedQuery;
 
 import br.jus.tream.dominio.Cargo;
 import br.jus.tream.dominio.Contrato;
-import br.jus.tream.dominio.DataEleicao;
 
 public class ContratoDAOImpl implements ContratoDAO {
 	private DAO<Contrato> dao = new DAO<Contrato>(Contrato.class);
@@ -84,7 +83,7 @@ public class ContratoDAOImpl implements ContratoDAO {
 	} 
 	
 	@Override
-	public int inserir (Contrato contrato) throws Exception{
+	public int adicionar (Contrato contrato) throws Exception{
 		int ret = 0;
 		try {
 			dao.adicionar(contrato);
@@ -96,7 +95,7 @@ public class ContratoDAOImpl implements ContratoDAO {
 	}
 	
 	@Override
-	public int alterar (Contrato contrato) throws Exception{
+	public int atualizar (Contrato contrato) throws Exception{
 		int ret = 0;
 		try {
 			dao.atualizar(contrato);
@@ -138,8 +137,8 @@ public class ContratoDAOImpl implements ContratoDAO {
 		//sdf.parse("13/12/2018 12:25")
 		c.setDataInicio(new Date(System.currentTimeMillis()));
 		c.setDataFim(new Date(System.currentTimeMillis()));
-		int ret = dao.inserir(c);
-		
+		int ret = dao.adicionar(c);
+		System.out.println("ret " + ret);
 		
 		//c = dao.getBean(97);
 		//System.out.println("Cargo " + c.getCargo().getDescricao());
