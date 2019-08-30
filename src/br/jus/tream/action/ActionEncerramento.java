@@ -80,7 +80,7 @@ public class ActionEncerramento extends ActionSupport{
 		BeanResult beanResult = new BeanResult();
 		try {
 			if (permissao.getAdmin()) {
-				beanResult.setRet(dao.inserir(encerramento));
+				beanResult.setRet(dao.adicionar(encerramento));
 				if (beanResult.getRet() == 1)
 					beanResult.setMensagem(getText("inserir.sucesso"));
 				else
@@ -105,7 +105,7 @@ public class ActionEncerramento extends ActionSupport{
 		BeanResult beanResult = new BeanResult();
 		try {
 			if (permissao.getAdmin()) {
-				beanResult.setRet(dao.alterar(this.encerramento));
+				beanResult.setRet(dao.atualizar(this.encerramento));
 				if (beanResult.getRet()==1) {
 					beanResult.setMensagem(getText("alterar.sucesso"));
 				}else {

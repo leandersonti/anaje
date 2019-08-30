@@ -92,7 +92,7 @@ public class ActionContrato extends ActionSupport {
 		try {
 			if (permissao.getAdmin()) {
 				contrato.setDataEleicao(DataEleicaoDAOImpl.getInstance().getBeanAtiva());
-				beanResult.setRet(dao.inserir(contrato));
+				beanResult.setRet(dao.adicionar(contrato));
 				if (beanResult.getRet() == 1)
 					beanResult.setMensagem(getText("inserir.sucesso"));
 				else
@@ -116,7 +116,7 @@ public class ActionContrato extends ActionSupport {
 		BeanResult beanResult = new BeanResult();
 		try {
 			if (permissao.getAdmin()) {
-				beanResult.setRet(dao.alterar(this.contrato));
+				beanResult.setRet(dao.atualizar(this.contrato));
 				if (beanResult.getRet() == 1) {
 					beanResult.setMensagem(getText("alterar.sucesso"));
 				} else {

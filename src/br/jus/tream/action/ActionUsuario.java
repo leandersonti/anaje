@@ -90,27 +90,19 @@ public class ActionUsuario extends ActionSupport{
 			@Result(name = "error", location = "/pages/resultAjax.jsp")},interceptorRefs = @InterceptorRef("authStack"))
 	public String doAdicionar() {
 		BeanResult beanResult = new BeanResult();	
-		int ret = 0;
-		
 		try {	
-		
 				for (String item : this.lstTitulos) {
 					String s[] = item.split(";");			
 					this.usuario.setTituloEleitor(s[0]);
 					this.usuario.setNome(s[1]);			
-					beanResult.setRet(dao.inserir(this.usuario));
+					beanResult.setRet(dao.adicionar(this.usuario));
 				}
-				
 				beanResult.setMensagem(getText("inserir.sucesso"));				
-				
-						
-		
-	} catch (Exception e) {
-		
-		beanResult.setMensagem(getText("inserir.error")); 
-		return "error";
-	}
-		this.result = beanResult;
+			} catch (Exception e) {
+				beanResult.setMensagem(getText("inserir.error")); 
+				return "error";
+			}
+		 this.result = beanResult;
 		return "success";
 	}
 	
@@ -119,10 +111,8 @@ public class ActionUsuario extends ActionSupport{
 			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String doAtualizar() throws ParseException {
 		BeanResult beanResult = new BeanResult();
-
 		try {
-		
-			beanResult.setRet(dao.alterar(this.usuario));
+			beanResult.setRet(dao.atualizar(this.usuario));
 			if (beanResult.getRet()==1) {
 				beanResult.setMensagem(getText("alterar.sucesso"));
 			}else {

@@ -103,7 +103,7 @@ public class ActionUnidadeServico extends ActionSupport {
 			String[] zonamunic = this.codZonaMunic.split(";");
 			this.uservico.setCodmunic(Integer.valueOf(zonamunic[1]));
 			this.uservico.setZona(Integer.valueOf(zonamunic[0]));
-			beanResult.setRet(dao.inserir(this.uservico));
+			beanResult.setRet(dao.adicionar(this.uservico));
 			if (beanResult.getRet() == 1)
 				beanResult.setMensagem(getText("inserir.sucesso"));
 			else
@@ -124,7 +124,7 @@ public class ActionUnidadeServico extends ActionSupport {
 	public String doAtualizar() {
 		BeanResult beanResult = new BeanResult();
 		try {
-			beanResult.setRet(dao.alterar(this.uservico));			
+			beanResult.setRet(dao.atualizar(this.uservico));			
 			if (beanResult.getRet() == 1) {
 				beanResult.setMensagem(getText("alterar.sucesso"));
 			} else {

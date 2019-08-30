@@ -31,7 +31,7 @@ public class ActionLogin extends ActionSupport implements SessionAware{
 		return "success";
   }
 	
-  @Action(value = "process", results = {@Result(name = "success", location = "/index.jsp"),
+  @Action(value = "process", results = {@Result(name = "success", location = "/main.jsp"),
 	        @Result(name = "error", location = "/frmLogin.jsp")})
 	public String getLogin(){  
 		try{

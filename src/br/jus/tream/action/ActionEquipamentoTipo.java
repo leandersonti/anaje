@@ -84,7 +84,7 @@ public class ActionEquipamentoTipo extends ActionSupport {
 		BeanResult beanResult = new BeanResult();
 		try {
 			if (permissao.getAdmin()) {
-				beanResult.setRet(dao.inserir(equipamentoTipo));
+				beanResult.setRet(dao.adicionar(equipamentoTipo));
 				if (beanResult.getRet() == 1)
 					beanResult.setMensagem(getText("inserir.sucesso"));
 				else
@@ -109,7 +109,7 @@ public class ActionEquipamentoTipo extends ActionSupport {
 		BeanResult beanResult = new BeanResult();
 		try {
 			if (permissao.getAdmin()) {
-				beanResult.setRet(dao.alterar(this.equipamentoTipo));
+				beanResult.setRet(dao.atualizar(this.equipamentoTipo));
 				if (beanResult.getRet() == 1) {
 					beanResult.setMensagem(getText("alterar.sucesso"));
 				} else {

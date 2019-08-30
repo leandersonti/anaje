@@ -132,7 +132,7 @@ public class ActionEquipamento extends ActionSupport {
 						    	equipamento.setParam(row[2]);
 						    	equipamento.setFone(row[3]);	
 						    	equipamento.setChave(row[4]);			    	
-						    	int ret = daoEquip.inserir(equipamento);
+						    	int ret = daoEquip.adicionar(equipamento);
 						    	equipamento.setInserted(false);
 								    	if (ret != 0) {
 								    		equipamento.setInserted(true);
@@ -178,7 +178,7 @@ public class ActionEquipamento extends ActionSupport {
 		BeanResult beanResult = new BeanResult();
 		try {
 			if (permissao.getAdmin()) {
-				beanResult.setRet(dao.inserir(equipamento));
+				beanResult.setRet(dao.adicionar(equipamento));
 				if (beanResult.getRet() == 1)
 					beanResult.setMensagem(getText("inserir.sucesso"));
 				else
@@ -203,7 +203,7 @@ public class ActionEquipamento extends ActionSupport {
 		BeanResult beanResult = new BeanResult();
 		try {
 			if (permissao.getAdmin()) {
-				beanResult.setRet(dao.alterar(this.equipamento));
+				beanResult.setRet(dao.atualizar(this.equipamento));
 				if (beanResult.getRet() == 1) {
 					beanResult.setMensagem(getText("alterar.sucesso"));
 				} else {

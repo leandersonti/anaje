@@ -102,7 +102,7 @@ public class ActionDataEleicao extends ActionSupport{
 		BeanResult beanResult = new BeanResult();
 		try {
 			if (permissao.getAdmin()) {
-				beanResult.setRet(dao.inserir(eleicao));
+				beanResult.setRet(dao.adicionar(eleicao));
 				if (beanResult.getRet() == 1)
 					beanResult.setMensagem(getText("inserir.sucesso"));
 				else
@@ -127,7 +127,7 @@ public class ActionDataEleicao extends ActionSupport{
 		BeanResult beanResult = new BeanResult();
 		try {
 			if (permissao.getAdmin()) {
-				beanResult.setRet(dao.alterar(this.eleicao));
+				beanResult.setRet(dao.atualizar(this.eleicao));
 				if (beanResult.getRet()==1) {
 					beanResult.setMensagem(getText("alterar.sucesso"));
 				}else {

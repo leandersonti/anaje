@@ -117,7 +117,7 @@ public class ActionTecnico extends ActionSupport{
 				tecnico.setDataNasc(datanasc);			
 			}		
 			tecnico.setDataCad(new Date());			
-			beanResult.setRet(dao.inserir(tecnico));
+			beanResult.setRet(dao.adicionar(tecnico));
 			if (beanResult.getRet() == 1) {
 				beanResult.setMensagem(getText("inserir.sucesso"));
 				//ADICIONA CONTRATO
@@ -127,7 +127,7 @@ public class ActionTecnico extends ActionSupport{
 				tecContratopk.setTecnico(this.tecnico);
 				DistribuicaoTecnicoContrato dtc = new DistribuicaoTecnicoContrato();
 				dtc.setId(tecContratopk);
-				DistribuicaoTecContratoDAOImpl.getInstance().inserir(dtc);
+				DistribuicaoTecContratoDAOImpl.getInstance().adicionar(dtc);
 				//
 			}	
 			else
@@ -150,7 +150,7 @@ public class ActionTecnico extends ActionSupport{
 		Date datanasc = sdf.parse(DtNasc);
 		try {
 			tecnico.setDataNasc(datanasc);		
-			beanResult.setRet(dao.alterar(this.tecnico));
+			beanResult.setRet(dao.atualizar(this.tecnico));
 			if (beanResult.getRet()==1) {
 				beanResult.setMensagem(getText("alterar.sucesso"));
 			}else {
