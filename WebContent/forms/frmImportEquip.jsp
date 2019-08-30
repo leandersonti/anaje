@@ -20,6 +20,7 @@
 									listKey="id" listValue="descricao" required="true" 
 									disabled="editar"/>
 		</div>
+		<br>		
 		<div class="row">
 			<s:file name="fileUpload" id="fileUpload" 
 				accept=".txt" label="Lista de Equipamentos" size="100"/>
@@ -28,60 +29,6 @@
 		<s:submit value="Enviar arquivo" name="btnEnviar" />
 	</s:form>	
 	<br>	
-		<fieldset>
-		<table id="table1" class="table table-hover">
-			<thead>
-				<tr>
-					<th width="10%">Tipo</th>					
-					<th width="10%">Série</th>
-					<th width="10%">Tombo</th>
-					
-					<th width="10%">Fone</th>
-					<th width="10%">Param</th>
-					<th width="10%">Chaves</th>
-					<th width="10%">-</th>
-				</tr>
-			</thead>
-			<tbody>
-			  <s:iterator value="lstEquipamento">
-			  	<s:if test="inserted">
-					<tr id="tr${id}" class="table-success">
-				</s:if>
-				<s:else>
-					<tr id="tr${id}" class="table-danger">
-				</s:else>
-						<td><s:property value="tipo.descricao"/></td>						
-						<td><s:property value="serie"/></td>
-						<td><s:property value="tomb"/></td>
-						
-						<td><s:property value="fone"/></td>
-						
-						<td><s:property value="param"/></td>
-						
-						<td><s:property value="chave"/></td>	
-											
-						<td>
-						<s:if test="inserted">
-							<img  src="${pageContext.request.contextPath}/images/check_ok.png" style="width: 20px;height: 20px;">
-						</s:if>
-						<s:else>
-							<img  src="${pageContext.request.contextPath}/images/check_error.png" style="width: 20px;height: 20px;">
-						</s:else><!-- a href="frmEditar?id=${id}" class="btn btn-sm btn-info" role="button" title="Editar">
-						      Editar
-						</a>
-						    
-						    <a href="#" id="excluir${id}" class="btn btn-sm btn-danger" role="button" 
-						             data-record-id="${id}" data-record-dataeleicao="${dataEleicao}" data-record-turno="${turno}" data-record-descricao="${descricao}">
-						                  Excluir
-						             </a-->
-						 </td>
-					</tr>
-				</s:iterator>
-			 </tbody>
-		 </table>
-	
-		</fieldset>
-		
 	
 	<s:if test="hasActionErrors()">
 		<div class="alert alert-danger" role="alert" id="error_message">

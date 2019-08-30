@@ -1,13 +1,7 @@
 package br.jus.tream.action;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,17 +17,11 @@ import com.opensymphony.xwork2.ActionSupport;
 import br.jus.tream.DAO.ContratoDAOImpl;
 import br.jus.tream.DAO.DataEleicaoDAOImpl;
 import br.jus.tream.DAO.DistribuicaoTecContratoDAOImpl;
-import br.jus.tream.DAO.EquipamentoDAO;
-import br.jus.tream.DAO.EquipamentoDAOImpl;
-import br.jus.tream.DAO.EquipamentoTipoDAOImpl;
 import br.jus.tream.DAO.TecnicoDAO;
 import br.jus.tream.DAO.TecnicoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.Contrato;
-import br.jus.tream.dominio.DataEleicao;
 import br.jus.tream.dominio.DistribuicaoTecnicoContrato;
-import br.jus.tream.dominio.Equipamento;
-import br.jus.tream.dominio.EquipamentoTipo;
 import br.jus.tream.dominio.Tecnico;
 import br.jus.tream.dominio.pk.DistribuicaoTecContratoPK;
 
@@ -43,19 +31,14 @@ import br.jus.tream.dominio.pk.DistribuicaoTecContratoPK;
 @ParentPackage(value = "default")
 public class ActionTecnico extends ActionSupport{
 	private List<Tecnico> lstTecnico;
-	private List<Equipamento> lstEquipamento;
-	private List<EquipamentoTipo> lstEquipamentoTipo;
 	private List<Contrato> lstContrato;
 	private List<DistribuicaoTecnicoContrato> lstDistribuicaoTecnicoContrato;
 	private Contrato contrato;
 	private String DtNasc;
 	private Tecnico tecnico;
-	private Integer id;
-	private Equipamento equipamento;
-	private BeanResult result;
-	private File fileUpload;
-	private final static TecnicoDAO dao = TecnicoDAOImpl.getInstance();
-	private final EquipamentoDAO daoEquip = EquipamentoDAOImpl.getInstance();
+	private Integer id;	
+	private BeanResult result;	
+	private final static TecnicoDAO dao = TecnicoDAOImpl.getInstance();	
 	private final static Permissao permissao = Permissao.getInstance();
 	
 	@Action(value = "listar", results = { @Result(name = "success", location = "/consultas/listar-tecnico.jsp"),
@@ -70,82 +53,7 @@ public class ActionTecnico extends ActionSupport{
 		}
 		return "success";
 	}
-	
-	@Action(value = "frmImportar", 
-			results = { 
-					@Result(name = "success", location = "/forms/frmImportEquip.jsp", params = {"root", "lstEquipamentoTipo"}),
-					@Result(name = "importFailed", location = "/forms/frmImportEquip.jsp", params = {"root", "lstEquipamentoTipo"}),
-					@Result(name = "error", location = "/pages /error.jsp")}, 
-			interceptorRefs = {
-					@InterceptorRef(
-				            params = { "allowedTypes", "text/plain",
-				            		   "maximumSize", "2097152" }, 
-				            value = "fileUpload"),
-					@InterceptorRef("authStack")})
-	public String importarTecnico() {
-		BufferedReader reader = null;
-		BeanResult beanResult = new BeanResult();
-		try {
-			this.lstEquipamento = daoEquip.listar();
-			this.lstEquipamentoTipo = EquipamentoTipoDAOImpl.getInstance().listar();
-			if (permissao.getAdmin()) {
-					if (getFileUpload() != null && this.getEquipamento() != null) {
-						// List<String> list = new ArrayList<String>();
-					    reader = new BufferedReader(new FileReader(getFileUpload()));
-					    String text = null;
-					    this.setLstEquipamento(new ArrayList<Equipamento>());
-						    while ((text = reader.readLine()) != null) {
-						    	final String row[] = text.split(";");
-						    	final Equipamento equipamento = new Equipamento();			    	
-								DataEleicao dt = new DataEleicao();			    	
-								dt = DataEleicaoDAOImpl.getInstance().getBeanAtiva();					
-								equipamento.setDataEleicao(dt);
-								equipamento.setTipo(this.equipamento.getTipo());
-						    	equipamento.setSerie(row[0]);
-						    	equipamento.setTomb(row[1]);
-						    	equipamento.setParam(row[2]);
-						    	equipamento.setFone(row[3]);	
-						    	equipamento.setChave(row[4]);			    	
-						    	int ret = daoEquip.inserir(equipamento);
-						    	equipamento.setInserted(false);
-								    	if (ret != 0) {
-								    		equipamento.setInserted(true);
-								    	}
-						    	getLstEquipamento().add(equipamento);
-						    }
-						    
-						    beanResult.setMensagem(getText("inserir.sucesso"));
-					}				
-			}else {
-		    	beanResult.setRet(0);
-				beanResult.setMensagem(getText("permissao.negada"));
-				addActionError(getText("permissao.negada"));
-		    }		
-			
-			if (getLstEquipamento() != null && getLstEquipamento().size() > 0) {
-				return "importFailed";
-			}
-			
-		} catch (FileNotFoundException e) {
-		    e.printStackTrace();
-		} catch (IOException e) {
-		    e.printStackTrace();
-		} catch (Exception e) {			
-			e.printStackTrace();
-		} finally {
-	        if (reader != null) {
-	            try {
-					reader.close();
-				} catch (IOException e) {
-				
-					e.printStackTrace();
-				}
-	        }
-		}
-		this.result = beanResult;
-		return "success";
-	}
-	
+
 	@Action(value = "listarJson", results = { @Result(name = "success", type = "json", params = { "root", "lstTecnico" }),
 			@Result(name = "error", location = "/login.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String listarJson() {
@@ -271,14 +179,6 @@ public class ActionTecnico extends ActionSupport{
 		this.result = beanResult;
 	  return "success";
 	}
-	
-	public Contrato getContrato() {
-		return contrato;
-	}
-
-	public void setContrato(Contrato contrato) {
-		this.contrato = contrato;
-	}
 
 	public List<Tecnico> getLstTecnico() {
 		return lstTecnico;
@@ -286,70 +186,6 @@ public class ActionTecnico extends ActionSupport{
 
 	public void setLstTecnico(List<Tecnico> lstTecnico) {
 		this.lstTecnico = lstTecnico;
-	}
-
-	public Tecnico getTecnico() {
-		return tecnico;
-	}
-
-	public void setTecnico(Tecnico tecnico) {
-		this.tecnico = tecnico;
-	}
-
-	public BeanResult getResult() {
-		return result;
-	}
-
-	public void setResult(BeanResult result) {
-		this.result = result;
-	}
-
-	public String getDtNasc() {
-		return DtNasc;
-	}
-
-	public void setDtNasc(String dtNasc) {
-		DtNasc = dtNasc;
-	}
-
-	public File getFileUpload() {
-		return fileUpload;
-	}
-
-	public void setFileUpload(File fileUpload) {
-		this.fileUpload = fileUpload;
-	}
-
-	public List<Equipamento> getLstEquipamento() {
-		return lstEquipamento;
-	}
-
-	public void setLstEquipamento(List<Equipamento> lstEquipamento) {
-		this.lstEquipamento = lstEquipamento;
-	}
-
-	public Equipamento getEquipamento() {
-		return equipamento;
-	}
-
-	public void setEquipamento(Equipamento equipamento) {
-		this.equipamento = equipamento;
-	}
-
-	public List<EquipamentoTipo> getLstEquipamentoTipo() {
-		return lstEquipamentoTipo;
-	}
-
-	public void setLstEquipamentoTipo(List<EquipamentoTipo> lstEquipamentoTipo) {
-		this.lstEquipamentoTipo = lstEquipamentoTipo;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public List<Contrato> getLstContrato() {
@@ -367,7 +203,47 @@ public class ActionTecnico extends ActionSupport{
 	public void setLstDistribuicaoTecnicoContrato(List<DistribuicaoTecnicoContrato> lstDistribuicaoTecnicoContrato) {
 		this.lstDistribuicaoTecnicoContrato = lstDistribuicaoTecnicoContrato;
 	}
-	
+
+	public Contrato getContrato() {
+		return contrato;
+	}
+
+	public void setContrato(Contrato contrato) {
+		this.contrato = contrato;
+	}
+
+	public String getDtNasc() {
+		return DtNasc;
+	}
+
+	public void setDtNasc(String dtNasc) {
+		DtNasc = dtNasc;
+	}
+
+	public Tecnico getTecnico() {
+		return tecnico;
+	}
+
+	public void setTecnico(Tecnico tecnico) {
+		this.tecnico = tecnico;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public BeanResult getResult() {
+		return result;
+	}
+
+	public void setResult(BeanResult result) {
+		this.result = result;
+	}
+
 	
 
 }
