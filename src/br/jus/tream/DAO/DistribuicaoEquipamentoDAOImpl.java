@@ -66,7 +66,7 @@ public class DistribuicaoEquipamentoDAOImpl implements DistribuicaoEquipamentoDA
 	}
 
 	@Override
-	public int inserir(DistribuicaoEquipamento ds) throws Exception {
+	public int adicionar(DistribuicaoEquipamento ds) throws Exception {
 		int ret = 0;
 		try {
 			ret = dao.adicionar(ds);
@@ -77,7 +77,7 @@ public class DistribuicaoEquipamentoDAOImpl implements DistribuicaoEquipamentoDA
 	}
 
 	@Override
-	public int alterar(DistribuicaoEquipamento ds) throws Exception {
+	public int atualizar(DistribuicaoEquipamento ds) throws Exception {
 		int ret = 0;
 		try {
 			ret = dao.atualizar(ds);
@@ -125,7 +125,7 @@ public class DistribuicaoEquipamentoDAOImpl implements DistribuicaoEquipamentoDA
 		
 		
 		
-		 int ret =dao.inserir(de);
+		 int ret =dao.adicionar(de);
 		 
 		 System.out.println("Retorno = " + ret);
 		
