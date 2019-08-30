@@ -12,9 +12,9 @@ public interface CargoDAO {
 
 	public Cargo getBean(Integer id) throws Exception;
 
-	public int inserir(Cargo cargo) throws Exception;
+	public int adicionar(Cargo cargo) throws Exception;
 
-	public int alterar(Cargo cargo) throws Exception;
+	public int atualizar(Cargo cargo) throws Exception;
 
 	public int remover(Cargo cargo) throws Exception;
 }

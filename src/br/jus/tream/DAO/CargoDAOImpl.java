@@ -60,7 +60,7 @@ public class CargoDAOImpl implements CargoDAO {
 	}
 
 	@Override
-	public int inserir(Cargo cargo) throws Exception {
+	public int adicionar(Cargo cargo) throws Exception {
 		int ret = 0;
 		try {
 			ret = dao.adicionar(cargo);
@@ -71,7 +71,7 @@ public class CargoDAOImpl implements CargoDAO {
 	}
 
 	@Override
-	public int alterar(Cargo cargo) throws Exception {
+	public int atualizar(Cargo cargo) throws Exception {
 		int ret = 0;
 		try {
 			ret = dao.atualizar(cargo);
