@@ -76,7 +76,7 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 	}
 
 	@Override
-	public int inserir(DistribuicaoSecao ds) throws Exception {
+	public int adicionar(DistribuicaoSecao ds) throws Exception {
 		int ret = 0;
 		try {
 			ret = dao.adicionar(ds);
@@ -87,7 +87,7 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 	}
 
 	@Override
-	public int alterar(DistribuicaoSecao ds) throws Exception {
+	public int atualizar(DistribuicaoSecao ds) throws Exception {
 		int ret = 0;
 		try {
 			ret = dao.atualizar(ds);

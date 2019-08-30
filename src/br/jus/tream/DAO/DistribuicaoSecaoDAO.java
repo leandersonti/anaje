@@ -15,9 +15,9 @@ public interface DistribuicaoSecaoDAO {
 
 	public DistribuicaoSecao getBean(DistribuicaoSecaoPK id) throws Exception;
 	
-	public int inserir (DistribuicaoSecao ds) throws Exception;
+	public int adicionar (DistribuicaoSecao ds) throws Exception;
 	
-	public int alterar (DistribuicaoSecao ds) throws Exception;
+	public int atualizar (DistribuicaoSecao ds) throws Exception;
 	
 	public int remover (DistribuicaoSecao ds) throws Exception;
 	
