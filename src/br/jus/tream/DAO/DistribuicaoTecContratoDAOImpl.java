@@ -65,7 +65,7 @@ public class DistribuicaoTecContratoDAOImpl implements DistribuicaoTecContratoDA
 	}
 
 	@Override
-	public int inserir(DistribuicaoTecnicoContrato distec) throws Exception {
+	public int adicionar(DistribuicaoTecnicoContrato distec) throws Exception {
 		int ret = 0;
 		try {
 			// SER HOUVER CONTRATOS ANTERIORES O ATIVO SERÁ AJUSTADO PARA ZERO

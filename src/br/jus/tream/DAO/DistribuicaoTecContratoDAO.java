@@ -11,7 +11,7 @@ public interface DistribuicaoTecContratoDAO {
 	// RETORNA O CONTRATO ATUAL DO TECNICO
 	public DistribuicaoTecnicoContrato getBean(Integer idTecnico) throws Exception;
 
-	public int inserir(DistribuicaoTecnicoContrato distec) throws Exception;
+	public int adicionar(DistribuicaoTecnicoContrato distec) throws Exception;
 
 	public int atualizar(DistribuicaoTecnicoContrato distec) throws Exception;
 
