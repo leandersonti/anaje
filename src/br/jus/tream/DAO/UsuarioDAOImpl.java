@@ -69,7 +69,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	} 
 	
 	@Override
-	public int inserir (Usuario dateEleicao) throws Exception{
+	public int adicionar (Usuario dateEleicao) throws Exception{
 		int ret = 0;
 		try {
 			dao.adicionar(dateEleicao);
@@ -81,7 +81,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	}
 	
 	@Override
-	public int alterar (Usuario dateEleicao) throws Exception{
+	public int atualizar (Usuario dateEleicao) throws Exception{
 		int ret = 0;
 		try {
 			dao.atualizar(dateEleicao);
