@@ -111,7 +111,7 @@ public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 	}
 
 	@Override
-	public int inserir(UnidadeServico us) throws Exception {
+	public int adicionar(UnidadeServico us) throws Exception {
 		int ret = 0;
 		try {
 			UnidadeServicoPK pk = us.getId();
@@ -125,7 +125,7 @@ public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 	}
 
 	@Override
-	public int alterar(UnidadeServico us) throws Exception {
+	public int atualizar(UnidadeServico us) throws Exception {
 		int ret = 0;
 		try {
 			ret = dao.atualizar(us);
