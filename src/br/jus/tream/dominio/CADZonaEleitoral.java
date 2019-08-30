@@ -37,7 +37,7 @@ public class CADZonaEleitoral implements Serializable{
 		super();
 		this.id = id;
 		this.municipio = municipio;
-		this.fzona = String.format("%03d",id.getZona()); 
+		this.fzona = String.format("%03d",id.getZona());
 	}
 		
 	public CADZonaEleitoral(CadZonaEleitoralPK id, String municipio, String endereco, String cod_objeto) {
@@ -46,6 +46,7 @@ public class CADZonaEleitoral implements Serializable{
 		this.municipio = municipio;
 		this.endereco = endereco;
 		this.codObjeto = cod_objeto;
+		this.fzona = String.format("%03d",id.getZona());
 	}
 	
 	public String getFzona() {
