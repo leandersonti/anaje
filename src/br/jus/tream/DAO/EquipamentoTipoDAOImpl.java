@@ -61,7 +61,7 @@ public class EquipamentoTipoDAOImpl implements EquipamentoTipoDAO {
 	}
 
 	@Override
-	public int inserir(EquipamentoTipo equipamentotipo) throws Exception {
+	public int adicionar(EquipamentoTipo equipamentotipo) throws Exception {
 		int ret = 0;
 		try {
 			ret = dao.adicionar(equipamentotipo);
@@ -72,7 +72,7 @@ public class EquipamentoTipoDAOImpl implements EquipamentoTipoDAO {
 	}
 
 	@Override
-	public int alterar(EquipamentoTipo equipamentotipo) throws Exception {
+	public int atualizar(EquipamentoTipo equipamentotipo) throws Exception {
 		int ret = 0;
 		try {
 			ret = dao.atualizar(equipamentotipo);
@@ -99,7 +99,7 @@ public class EquipamentoTipoDAOImpl implements EquipamentoTipoDAO {
 		EquipamentoTipo e = new EquipamentoTipo();
 
 		e.setDescricao("Telefone");
-		int ret = dao.inserir(e);
+		int ret = dao.adicionar(e);
 		System.out.println("Ret === " + ret);
 
 		/*
