@@ -120,13 +120,11 @@ public class DAO<T> implements Serializable {
 				em.merge(t);
 				em.getTransaction().commit();
 				em.close();
-		
 				ret=1;
 		} catch (Exception e) {
 			ret = 5; // ocorreu um erro
 			if (em.isOpen()) {
 				em.close();
-		
 			}
 		} finally {
 			if (em.isOpen()) {
