@@ -10,9 +10,9 @@ public interface EncerramentoDAO {
 
 	public Encerramento getBean(int id) throws Exception;
 
-	public int inserir(Encerramento encerramento) throws Exception;
+	public int adicionar(Encerramento encerramento) throws Exception;
 
-	public int alterar(Encerramento encerramento) throws Exception;
+	public int atualizar(Encerramento encerramento) throws Exception;
 
 	public int remover(Encerramento encerramento) throws Exception;
 

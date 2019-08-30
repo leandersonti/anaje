@@ -52,7 +52,7 @@ public class EncerramentoDAOImpl implements EncerramentoDAO {
 	}
 
 	@Override
-	public int inserir(Encerramento encerramento) throws Exception {
+	public int adicionar(Encerramento encerramento) throws Exception {
 		int ret = 0;
 		try {
 			encerramento.setCodigo(dao.gerarCodigoAlpha()); 
@@ -64,7 +64,7 @@ public class EncerramentoDAOImpl implements EncerramentoDAO {
 	}
 
 	@Override
-	public int alterar(Encerramento encerramento) throws Exception {
+	public int atualizar(Encerramento encerramento) throws Exception {
 		int ret = 0;
 		try {
 			ret = dao.atualizar(encerramento);
