@@ -80,7 +80,7 @@ public class DataEleicaoDAOImpl implements DataEleicaoDAO {
 	}
 
 	@Override
-	public int inserir(DataEleicao dateEleicao) throws Exception {
+	public int adicionar(DataEleicao dateEleicao) throws Exception {
 		int ret = 0;
 		try {
 			ret = dao.adicionar(dateEleicao);
@@ -91,7 +91,7 @@ public class DataEleicaoDAOImpl implements DataEleicaoDAO {
 	}
 
 	@Override
-	public int alterar(DataEleicao dateEleicao) throws Exception {
+	public int atualizar(DataEleicao dateEleicao) throws Exception {
 		int ret = 0;
 		try {
 			ret = dao.atualizar(dateEleicao);
@@ -146,7 +146,7 @@ public class DataEleicaoDAOImpl implements DataEleicaoDAO {
 		data.setDescricao("Eleição SAWEB T02");
 		data.setTurno(2);
 		data.setAtivo(0);
-		int ret = dao.inserir(data);
+		int ret = dao.adicionar(data);
 		System.out.println("Retorno = " + ret);
 
 		/*

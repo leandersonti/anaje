@@ -14,9 +14,9 @@ public interface DataEleicaoDAO {
 	
 	public DataEleicao getBean(Integer id) throws Exception;
 	
-	public int inserir (DataEleicao dateEleicao) throws Exception;
+	public int adicionar (DataEleicao dateEleicao) throws Exception;
 	
-	public int alterar (DataEleicao dateEleicao) throws Exception;
+	public int atualizar (DataEleicao dateEleicao) throws Exception;
 	
 	public int remover (DataEleicao dateEleicao) throws Exception;
 	
