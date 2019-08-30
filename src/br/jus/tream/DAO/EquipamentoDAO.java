@@ -12,9 +12,9 @@ public interface EquipamentoDAO {
 
 	public Equipamento getBean(Integer id) throws Exception;
 
-	public int inserir(Equipamento equipamento) throws Exception;
+	public int adicionar(Equipamento equipamento) throws Exception;
 
-	public int alterar(Equipamento equipamento) throws Exception;
+	public int atualizar(Equipamento equipamento) throws Exception;
 
 	public int remover(Equipamento equipamento) throws Exception;
 }

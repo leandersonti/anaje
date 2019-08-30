@@ -62,7 +62,7 @@ public class EquipamentoDAOImpl implements EquipamentoDAO {
 	}
 
 	@Override
-	public int inserir(Equipamento equipamento) throws Exception {
+	public int adicionar(Equipamento equipamento) throws Exception {
 		int ret = 0;
 		try {
 			ret = dao.adicionar(equipamento);
@@ -73,7 +73,7 @@ public class EquipamentoDAOImpl implements EquipamentoDAO {
 	}
 
 	@Override
-	public int alterar(Equipamento equipamento) throws Exception {
+	public int atualizar(Equipamento equipamento) throws Exception {
 		int ret = 0;
 		try {
 			ret = dao.atualizar(equipamento);
