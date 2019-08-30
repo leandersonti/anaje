@@ -92,7 +92,7 @@
 			</security-role>  -->
 
 		   <welcome-file-list>
-		    <welcome-file>frmLogin.jsp</welcome-file>
+		    <welcome-file>index.jsp</welcome-file>
 		  </welcome-file-list>
 		
 </web-app>
