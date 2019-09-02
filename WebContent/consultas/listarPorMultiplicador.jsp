@@ -2,20 +2,14 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <jsp:include page="/mainhead.inc.jsp" />
 
-
-
 <div class="container-fluid">
 	<div class="card">
-
 		<div class="card-header">
-			Encerramento dos Pontos de Trasminssão <select class="col-md-2 mb-2"
-				id="">
-				<option>selecione</option>
+			Encerramento - Por Multiplicador <select class="col-md-2 mb-2" id="">
+				<option>Sistema</option>
 				<option>...</option>
 				<option>...</option>
-			</select> 
-			&nbsp;&nbsp;|&nbsp;&nbsp; 
-			<a href="listarPorMultiplicador.jsp">Consulta Por multiplicador </a>
+			</select>
 
 		</div>
 		<div class="card-body">
@@ -23,13 +17,11 @@
 			<table id="table1" class="table">
 				<thead>
 					<tr>
-						<th width="10%">Id</th>
+						<th width="10%">ID</th>
 						<th width="5%">Data</th>
 						<th width="5%">Zona</th>
-						<th width="5%">Ponto de Transmissão</th>
+						<th width="5%">Ponto Transmissão</th>
 						<th width="3%">Status</th>
-						<th width="3%">Tec</th>
-
 					</tr>
 				</thead>
 				<tbody>
@@ -40,8 +32,6 @@
 							<td><s:property value="" /></td>
 							<td><s:property value="" /></td>
 							<td><s:property value="" /></td>
-							<td><s:property value="" /></td>
-
 						</tr>
 					</s:iterator>
 				</tbody>
@@ -51,8 +41,6 @@
 		</div>
 	</div>
 </div>
-
-
 
 <jsp:include page="/javascripts.jsp" />
 
