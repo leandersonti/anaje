@@ -2,20 +2,15 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <jsp:include page="/mainhead.inc.jsp" />
 
-
-
 <div class="container-fluid">
 	<div class="card">
 		<div class="card-header">
-			<div class="col-sm-3">
-				 Resumo PPO - Por Multiplicador
-				<select class="form-control" id="">
-					<option>selecione</option>
-					<option>...</option>
-					<option>...</option>
-				</select>
+			Resumo PPO - Por Multiplicador <select class="col-md-2 mb-2" id="">
+				<option>selecione</option>
+				<option>...</option>
+				<option>...</option>
+			</select>
 
-			</div>
 		</div>
 		<div class="card-body">
 
