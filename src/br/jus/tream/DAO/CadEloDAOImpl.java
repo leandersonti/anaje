@@ -26,7 +26,7 @@ public class CadEloDAOImpl implements CadEloDAO {
 		List<CADLocalvotacao> lst = new ArrayList<CADLocalvotacao>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
-			TypedQuery<CADLocalvotacao> query = em.createQuery("SELECT c FROM CADLocalvotacao c WHERE c.zona=?1 AND c.codmunic=?2",
+			TypedQuery<CADLocalvotacao> query = em.createQuery("SELECT c FROM CADLocalvotacao c WHERE c.zona=?1 AND c.codmunic=?2 ORDER BY c.numLocal",
 					CADLocalvotacao.class);
 			query.setParameter(1, zona);
 			lst = query.setParameter(2, codmunic).getResultList();
@@ -101,7 +101,7 @@ public class CadEloDAOImpl implements CadEloDAO {
 		List<CADSecao> lst = new ArrayList<CADSecao>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
-			TypedQuery<CADSecao> query = em.createQuery("SELECT s FROM CADSecao s WHERE s.zona=?1 AND s.codmunic=?2",
+			TypedQuery<CADSecao> query = em.createQuery("SELECT s FROM CADSecao s WHERE s.zona=?1 AND s.codmunic=?2 ORDER BY s.secao",
 					CADSecao.class);
 			query.setParameter(1, zona);
 			lst = query.setParameter(2, codmunic).getResultList();
