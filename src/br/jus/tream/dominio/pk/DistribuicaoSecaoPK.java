@@ -14,8 +14,8 @@ public class DistribuicaoSecaoPK implements Serializable{
 		
 	@ManyToOne
 	@JoinColumns({
-	  @JoinColumn(name = "id_unidade_servico", nullable = false),
-	  @JoinColumn(name = "id_eleicao", nullable = false)
+	  @JoinColumn(name = "id_eleicao", nullable = false),
+	  @JoinColumn(name = "idus", nullable = false)
 	})
 	private UnidadeServico unidadeServico;
 	

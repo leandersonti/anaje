@@ -2,18 +2,18 @@ package br.jus.tream.DAO;
 
 import java.util.List;
 
+import br.jus.tream.dominio.CADSecao;
 import br.jus.tream.dominio.DistribuicaoSecao;
-import br.jus.tream.dominio.pk.DistribuicaoSecaoPK;
 
 public interface DistribuicaoSecaoDAO {
 	
 	public List<DistribuicaoSecao> listar(Integer idUnidadeServico) throws Exception;
 		
-	public List<DistribuicaoSecao> listarParaDistribuir() throws Exception;
+	public List<CADSecao> listarParaDistribuir(Integer zona, Integer codmunic, Integer numlocal) throws Exception;
 	
 	public List<DistribuicaoSecao> listar(Integer zona, Integer codmunic) throws Exception;	 
 
-	public DistribuicaoSecao getBean(DistribuicaoSecaoPK id) throws Exception;
+	public DistribuicaoSecao getBean(String codibjeto) throws Exception;
 	
 	public int adicionar (DistribuicaoSecao ds) throws Exception;
 	
