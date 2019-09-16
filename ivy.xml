@@ -40,18 +40,20 @@
 			<dependency org="org.apache.struts" name="struts2-convention-plugin" rev="2.5.20"/>
 			<dependency org="org.apache.struts" name="struts2-json-plugin" rev="2.5.20" transitive="false"/>
 			  
-			<dependency org="org.hibernate" name="hibernate-core" rev="5.4.3.Final"/>  
-			<dependency org="org.apache.logging.log4j" name="log4j-core" rev="2.11.2"/>
+			<dependency org="org.hibernate" name="hibernate-core" rev="5.4.4.Final"/>  
+			<dependency org="org.apache.logging.log4j" name="log4j-core" rev="2.12.1"/>
+			<!-- <dependency org="org.apache.logging.log4j" name="log4j-core" rev="2.11.2"/> -->
 			
 			<!-- BIBLIOTECA UTILIZDA NO UPLOAD DE ARQUIVOS --> 
-			<dependency org="org.apache.logging.log4j" name="log4j-api" rev="2.11.2"/>
+			<dependency org="org.apache.logging.log4j" name="log4j-api" rev="2.12.1"/>
+			<!-- <dependency org="org.apache.logging.log4j" name="log4j-api" rev="2.11.2"/> -->
 			
 			<dependency org="dom4j" name="dom4j" rev="1.6.1" transitive="false"/>
 			
-			<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-text -->
-			<dependency org="org.apache.commons" name="commons-text" rev="1.6" transitive="false"/>
+			<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-text 1.6 -->
+			<dependency org="org.apache.commons" name="commons-text" rev="1.8" transitive="false"/>
 			
-			<dependency org="mysql" name="mysql-connector-java" rev="8.0.15"/>
+			<!-- <dependency org="mysql" name="mysql-connector-java" rev="8.0.17"/> -->
  
 		</dependencies>
 </ivy-module>
