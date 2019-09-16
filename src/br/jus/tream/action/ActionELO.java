@@ -32,6 +32,7 @@ public class ActionELO extends ActionSupport {
 	private Integer zona;
 	private Integer codmunic;
 	private Integer numLocal;
+	private String codZonaMunic;
 	private BeanResult result;
 	private final static CadEloDAO dao = CadEloDAOImpl.getInstance();
 	// private final static Permissao permissao = Permissao.getInstance();
@@ -74,13 +75,15 @@ public class ActionELO extends ActionSupport {
 		return "success";
 	}
 	
-	@Action(value = "listarJsonLocalVotacao", results = {
+	@Action(value = "listarJsonLocalVotacaoParaCadastrar", results = {
 			@Result(name = "success", type = "json", params = { "root", "lstLocalVotacao" }),
 			@Result(name = "error", location = "/pages/resultAjax.jsp") })
-	public String listarJsonLocalVotacao() {
+	public String listarJsonLocalVotacaoParaCadastrar() {
 		try {
-			this.lstLocalVotacao = dao.listarLocalVotacaoParaCadastrar(zona, codmunic);
-					
+			// PEGANDO CODZONAMUNIC
+			String[] zonamunic = this.codZonaMunic.split(";");
+			this.lstLocalVotacao = dao.listarLocalVotacaoParaCadastrar(Integer.valueOf(zonamunic[0]), 
+																	   Integer.valueOf(zonamunic[1]));
 		} catch (Exception e) {
 			addActionError(getText("listar.error") + " table: LocalVotacao");
 			return "error";
@@ -88,6 +91,22 @@ public class ActionELO extends ActionSupport {
 		return "success";
 	}
 
+	@Action(value = "listarJsonLocalVotacao", results = {
+			@Result(name = "success", type = "json", params = { "root", "lstLocalVotacao" }),
+			@Result(name = "error", location = "/pages/resultAjax.jsp") })
+	public String listarJsonLocalVotacao() {
+		try {
+			// PEGANDO CODZONAMUNIC
+			String[] zonamunic = this.codZonaMunic.split(";");
+			this.lstLocalVotacao = dao.listarLocalVotacao(Integer.valueOf(zonamunic[0]), 
+																	   Integer.valueOf(zonamunic[1]));
+		} catch (Exception e) {
+			addActionError(getText("listar.error") + " table: LocalVotacao");
+			return "error";
+		}
+		return "success";
+	}
+	
 	public List<CADLocalvotacao> getLstLocalVotacao() {
 		return lstLocalVotacao;
 	}
@@ -166,6 +185,14 @@ public class ActionELO extends ActionSupport {
 
 	public void setResult(BeanResult result) {
 		this.result = result;
+	}
+
+	public String getCodZonaMunic() {
+		return codZonaMunic;
+	}
+
+	public void setCodZonaMunic(String codZonaMunic) {
+		this.codZonaMunic = codZonaMunic;
 	}
 
 }
