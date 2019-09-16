@@ -194,11 +194,10 @@ $(document).ready(function() {
 	});
 
 	function CarregaLocalVotacao() {
-		var codZonaMunic = $("#codZonaMunic option:selected").val().split(';');
+		var codZonaMunic = $("#codZonaMunic option:selected").val();
 		var select = $('#selectlocal');
 		select.find('option').remove();
-	 	$.getJSON(
-				'../elo/listarJsonLocalVotacao?zona=' + codZonaMunic[0] +'&codmunic=' + codZonaMunic[1], 
+	 	$.getJSON('../elo/listarJsonLocalVotacaoParaCadastrar?codZonaMunic=' + codZonaMunic, 
 				function(jsonResponse) {
 					$('<option>').val(-1).text("Informe o local").appendTo(
 							select);
