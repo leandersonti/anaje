@@ -22,6 +22,10 @@ public class UnidadeServicoPK implements Serializable{
 		return id;
 	}
 
+	public Integer getIdEleicao() {
+		return dataEleicao.getId();
+	}
+	
 	public void setId(Integer id) {
 		this.id = id;
 	}

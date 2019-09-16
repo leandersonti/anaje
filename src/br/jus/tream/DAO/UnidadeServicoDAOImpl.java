@@ -109,6 +109,25 @@ public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 		  }
 		return uservico;
 	}
+	
+	@Override
+	public UnidadeServico getBean(Integer id) throws Exception{
+		UnidadeServico uservico = new UnidadeServico();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+	   try {	  
+		     TypedQuery<UnidadeServico> query = em.createQuery("SELECT u FROM UnidadeServico u "
+		     												  + "WHERE id.dataEleicao.ativo=1 AND u.id.id=?1", 
+		    		 UnidadeServico.class);
+		     uservico =  query.setParameter(1, id).getSingleResult();
+		  }
+		  catch (Exception e) {
+			     em.close();
+				 e.printStackTrace();
+		  }	finally {
+				em.close();
+		  }
+		return uservico;
+	}
 
 	@Override
 	public int adicionar(UnidadeServico us) throws Exception {
@@ -150,10 +169,11 @@ public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 	public static void main(String[] args) throws Exception{
 		UnidadeServicoDAO dao = UnidadeServicoDAOImpl.getInstance();
 		
+		/*
 		for(UnidadeServico u : dao.listar()) {
 			System.out.println("Zona = " + u.getZona() + " " + u.getLocal() + " " + u.getDescricao());
 		}
-		
+		*/
 		
 		/*
 		UnidadeServico u2 = new UnidadeServico();
@@ -175,11 +195,14 @@ public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 		u2.setLocal(1900);
 		u2.setOficial(0);
 		u2.setSexo("N");
-		*/
-		
+		*/		
 		// int ret = dao.remover(u2);
-		
 		//System.out.println("RET ==  " + ret);
+		
+		UnidadeServico us = new UnidadeServico();
+		us = dao.getBean(12019);
+		System.out.println("Descricao " + us.getZona() + " " + us.getDescricao());
+		
 		
 		System.out.println("Done!!");
 

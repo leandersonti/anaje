@@ -15,6 +15,8 @@ public interface UnidadeServicoDAO {
 	
 	public UnidadeServico getBean(UnidadeServicoPK id) throws Exception;
 	
+	public UnidadeServico getBean(Integer id) throws Exception;
+	
 	public int adicionar (UnidadeServico us) throws Exception;
 	
 	public int atualizar (UnidadeServico us) throws Exception;
