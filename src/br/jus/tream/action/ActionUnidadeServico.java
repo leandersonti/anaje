@@ -35,6 +35,8 @@ public class ActionUnidadeServico extends ActionSupport {
 	private UnidadeServicoPK id = new UnidadeServicoPK();
 	private BeanResult result;
 	private String codZonaMunic;
+	private Integer zona;
+	private Integer codmunic;
 	private final static UnidadeServicoDAO dao = UnidadeServicoDAOImpl.getInstance();
 	private final static Permissao permissao = Permissao.getInstance();
 
@@ -50,6 +52,20 @@ public class ActionUnidadeServico extends ActionSupport {
 		return "success";
 	}
 
+	@Action(value = "listarJson", results = { @Result(name = "success", type = "json", params = { "root", "lstUnidadeServico" }),
+			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+	public String listarJson() {
+		try {
+			// PEGANDO CODZONAMUNIC
+			String[] zonamunic = this.codZonaMunic.split(";");
+			this.lstUnidadeServico = dao.listar(Integer.valueOf(zonamunic[0]), Integer.valueOf(zonamunic[1]));
+		} catch (Exception e) {
+			addActionError(getText("listar.error"));
+			return "error";
+		}
+		return "success";
+	}
+				
 	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmUnidadeServico.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String frmCadUnidadeServico() {
@@ -222,6 +238,22 @@ public class ActionUnidadeServico extends ActionSupport {
 
 	public void setCodZonaMunic(String codZonaMunic) {
 		this.codZonaMunic = codZonaMunic;
+	}
+
+	public Integer getZona() {
+		return zona;
+	}
+
+	public void setZona(Integer zona) {
+		this.zona = zona;
+	}
+
+	public Integer getCodmunic() {
+		return codmunic;
+	}
+
+	public void setCodmunic(Integer codmunic) {
+		this.codmunic = codmunic;
 	}
 
 }
