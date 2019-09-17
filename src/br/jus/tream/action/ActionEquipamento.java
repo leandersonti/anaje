@@ -56,7 +56,7 @@ public class ActionEquipamento extends ActionSupport {
 
 	@Action(value = "listarJson", results = {
 			@Result(name = "success", type = "json", params = { "root", "lstEquipamento" }),
-			@Result(name = "error", location = "/login.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+			@Result(name = "error", location = "/login.jsp")})
 	public String listarJson() {
 		try {
 			this.lstEquipamento = dao.listar();
@@ -67,6 +67,20 @@ public class ActionEquipamento extends ActionSupport {
 		return "success";
 	}
 
+	@Action(value = "listarTipoEquipamentoJson", results = {
+			@Result(name = "success", type = "json", params = { "root", "lstEquipamentoTipo" }),
+			@Result(name = "error", location = "/login.jsp")})
+	public String listarTipoEquipamentoJson() {
+		try {
+			this.lstEquipamentoTipo = EquipamentoTipoDAOImpl.getInstance().listar();
+		} catch (Exception e) {
+			addActionError(getText("listar.error"));
+			return "error";
+		}
+		return "success";
+	}
+	
+	
 	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmEquipamento.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String frmCadContrato() {

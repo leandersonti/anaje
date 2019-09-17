@@ -100,7 +100,6 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 			int zona = Integer.valueOf(zonamunic[0]);
 			if (permissao.getAdmin() || permissao.getZona()==zona) {
 				this.us = UnidadeServicoDAOImpl.getInstance().getBean(this.us.getId().getId());
-				System.out.println("Unidade de servico == " + us.getDescricao());
 				ds.getId().setUnidadeServico(us);
 				ds.setZona(zona);
 				ds.setCodmunic(Integer.valueOf(zonamunic[1]));
