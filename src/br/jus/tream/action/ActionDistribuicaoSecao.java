@@ -64,7 +64,8 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 			// PEGANDO CODZONAMUNIC
 			String[] zonamunic = this.codZonaMunic.split(";");
 			this.lstCadSecao = dao.listarParaDistribuir(Integer.valueOf(zonamunic[0]), 
-					                                     Integer.valueOf(zonamunic[1]), numlocal);
+					                                    Integer.valueOf(zonamunic[1]), 
+					                                    numlocal);
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";

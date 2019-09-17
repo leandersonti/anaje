@@ -118,7 +118,7 @@ function CarregaPontoTransmissao(){
          cbxpt.find('option').remove();
     	 if(codZonaMunic != -1){	    		 
 		     $.getJSON('../uservico/listarJson?codZonaMunic='+codZonaMunic,function(jsonResponse) {
-		   	  $('<option>').val(-1).text("Informe a unidade de servico").appendTo(cbxpt);
+		   	  $('<option>').val(-1).text("Informe o ponto de transmissao").appendTo(cbxpt);
 		             $.each(jsonResponse, function(key, value) {             
 		            	 $('<option>').val(value.id.id).text(value.local + " " + value.descricao).appendTo(cbxpt);
 		      		 });
