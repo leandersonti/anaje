@@ -14,10 +14,13 @@ import com.opensymphony.xwork2.ActionSupport;
 import br.jus.tream.DAO.CadEloDAOImpl;
 import br.jus.tream.DAO.DistribuicaoSecaoDAO;
 import br.jus.tream.DAO.DistribuicaoSecaoDAOImpl;
+import br.jus.tream.DAO.UnidadeServicoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.CADSecao;
 import br.jus.tream.dominio.CADZonaEleitoral;
 import br.jus.tream.dominio.DistribuicaoSecao;
+import br.jus.tream.dominio.UnidadeServico;
+import br.jus.tream.dominio.pk.DistribuicaoSecaoPK;
 
 @SuppressWarnings("serial")
 @Namespace("/distribsecao")
@@ -28,10 +31,13 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 	private List<DistribuicaoSecao> lstDistribuicaoSecao;
 	private List<CADZonaEleitoral> lstZonaEleitoral;
 	private BeanResult result;
+	private UnidadeServico us;
+	private DistribuicaoSecao ds;
 	private String codZonaMunic;
 	private final static DistribuicaoSecaoDAO dao = DistribuicaoSecaoDAOImpl.getInstance();
 	private final static Permissao permissao = Permissao.getInstance();
 	private Integer zona, codmunic,numlocal;
+	private String[] secoesCbx;
 	
 	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmDistribuicaoSecao.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp")}, interceptorRefs = @InterceptorRef("authStack"))
@@ -89,20 +95,25 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 	public String doAdicionar() {
 		BeanResult beanResult = new BeanResult();
 		try {
-			if (permissao.getAdmin()) {
-				//beanResult.setRet(dao.adicionar(eleicao));
-				beanResult.setRet(1);
-				if (beanResult.getRet() == 1)
-					beanResult.setMensagem(getText("inserir.sucesso"));
-				else
-					beanResult.setMensagem(getText("inserir.error"));
-			}else {
+			String[] zonamunic = ds.getCodZonaMunic().split(";");
+			int zona = Integer.valueOf(zonamunic[0]);
+			if (permissao.getAdmin() || permissao.getZona()==zona) {
+				this.us = UnidadeServicoDAOImpl.getInstance().getBean(this.us.getId().getId());
+				System.out.println("Unidade de servico == " + us.getDescricao());
+				ds.getId().setUnidadeServico(us);
+				ds.setZona(zona);
+				ds.setCodmunic(Integer.valueOf(zonamunic[1]));
+				ds.setVetsecoes(this.secoesCbx);
+				beanResult.setRet(dao.adicionar(ds));
+				beanResult.setMensagem(getText("inserir.sucesso") + " (" + secoesCbx.length + " Secao(oes))");
+			}else
+			{
 				beanResult.setRet(0);
 				beanResult.setMensagem(getText("permissao.negada"));
 			}
 		} catch (Exception e) {
-			    addActionError(getText("alterar.error") + " Error: " + e.getMessage());
-			  //result.setMensagem(getText("inserir.error") + " Error: " + e.getMessage());
+			    addActionError(getText("inserir.error") + " Error: " + e.getMessage());
+			    beanResult.setMensagem(getText("inserir.error") + " Error: " + e.getMessage());
 			return "error";
 		}
 		this.result = beanResult;
@@ -131,7 +142,22 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 	  return "success";
 	}
 	
-	
+	public DistribuicaoSecao getDs() {
+		return ds;
+	}
+
+	public void setDs(DistribuicaoSecao ds) {
+		this.ds = ds;
+	}
+
+	public UnidadeServico getUs() {
+		return us;
+	}
+
+	public void setUs(UnidadeServico us) {
+		this.us = us;
+	}
+
 	public Integer getZona() {
 		return zona;
 	}
@@ -193,6 +219,14 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 
 	public void setCodZonaMunic(String codZonaMunic) {
 		this.codZonaMunic = codZonaMunic;
+	}
+
+	public String[] getSecoesCbx() {
+		return secoesCbx;
+	}
+
+	public void setSecoesCbx(String[] secoesCbx) {
+		this.secoesCbx = secoesCbx;
 	}
 	
 }

@@ -73,12 +73,10 @@ $(document).ready(function() {
 		         }).then((result) => {
 					if (result.value) {
 						var frm = $("#form1").serialize();
-						console.log(frm);
 						$.getJSON({
 							url: URL,
 							data: frm
 					    }).done(function( data ) {
-					    	console.log(data);
 					    	if(data.ret==1)
 					    		Swal.fire(URL, data.mensagem, "success");
 					    	else 

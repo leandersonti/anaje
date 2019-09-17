@@ -18,14 +18,16 @@
 								headerValue="Selecione a zona" tooltip="Informe a Zona"
 								list="lstZonaEleitoral" listKey="id.zona+';'+id.codmunic"
 								listValue="fzona +' - '+ municipio"
-								name="codZonaMunic"  id="codZonaMunic" theme="simple"  cssClass="form-control" />  
+								name="ds.codZonaMunic"  id="codZonaMunic" theme="simple"  cssClass="form-control"/>
+					<div class="invalid-feedback">Por favor, informe a zona eleitoral.</div>			  
 				</div>
 
 				<div class="form-group ">
 					<label for="inputTipo">Ponto Transmissão :</label> 
-					 <select class="form-control form-control" id="us" name="us" required>
+					 <select class="form-control form-control" id="us" name="us.id.id" required>
 						<option value="0">Selecione</option>
 					</select>
+					<div class="invalid-feedback">Por favor, informe o ponto de transmissão.</div>
 				</div>
 
 				<div class="form-group ">
@@ -33,10 +35,11 @@
 					 <select class="form-control form-control" id="numlocal" name="numlocal" required>
 						<option value="0">Selecione</option>
 					</select>
+					<div class="invalid-feedback">Por favor, informe o local de votação.</div>
 				</div>
 				<div id="ajaxResponse"></div>
 				<br>
-				<button class="btn btn-primary" id="btnSave" type="button">Enviar</button>
+				<button class="btn btn-primary" id="btnSave" type="button">Salvar</button>
 				
 				
 			</form>
@@ -58,10 +61,57 @@ $(document).ready(function() {
 		     $('#ajaxResponse').text('');
 		  		  CarregaSecoes();	  		  
 		    });
+	 
+	 $("#btnSave").click(function() {
+			var URL = ""; 
+			if ( $('#id').length ) { URL = "atualizar"; }
+			else{ URL = "adicionar";  }	
+			if (verificaDados()){
+				 Swal.fire({
+			         title: "Distribuicao Secao?",
+			         text: "Confirma essa distribuicao?",
+			         type: 'warning',
+			         showCancelButton: true,
+					  confirmButtonText: 'Sim'
+			         }).then((result) => {
+						if (result.value) {
+							var frm = $("#form1").serialize();
+							$.getJSON({
+								url: URL,
+								data: frm
+						    }).done(function( data ) {
+						    	if(data.ret==1){
+						    		CarregaSecoes();
+						    		Swal.fire(URL, data.mensagem, "success");
+						         }	
+						    	else 
+						    		Swal.fire(URL, data.mensagem, "error");
+							}).fail(function() {
+									Swal.fire("Adicionar", "Ocorreu um erro ao incluir", "error");
+							});
+					      } 
+				   }); // -- FIM SWAL --
+			   }else{
+				   Swal.fire("Dados", "Verifique os campos obrigatórios ", "error");
+			   }
+		 	}); // -- FIM btnSave --
 	
 	});
 
-
+function verificaDados(){
+    if ($("#form1")[0].checkValidity()===false){
+    	$("#form1")[0].classList.add('was-validated');
+    	return false;
+    }else {
+    	var cbxCollection = document.getElementsByName('secoesCbx');
+    	if (cbxCollection.length==0 || $('#us option:selected').val()==-1 )
+    		return false;
+    	else
+    		return true;
+    }
+	   
+ }
+ 
 function CarregaPontoTransmissao(){
 	 var codZonaMunic = $("#codZonaMunic").val();
      var cbxpt = $('#us');	
@@ -70,7 +120,7 @@ function CarregaPontoTransmissao(){
 		     $.getJSON('../uservico/listarJson?codZonaMunic='+codZonaMunic,function(jsonResponse) {
 		   	  $('<option>').val(-1).text("Informe a unidade de servico").appendTo(cbxpt);
 		             $.each(jsonResponse, function(key, value) {             
-		            	 $('<option>').val(value.id).text(value.local + " " + value.descricao).appendTo(cbxpt);
+		            	 $('<option>').val(value.id.id).text(value.local + " " + value.descricao).appendTo(cbxpt);
 		      		 });
 		     });
      }else{
@@ -95,7 +145,6 @@ function CarregaLocalVotacao(){
    		 }
 }
 
-
 function CarregaSecoes(){
 	var codZonaMunic = $("#codZonaMunic").val();
 	var codLocal = $("#numlocal").val();
@@ -105,7 +154,7 @@ function CarregaSecoes(){
      $.getJSON('listarParaDistribuirJson?codZonaMunic='+codZonaMunic+'&numlocal='+codLocal,function(jsonResponse) {
   	  $('#ajaxResponse').text('');
   	     $.each(jsonResponse, function(key, value) {
-  	       $('#ajaxResponse').append('<input type="checkbox" checked name="secoesChbx" value="'+ value.codObjetoSecao +'"/> ' + value.secao + " ");
+  	       $('#ajaxResponse').append('<input type="checkbox" checked id="secoesCbx" name="secoesCbx" value="'+ value.id +';' + value.secao +'"/> ' + value.secao + " ");
   	    }); 
 	  });
 	}

@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import br.jus.tream.dominio.pk.DistribuicaoSecaoPK;
 
@@ -23,6 +24,12 @@ public class DistribuicaoSecao implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data_recebimento", nullable = true)
 	private Date dataRecebimento;
+	
+	@Transient
+	private String[] vetsecoes;
+	
+	@Transient
+	private String codZonaMunic;
 	
 	private Integer zona;
 	
@@ -40,6 +47,22 @@ public class DistribuicaoSecao implements Serializable{
 		this.zona = zona;
 		this.secao = secao;
 		this.codmunic = codmunic;
+	}
+	
+	public String[] getVetsecoes() {
+		return vetsecoes;
+	}
+	
+	public String getCodZonaMunic() {
+		return codZonaMunic;
+	}
+
+	public void setCodZonaMunic(String codZonaMunic) {
+		this.codZonaMunic = codZonaMunic;
+	}
+
+	public void setVetsecoes(String[] vetsecoes) {
+		this.vetsecoes = vetsecoes;
 	}
 
 	public DistribuicaoSecaoPK getId() {

@@ -115,7 +115,20 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 	public int adicionar(DistribuicaoSecao ds) throws Exception {
 		int ret = 0;
 		try {
-			ret = dao.adicionar(ds);
+			// SE HOUVER UM VET DE SEÇÕES INSERÇÃO EM LOTE
+			// o valor de cada elementro é: cod_objeto_secao;num_secao 
+			if (ds.getVetsecoes()!=null) {
+				String[] vetsecao = ds.getVetsecoes();
+				for (String vet : vetsecao) {
+					String[] secao = vet.split(";");
+					ds.getId().setCodOjeto(secao[0]);
+					ds.setSecao( Integer.valueOf(secao[1]));
+					// System.out.println(">> estarei inserindo na US " + ds.getId().getUnidadeServico().getId().getId() + " e objeto secao  " + secao[0] + "/" + secao[1]);
+					ret = dao.adicionar(ds);
+				}
+			}else	
+				//System.out.println(">> estarei secao individualmente " + ds.getSecao() + " e cod_objeto_secao = " + ds.getId().getCodOjeto());
+				 ret = dao.adicionar(ds);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -158,6 +171,10 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 		ds.setZona(14);
 		ds.setSecao(36);
 		ds.setCodmunic(2151);
+		
+		String secoes = "253065;10,253067;34,310422;42";
+		String[] vet = secoes.split(",");
+		ds.setVetsecoes(vet);
 
 		int ret = dao.adicionar(ds);
 		System.out.println("ret == " + ret);
