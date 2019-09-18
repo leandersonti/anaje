@@ -36,6 +36,7 @@ public class ActionEquipamento extends ActionSupport {
 	private List<DataEleicao> lstDataEleicao;
 	private Equipamento equipamento;
 	private BeanResult result;
+	private Integer tipo;
 	private File fileUpload;
 	private final EquipamentoDAO dao = EquipamentoDAOImpl.getInstance();
 	private final EquipamentoDAO daoEquip = EquipamentoDAOImpl.getInstance();
@@ -60,6 +61,19 @@ public class ActionEquipamento extends ActionSupport {
 	public String listarJson() {
 		try {
 			this.lstEquipamento = dao.listar();
+		} catch (Exception e) {
+			addActionError(getText("listar.error"));
+			return "error";
+		}
+		return "success";
+	}
+	
+	@Action(value = "listarParaDistribuirJson", results = {
+			@Result(name = "success", type = "json", params = { "root", "lstEquipamento" }),
+			@Result(name = "error", location = "/login.jsp")})
+	public String listarParaDistribuirJson() {
+		try {
+			this.lstEquipamento = dao.listarParaDistribuir(tipo);
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";
@@ -303,6 +317,14 @@ public class ActionEquipamento extends ActionSupport {
 
 	public void setLstDataEleicao(List<DataEleicao> lstDataEleicao) {
 		this.lstDataEleicao = lstDataEleicao;
+	}
+
+	public Integer getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(Integer tipo) {
+		this.tipo = tipo;
 	}
 
 
