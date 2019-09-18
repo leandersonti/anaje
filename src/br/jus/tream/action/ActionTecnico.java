@@ -53,7 +53,7 @@ public class ActionTecnico extends ActionSupport{
 		}
 		return "success";
 	}
-
+	
 	@Action(value = "listarJson", results = { @Result(name = "success", type = "json", params = { "root", "lstTecnico" }),
 			@Result(name = "error", location = "/login.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String listarJson() {
@@ -65,6 +65,31 @@ public class ActionTecnico extends ActionSupport{
 		}
 		return "success";
 	}
+	
+	@Action(value = "listarJsonByContrato", results = { @Result(name = "success", type = "json", params = { "root", "lstTecnico" }),
+			@Result(name = "error", location = "/login.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+	public String listarJsonByContrato() {
+		try {
+			this.lstTecnico = dao.listarCbx(contrato.getId());
+		} catch (Exception e) {
+			addActionError(getText("listar.error"));
+			return "error";
+		} 
+		return "success";
+	}
+	
+	@Action(value = "listarJsonResponsavel", results = { @Result(name = "success", type = "json", params = { "root", "lstTecnico" }),
+			@Result(name = "error", location = "/login.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+	public String listarJsonResponsavel() {
+		try {
+			this.lstTecnico = dao.listarCbxResponsavel();
+		} catch (Exception e) {
+			addActionError(getText("listar.error"));
+			return "error";
+		}
+		return "success";
+	}
+	
 	
 	@Action(value = "getBeanJson", results = { @Result(name = "success", type = "json", params = { "root", "tecnico" }),
 			@Result(name = "error", location = "/login.jsp") }, interceptorRefs = @InterceptorRef("authStack"))

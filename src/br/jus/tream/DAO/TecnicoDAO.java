@@ -8,7 +8,11 @@ public interface TecnicoDAO {
 	
 	public List<Tecnico> listar() throws Exception;
 	
-	public List<Tecnico> listarCbx() throws Exception; 
+	public List<Tecnico> listarCbx() throws Exception;
+	
+	public List<Tecnico> listarCbx(Integer contrato) throws Exception;
+	
+	public List<Tecnico> listarCbxResponsavel() throws Exception;
 	
 	public Tecnico getBean(Integer id) throws Exception;
 	

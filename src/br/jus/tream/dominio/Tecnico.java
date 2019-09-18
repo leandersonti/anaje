@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -101,7 +103,11 @@ public class Tecnico implements Serializable{
 		this.dataCad = dataCad;
 	}
 
-
+	public Tecnico(Integer id, String nome) {
+		super();
+		this.id = id;
+		this.nome = nome;
+	}
 
 	public String getTituloEleitor() {
 		return tituloEleitor;
