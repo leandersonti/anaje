@@ -20,7 +20,6 @@ import br.jus.tream.dominio.CADSecao;
 import br.jus.tream.dominio.CADZonaEleitoral;
 import br.jus.tream.dominio.DistribuicaoSecao;
 import br.jus.tream.dominio.UnidadeServico;
-import br.jus.tream.dominio.pk.DistribuicaoSecaoPK;
 
 @SuppressWarnings("serial")
 @Namespace("/distribsecao")
