@@ -44,23 +44,6 @@ public class EquipamentoTipoDAOImpl implements EquipamentoTipoDAO {
 	}
 
 	@Override
-	public List<EquipamentoTipo> listarCbx() throws Exception {
-		List<EquipamentoTipo> lista = new ArrayList<EquipamentoTipo>();
-		EntityManager em = EntityManagerProvider.getInstance().createManager();
-		try {
-			TypedQuery<EquipamentoTipo> query = em
-					.createQuery("SELECT NEW Equipamento_Tipo(d.id) FROM Equipamento_Tipo d", EquipamentoTipo.class);
-			lista = query.getResultList();
-		} catch (Exception e) {
-			em.close();
-			// e.printStackTrace();
-		} finally {
-			em.close();
-		}
-		return lista;
-	}
-
-	@Override
 	public int adicionar(EquipamentoTipo equipamentotipo) throws Exception {
 		int ret = 0;
 		try {
