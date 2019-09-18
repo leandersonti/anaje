@@ -27,7 +27,6 @@ public class DistribuicaoEquipamentoDAOImpl implements DistribuicaoEquipamentoDA
 		return db;
 	}
 
-
 	@Override
 	public List<DistribuicaoEquipamento> listar() throws Exception {
 		List<DistribuicaoEquipamento> lista = new ArrayList<DistribuicaoEquipamento>();
