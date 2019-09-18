@@ -7,8 +7,8 @@ import br.jus.tream.dominio.Equipamento;
 public interface EquipamentoDAO {
 
 	public List<Equipamento> listar() throws Exception;
-
-	public List<Equipamento> listarCbx() throws Exception; // para preenchimento de combobox
+	
+	public List<Equipamento> listarParaDistribuir(Integer tipo) throws Exception;
 
 	public Equipamento getBean(Integer id) throws Exception;
 

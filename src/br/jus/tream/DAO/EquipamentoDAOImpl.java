@@ -6,9 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import br.jus.tream.dominio.DataEleicao;
 import br.jus.tream.dominio.Equipamento;
-import br.jus.tream.dominio.EquipamentoTipo;
 
 public class EquipamentoDAOImpl implements EquipamentoDAO {
 
@@ -33,6 +31,27 @@ public class EquipamentoDAOImpl implements EquipamentoDAO {
 		}
 		return lista;
 	}
+	
+	@Override
+	public List<Equipamento> listarParaDistribuir(Integer tipo) throws Exception{
+		List<Equipamento> lista = new ArrayList<Equipamento>();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		try {
+			TypedQuery<Equipamento> query = em
+					.createQuery("SELECT e FROM Equipamento e WHERE e.tipo.id=?1 "
+							+ "AND e.id NOT IN (SELECT de.id.equipamento.id FROM DistribuicaoEquipamento de WHERE de.id.equipamento.tipo.id=?2"
+											     + " AND de.id.unidadeServico.id.dataEleicao.ativo=1)", Equipamento.class);
+			query.setParameter(1, tipo);
+			query.setParameter(2, tipo);
+			lista = query.getResultList();
+		} catch (Exception e) {
+			em.close();
+			e.printStackTrace();
+		} finally {
+			em.close();
+		}
+		return lista;
+	}
 
 	@Override
 	public Equipamento getBean(Integer id) throws Exception {
@@ -43,22 +62,6 @@ public class EquipamentoDAOImpl implements EquipamentoDAO {
 			e.printStackTrace();
 		}
 		return obj;
-	}
-
-	@Override
-	public List<Equipamento> listarCbx() throws Exception {
-		List<Equipamento> lista = new ArrayList<Equipamento>();
-		EntityManager em = EntityManagerProvider.getInstance().createManager();
-		try {
-			TypedQuery<Equipamento> query = em.createQuery("SELECT NEW Equipamento(d.id, d.tipo.id) FROM Equipamento d", Equipamento.class);
-			lista = query.getResultList();
-		} catch (Exception e) {
-			em.close();
-			// e.printStackTrace();
-		} finally {
-			em.close();
-		}
-		return lista;
 	}
 
 	@Override
@@ -95,8 +98,11 @@ public class EquipamentoDAOImpl implements EquipamentoDAO {
 	}
 
 	public static void main(String[] args) throws Exception {
-
+		EquipamentoDAOImpl dao = new EquipamentoDAOImpl();
 		
+		for(Equipamento e : dao.listarParaDistribuir(122)) {
+			System.out.println("Equi " + e.getSerie());
+		}
 	
 		/*
 		 * EquipamentoTipo et = new EquipamentoTipo(); DataEleicao dt = new
@@ -138,6 +144,7 @@ public class EquipamentoDAOImpl implements EquipamentoDAO {
 		 * cargo = dao.getBean(1);
 		 * System.out.println("descriçaõ: "+cargo.getDescricao());
 		 */
+		System.out.println("Done!!!");
 
 	}
 }
