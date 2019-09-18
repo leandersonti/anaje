@@ -15,14 +15,21 @@ public class DistribuicaoEquipamentoPK implements Serializable{
 	@ManyToOne
 	@JoinColumn(name="id_equipamento")	
 	private Equipamento equipamento;
-
 	
+	@ManyToOne
+	@JoinColumns({
+	  @JoinColumn(name = "id_eleicao", nullable = false),
+	  @JoinColumn(name = "idus", nullable = false)
+	})
+	private UnidadeServico unidadeServico;
+	
+	/*
 	@ManyToOne
 	@JoinColumns(value = {
 	        @JoinColumn(name = "idus", referencedColumnName = "idus", updatable = false, insertable = false),
 	        @JoinColumn(name = "id_eleicao", referencedColumnName = "id_eleicao", updatable = false, insertable = false)})
 	private UnidadeServico unidadeServico;
-	
+	*/
 	public Equipamento getEquipamento() {
 		return equipamento;
 	}

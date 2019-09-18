@@ -53,8 +53,6 @@ public class Equipamento implements Serializable{
 	
 
 	public Equipamento() {
-		super();
-	
 	}
 
 	public Equipamento(Integer id, EquipamentoTipo tipo, DataEleicao dataEleicao, String serie, String tomb,
