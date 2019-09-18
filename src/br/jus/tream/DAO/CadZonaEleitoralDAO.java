@@ -8,6 +8,8 @@ public interface CadZonaEleitoralDAO {
 	
 	public List<CADZonaEleitoral> listar() throws Exception;
 	
-	public List<CADZonaEleitoral> listarCbx() throws Exception; 	
+	public List<CADZonaEleitoral> listarCbx() throws Exception;
+	
+	public List<CADZonaEleitoral> listarCbx(Integer zona) throws Exception;
 	
 } 

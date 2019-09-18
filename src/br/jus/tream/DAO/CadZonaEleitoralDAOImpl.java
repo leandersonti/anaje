@@ -58,6 +58,24 @@ public class CadZonaEleitoralDAOImpl implements CadZonaEleitoralDAO {
 		return lista;	
 	} 
 
+	@Override
+	public List<CADZonaEleitoral> listarCbx(Integer zona) throws Exception	{
+		List<CADZonaEleitoral> lista = new ArrayList<CADZonaEleitoral>();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+	   try {	  
+		     TypedQuery<CADZonaEleitoral> query = em.createQuery("SELECT NEW CADZonaEleitoral(z.id.zona,z.id.codmunic) FROM CADZonaEleitoral z WHERE z.id.zona=?1", 
+		    		 CADZonaEleitoral.class);
+		      query.setParameter(1, zona);
+			  lista = query.getResultList();
+		  }
+		  catch (Exception e) {
+			     em.close();
+				// e.printStackTrace();
+		  }	finally {
+				em.close();
+		  }
+		return lista;	
+	}
 	    
 	public static void main(String[] args) throws Exception{
 		CadZonaEleitoralDAO dao =  CadZonaEleitoralDAOImpl.getInstance();
@@ -71,7 +89,7 @@ public class CadZonaEleitoralDAOImpl implements CadZonaEleitoralDAO {
 		
 		//u = dao.getBean("2301619");
 		
-		  for(CADZonaEleitoral s:dao.listar()) { 
+		  for(CADZonaEleitoral s:dao.listarCbx()) { 
 			  System.out.println("zona ==" + s.getZona());
 		  
 		  }	 

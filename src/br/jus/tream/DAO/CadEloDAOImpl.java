@@ -200,14 +200,14 @@ public class CadEloDAOImpl implements CadEloDAO {
 			System.out.println(local.getId() + " :: Zona " + local.getZona() + " " + local.getNumLocal() + " " + local.getNomeLocal());
 		}
 		*/
-		/*
-		for(CADZonaEleitoral z : dao.listarZonaEleitoral()) {
+		
+		for(CADZonaEleitoral z : dao.listarZonaEleitoralCBX(31)) {
 			System.out.println(z.getZona() + " :: Zona " + z.getZona() + " " + z.getMunicipio() + " " + z.getCodmunic());
 		}
-		*/
 		
-		CADLocalvotacao local = dao.getBeanLocalVotacao(31, 2550, 1910);
-		System.out.println(local.getId() + " :: Zona " + local.getZona() + " " + local.getNumLocal() + " " + local.getNomeLocal());
+		
+		//CADLocalvotacao local = dao.getBeanLocalVotacao(31, 2550, 1910);
+		//System.out.println(local.getId() + " :: Zona " + local.getZona() + " " + local.getNumLocal() + " " + local.getNomeLocal());
 		
 		System.out.println("Done!!");
 	}
