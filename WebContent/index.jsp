@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="/harpia/images/favicon.ico">
+    <link rel="icon" href="favicon.ico">
 
     <title>PPO</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-   
+    <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/main.css" rel="stylesheet">
   </head>
 
   <body>
@@ -89,6 +89,14 @@
           <!--  <a href="homologaPonto/frmSetupHomologaPonto">Homologar Ponto Transmissão</a>  -->
         </p>
       </footer>
+      
+      
+       <ul class="progressbar">
+          <li class="active">CC</li>
+          <li class="active">CP</li>
+          <li>OS</li>
+          <li>EN</li>
+       </ul>
 
     </div> 
     
@@ -145,7 +153,8 @@
 			  }
 		   });
 		   
-		$( "#consreg" ).click(function(event) {
+		$("#consreg").click(function(event) {
+			$("#consreg").attr("disabled", true);
 		    var data = $(event.delegateTarget).data();
 			var id = data.recordId;  
 			var descricao = data.recordDescricao;
@@ -178,7 +187,9 @@
 			       				$('#result').html("Não existe nenhum registro.");
 			       				$("#result").show();  
 		       		       }
-		   		       });
+		   		   }).done(function() {
+		   			  $('#consreg').attr("disabled", false);
+		   		   })
 			 }
 		   });
 	});
