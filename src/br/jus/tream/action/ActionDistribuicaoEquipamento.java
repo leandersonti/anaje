@@ -38,6 +38,7 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 	private BeanResult result;
 	private UnidadeServico us;
 	private DistribuicaoSecao ds;
+	private Equipamento equipamento;
 	private String codZonaMunic;
 	private final static DistribuicaoSecaoDAO dao = DistribuicaoSecaoDAOImpl.getInstance();
 	private final static Permissao permissao = Permissao.getInstance();
@@ -249,4 +250,11 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 		this.lstEquipamento = lstEquipamento;
 	}
 
+	public Equipamento getEquipamento() {
+		return equipamento;
+	}
+
+	public void setEquipamento(Equipamento equipamento) {
+		this.equipamento = equipamento;
+	}
 }

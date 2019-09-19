@@ -48,7 +48,7 @@
 
 				<div class="form-group ">
 					<label for="inputTipo">Equipamento:</label> <select
-						class="form-control form-control" id="" name=" " required>
+						class="form-control form-control" id="idequipamento" name="equipamento.id" required>
 						<option value="0">Selecione</option>
 					</select>
 
@@ -75,7 +75,13 @@ $(document).ready(function() {
 		 $('#numlocal').change(function(event) {	
 			     $('#ajaxResponse').text('');
 			  		  CarregaSecoes();	  		  
-			    });
+		 });
+		 
+		 $('#id').change(function(event) {	
+		     $('#ajaxResponse').text('');
+			  CarregaEquipamento();			     
+		 });
+
 		 
 		 $("#btnSave").click(function() {
 				var URL = ""; 
@@ -173,6 +179,22 @@ $(document).ready(function() {
 	  	    }); 
 		  });
 		}
+	}
+	
+	function CarregaEquipamento(){
+		 var tipo = $("#id").val();
+	     var cbxpt = $('#idequipamento');	
+	         cbxpt.find('option').remove();
+	    	 if(tipo != -1){	    		 
+			     $.getJSON('../equipamento/listarParaDistribuirJson?tipo='+tipo,function(jsonResponse) {
+			   	  $('<option>').val(-1).text("Informe o ponto de transmissao").appendTo(cbxpt);
+			             $.each(jsonResponse, function(key, value) {             
+			            	 $('<option>').val(value.id.id).text(" " + value.tipo.id).appendTo(cbxpt);
+			      		 });
+			     });
+	     }else{
+	    	 $('<option>').val(-1).text("Informe o Equipamento").appendTo(cbxpt);
+	     }
 	}
 </script>
 
