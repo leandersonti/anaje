@@ -3,7 +3,6 @@
 <div class="container">
 
 	<div class="card">
-
 		<div class="card-header">
 			<b>Distribuição de Equipamento</b>
 		</div>
@@ -26,16 +25,14 @@
 						listValue="fzona +' - '+ municipio" name="ds.codZonaMunic"
 						id="codZonaMunic" theme="simple" cssClass="form-control" />
 				</div>
-				<br>
-
+			
 				<div class="form-group ">
 					<label for="inputTipo">Ponto Transmissão :</label> <select
 						class="form-control form-control" id="us" name="us.id.id" required>
 						<option value="0">Selecione</option>
 					</select>
 				</div>
-				<br>
-
+	
 				<div class="form-group ">
 					<label for="inputTipo">Tipo:</label>
 					<s:select label="Equipamento" headerKey="-1"
@@ -44,8 +41,7 @@
 						listKey="id" listValue="descricao" name="descricao" id="id"
 						theme="simple" cssClass="form-control" />
 				</div>
-				<br>
-
+	
 				<div class="form-group ">
 					<label for="inputTipo">Equipamento:</label> <select
 						class="form-control form-control" id="idequipamento" name="equipamento.id" required>
@@ -53,7 +49,6 @@
 					</select>
 
 				</div>
-				<br>
 
 				<button class="btn btn-primary" id="btnSave" type="button">Enviar</button>
 
