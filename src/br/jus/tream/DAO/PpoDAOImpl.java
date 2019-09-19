@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import org.apache.commons.lang3.StringUtils;
+
 import br.jus.tream.dominio.DataEleicao;
 import br.jus.tream.dominio.Ppo;
 import br.jus.tream.dominio.PpoTipo;
@@ -29,11 +31,13 @@ public class PpoDAOImpl implements PpoDAO {
 		List<Ppo> lista = new ArrayList<Ppo>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
+			// convertendo titulo para 12 caracteres
+			String tit = StringUtils.leftPad(tituloEleitor, 12, "0");
 			TypedQuery<Ppo> query = em.createQuery("SELECT p FROM Ppo p WHERE p.dataEleicao.ativo=1 AND p.tecnico.tituloEleitor=?1 ORDER BY p.dataCad DESC", Ppo.class);
-			lista = query.setParameter(1, tituloEleitor).getResultList();					
+			lista = query.setParameter(1, tit).getResultList();					
 		} catch (Exception e) {
 			em.close();
-			// e.printStackTrace();
+			e.printStackTrace();
 		} finally {
 			em.close();
 		}

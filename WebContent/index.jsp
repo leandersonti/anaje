@@ -47,22 +47,22 @@
 				<div class="row">
 				    <div class="text-center col">
 				           <a href="#" class="btn btn-outline-danger" id="checkincluir1" data-record-id="1" data-record-descricao="Cheguei no cartório">
-				             <span class="glyphicon glyphicon-home" aria-hidden="true"></span><br>Cheguei no Cartório
+				             <span class="glyphicon glyphicon-home" aria-hidden="true"></span><br>1-Cheguei no Cartório
 				           </a>
 				    </div>
 				    <div class="text-center col">
 				       		<a href="#" class="btn btn-outline-warning" id="checkincluir2" data-record-id="2" data-record-descricao="Cheguei no ponto">
-				               <span class="glyphicon glyphicon-star" aria-hidden="true"></span><br>Cheguei no Ponto
+				               <span class="glyphicon glyphicon-star" aria-hidden="true"></span><br>2-Cheguei no Ponto
 				            </a>
 				    </div>
 				    <div class="text-center col">
 				      		<a href="#" class="btn btn-outline-success" id="checkincluir3" data-record-id="3" data-record-descricao="Oficializar sistema">
-				                <span class="glyphicon glyphicon-time" aria-hidden="true"></span><br>Oficializei o Sistema
+				                <span class="glyphicon glyphicon-time" aria-hidden="true"></span><br>3-Oficializei o Sistema
 				            </a> 
 				    </div>
 				    <div class="text-center col">
 				     		<a href="#" class="btn btn-outline-primary" id="checkincluir4" data-record-id="4" data-record-descricao="Encerramento">
-				               <span class="glyphicon glyphicon-ok" aria-hidden="true"></span><br>Encerramento
+				               <span class="glyphicon glyphicon-ok" aria-hidden="true"></span><br>4-Encerramento
 				           </a>
 				    </div>
 				</div>
@@ -71,14 +71,14 @@
 		  </div>
 		  <div class="card-footer text-muted">
 		    	<table class="table table-striped table-sm" id="constab" width="100%" style="display:none">
-		    	
-		    	
 		    	</table>
+		    	
 		  </div>
-		</div>
-
-      
-      <br/>
+	</div>
+ 	 
+		<div id="stepprogress"></div>
+		
+     <br><br><br>
       <footer class="footer">
         <p>&copy; STI/CDES/SAWEB 2019  <i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="${pageContext.request.contextPath}/login/frmLogin">Login</a>&nbsp;&nbsp; 
           <i class="glyphicon glyphicon-tags" aria-hidden="true"></i>
@@ -91,12 +91,7 @@
       </footer>
       
       
-       <ul class="progressbar">
-          <li class="active">CC</li>
-          <li class="active">CP</li>
-          <li>OS</li>
-          <li>EN</li>
-       </ul>
+       
 
     </div> 
     
@@ -155,6 +150,7 @@
 		   
 		$("#consreg").click(function(event) {
 			$("#consreg").attr("disabled", true);
+			$("#stepprogress").hide();
 		    var data = $(event.delegateTarget).data();
 			var id = data.recordId;  
 			var descricao = data.recordDescricao;
@@ -162,27 +158,41 @@
 			$('#result').html("");
 				if (titulo == ""){
 					$('#result').attr("class","alert alert-danger");
-					$('#result').html("Informe por favor o título de eleitor");		   
-					
+					$('#result').html("Informe por favor o título de eleitor");
+					$("#consreg").attr("disabled", false);
 				} else {
 				$("#constab").html("carregando...")	
 				$.getJSON('ppo/listarJsonByTitulo?tituloEleitor=' + titulo,
 		       	     function(jsonResponse) {       		       
-		       		     var tr;    		   
+		       		     var tr;
+		       		     var stepprogress = '<ul class="progressbar">';
+		       		     
 		       			 $("#constab").html("<thead><th> Data </th><th> Descrição </th><th> Código </th></thead>");
 			       		    	for (var i = 0; i < jsonResponse.length; i++) {
 			       		    		var dtf = new Date(jsonResponse[i].dataCad);
-				       	            tr = $('<tr/>');		       	         			       	         
+				       	            tr = $('<tr/>');
+				       	            stepprogress +='<li class="active">'+jsonResponse[i].ppoTipo.sigla+'</li>';
 				       	            tr.append("<td>" + dtf.toLocaleString('pt-BR') + "</td>");
 				       	            tr.append("<td>" + jsonResponse[i].ppoTipo.descricao + "</td>");	
 				       	         	tr.append("<td>" + jsonResponse[i].codigo + "</td>");	
 				       	            $("#constab").append(tr);	 	       	            
-				       	        }  
+				       	        }
+			       		    	for (var j = 1; j <= (4-i); j++) {
+			       		    		stepprogress +='<li></li>';	
+			       		    	} 	
 		       			if(jsonResponse.length){      
 		       				 $("#result").hide();
-		       				 $("#constab").show();       				
+		       				 $("#constab").show();
+		       				 stepprogress +='</ul>';
+		       				$("#stepprogress").html(stepprogress);
+		       				$("#stepprogress").show();
+		       				 
+		       				/*<li>OS</li>
+				              <li>EN</li>
+				           </ul>*/
 		       		       }else{
 			       		    	$("#constab").hide();
+			       		    	$("#stepprogress").hide();
 			       		    	$('#result').attr("class","alert alert-info");
 			       				$('#result').html("Não existe nenhum registro.");
 			       				$("#result").show();  
