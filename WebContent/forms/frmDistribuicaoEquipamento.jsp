@@ -189,7 +189,7 @@ $(document).ready(function() {
 			     $.getJSON('../equipamento/listarParaDistribuirJson?tipo='+tipo,function(jsonResponse) {
 			   	  $('<option>').val(-1).text("Informe o ponto de transmissao").appendTo(cbxpt);
 			             $.each(jsonResponse, function(key, value) {             
-			            	 $('<option>').val(value.id.id).text(" " + value.tipo.id).appendTo(cbxpt);
+			            	 $('<option>').val(value.id).text(" " + value.serie).appendTo(cbxpt);
 			      		 });
 			     });
 	     }else{
