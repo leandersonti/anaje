@@ -6,12 +6,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
-
     <title>PPO</title>
-
-    <!-- Bootstrap core CSS -->
     <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/main.css" rel="stylesheet">
+    <style type="text/css">
+	   body {
+		  padding-top: 1rem;
+		}
+	</style>
   </head>
 
   <body>
@@ -20,11 +22,10 @@
     <div class="card">
 		  <div class="card-header">PPO - Procedimento Padrão Obrigatório</div>
 		  <div class="card-body">
-		    
 		     <form>
-		      		  <input type="hidden" name="idTipoCheck"  id="idTipoCheck"/>
-					  <input type="hidden" name="codigo_te" value="" />
-					  <input type="hidden" name="codigo_us" value="" />
+	      		  <input type="hidden" name="idTipoCheck"  id="idTipoCheck"/>
+				  <input type="hidden" name="codigo_te" value="" />
+				  <input type="hidden" name="codigo_us" value="" />
 				 <div id="result" class="" role="alert"></div>
 				 
 				  <div class="form-row align-items-center">
@@ -66,35 +67,29 @@
 				           </a>
 				    </div>
 				</div>
-				  
-  	    <!--     <a href="#" class="btn btn-primary">Consultar</a>  -->
 		  </div>
-		  <div class="card-footer text-muted">
+		   <div class="card-footer text-muted">
 		    	<table class="table table-striped table-sm" id="constab" width="100%" style="display:none">
 		    	</table>
-		    	
 		  </div>
 	</div>
  	 
-		<div id="stepprogress"></div>
-		
-     <br><br><br>
-      <footer class="footer">
-        <p>&copy; STI/CDES/SAWEB 2019  <i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="${pageContext.request.contextPath}/login/frmLogin">Login</a>&nbsp;&nbsp; 
-          <i class="glyphicon glyphicon-tags" aria-hidden="true"></i>
-          <a href="http://intranet.tre-am.jus.br:8080/Mura/">Mura</a>&nbsp;&nbsp;
-          <i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i>
-          <a href="http://intranet.tre-am.jus.br:8080/acompelei/">AcompElei</a>&nbsp;&nbsp;
-          <i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>
-          <!--  <a href="homologaPonto/frmSetupHomologaPonto">Homologar Ponto Transmissão</a>  -->
-        </p>
-      </footer>
-      
-      
-       
-
-    </div> 
-    
+	<div id="stepprogress"></div>
+	
+	<br><br><br>
+	<div class="row">
+		<footer class="footer">
+	        <p>&copy; STI/CDES/SAWEB 2019  <i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="${pageContext.request.contextPath}/login/frmLogin">Login</a>&nbsp;&nbsp; 
+	          <i class="glyphicon glyphicon-tags" aria-hidden="true"></i>
+	          <a href="http://intranet.tre-am.jus.br:8080/Mura/">Mura</a>&nbsp;&nbsp;
+	          <i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i>
+	          <a href="http://intranet.tre-am.jus.br:8080/acompelei/">AcompElei</a>&nbsp;&nbsp;
+	          <i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>
+	          <!--  <a href="homologaPonto/frmSetupHomologaPonto">Homologar Ponto Transmissão</a>  -->
+	        </p>
+	      </footer>
+	</div>
+  </div>
 
   <script src="js/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>  
@@ -106,8 +101,10 @@
 			var id = data.recordId;  
 			var descricao = data.recordDescricao;
 			var titulo =  $('#tituloEleitor').val();
-			$("#result").hide();
 			$('#result').html("");
+			$("#result").hide();
+			$('#stepprogress').html("");
+			$("#stepprogress").hide();
 				if (titulo == ""){
 					$('#result').attr("class","alert alert-danger");
 					$('#result').html("Informe por favor o título de eleitor");		   
@@ -186,10 +183,6 @@
 		       				 stepprogress +='</ul>';
 		       				$("#stepprogress").html(stepprogress);
 		       				$("#stepprogress").show();
-		       				 
-		       				/*<li>OS</li>
-				              <li>EN</li>
-				           </ul>*/
 		       		       }else{
 			       		    	$("#constab").hide();
 			       		    	$("#stepprogress").hide();
