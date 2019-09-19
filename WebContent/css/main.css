@@ -175,10 +175,11 @@ img.topmnu{
       color: green;
   }
   .progressbar li.active:before {
+      content: url("../images/tick.png");
       border-color: #55b776;
   }
   .progressbar li.active + li:after {
-      background-color: #55b776;
+      background-color: #55b776;   
   } 
   /* FIM STEP PROGRESS BAR */
   
