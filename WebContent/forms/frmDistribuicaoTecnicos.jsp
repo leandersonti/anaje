@@ -43,7 +43,7 @@
 				</div>
 				<div class="form-group ">
 					<label for="inputTipo">Técnico Responsável :</label> <select
-						class="form-control form-control" id="" name=" " required>
+						class="form-control form-control" id="tecnicoresp" name=" " required>
 						<option value="0">Selecione</option>
 					</select>
 				</div>
@@ -62,6 +62,7 @@ $(document).ready(function() {
 	
 	CarregaContrato();
 	
+	
 	$('#codZonaMunic').change(function(event) {
 		$('#ajaxResponse').text('');	  	 
 		  CarregaPontoTransmissao();		 
@@ -69,7 +70,8 @@ $(document).ready(function() {
 	
 	$('#contrato').change(function(event) {
 		$('#ajaxResponse').text('');	  	 
-			CarregaTecnico();		 
+			CarregaTecnico();
+			CarregaTecnicoResp();	 
 	});
 	
 
@@ -121,20 +123,20 @@ function CarregaTecnico(){
    		 }
 }
 
-function CarregaTecnicoResp(){
-	var codZonaMunic = $("#codZonaMunic").val();
-    var select = $('#numlocal');	      
+function CarregaTecnicoResp(){	
+	var contrato = $("#contrato").val();
+    var select = $('#tecnicoresp');	      
         select.find('option').remove();
-    	if(codZonaMunic != -1){
-		      $.getJSON('../elo/listarJsonLocalVotacao?codZonaMunic='+codZonaMunic,function(jsonResponse) {
-		    	  $('<option>').val(-1).text("Informe o local").appendTo(select);
+    	if(contrato != -1){
+		      $.getJSON('../tecnico/listarJsonResponsavel',function(jsonResponse) {
+		    	  $('<option>').val(-1).text("Informe o responsavel").appendTo(select);
 		                $.each(jsonResponse, function(key, value) {
-		                $('<option>').val(value.numLocal).text(value.numLocal + " " + value.nomeLocal).appendTo(select);
+		                $('<option>').val(value.id).text(value.nome).appendTo(select);
 		                // console.log("key " + key + " value " + value.descricao)
 		        });
 		      });
    		 }else{
-   			 $('<option>').val(-1).text("Informe o local votacao").appendTo(select);   			 
+   			 $('<option>').val(-1).text("Informe o responsavel").appendTo(select);   			 
    		 }
 }
 </script>
