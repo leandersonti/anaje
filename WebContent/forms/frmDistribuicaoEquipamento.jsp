@@ -55,51 +55,44 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-	   $('#codZonaMunic').change(function(event) {	
-			  CarregaLocalVotacao();	  		  
-			  CarregaPontoTransmissao();				     
-		 });
+   $('#codZonaMunic').change(function(event) {	
+		  CarregaPontoTransmissao();				     
+	 });
 		    
-		 $('#numlocal').change(function(event) {	
-		  		  CarregaSecoes();	  		  
-		 });
-		 
-		 $('#tipoEquipamento').change(function(event) {	
+	 $('#tipoEquipamento').change(function(event) {	
 			  CarregaEquipamento();			     
-		 });
+	 });
 
-		 
-		 $("#btnSave").click(function() {
-			if (verificaDados()){
-					 Swal.fire({
-				         title: "Distribuicao Equipamento?",
-				         text: "Confirma essa distribuicao?",
-				         type: 'warning',
-				         showCancelButton: true,
-						  confirmButtonText: 'Sim'
-				         }).then((result) => {
-							if (result.value) {
-								var frm = $("#form1").serialize();
-								console.log(frm);
-								$.getJSON({
+	 $("#btnSave").click(function() {
+		if (verificaDados()){
+			 Swal.fire({
+		         title: "Distribuicao Equipamento?",
+		         text: "Confirma essa distribuicao?",
+		         type: 'warning',
+		         showCancelButton: true,
+			     confirmButtonText: 'Sim'
+				   }).then((result) => {
+						if (result.value) {
+							var frm = $("#form1").serialize();
+							$.getJSON({
 									url: 'adicionar',
 									data: frm
-							    }).done(function( data ) {
-							    	if(data.ret==1){
-							    		CarregaEquipamento();
-							    		Swal.fire('Distribuicao', data.mensagem, "success");
-							         }	
-							    	else 
-							    		Swal.fire('Distribuicao', data.mensagem, "error");
-								}).fail(function() {
-										Swal.fire("Adicionar", "Ocorreu um erro ao incluir", "error");
-								});
-						      } 
+							 }).done(function( data ) {
+							   	if(data.ret==1){
+							   		CarregaEquipamento();
+							   		Swal.fire('Distribuicao', data.mensagem, "success");
+							     }	
+							   	else 
+							   		Swal.fire('Distribuicao', data.mensagem, "error");
+							}).fail(function() {
+									Swal.fire("Adicionar", "Ocorreu um erro ao incluir", "error");
+							});
+						  } 
 					   }); // -- FIM SWAL --
-				   }else{
-					   Swal.fire("Dados", "Verifique os campos obrigatórios ", "error");
-				   }
-			 	}); // -- FIM btnSave --
+		   }else{
+			   Swal.fire("Dados", "Verifique os campos obrigatórios ", "error");
+		   }
+		}); // -- FIM btnSave --
 		
 		});
 
@@ -114,7 +107,6 @@ $(document).ready(function() {
 	    	else
 	    		return true;
 	    }
-		   
 	 }
 	 
 	function CarregaPontoTransmissao(){
@@ -133,23 +125,6 @@ $(document).ready(function() {
 	     }
 	}
 
-	function CarregaLocalVotacao(){
-		var codZonaMunic = $("#codZonaMunic").val();
-	    var select = $('#numlocal');	      
-	        select.find('option').remove();
-	    	if(codZonaMunic != -1){
-			      $.getJSON('../elo/listarJsonLocalVotacao?codZonaMunic='+codZonaMunic,function(jsonResponse) {
-			    	  $('<option>').val(-1).text("Informe o local").appendTo(select);
-			                $.each(jsonResponse, function(key, value) {
-			                $('<option>').val(value.numLocal).text(value.numLocal + " " + value.nomeLocal).appendTo(select);
-			                // console.log("key " + key + " value " + value.descricao)
-			        });
-			      });
-	   		 }else{
-	   			 $('<option>').val(-1).text("Informe o local votacao").appendTo(select);   			 
-	   		 }
-	}
-	
 	function CarregaEquipamento(){
 		 var tipo = $("#tipoEquipamento").val();
 	     var cbxpt = $('#idequipamento');	
@@ -168,11 +143,3 @@ $(document).ready(function() {
 </script>
 
 <jsp:include page="/mainfooter.inc.jsp" />
-
-
-
-
-
-
-
-
