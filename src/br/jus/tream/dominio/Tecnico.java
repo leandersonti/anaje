@@ -72,9 +72,7 @@ public class Tecnico implements Serializable{
 	@Column(name = "data_cadastro")
 	private Date dataCad;
 
-	public Tecnico() {
-		
-		
+	public Tecnico() {		
 	}
 
 	public Tecnico(Integer id, String tituloEleitor, Integer zona, Integer secao, String nome, Date dataNasc,
