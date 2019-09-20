@@ -32,7 +32,7 @@
 					<s:select label="Equipamento" headerKey="-1"
 						headerValue="Selecione tipo equipamento"
 						tooltip="Informe Equipamento" list="lstEquipamentoTipo"
-						listKey="id" listValue="descricao" name="tipoEquipamento" id="tipoEquipamento"
+						listKey="id" listValue="descricao" name="equipamento.tipo.id" id="tipoEquipamento"
 						theme="simple" cssClass="form-control" />
 				</div>
 	

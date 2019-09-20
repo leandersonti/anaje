@@ -24,6 +24,7 @@ import br.jus.tream.dominio.Equipamento;
 import br.jus.tream.dominio.EquipamentoTipo;
 import br.jus.tream.dominio.Tecnico;
 import br.jus.tream.dominio.UnidadeServico;
+import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 import br.jus.tream.dominio.pk.DistribuicaoEquipamentoPK;
 
 @SuppressWarnings("serial")
@@ -34,15 +35,14 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 	private List<CADZonaEleitoral> lstZonaEleitoral;
 	private List<EquipamentoTipo> lstEquipamentoTipo;
 	private List<Equipamento> lstEquipamento;
+	private List<DistribuicaoEquipamento> lstDistribuicaoEquipamento;
+	private String codZonaMunic;
 	private BeanResult result;
 	private UnidadeServico us;
 	private DistribuicaoEquipamento de;
 	private Equipamento equipamento;
-	private String codZonaMunic;
 	private final static DistribuicaoEquipamentoDAO dao = DistribuicaoEquipamentoDAOImpl.getInstance();
 	private final static Permissao permissao = Permissao.getInstance();
-	private Integer zona, codmunic, numlocal;
-	private String[] secoesCbx;
 
 	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmDistribuicaoEquipamento.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
@@ -64,15 +64,32 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 		return "success";
 	}
 
-
-	@Action(value = "listar", results = { @Result(name = "success", location = "/consultas/data-eleicao.jsp"),
+	@Action(value = "setuplistar", results = { @Result(name = "success", location = "/consultas/distribuicaoEquipamento.jsp"),
 			@Result(name = "error", location = "/result.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
-	public String listar() {
+	public String setupListar() {
 		try {
 			if (permissao.getAdmin()) {
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX();
 			} else {
-				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoral(permissao.getZona());
+				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX(permissao.getZona());
+			}
+		} catch (Exception e) {
+			addActionError(getText("listar.error"));
+			return "error";
+		}
+		return "success";
+	}
+	
+	@Action(value = "listar", results = { 
+			@Result(name = "success", type = "json", params = { "root", "lstDistribuicaoEquipamento" }),
+			@Result(name = "error", location = "/pages/resultAjax.jsp")}, interceptorRefs = @InterceptorRef("authStack"))
+	public String listar() {
+		try {
+			if (permissao.getAdmin()) {
+				this.lstDistribuicaoEquipamento = dao.listar();
+			} else {
+				CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
+				this.lstDistribuicaoEquipamento = dao.listar(pkze);
 			}
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
@@ -84,15 +101,13 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 	@Action(value = "adicionar", results = { 
 			@Result(name = "success", type = "json", params = { "root", "result" }),
 			@Result(name = "input", type = "json", params = { "root", "result" }),
-			@Result(name = "error", location = "/pages/resultAjax.jsp") }
-	    //, interceptorRefs = @InterceptorRef("authStack")
-	)
+			@Result(name = "error", location = "/pages/resultAjax.jsp")}, interceptorRefs = @InterceptorRef("authStack"))
 	public String doAdicionar() {
 		BeanResult beanResult = new BeanResult();
 		beanResult.setRet(0);
 		try {
-				if (permissao.getAdmin() || permissao.getZona() == zona) {
-					this.us = UnidadeServicoDAOImpl.getInstance().getBean(this.us.getId().getId());
+			this.us = UnidadeServicoDAOImpl.getInstance().getBean(this.us.getId().getId());
+				if (permissao.getAdmin() || permissao.getZona() == this.us.getZona()) {					
 					DistribuicaoEquipamentoPK pk = new DistribuicaoEquipamentoPK();
 					pk.setUnidadeServico(us);
 					pk.setEquipamento(equipamento);
@@ -139,37 +154,12 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 		return "success";
 	}
 
-
 	public UnidadeServico getUs() {
 		return us;
 	}
 
 	public void setUs(UnidadeServico us) {
 		this.us = us;
-	}
-
-	public Integer getZona() {
-		return zona;
-	}
-
-	public void setZona(Integer zona) {
-		this.zona = zona;
-	}
-
-	public Integer getCodmunic() {
-		return codmunic;
-	}
-
-	public void setCodmunic(Integer codmunic) {
-		this.codmunic = codmunic;
-	}
-
-	public Integer getNumlocal() {
-		return numlocal;
-	}
-
-	public void setNumlocal(Integer numlocal) {
-		this.numlocal = numlocal;
 	}
 
 	public BeanResult getResult() {
@@ -196,14 +186,6 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 		this.codZonaMunic = codZonaMunic;
 	}
 
-	public String[] getSecoesCbx() {
-		return secoesCbx;
-	}
-
-	public void setSecoesCbx(String[] secoesCbx) {
-		this.secoesCbx = secoesCbx;
-	}
-
 	public List<EquipamentoTipo> getLstEquipamentoTipo() {
 		return lstEquipamentoTipo;
 	}
@@ -228,13 +210,19 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 		this.equipamento = equipamento;
 	}
 
-
 	public DistribuicaoEquipamento getDe() {
 		return de;
 	}
 
-
 	public void setDe(DistribuicaoEquipamento de) {
 		this.de = de;
+	}
+
+	public List<DistribuicaoEquipamento> getLstDistribuicaoEquipamento() {
+		return lstDistribuicaoEquipamento;
+	}
+
+	public void setLstDistribuicaoEquipamento(List<DistribuicaoEquipamento> lstDistribuicaoEquipamento) {
+		this.lstDistribuicaoEquipamento = lstDistribuicaoEquipamento;
 	}
 }

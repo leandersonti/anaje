@@ -6,13 +6,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import br.jus.tream.dominio.DataEleicao;
 import br.jus.tream.dominio.DistribuicaoEquipamento;
-import br.jus.tream.dominio.Equipamento;
-import br.jus.tream.dominio.Tecnico;
-import br.jus.tream.dominio.UnidadeServico;
-import br.jus.tream.dominio.pk.DistribuicaoEquipamentoPK;
-import br.jus.tream.dominio.pk.UnidadeServicoPK;
+import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 
 public class DistribuicaoEquipamentoDAOImpl implements DistribuicaoEquipamentoDAO {
 	
@@ -33,7 +28,7 @@ public class DistribuicaoEquipamentoDAOImpl implements DistribuicaoEquipamentoDA
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
 			TypedQuery<DistribuicaoEquipamento> query = em
-					.createQuery("SELECT s FROM DistribuicaoEquipamento s ",
+					.createQuery("SELECT s FROM DistribuicaoEquipamento s WHERE s.id.unidadeServico.id.dataEleicao.ativo=1",
 							DistribuicaoEquipamento.class);			
 			lista = query.getResultList();
 		} catch (Exception e) {
@@ -44,24 +39,46 @@ public class DistribuicaoEquipamentoDAOImpl implements DistribuicaoEquipamentoDA
 		}
 		return lista;
 	}
-
-
+	
 	@Override
-	public DistribuicaoEquipamento getBean(Integer id) throws Exception {
-		DistribuicaoEquipamento ds = new DistribuicaoEquipamento();
+    public List<DistribuicaoEquipamento> listar(CadZonaEleitoralPK pkze) throws Exception{
+    	List<DistribuicaoEquipamento> lista = new ArrayList<DistribuicaoEquipamento>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
-			TypedQuery<DistribuicaoEquipamento> query = em.createQuery("WHERE s.id.unidadeServico.id.dataEleicao.ativo=1 AND s.id.equipamento.id=?1 ", 
-					DistribuicaoEquipamento.class);
-			query.setParameter(1, id);
-			ds = query.getSingleResult();
+			TypedQuery<DistribuicaoEquipamento> query = em
+					.createQuery("SELECT s FROM DistribuicaoEquipamento s WHERE s.id.unidadeServico.id.dataEleicao.ativo=1 "
+							+ "AND s.id.unidadeServico.zona=?1 AND s.id.unidadeServico.codmunic=?2",
+							DistribuicaoEquipamento.class);			
+			query.setParameter(1, pkze.getZona());
+			query.setParameter(2, pkze.getCodmunic());
+			lista = query.getResultList();
 		} catch (Exception e) {
 			em.close();
 			// e.printStackTrace();
 		} finally {
 			em.close();
 		}
-		return ds;
+		return lista;
+    }
+	
+    @Override
+	public List<DistribuicaoEquipamento> listar(Integer unidadeServico) throws Exception{
+		List<DistribuicaoEquipamento> lista = new ArrayList<DistribuicaoEquipamento>();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		try {
+			TypedQuery<DistribuicaoEquipamento> query = em
+					.createQuery("SELECT s FROM DistribuicaoEquipamento s WHERE s.id.unidadeServico.id.dataEleicao.ativo=1 "
+							+ "AND s.id.unidadeServico.id.id=?1",
+							DistribuicaoEquipamento.class);			
+			query.setParameter(1, unidadeServico);
+			lista = query.getResultList();
+		} catch (Exception e) {
+			em.close();
+			// e.printStackTrace();
+		} finally {
+			em.close();
+		}
+		return lista;
 	}
 
 	@Override
@@ -100,6 +117,10 @@ public class DistribuicaoEquipamentoDAOImpl implements DistribuicaoEquipamentoDA
 	public static void main(String[] args) throws Exception {
 		
 		DistribuicaoEquipamentoDAO dao = DistribuicaoEquipamentoDAOImpl.getInstance();
+		for (DistribuicaoEquipamento d: dao.listar(22019)) {
+			System.out.println(d.getId().getEquipamento().getSerie());
+		}
+		/*
 		DataEleicao dataEleicao = new DataEleicao();
 		dataEleicao.setId(1);
 		Equipamento eq = new Equipamento();
@@ -122,11 +143,10 @@ public class DistribuicaoEquipamentoDAOImpl implements DistribuicaoEquipamentoDA
 		t.setId(1);
 		de.setTecnico(t);
 		
-		
-		
-		 int ret =dao.adicionar(de);
+		int ret =dao.adicionar(de);
 		 
-		 System.out.println("Retorno = " + ret);
+		System.out.println("Retorno = " + ret);
+		*/
 		
 		
 		
