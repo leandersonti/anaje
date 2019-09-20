@@ -35,6 +35,9 @@
 	              <a class="dropdown-item" href="${pageContext.request.contextPath}/distribequipamento/frmCad">Equipamentos</a>
 	              <a class="dropdown-item" href="${pageContext.request.contextPath}/distribtecnico/frmCad">Técnicos</a>
 	              <a class="dropdown-item" href="#">Permissões</a>
+	              <a class="dropdown-item" href="${pageContext.request.contextPath}/distribequipamento/listar">Dist Equipamento</a>
+	              
+	              
 	            </div> 
 	          </li>
 	          
