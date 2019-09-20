@@ -27,6 +27,16 @@ public class CadZonaEleitoralPK implements Serializable {
 	public void setCodmunic(Integer codmunic) {
 		this.codmunic = codmunic;
 	}
+	
+	public CadZonaEleitoralPK() {
+	}
+	
+	public CadZonaEleitoralPK(String codZonaMunic) {
+		super();
+		String[] zonamunic = codZonaMunic.split(";");
+		this.zona = Integer.valueOf(zonamunic[0]);
+		this.codmunic = Integer.valueOf(zonamunic[1]);
+	}
 
 	@Override
 	public int hashCode() {
