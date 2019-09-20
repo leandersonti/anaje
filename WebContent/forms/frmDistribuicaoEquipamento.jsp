@@ -9,20 +9,14 @@
 
 		<div class="card-body">
 
-			<form action="" method="post" name="form1" id="form1"
-				class="needs-validation_" novalidate>
-
-				<input type="hidden" id="tipo" name="action.id" value="1">
-				<s:if test='action.id != null'>
-					<input type="hidden" id="id" name="" value="">
-				</s:if>
-
+			<form action="" method="post" name="form1" id="form1" class="needs-validation_" novalidate>
+				<input type="hidden" id="id" name="de.tecnico.id" value="1">
 				<div class="form-group ">
 					<label for="inputTipo">Zona:</label>
 					<s:select label="Zona" headerKey="-1"
 						headerValue="Selecione a zona" tooltip="Informe a Zona"
 						list="lstZonaEleitoral" listKey="id.zona+';'+id.codmunic"
-						listValue="fzona +' - '+ municipio" name="ds.codZonaMunic"
+						listValue="fzona +' - '+ municipio" name="codZonaMunic"
 						id="codZonaMunic" theme="simple" cssClass="form-control" />
 				</div>
 			
@@ -38,7 +32,7 @@
 					<s:select label="Equipamento" headerKey="-1"
 						headerValue="Selecione tipo equipamento"
 						tooltip="Informe Equipamento" list="lstEquipamentoTipo"
-						listKey="id" listValue="descricao" name="descricao" id="id"
+						listKey="id" listValue="descricao" name="tipoEquipamento" id="tipoEquipamento"
 						theme="simple" cssClass="form-control" />
 				</div>
 	
@@ -62,29 +56,23 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	   $('#codZonaMunic').change(function(event) {	
-		     $('#ajaxResponse').text('');
 			  CarregaLocalVotacao();	  		  
 			  CarregaPontoTransmissao();				     
 		 });
 		    
 		 $('#numlocal').change(function(event) {	
-			     $('#ajaxResponse').text('');
-			  		  CarregaSecoes();	  		  
+		  		  CarregaSecoes();	  		  
 		 });
 		 
-		 $('#id').change(function(event) {	
-		     $('#ajaxResponse').text('');
+		 $('#tipoEquipamento').change(function(event) {	
 			  CarregaEquipamento();			     
 		 });
 
 		 
 		 $("#btnSave").click(function() {
-				var URL = ""; 
-				if ( $('#id').length ) { URL = "atualizar"; }
-				else{ URL = "adicionar";  }	
-				if (verificaDados()){
+			if (verificaDados()){
 					 Swal.fire({
-				         title: "Distribuicao Secao?",
+				         title: "Distribuicao Equipamento?",
 				         text: "Confirma essa distribuicao?",
 				         type: 'warning',
 				         showCancelButton: true,
@@ -92,16 +80,17 @@ $(document).ready(function() {
 				         }).then((result) => {
 							if (result.value) {
 								var frm = $("#form1").serialize();
+								console.log(frm);
 								$.getJSON({
-									url: URL,
+									url: 'adicionar',
 									data: frm
 							    }).done(function( data ) {
 							    	if(data.ret==1){
-							    		CarregaSecoes();
-							    		Swal.fire(URL, data.mensagem, "success");
+							    		CarregaEquipamento();
+							    		Swal.fire('Distribuicao', data.mensagem, "success");
 							         }	
 							    	else 
-							    		Swal.fire(URL, data.mensagem, "error");
+							    		Swal.fire('Distribuicao', data.mensagem, "error");
 								}).fail(function() {
 										Swal.fire("Adicionar", "Ocorreu um erro ao incluir", "error");
 								});
@@ -119,8 +108,8 @@ $(document).ready(function() {
 	    	$("#form1")[0].classList.add('was-validated');
 	    	return false;
 	    }else {
-	    	var cbxCollection = document.getElementsByName('secoesCbx');
-	    	if (cbxCollection.length==0 || $('#us option:selected').val()==-1 )
+	    	//var cbxCollection = document.getElementsByName('secoesCbx'); us
+	    	if ($('#us option:selected').val()==-1 || $('#idequipamento option:selected').val()==-1 )
 	    		return false;
 	    	else
 	    		return true;
@@ -160,24 +149,9 @@ $(document).ready(function() {
 	   			 $('<option>').val(-1).text("Informe o local votacao").appendTo(select);   			 
 	   		 }
 	}
-
-	function CarregaSecoes(){
-		var codZonaMunic = $("#codZonaMunic").val();
-		var codLocal = $("#numlocal").val();
-		if(codZonaMunic != -1 || codZonaMunic != 0){	  				
-		 $('#ajaxResponse').text('');
-		 $('#ajaxResponse').append("<img src='../images/waiting.gif'> Carregando seções...</img>");
-	     $.getJSON('listarParaDistribuirJson?codZonaMunic='+codZonaMunic+'&numlocal='+codLocal,function(jsonResponse) {
-	  	  $('#ajaxResponse').text('');
-	  	     $.each(jsonResponse, function(key, value) {
-	  	       $('#ajaxResponse').append('<input type="checkbox" checked id="secoesCbx" name="secoesCbx" value="'+ value.id +';' + value.secao +'"/> ' + value.secao + " ");
-	  	    }); 
-		  });
-		}
-	}
 	
 	function CarregaEquipamento(){
-		 var tipo = $("#id").val();
+		 var tipo = $("#tipoEquipamento").val();
 	     var cbxpt = $('#idequipamento');	
 	         cbxpt.find('option').remove();
 	    	 if(tipo != -1){	    		 
