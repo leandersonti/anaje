@@ -8,7 +8,6 @@ import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.Interceptor;
 
 import br.jus.tream.dominio.BeanLogin;
-import br.jus.tream.dominio.Usuario;
 
 @SuppressWarnings("serial")
 public class AppInterceptor implements Interceptor{
