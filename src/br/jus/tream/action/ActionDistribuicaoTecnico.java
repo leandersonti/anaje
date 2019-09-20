@@ -57,9 +57,25 @@ public class ActionDistribuicaoTecnico extends ActionSupport{
 		return "success";
 	}
 	
-	@Action(value = "listarParaDistribuirJson", results = { @Result(name = "success", type = "json", params = { "root", "lstCadSecao" }),
+	@Action(value = "listarJson", results = { @Result(name = "success", type = "json", params = { "root", "lstDistribTec" }),
 			@Result(name = "error", location = "/pages/resultAjax.jsp") })
-	public String listarSecaoParaDistribuiJson() {
+	public String listarJson() {
+		try {
+			// PEGANDO CODZONAMUNIC
+			String[] zonamunic = this.codZonaMunic.split(";");
+			this.lstCadSecao = dao.listarParaDistribuir(Integer.valueOf(zonamunic[0]), 
+					                                    Integer.valueOf(zonamunic[1]), 
+					                                    numlocal);
+		} catch (Exception e) {
+			addActionError(getText("listar.error"));
+			return "error";
+		}
+		return "success";
+	}
+	
+	@Action(value = "listarJson", results = { @Result(name = "success", type = "json", params = { "root", "lstDistribTec" }),
+			@Result(name = "error", location = "/pages/resultAjax.jsp") })
+	public String listarDistribJson() {
 		try {
 			// PEGANDO CODZONAMUNIC
 			String[] zonamunic = this.codZonaMunic.split(";");
@@ -96,21 +112,7 @@ public class ActionDistribuicaoTecnico extends ActionSupport{
 	public String doAdicionar() {
 		BeanResult beanResult = new BeanResult();
 		try {
-			String[] zonamunic = ds.getCodZonaMunic().split(";");
-			int zona = Integer.valueOf(zonamunic[0]);
-			if (permissao.getAdmin() || permissao.getZona()==zona) {
-				this.us = UnidadeServicoDAOImpl.getInstance().getBean(this.us.getId().getId());
-				ds.getId().setUnidadeServico(us);
-				ds.setZona(zona);
-				ds.setCodmunic(Integer.valueOf(zonamunic[1]));
-				ds.setVetsecoes(this.secoesCbx);
-				beanResult.setRet(dao.adicionar(ds));
-				beanResult.setMensagem(getText("inserir.sucesso") + " (" + secoesCbx.length + " Secao(oes))");
-			}else
-			{
-				beanResult.setRet(0);
-				beanResult.setMensagem(getText("permissao.negada"));
-			}
+			
 		} catch (Exception e) {
 			    addActionError(getText("inserir.error") + " Error: " + e.getMessage());
 			    beanResult.setMensagem(getText("inserir.error") + " Error: " + e.getMessage());
@@ -126,13 +128,7 @@ public class ActionDistribuicaoTecnico extends ActionSupport{
 	public String doRemover() {
 		BeanResult beanResult = new BeanResult();
 		try {
-			if (permissao.getAdmin()) {
-				beanResult.setRet(1);
-				beanResult.setMensagem(getText("remover.sucesso"));
-			}else {
-				beanResult.setRet(0);
-				beanResult.setMensagem(getText("permissao.negada"));
-			}	
+				
 		} catch (Exception e) {
 			addActionError(getText("remover.error") + " Error: " + e.getMessage());
 			// r.setMensagem(getText("remover.error") + " Error: " + e.getMessage());
