@@ -27,12 +27,12 @@ public class DistribuicaoEquipamento implements Serializable{
 	private Date dataRecebimento;
 	
 	@ManyToOne
-	@JoinColumn(name = "tecnico_resp", nullable = true)
+	@JoinColumn(name = "tecnico_resp", nullable = false)
 	private Tecnico tecnico;	
 	
-	public DistribuicaoEquipamento() {}
-	
-	
+	public DistribuicaoEquipamento()
+	{}
+		
 	public DistribuicaoEquipamento(DistribuicaoEquipamentoPK id, Date dataRecebimento, Tecnico tecnico) {
 		super();
 		this.id = id;
