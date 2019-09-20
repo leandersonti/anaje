@@ -20,17 +20,13 @@ public class EquipamentoTipo implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name = "native", strategy = "native")
 	private Integer id;
-
 	
 	@Column(length=70)
 	private String descricao;
-
 	
 	public EquipamentoTipo() {
-		super();
-		
+		super();		
 	}
-
 
 	public EquipamentoTipo(Integer id, String descricao) {
 		super();
@@ -38,26 +34,21 @@ public class EquipamentoTipo implements Serializable {
 		this.descricao = descricao;
 	}
 
-
 	public Integer getId() {
 		return id;
 	}
-
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-
 	public String getDescricao() {
 		return descricao;
 	}
 
-
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -66,7 +57,6 @@ public class EquipamentoTipo implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -84,10 +74,6 @@ public class EquipamentoTipo implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
-	
-	
 	
 }
 	

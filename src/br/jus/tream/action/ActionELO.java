@@ -17,6 +17,7 @@ import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.CADLocalvotacao;
 import br.jus.tream.dominio.CADSecao;
 import br.jus.tream.dominio.CADZonaEleitoral;
+import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 
 @SuppressWarnings("serial")
 @Namespace("/elo")
@@ -29,6 +30,7 @@ public class ActionELO extends ActionSupport {
 	private CADLocalvotacao localVotacao;
 	private CADZonaEleitoral zonaEleitoral;
 	private CADSecao secao;
+	private CadZonaEleitoralPK pkze;
 	private Integer zona;
 	private Integer codmunic;
 	private Integer numLocal;
@@ -38,10 +40,10 @@ public class ActionELO extends ActionSupport {
 	// private final static Permissao permissao = Permissao.getInstance();
 
 	@Action(value = "listarZonasEleitorais", results = { @Result(name = "success", location = "/consultas/elo/zonas-eleitorais.jsp"),
-			@Result(name = "error", location = "/result.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+			@Result(name = "error", location = "/result.jsp")})
 	public String listarZonaEleitoral() {
 		try {
-			this.lstZonaEleitoral = dao.listarZonaEleitoral();
+			this.lstZonaEleitoral = dao.listarZonaEleitoral();			
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";
@@ -51,10 +53,14 @@ public class ActionELO extends ActionSupport {
 
 	@Action(value = "listarJsonZonaEleitoral", results = {
 			@Result(name = "success", type = "json", params = { "root", "lstZonaEleitoral" }),
-			@Result(name = "error", location = "/pages/resultAjax.jsp") })
+			@Result(name = "error", location = "/pages/resultAjax.jsp")}, interceptorRefs = @InterceptorRef("authStack"))
 	public String listarJsonZonaEleitoral() {
 		try {
-			this.lstZonaEleitoral = dao.listarZonaEleitoral();
+			Permissao permissao = Permissao.getInstance();
+			if (permissao.getAdmin())
+				this.lstZonaEleitoral = dao.listarZonaEleitoral();
+			else
+				this.lstZonaEleitoral = dao.listarZonaEleitoral(permissao.getZona());
 		} catch (Exception e) {
 			addActionError(getText("listar.error") + " table: ZonaEleitoral");
 			return "error";
@@ -193,6 +199,14 @@ public class ActionELO extends ActionSupport {
 
 	public void setCodZonaMunic(String codZonaMunic) {
 		this.codZonaMunic = codZonaMunic;
+	}
+
+	public CadZonaEleitoralPK getPkze() {
+		return pkze;
+	}
+
+	public void setPkze(CadZonaEleitoralPK pkze) {
+		this.pkze = pkze;
 	}
 
 }
