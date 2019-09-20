@@ -64,9 +64,26 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 		return "success";
 	}
 
-
-	@Action(value = "listar", results = { @Result(name = "success", location = "/consultas/distribuicaoEquipamento.jsp"),
+	@Action(value = "setuplistar", results = { @Result(name = "success", location = "/consultas/distribuicaoEquipamento.jsp"),
 			@Result(name = "error", location = "/result.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+	public String setupListar() {
+		try {
+			if (permissao.getAdmin()) {
+				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX();
+			} else {
+				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX(permissao.getZona());
+			}
+		} catch (Exception e) {
+			addActionError(getText("listar.error"));
+			return "error";
+		}
+		return "success";
+	}
+	
+
+	@Action(value = "adicionar", results = { 
+			@Result(name = "success", type = "json", params = { "root", "lstDistribuicaoEquipamento" }),
+			@Result(name = "error", location = "/pages/resultAjax.jsp")}, interceptorRefs = @InterceptorRef("authStack"))
 	public String listar() {
 		try {
 			if (permissao.getAdmin()) {
