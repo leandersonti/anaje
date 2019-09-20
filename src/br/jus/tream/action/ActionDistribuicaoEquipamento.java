@@ -81,7 +81,7 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 	}
 	
 
-	@Action(value = "adicionar", results = { 
+	@Action(value = "listar", results = { 
 			@Result(name = "success", type = "json", params = { "root", "lstDistribuicaoEquipamento" }),
 			@Result(name = "error", location = "/pages/resultAjax.jsp")}, interceptorRefs = @InterceptorRef("authStack"))
 	public String listar() {
