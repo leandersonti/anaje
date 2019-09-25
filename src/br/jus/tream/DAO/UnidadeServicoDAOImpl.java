@@ -8,6 +8,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import br.jus.tream.dominio.UnidadeServico;
+import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 import br.jus.tream.dominio.pk.UnidadeServicoPK;
 
 public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
@@ -71,15 +72,15 @@ public class UnidadeServicoDAOImpl implements UnidadeServicoDAO {
 	}
 
 	@Override
-	public List<UnidadeServico> listar(Integer zona, Integer codmunic) throws Exception {
+	public List<UnidadeServico> listar(CadZonaEleitoralPK pkze) throws Exception {
 		List<UnidadeServico> lista = new ArrayList<UnidadeServico>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	  
 		     TypedQuery<UnidadeServico> query = em.createQuery("SELECT u FROM UnidadeServico u "
 		     						+ "WHERE u.id.dataEleicao.ativo=1 AND u.zona=?1 AND u.codmunic=?2 ORDER BY u.local", 
 		    		 UnidadeServico.class);
-		      query.setParameter(1, zona);
-		      lista = query.setParameter(2, codmunic).getResultList();
+		      query.setParameter(1, pkze.getZona());
+		      lista = query.setParameter(2, pkze.getCodmunic()).getResultList();
 		  }
 		  catch (Exception e) {
 			     em.close();

@@ -3,6 +3,7 @@ package br.jus.tream.DAO;
 import java.util.List;
 
 import br.jus.tream.dominio.UnidadeServico;
+import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 import br.jus.tream.dominio.pk.UnidadeServicoPK;
 
 public interface UnidadeServicoDAO {
@@ -11,7 +12,7 @@ public interface UnidadeServicoDAO {
 		
 	public List<UnidadeServico> listarSemDistribuicaoSecao() throws Exception;
 	
-	public List<UnidadeServico> listar(Integer zona, Integer codmunic) throws Exception;	 
+	public List<UnidadeServico> listar(CadZonaEleitoralPK pkze) throws Exception;	 
 	
 	public UnidadeServico getBean(UnidadeServicoPK id) throws Exception;
 	
