@@ -52,14 +52,15 @@
 
 	$('#codZonaMunic').change(function(event) {
 		CarregaPontoTransmissao();
+		CarregaEquipDistribuidos()
 	});
-	//aaaa
-	$('#btnconsultar').click(function(event) {
-		 var codZonaMunic = $("#codZonaMunic").val();
 	
+	/*
+	$('#btnconsultar').click(function(event) {
+	    var codZonaMunic = $("#codZonaMunic").val();
 		$.getJSON('listar?codZonaMunic='+codZonaMunic,
 		function(jsonResponse) {
-		//	$("#tb tr").remove(); //
+		$("#tb tr").remove(); 
 			  $.each(jsonResponse, function(key, value) {             
 		           	 console.log(jsonResponse);
 		           	 $('#tb > tbody:last-child').append('<tr><td>'+value.id.unidadeServico.descricao+'</td><td>'
@@ -68,7 +69,7 @@
 		      	 });
 		     });
 	});
-	//
+	*/
 	function CarregaPontoTransmissao(){
 		 var codZonaMunic = $("#codZonaMunic").val();
 	     var cbxpt = $('#us');	
@@ -83,6 +84,19 @@
 	     }else{
 	    	 $('<option>').val(-1).text("Informe o Ponto de Transmissao").appendTo(cbxpt);
 	     }
+	}
+	
+	function CarregaEquipDistribuidos(){
+		var codZonaMunic = $("#codZonaMunic").val();
+		console.log('listar?codZonaMunic='+codZonaMunic);
+		$("#tb > tbody:last").children().remove();
+		$.getJSON('listar?codZonaMunic='+codZonaMunic,function(jsonResponse) {
+			   $.each(jsonResponse, function(key, value) {             
+		           	 $('#tb > tbody:last-child').append('<tr><td>'+value.id.unidadeServico.descricao+'</td><td>'
+		           			+value.id.unidadeServico.tipo.descricao+'</td><td>'
+		           			+value.id.equipamento.serie+'</td><td>');
+		      	 });
+		     });
 	}
 	
 	
