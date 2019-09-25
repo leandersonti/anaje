@@ -20,6 +20,7 @@ import br.jus.tream.dominio.CADLocalvotacao;
 import br.jus.tream.dominio.CADZonaEleitoral;
 import br.jus.tream.dominio.DataEleicao;
 import br.jus.tream.dominio.UnidadeServico;
+import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 import br.jus.tream.dominio.pk.UnidadeServicoPK;
 
 @SuppressWarnings("serial")
@@ -44,7 +45,18 @@ public class ActionUnidadeServico extends ActionSupport {
 			@Result(name = "error", location = "/result.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String listar() {
 		try {
-			this.lstUnidadeServico = dao.listar();
+			if (permissao.getAdmin()) {
+				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX();
+			} else {
+				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX(permissao.getZona());
+			}
+			System.out.println("CodZonaMunic == " + codZonaMunic);
+			if (codZonaMunic==null)
+			     this.lstUnidadeServico = dao.listar();
+			else {
+				CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
+				this.lstUnidadeServico = dao.listar(pkze);
+			}
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";
@@ -57,8 +69,8 @@ public class ActionUnidadeServico extends ActionSupport {
 	public String listarJson() {
 		try {
 			// PEGANDO CODZONAMUNIC
-			String[] zonamunic = this.codZonaMunic.split(";");
-			this.lstUnidadeServico = dao.listar(Integer.valueOf(zonamunic[0]), Integer.valueOf(zonamunic[1]));
+			CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
+			this.lstUnidadeServico = dao.listar(pkze);
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";
