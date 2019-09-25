@@ -70,7 +70,7 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 		try {
 			if (permissao.getAdmin()) {
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX();
-			} else {
+			} else {				
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX(permissao.getZona());
 			}
 		} catch (Exception e) {
@@ -82,15 +82,19 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 	
 	@Action(value = "listar", results = { 
 			@Result(name = "success", type = "json", params = { "root", "lstDistribuicaoEquipamento" }),
-			@Result(name = "error", location = "/pages/resultAjax.jsp")}, interceptorRefs = @InterceptorRef("authStack"))
+			@Result(name = "error", location = "/pages/resultAjax.jsp")}
+	    //, interceptorRefs = @InterceptorRef("authStack")
+	)
 	public String listar() {
 		try {
-			if (permissao.getAdmin()) {
-				this.lstDistribuicaoEquipamento = dao.listar();
-			} else {
+			//if (permissao.getAdmin()) {
+			//	this.lstDistribuicaoEquipamento = dao.listar();
+			//} else {
+				System.out.println("CodZonaMunic=" + codZonaMunic);
 				CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
+				System.out.println("ZonaMunic=" + pkze.getZona() + " / " + pkze.getCodmunic());
 				this.lstDistribuicaoEquipamento = dao.listar(pkze);
-			}
+			//}
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";
