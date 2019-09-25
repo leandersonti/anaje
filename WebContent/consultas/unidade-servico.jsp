@@ -6,7 +6,17 @@
 <div class="container-full"> 
  <div class="container-fluid">   
  <div class="card">
-  <div class="card-header">Ponto de Transmissão</div>
+  <div class="card-header">  
+      <form action="" class="form-inline" name="form1" id="form1">	
+  		Ponto de Transmissão  Zona    
+	          <s:select label="Zona" headerKey="-1"
+								headerValue="Selecione a zona" tooltip="Informe a Zona"
+								list="lstZonaEleitoral" listKey="id.zona+';'+id.codmunic"
+								listValue="fzona +' - '+ municipio"
+								name="codZonaMunic"  id="codZonaMunic" theme="simple"  cssClass="form-control"/>
+         </form>
+                     
+ </div>
   <div class="card-body">
    
     <table id="table1" class="table table-hover">
@@ -85,8 +95,14 @@ $(document).ready(function() {
 			   }
 			})
 	  });
-
+	
+	$("#codZonaMunic").change(function(event) {
+		console.log("textestsdfsdf");
+		$("#form1").submit();
 	});
+	
+
+});
 </script>
 
 <jsp:include page = "/mainfooter.inc.jsp" />
