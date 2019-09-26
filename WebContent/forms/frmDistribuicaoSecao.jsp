@@ -12,23 +12,25 @@
 
 			<form action="" method="post" name="form1" id="form1" class="needs-validation_" novalidate>
 				
-				<div class="form-group ">
-					<label for="inputTipo">Zona:</label> 
-					 <s:select label="Zona" headerKey="-1"
+				 <div class="form-row">
+					  <div class="form-group col-md-6">
+					      <label for="codZonaMunic">Zona</label>
+					      <s:select label="Zona" headerKey="-1"
 								headerValue="Selecione a zona" tooltip="Informe a Zona"
 								list="lstZonaEleitoral" listKey="id.zona+';'+id.codmunic"
 								listValue="fzona +' - '+ municipio"
 								name="ds.codZonaMunic"  id="codZonaMunic" theme="simple"  cssClass="form-control"/>
-					<div class="invalid-feedback">Por favor, informe a zona eleitoral.</div>			  
-				</div>
-
-				<div class="form-group ">
-					<label for="inputTipo">Ponto Transmissão :</label> 
-					 <select class="form-control form-control" id="us" name="us.id.id" required>
-						<option value="0">Selecione</option>
-					</select>
-					<div class="invalid-feedback">Por favor, informe o ponto de transmissão.</div>
-				</div>
+						   <div class="invalid-feedback">Por favor, informe a zona eleitoral.</div>		
+					  </div>
+					  <div class="form-group col-md-6">
+					       <label for="us">Ponto Transmissão</label>
+					        <select class="form-control form-control" id="us" name="us.id.id" required>
+									<option value="0">Selecione</option>
+							</select>
+							<div class="invalid-feedback">Por favor, informe o ponto de transmissão.</div>
+					  </div>
+				   </div>
+				   
 
 				<div class="form-group ">
 					<label for="inputTipo">Local Votação:</label> 
@@ -40,11 +42,17 @@
 				<div id="ajaxResponse"></div>
 				<br>
 				<button class="btn btn-primary" id="btnSave" type="button">Salvar</button>
-				
-				
 			</form>
 		</div>
 	</div>
+	
+	 <table class="table table-dark table-sm" id="tbedist">
+			<tr>
+			  <td with="10%">Seções Distribuídas: </td>
+			  <td><div id="result"></div></td>
+			</tr>
+	 </table>
+			 
 </div>
 
 <jsp:include page="/javascripts.jsp" />
@@ -52,15 +60,20 @@
 <script type="text/javascript">
 $(document).ready(function() {
    $('#codZonaMunic').change(function(event) {	
-	     $('#ajaxResponse').text('');
+	      $('#result').empty();
+	      $('#ajaxResponse').text('');
 		  CarregaLocalVotacao();	  		  
 		  CarregaPontoTransmissao();				     
 	 });
 	    
 	 $('#numlocal').change(function(event) {	
 		     $('#ajaxResponse').text('');
-		  		  CarregaSecoes();	  		  
-		    });
+		    CarregaSecoes();	  		  
+	 });
+	
+	 $('#us').change(function(event) {	
+		 CarregaSecoesDistribuidas();
+     });
 	 
 	 $("#btnSave").click(function() {
 			var URL = ""; 
@@ -82,6 +95,7 @@ $(document).ready(function() {
 						    }).done(function( data ) {
 						    	if(data.ret==1){
 						    		CarregaSecoes();
+						    		CarregaSecoesDistribuidas();
 						    		Swal.fire(URL, data.mensagem, "success");
 						         }	
 						    	else 
@@ -158,6 +172,20 @@ function CarregaSecoes(){
   	    }); 
 	  });
 	}
+}
+
+function CarregaSecoesDistribuidas(){
+	var cdUS = $("#us").val();
+	$("#tbedist").hide();
+	 $.getJSON('listarByPontoTransmissaoJson?us.id.id='+cdUS,function(jsonResponse) {
+	    if (jsonResponse.length >=  1){ $("#tbedist").show(); }
+	    $("#result").empty();
+	    var linha = "";
+        $.each(jsonResponse, function(key, value) {
+        	linha = linha + '<input type="checkbox" />' + value.secao + ' ';
+      	 });
+	    $("#result").html(linha);
+    });
 }
 </script>
 

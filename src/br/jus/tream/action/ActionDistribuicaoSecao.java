@@ -89,7 +89,19 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 		return "success";
 	}
 	
-
+	@Action(value = "listarByPontoTransmissaoJson", results = { 
+			@Result(name = "success", type = "json", params = { "root", "lstDistribuicaoSecao" }),
+			@Result(name = "error", location = "/pages/resultAjax.jsp")})
+	public String listarByPontoTransmissaoJson() {
+		try {
+			lstDistribuicaoSecao = dao.listar(us.getId().getId());
+		} catch (Exception e) {
+			addActionError(getText("listar.error"));
+			return "error";
+		}
+		return "success";
+	}
+	
 	@Action(value = "adicionar", results = { @Result(name = "success", type = "json", params = { "root", "result" }),
 			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String doAdicionar() {

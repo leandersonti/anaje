@@ -156,7 +156,7 @@ $(document).ready(function() {
 	function CarregaEquipamentosDistribuidos(){
 		var cdUS = $("#us").val();
 		$("#tbequipdist").hide();
-		 $.getJSON('listarByPontoTransmissao?us.id.id='+cdUS,function(jsonResponse) {
+		 $.getJSON('listarByPontoTransmissaoJson?us.id.id='+cdUS,function(jsonResponse) {
 		    if (jsonResponse.length >=  1){ $("#tbequipdist").show(); }
 			$("#tbequipdist > tbody:last").children().remove();
 	        $.each(jsonResponse, function(key, value) {             
