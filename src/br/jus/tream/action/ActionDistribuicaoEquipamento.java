@@ -101,6 +101,21 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 		}
 		return "success";
 	}
+	
+	@Action(value = "listarByPontoTransmissao", results = { 
+			@Result(name = "success", type = "json", params = { "root", "lstDistribuicaoEquipamento" }),
+			@Result(name = "error", location = "/pages/resultAjax.jsp")}
+	    //, interceptorRefs = @InterceptorRef("authStack")
+	)
+	public String listarByPontoTransmissao() {
+		try {
+			this.lstDistribuicaoEquipamento = dao.listar(us.getId().getId());
+		} catch (Exception e) {
+			addActionError(getText("listar.error"));
+			return "error";
+		}
+		return "success";
+	}
 
 	@Action(value = "adicionar", results = { 
 			@Result(name = "success", type = "json", params = { "root", "result" }),

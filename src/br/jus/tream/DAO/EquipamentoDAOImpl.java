@@ -38,7 +38,7 @@ public class EquipamentoDAOImpl implements EquipamentoDAO {
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
 			TypedQuery<Equipamento> query = em
-					.createQuery("SELECT e FROM Equipamento e WHERE e.tipo.id=?1 "
+					.createQuery("SELECT e FROM Equipamento e WHERE e.tipo.id=?1 AND e.dataEleicao.ativo=1 "
 							+ "AND e.id NOT IN (SELECT de.id.equipamento.id FROM DistribuicaoEquipamento de WHERE de.id.equipamento.tipo.id=?2"
 											     + " AND de.id.unidadeServico.id.dataEleicao.ativo=1)", Equipamento.class);
 			query.setParameter(1, tipo);
