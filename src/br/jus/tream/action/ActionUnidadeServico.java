@@ -173,7 +173,10 @@ public class ActionUnidadeServico extends ActionSupport {
 		try {
 			if (permissao.getAdmin()) {			
 				beanResult.setRet(dao.remover(this.uservico));
-				beanResult.setMensagem(getText("remover.sucesso"));
+				if (beanResult.getRet()==1)
+				   beanResult.setMensagem(getText("remover.sucesso"));
+				else
+					beanResult.setMensagem(getText("restricao.integridade.violada"));
 			} else {
 				beanResult.setRet(0);
 				beanResult.setMensagem(getText("permissao.negada"));
