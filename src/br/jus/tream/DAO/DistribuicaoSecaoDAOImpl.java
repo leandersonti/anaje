@@ -73,7 +73,7 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 		try {
 			TypedQuery<CADSecao> query = em
 					.createQuery("SELECT s FROM CADSecao s WHERE s.zona=?1 AND s.codmunic=?2 and s.numLocal=?3 "
-							+ "AND s.secao NOT IN (SELECT ds.secao FROM DistribuicaoSecao ds "
+							+ "AND s.secaoPrincipal IS NULL AND s.secao NOT IN (SELECT ds.secao FROM DistribuicaoSecao ds "
 													+ "WHERE ds.zona=?4 AND ds.codmunic=?5 AND ds.id.unidadeServico.id.dataEleicao.ativo=1)"
 							+ "ORDER BY s.secao",
 								CADSecao.class);
