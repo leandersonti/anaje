@@ -34,7 +34,7 @@
 
 				<div class="form-group ">
 					<label for="inputTipo">Local Votação:</label> 
-					 <select class="form-control form-control" id="numlocal" name="numlocal" required>
+					 <select class="form-control form-control" id="numlocal" name="codObjetoLocal" required>
 						<option value="0">Selecione</option>
 					</select>
 					<div class="invalid-feedback">Por favor, informe o local de votação.</div>
@@ -150,7 +150,7 @@ function CarregaLocalVotacao(){
 		      $.getJSON('../elo/listarJsonLocalVotacao?codZonaMunic='+codZonaMunic,function(jsonResponse) {
 		    	  $('<option>').val(-1).text("Informe o local").appendTo(select);
 		                $.each(jsonResponse, function(key, value) {
-		                $('<option>').val(value.numLocal).text(value.numLocal + " " + value.nomeLocal).appendTo(select);
+		                $('<option>').val(value.id+';'+value.numLocal).text(value.numLocal + " " + value.nomeLocal).appendTo(select);
 		                // console.log("key " + key + " value " + value.descricao)
 		        });
 		      });
@@ -161,11 +161,11 @@ function CarregaLocalVotacao(){
 
 function CarregaSecoes(){
 	var codZonaMunic = $("#codZonaMunic").val();
-	var codLocal = $("#numlocal").val();
+	var codLocal = $("#numlocal").val().split(";");
 	if(codZonaMunic != -1 || codZonaMunic != 0){	  				
 	 $('#ajaxResponse').text('');
 	 $('#ajaxResponse').append("<img src='../images/waiting.gif'> Carregando seções...</img>");
-     $.getJSON('listarParaDistribuirJson?codZonaMunic='+codZonaMunic+'&numlocal='+codLocal,function(jsonResponse) {
+     $.getJSON('listarParaDistribuirJson?codZonaMunic='+codZonaMunic+'&numlocal='+codLocal[1],function(jsonResponse) {
   	  $('#ajaxResponse').text('');
   	     $.each(jsonResponse, function(key, value) {
   	       $('#ajaxResponse').append('<input type="checkbox" checked id="secoesCbx" name="secoesCbx" value="'+ value.id +';' + value.secao +'"/> ' + value.secao + " ");

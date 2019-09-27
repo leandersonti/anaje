@@ -36,6 +36,7 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 	private final static DistribuicaoSecaoDAO dao = DistribuicaoSecaoDAOImpl.getInstance();
 	private final static Permissao permissao = Permissao.getInstance();
 	private Integer zona, codmunic,numlocal;
+	private String codObjetoLocal;
 	private String[] secoesCbx;
 	
 	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmDistribuicaoSecao.jsp"),
@@ -58,7 +59,7 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 	
 	@Action(value = "listarParaDistribuirJson", results = { @Result(name = "success", type = "json", params = { "root", "lstCadSecao" }),
 			@Result(name = "error", location = "/pages/resultAjax.jsp") })
-	public String listarSecaoParaDistribuiJson() {
+	public String listarSecaoParaDistribuirJson() {
 		try {
 			// PEGANDO CODZONAMUNIC
 			String[] zonamunic = this.codZonaMunic.split(";");
@@ -90,7 +91,7 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 	}
 	
 	@Action(value = "listarByPontoTransmissaoJson", results = { 
-			@Result(name = "success", type = "json", params = { "root", "lstDistribuicaoSecao" }),
+			@Result(name = "success", type = "json", params = { "root", "lstDistribuicaoSecao","excludeProperties",".*Collection" }),
 			@Result(name = "error", location = "/pages/resultAjax.jsp")})
 	public String listarByPontoTransmissaoJson() {
 		try {
@@ -108,11 +109,14 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 		BeanResult beanResult = new BeanResult();
 		try {
 			String[] zonamunic = ds.getCodZonaMunic().split(";");
-			int zona = Integer.valueOf(zonamunic[0]);
+			String[] vetLocal = codObjetoLocal.split(";");
+		    int zona = Integer.valueOf(zonamunic[0]);
 			if (permissao.getAdmin() || permissao.getZona()==zona) {
 				this.us = UnidadeServicoDAOImpl.getInstance().getBean(this.us.getId().getId());
 				ds.getId().setUnidadeServico(us);
 				ds.setZona(zona);
+				ds.setNumLocal(Integer.parseInt(vetLocal[1]));
+				ds.setCodObjetoLocal(vetLocal[0]);
 				ds.setCodmunic(Integer.valueOf(zonamunic[1]));
 				ds.setVetsecoes(this.secoesCbx);
 				beanResult.setRet(dao.adicionar(ds));
@@ -238,6 +242,14 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 
 	public void setSecoesCbx(String[] secoesCbx) {
 		this.secoesCbx = secoesCbx;
+	}
+
+	public String getCodObjetoLocal() {
+		return codObjetoLocal;
+	}
+
+	public void setCodObjetoLocal(String codObjetoLocal) {
+		this.codObjetoLocal = codObjetoLocal;
 	}
 	
 }

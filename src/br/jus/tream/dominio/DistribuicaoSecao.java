@@ -36,17 +36,26 @@ public class DistribuicaoSecao implements Serializable{
 	private Integer secao;
 	
 	private Integer codmunic;
+	
+	private Integer numLocal;
+	
+	@Column(name="cod_objeto_local")
+	private String codObjetoLocal;
 
 	public DistribuicaoSecao() {}
 		
-	public DistribuicaoSecao(DistribuicaoSecaoPK id, Date dataRecebimento, Integer zona, Integer secao,
-			Integer codmunic) {
+	public DistribuicaoSecao(DistribuicaoSecaoPK id, Date dataRecebimento, String[] vetsecoes, String codZonaMunic,
+			Integer zona, Integer secao, Integer codmunic, Integer numLocal, String codObjetoLocal) {
 		super();
 		this.id = id;
 		this.dataRecebimento = dataRecebimento;
+		this.vetsecoes = vetsecoes;
+		this.codZonaMunic = codZonaMunic;
 		this.zona = zona;
 		this.secao = secao;
 		this.codmunic = codmunic;
+		this.numLocal = numLocal;
+		this.codObjetoLocal = codObjetoLocal;
 	}
 	
 	public String[] getVetsecoes() {
@@ -105,6 +114,22 @@ public class DistribuicaoSecao implements Serializable{
 		this.codmunic = codmunic;
 	}
 
+	public Integer getNumLocal() {
+		return numLocal;
+	}
+
+	public void setNumLocal(Integer numLocal) {
+		this.numLocal = numLocal;
+	}
+
+	public String getCodObjetoLocal() {
+		return codObjetoLocal;
+	}
+
+	public void setCodObjetoLocal(String codObjetoLocal) {
+		this.codObjetoLocal = codObjetoLocal;
+	}
+			
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -128,7 +153,5 @@ public class DistribuicaoSecao implements Serializable{
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-			
-	
+	}	
 }
