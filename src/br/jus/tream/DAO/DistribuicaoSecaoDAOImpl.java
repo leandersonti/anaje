@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import br.jus.tream.dominio.CADLocalvotacao;
 import br.jus.tream.dominio.CADSecao;
 import br.jus.tream.dominio.DistribuicaoSecao;
 import br.jus.tream.dominio.UnidadeServico;
@@ -34,6 +35,27 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 					.createQuery("SELECT ds FROM DistribuicaoSecao ds WHERE "
 								+ "ds.id.unidadeServico.id.id=?1 AND ds.id.unidadeServico.id.dataEleicao.ativo=1 ORDER BY ds.secao",
 							DistribuicaoSecao.class);
+			query.setParameter(1, idUnidadeServico);
+			lista = query.getResultList();
+		} catch (Exception e) {
+			em.close();
+			e.printStackTrace();
+		} finally {
+			em.close();
+		}
+		return lista;
+	}
+	
+	public List<CADLocalvotacao> listarByClassLocalVotacao(Integer idUnidadeServico) throws Exception{
+		List<CADLocalvotacao> lista = new ArrayList<CADLocalvotacao>();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		try {
+			TypedQuery<CADLocalvotacao> query = em
+					.createQuery("SELECT a FROM CADLocalvotacao a WHERE a.id IN ("
+								+ "SELECT DISTINCT ds.codObjetoLocal FROM DistribuicaoSecao ds "
+								      + "WHERE ds.id.unidadeServico.id.id=?1 AND ds.id.unidadeServico.id.dataEleicao.ativo=1"
+								+ ") ORDER BY a.numLocal",
+								CADLocalvotacao.class);
 			query.setParameter(1, idUnidadeServico);
 			lista = query.getResultList();
 		} catch (Exception e) {
@@ -159,7 +181,7 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 
 	public static void main(String[] args) throws Exception {
 		DistribuicaoSecaoDAO dao = DistribuicaoSecaoDAOImpl.getInstance();
-		
+		/*
 		DistribuicaoSecaoPK dspk = new DistribuicaoSecaoPK();
 		DistribuicaoSecao ds = new DistribuicaoSecao();
 		UnidadeServico us = new UnidadeServico();
@@ -178,15 +200,18 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 
 		int ret = dao.adicionar(ds);
 		System.out.println("ret == " + ret);
-		
+		*/
 		//ds = dao.getBean("253066");
 		//     System.out.println("ZE " + ds.getZona());
 		
-		/*
-		for(DistribuicaoSecao d : dao.listar(12019)) {
-			System.out.println("Zona " + d.getZona() + " " + d.getSecao() + " " + d.getCodmunic());
+		
+		for(CADLocalvotacao d : dao.listarByClassLocalVotacao(2812019)) {
+			System.out.println("Zona " + d.getZona() + " " + d.getNumLocal() +" - " + d.getNomeLocal());
+			for (DistribuicaoSecao ds : d.getSecoesDistribuidas()) {
+				System.out.println("------ " + ds.getSecao());
+			}
 		}
-		*/
+		
 		
 		/*
 		for(CADSecao cad : dao.listarParaDistribuir(14, 2151, 1040)) {

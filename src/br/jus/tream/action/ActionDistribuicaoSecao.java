@@ -16,6 +16,7 @@ import br.jus.tream.DAO.DistribuicaoSecaoDAO;
 import br.jus.tream.DAO.DistribuicaoSecaoDAOImpl;
 import br.jus.tream.DAO.UnidadeServicoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
+import br.jus.tream.dominio.CADLocalvotacao;
 import br.jus.tream.dominio.CADSecao;
 import br.jus.tream.dominio.CADZonaEleitoral;
 import br.jus.tream.dominio.DistribuicaoSecao;
@@ -28,6 +29,7 @@ import br.jus.tream.dominio.UnidadeServico;
 public class ActionDistribuicaoSecao extends ActionSupport{
 	private List<CADSecao> lstCadSecao;
 	private List<DistribuicaoSecao> lstDistribuicaoSecao;
+	private List<CADLocalvotacao> lstPorLocalVotacao;
 	private List<CADZonaEleitoral> lstZonaEleitoral;
 	private BeanResult result;
 	private UnidadeServico us;
@@ -91,11 +93,11 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 	}
 	
 	@Action(value = "listarByPontoTransmissaoJson", results = { 
-			@Result(name = "success", type = "json", params = { "root", "lstDistribuicaoSecao","excludeProperties",".*Collection" }),
+			@Result(name = "success", type = "json", params = { "root", "lstPorLocalVotacao"}),
 			@Result(name = "error", location = "/pages/resultAjax.jsp")})
 	public String listarByPontoTransmissaoJson() {
 		try {
-			lstDistribuicaoSecao = dao.listar(us.getId().getId());
+			lstPorLocalVotacao = dao.listarByClassLocalVotacao(us.getId().getId());
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";
@@ -250,6 +252,14 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 
 	public void setCodObjetoLocal(String codObjetoLocal) {
 		this.codObjetoLocal = codObjetoLocal;
+	}
+
+	public List<CADLocalvotacao> getLstPorLocalVotacao() {
+		return lstPorLocalVotacao;
+	}
+
+	public void setLstPorLocalVotacao(List<CADLocalvotacao> lstPorLocalVotacao) {
+		this.lstPorLocalVotacao = lstPorLocalVotacao;
 	}
 	
 }

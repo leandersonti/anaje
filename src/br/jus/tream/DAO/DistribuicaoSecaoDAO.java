@@ -2,12 +2,15 @@ package br.jus.tream.DAO;
 
 import java.util.List;
 
+import br.jus.tream.dominio.CADLocalvotacao;
 import br.jus.tream.dominio.CADSecao;
 import br.jus.tream.dominio.DistribuicaoSecao;
 
 public interface DistribuicaoSecaoDAO {
 	
 	public List<DistribuicaoSecao> listar(Integer idUnidadeServico) throws Exception;
+	
+	public List<CADLocalvotacao> listarByClassLocalVotacao(Integer idUnidadeServico) throws Exception;
 		
 	public List<CADSecao> listarParaDistribuir(Integer zona, Integer codmunic, Integer numlocal) throws Exception;
 	

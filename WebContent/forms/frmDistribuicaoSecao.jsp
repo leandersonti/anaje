@@ -46,10 +46,10 @@
 		</div>
 	</div>
 	
-	 <table class="table table-dark table-sm" id="tbedist">
+	 <table class="table table-sm" id="tbedist">
 			<tr>
 			  <td with="10%">Seções Distribuídas: </td>
-			  <td><div id="result"></div></td>
+			  <td></td>
 			</tr>
 	 </table>
 			 
@@ -177,14 +177,24 @@ function CarregaSecoes(){
 function CarregaSecoesDistribuidas(){
 	var cdUS = $("#us").val();
 	$("#tbedist").hide();
+	
 	 $.getJSON('listarByPontoTransmissaoJson?us.id.id='+cdUS,function(jsonResponse) {
 	    if (jsonResponse.length >=  1){ $("#tbedist").show(); }
-	    $("#result").empty();
-	    var linha = "";
+	    $("#tbedist > tr").remove();
+	     var linha = "";
         $.each(jsonResponse, function(key, value) {
-        	linha = linha + '<input type="checkbox" />' + value.secao + ' ';
+        	console.log("key ==" + key);	
+        	linha +=  '<tr class="table-active"><th scope="row">' + value.numLocal + '</th><td>' + value.nomeLocal + '</td></tr>';
+        	var sec = "";
+        	$.each(value.secoesDistribuidas, function(i, jSecoes) {
+        		sec += jSecoes.secao  + ",";
+          	 });
+        	linha += '<tr><td></td><td>' + sec.substring(0, sec.length - 1) + '</td></tr>';
+        	//console.log(cols);
+        	//newRow.append(cols);
       	 });
-	    $("#result").html(linha);
+        console.log(linha);
+	    $("#tbedist").html(linha);
     });
 }
 </script>
