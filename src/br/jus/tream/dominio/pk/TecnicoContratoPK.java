@@ -10,7 +10,7 @@ import br.jus.tream.dominio.Eleicao;
 import br.jus.tream.dominio.Tecnico;
 
 @SuppressWarnings("serial")
-public class DistribuicaoTecContratoPK implements Serializable{
+public class TecnicoContratoPK implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name = "id_tecnico", nullable = false)
@@ -22,7 +22,7 @@ public class DistribuicaoTecContratoPK implements Serializable{
 
 	@ManyToOne
 	@JoinColumn(name = "id_eleicao", nullable = false)
-	private Eleicao dataEleicao;
+	private Eleicao eleicao;
 	
 	public Tecnico getTecnico() {
 		return tecnico;
@@ -40,12 +40,12 @@ public class DistribuicaoTecContratoPK implements Serializable{
 		this.contrato = contrato;
 	}
 
-	public Eleicao getDataEleicao() {
-		return dataEleicao;
+	public Eleicao getEleicao() {
+		return eleicao;
 	}
 
-	public void setDataEleicao(Eleicao dataEleicao) {
-		this.dataEleicao = dataEleicao;
+	public void setEleicao(Eleicao eleicao) {
+		this.eleicao = eleicao;
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class DistribuicaoTecContratoPK implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((contrato == null) ? 0 : contrato.hashCode());
-		result = prime * result + ((dataEleicao == null) ? 0 : dataEleicao.hashCode());
+		result = prime * result + ((eleicao == null) ? 0 : eleicao.hashCode());
 		result = prime * result + ((tecnico == null) ? 0 : tecnico.hashCode());
 		return result;
 	}
@@ -66,16 +66,16 @@ public class DistribuicaoTecContratoPK implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		DistribuicaoTecContratoPK other = (DistribuicaoTecContratoPK) obj;
+		TecnicoContratoPK other = (TecnicoContratoPK) obj;
 		if (contrato == null) {
 			if (other.contrato != null)
 				return false;
 		} else if (!contrato.equals(other.contrato))
 			return false;
-		if (dataEleicao == null) {
-			if (other.dataEleicao != null)
+		if (eleicao == null) {
+			if (other.eleicao != null)
 				return false;
-		} else if (!dataEleicao.equals(other.dataEleicao))
+		} else if (!eleicao.equals(other.eleicao))
 			return false;
 		if (tecnico == null) {
 			if (other.tecnico != null)
@@ -84,9 +84,6 @@ public class DistribuicaoTecContratoPK implements Serializable{
 			return false;
 		return true;
 	}
-
-	
-	
 	
 			
 }
