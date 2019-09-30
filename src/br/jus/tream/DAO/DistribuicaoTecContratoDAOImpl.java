@@ -8,11 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import br.jus.tream.dominio.Contrato;
-import br.jus.tream.dominio.DataEleicao;
 import br.jus.tream.dominio.DistribuicaoTecnicoContrato;
-import br.jus.tream.dominio.Tecnico;
-import br.jus.tream.dominio.pk.DistribuicaoTecContratoPK;
 
 public class DistribuicaoTecContratoDAOImpl implements DistribuicaoTecContratoDAO {
 	
