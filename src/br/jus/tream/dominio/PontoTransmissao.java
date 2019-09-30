@@ -47,7 +47,7 @@ public class PontoTransmissao implements Serializable {
 	private String cargoContato;
 
 	@Column(length = 20)
-	private String telefone;
+	private String fone;
 
 	@Column(length = 40)
 	private String latitude;
@@ -60,8 +60,6 @@ public class PontoTransmissao implements Serializable {
 	@Column(nullable = false)
 	private Integer oficial;
 
-	private Integer jecon;
-	
 	/*
 	@OneToMany(cascade = {CascadeType.REFRESH,CascadeType.REMOVE}, mappedBy = "id.unidadeServico", fetch = FetchType.EAGER)
 	@Fetch(FetchMode.SUBSELECT)
@@ -79,7 +77,7 @@ public class PontoTransmissao implements Serializable {
 	public PontoTransmissao(PontoTransmissaoPK id, String codObjeto, Integer zona, Integer local,
 			Integer secao, String descricao, String endereco, Integer codmunic, String sexo, String sala,
 			String contato, String cargoContato, String telefone, String latitude, String longitude, Integer status,
-			Integer oficial, Integer jecon) {
+			Integer oficial) {
 		super();
 		this.id = id;
 		this.codObjeto = codObjeto;
@@ -93,12 +91,11 @@ public class PontoTransmissao implements Serializable {
 		this.sala = sala;
 		this.contato = contato;
 		this.cargoContato = cargoContato;
-		this.telefone = telefone;
+		this.fone = telefone;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.status = status;
 		this.oficial = oficial;
-		this.jecon = jecon;
 	}
 
 	public PontoTransmissaoPK getId() {
@@ -197,12 +194,12 @@ public class PontoTransmissao implements Serializable {
 		this.cargoContato = cargoContato;
 	}
 
-	public String getTelefone() {
-		return telefone;
+	public String getFone() {
+		return fone;
 	}
 
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
+	public void setFone(String telefone) {
+		this.fone = telefone;
 	}
 
 	public String getLatitude() {
@@ -235,14 +232,6 @@ public class PontoTransmissao implements Serializable {
 
 	public void setOficial(Integer oficial) {
 		this.oficial = oficial;
-	}
-
-	public Integer getJecon() {
-		return jecon;
-	}
-
-	public void setJecon(Integer jecon) {
-		this.jecon = jecon;
 	}
 
 	@Override

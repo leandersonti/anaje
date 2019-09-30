@@ -7,7 +7,6 @@
 		<div class="card-body">
 
 			<form action="" method="post" name="form1" id="form1" class="needs-validation_" novalidate>
-				<input type="hidden" id="tipo" name="uservico.tipo.id" value="1">
 				<s:if test='uservico.id != null'>
 					<input type="hidden" id="id" name="uservico.id.id" value="${uservico.id.id}">	
 					<input type="hidden" id="oficial" name="uservico.oficial" value="${uservico.oficial}">				
@@ -88,7 +87,7 @@
 
 					<div class="col-md-3 mb-3">
 						<label for="telefone">Telefone:</label> <input type="text"
-							class="form-control" id="telefone" name="uservico.telefone"
+							class="form-control" id="telefone" name="uservico.fone"
 							value="${uservico.telefone}" placeholder=" ">
 					</div>
 
