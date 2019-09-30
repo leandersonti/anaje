@@ -91,7 +91,6 @@ public class EncerramentoDAOImpl implements EncerramentoDAO {
 		
 		for(Encerramento e:dao.listar(33, 2038)) {
 			System.out.println("Status===" + e.getStatus());
-			System.out.println("Status===" + e.getId().getDataEleicao().getDescricao());
 		}
 
 	}
