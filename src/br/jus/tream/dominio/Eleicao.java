@@ -16,8 +16,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "data_eleicao")
-public class DataEleicao implements Serializable {
+@Table(name = "eleicao")
+public class Eleicao implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
@@ -41,10 +41,10 @@ public class DataEleicao implements Serializable {
 	@Column(length = 70)
 	private String email;
 
-	public DataEleicao() {
+	public Eleicao() {
 	}
 
-	public DataEleicao(Integer id, Date dataEleicao, int turno, int ativo, String descricao, String titTRE,
+	public Eleicao(Integer id, Date dataEleicao, int turno, int ativo, String descricao, String titTRE,
 			String email) {
 		super();
 		this.id = id;
@@ -56,7 +56,7 @@ public class DataEleicao implements Serializable {
 		this.email = email;
 	}
 
-	public DataEleicao(Integer id, Date dataEleicao, String descricao) {
+	public Eleicao(Integer id, Date dataEleicao, String descricao) {
 		super();
 		this.id = id;
 		this.dataEleicao = dataEleicao;
@@ -135,7 +135,7 @@ public class DataEleicao implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		DataEleicao other = (DataEleicao) obj;
+		Eleicao other = (Eleicao) obj;
 		if (id != other.id)
 			return false;
 		return true;
