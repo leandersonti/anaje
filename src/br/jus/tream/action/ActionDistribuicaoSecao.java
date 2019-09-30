@@ -14,13 +14,14 @@ import com.opensymphony.xwork2.ActionSupport;
 import br.jus.tream.DAO.CadEloDAOImpl;
 import br.jus.tream.DAO.DistribuicaoSecaoDAO;
 import br.jus.tream.DAO.DistribuicaoSecaoDAOImpl;
-import br.jus.tream.DAO.UnidadeServicoDAOImpl;
+import br.jus.tream.DAO.PontoTransmissaoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.CADLocalvotacao;
 import br.jus.tream.dominio.CADSecao;
 import br.jus.tream.dominio.CADZonaEleitoral;
 import br.jus.tream.dominio.DistribuicaoSecao;
-import br.jus.tream.dominio.UnidadeServico;
+import br.jus.tream.dominio.PontoTransmissao;
+import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 
 @SuppressWarnings("serial")
 @Namespace("/distribsecao")
@@ -32,7 +33,7 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 	private List<CADLocalvotacao> lstPorLocalVotacao;
 	private List<CADZonaEleitoral> lstZonaEleitoral;
 	private BeanResult result;
-	private UnidadeServico us;
+	private PontoTransmissao us;
 	private DistribuicaoSecao ds;
 	private String codZonaMunic;
 	private final static DistribuicaoSecaoDAO dao = DistribuicaoSecaoDAOImpl.getInstance();
@@ -63,11 +64,9 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 			@Result(name = "error", location = "/pages/resultAjax.jsp") })
 	public String listarSecaoParaDistribuirJson() {
 		try {
-			// PEGANDO CODZONAMUNIC
-			String[] zonamunic = this.codZonaMunic.split(";");
-			this.lstCadSecao = dao.listarParaDistribuir(Integer.valueOf(zonamunic[0]), 
-					                                    Integer.valueOf(zonamunic[1]), 
-					                                    numlocal);
+			CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic); 
+			//String[] zonamunic = this.codZonaMunic.split(";"); Integer.valueOf(zonamunic[0])
+			this.lstCadSecao = dao.listarParaDistribuir(pkze, numlocal);
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";
@@ -114,8 +113,8 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 			String[] vetLocal = codObjetoLocal.split(";");
 		    int zona = Integer.valueOf(zonamunic[0]);
 			if (permissao.getAdmin() || permissao.getZona()==zona) {
-				this.us = UnidadeServicoDAOImpl.getInstance().getBean(this.us.getId().getId());
-				ds.getId().setUnidadeServico(us);
+				this.us = PontoTransmissaoDAOImpl.getInstance().getBean(this.us.getId().getId());
+				ds.getId().setPontoTransmissaoo(us);
 				ds.setZona(zona);
 				ds.setNumLocal(Integer.parseInt(vetLocal[1]));
 				ds.setCodObjetoLocal(vetLocal[0]);
@@ -167,11 +166,11 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 		this.ds = ds;
 	}
 
-	public UnidadeServico getUs() {
+	public PontoTransmissao getUs() {
 		return us;
 	}
 
-	public void setUs(UnidadeServico us) {
+	public void setUs(PontoTransmissao us) {
 		this.us = us;
 	}
 

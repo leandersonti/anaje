@@ -14,12 +14,13 @@ import com.opensymphony.xwork2.ActionSupport;
 import br.jus.tream.DAO.CadEloDAOImpl;
 import br.jus.tream.DAO.DistribuicaoSecaoDAO;
 import br.jus.tream.DAO.DistribuicaoSecaoDAOImpl;
-import br.jus.tream.DAO.UnidadeServicoDAOImpl;
+import br.jus.tream.DAO.PontoTransmissaoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.CADSecao;
 import br.jus.tream.dominio.CADZonaEleitoral;
 import br.jus.tream.dominio.DistribuicaoSecao;
-import br.jus.tream.dominio.UnidadeServico;
+import br.jus.tream.dominio.PontoTransmissao;
+import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 import br.jus.tream.dominio.pk.DistribuicaoSecaoPK;
 
 @SuppressWarnings("serial")
@@ -31,7 +32,7 @@ public class ActionDistribuicaoTecnico extends ActionSupport{
 	private List<DistribuicaoSecao> lstDistribuicaoSecao;
 	private List<CADZonaEleitoral> lstZonaEleitoral;
 	private BeanResult result;
-	private UnidadeServico us;
+	private PontoTransmissao us;
 	private DistribuicaoSecao ds;
 	private String codZonaMunic;
 	private final static DistribuicaoSecaoDAO dao = DistribuicaoSecaoDAOImpl.getInstance();
@@ -62,10 +63,8 @@ public class ActionDistribuicaoTecnico extends ActionSupport{
 	public String listarSecaoParaDistribuiJson() {
 		try {
 			// PEGANDO CODZONAMUNIC
-			String[] zonamunic = this.codZonaMunic.split(";");
-			this.lstCadSecao = dao.listarParaDistribuir(Integer.valueOf(zonamunic[0]), 
-					                                    Integer.valueOf(zonamunic[1]), 
-					                                    numlocal);
+			CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
+			this.lstCadSecao = dao.listarParaDistribuir(pkze, numlocal);
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";
@@ -96,13 +95,12 @@ public class ActionDistribuicaoTecnico extends ActionSupport{
 	public String doAdicionar() {
 		BeanResult beanResult = new BeanResult();
 		try {
-			String[] zonamunic = ds.getCodZonaMunic().split(";");
-			int zona = Integer.valueOf(zonamunic[0]);
+			CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
 			if (permissao.getAdmin() || permissao.getZona()==zona) {
-				this.us = UnidadeServicoDAOImpl.getInstance().getBean(this.us.getId().getId());
-				ds.getId().setUnidadeServico(us);
-				ds.setZona(zona);
-				ds.setCodmunic(Integer.valueOf(zonamunic[1]));
+				this.us = PontoTransmissaoDAOImpl.getInstance().getBean(this.us.getId().getId());
+				ds.getId().setPontoTransmissaoo(us);
+				ds.setZona(pkze.getZona());
+				ds.setCodmunic(pkze.getCodmunic());
 				ds.setVetsecoes(this.secoesCbx);
 				beanResult.setRet(dao.adicionar(ds));
 				beanResult.setMensagem(getText("inserir.sucesso") + " (" + secoesCbx.length + " Secao(oes))");
@@ -150,11 +148,11 @@ public class ActionDistribuicaoTecnico extends ActionSupport{
 		this.ds = ds;
 	}
 
-	public UnidadeServico getUs() {
+	public PontoTransmissao getUs() {
 		return us;
 	}
 
-	public void setUs(UnidadeServico us) {
+	public void setUs(PontoTransmissao us) {
 		this.us = us;
 	}
 
