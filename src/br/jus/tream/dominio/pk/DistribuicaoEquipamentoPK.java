@@ -7,7 +7,7 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 
 import br.jus.tream.dominio.Equipamento;
-import br.jus.tream.dominio.UnidadeServico;
+import br.jus.tream.dominio.PontoTransmissao;
 
 @SuppressWarnings("serial")
 public class DistribuicaoEquipamentoPK implements Serializable{
@@ -21,7 +21,7 @@ public class DistribuicaoEquipamentoPK implements Serializable{
 	  @JoinColumn(name = "id_eleicao", nullable = false),
 	  @JoinColumn(name = "idus", nullable = false)
 	})
-	private UnidadeServico unidadeServico;
+	private PontoTransmissao pontoTransmissao;
 	
 	/*
 	@ManyToOne
@@ -38,12 +38,12 @@ public class DistribuicaoEquipamentoPK implements Serializable{
 		this.equipamento = equipamento;
 	}
 
-	public UnidadeServico getUnidadeServico() {
-		return unidadeServico;
+	public PontoTransmissao getPontoTransmissao() {
+		return pontoTransmissao;
 	}
 
-	public void setUnidadeServico(UnidadeServico unidadeServico) {
-		this.unidadeServico = unidadeServico;
+	public void setPontoTransmissao(PontoTransmissao pontoTransmissao) {
+		this.pontoTransmissao = pontoTransmissao;
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class DistribuicaoEquipamentoPK implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((equipamento == null) ? 0 : equipamento.hashCode());
-		result = prime * result + ((unidadeServico == null) ? 0 : unidadeServico.hashCode());
+		result = prime * result + ((pontoTransmissao == null) ? 0 : pontoTransmissao.hashCode());
 		return result;
 	}
 
@@ -69,10 +69,10 @@ public class DistribuicaoEquipamentoPK implements Serializable{
 				return false;
 		} else if (!equipamento.equals(other.equipamento))
 			return false;
-		if (unidadeServico == null) {
-			if (other.unidadeServico != null)
+		if (pontoTransmissao == null) {
+			if (other.pontoTransmissao != null)
 				return false;
-		} else if (!unidadeServico.equals(other.unidadeServico))
+		} else if (!pontoTransmissao.equals(other.pontoTransmissao))
 			return false;
 		return true;
 	}
