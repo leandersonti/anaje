@@ -45,7 +45,7 @@ public class CadEloDAOImpl implements CadEloDAO {
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
 			TypedQuery<CADLocalvotacao> query = em.createQuery("SELECT c FROM CADLocalvotacao c WHERE c.zona=?1 AND c.codmunic=?2 "
-					+ "AND (c.id NOT IN (SELECT u.codObjeto FROM UnidadeServico u WHERE u.zona=?3 AND u.codmunic=?4)) ORDER BY c.numLocal",
+					+ "AND (c.id NOT IN (SELECT p.codObjetoLocal FROM PontoTransmissao p WHERE p.id.eleicao.ativo=1 AND p.zona=?3 AND p.codmunic=?4)) ORDER BY c.numLocal",
 					CADLocalvotacao.class);
 			query.setParameter(1, zona);
 			query.setParameter(2, codmunic);
@@ -195,16 +195,17 @@ public class CadEloDAOImpl implements CadEloDAO {
 
 	public static void main(String[] args) throws Exception {
 		CadEloDAO dao = CadEloDAOImpl.getInstance();
-		/*
+		
 		for(CADLocalvotacao local : dao.listarLocalVotacaoParaCadastrar(31, 2550)) {
 			System.out.println(local.getId() + " :: Zona " + local.getZona() + " " + local.getNumLocal() + " " + local.getNomeLocal());
 		}
-		*/
 		
+		
+		/*
 		for(CADZonaEleitoral z : dao.listarZonaEleitoralCBX(31)) {
 			System.out.println(z.getZona() + " :: Zona " + z.getZona() + " " + z.getMunicipio() + " " + z.getCodmunic());
 		}
-		
+		*/
 		
 		//CADLocalvotacao local = dao.getBeanLocalVotacao(31, 2550, 1910);
 		//System.out.println(local.getId() + " :: Zona " + local.getZona() + " " + local.getNumLocal() + " " + local.getNomeLocal());

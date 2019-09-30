@@ -164,13 +164,11 @@ public class ActionPontoTransmissao extends ActionSupport {
 		BeanResult beanResult = new BeanResult();
 		try {
 			PontoTransmissaoPK pk = new PontoTransmissaoPK();
-			// PEGANDO ELEIÇÃO ATIVA
+			CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
 			pk.setEleicao(EleicaoDAOImpl.getInstance().getBeanAtiva());
 			this.uservico.setId(pk);			
-			// PEGANDO CODZONAMUNIC
-			String[] zonamunic = this.codZonaMunic.split(";");
-			this.uservico.setCodmunic(Integer.valueOf(zonamunic[1]));
-			this.uservico.setZona(Integer.valueOf(zonamunic[0]));
+			this.uservico.setCodmunic(pkze.getCodmunic());
+			this.uservico.setZona(pkze.getZona());
 			beanResult.setRet(dao.adicionar(this.uservico));
 			if (beanResult.getRet() == 1)
 				beanResult.setMensagem(getText("inserir.sucesso"));

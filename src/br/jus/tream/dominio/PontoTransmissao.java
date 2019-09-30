@@ -17,8 +17,8 @@ public class PontoTransmissao implements Serializable {
 	@EmbeddedId
 	private PontoTransmissaoPK id = new PontoTransmissaoPK();
 
-	@Column(name = "cod_objeto")
-	private String codObjeto;
+	@Column(name = "cod_objeto_local")
+	private String codObjetoLocal;
 	
 	private Integer zona;
 
@@ -74,13 +74,13 @@ public class PontoTransmissao implements Serializable {
 		super();
 	}
 	
-	public PontoTransmissao(PontoTransmissaoPK id, String codObjeto, Integer zona, Integer local,
+	public PontoTransmissao(PontoTransmissaoPK id, String codObjetoLocal, Integer zona, Integer local,
 			Integer secao, String descricao, String endereco, Integer codmunic, String sexo, String sala,
 			String contato, String cargoContato, String telefone, String latitude, String longitude, Integer status,
 			Integer oficial) {
 		super();
 		this.id = id;
-		this.codObjeto = codObjeto;
+		this.codObjetoLocal = codObjetoLocal;
 		this.zona = zona;
 		this.local = local;
 		this.secao = secao;
@@ -106,12 +106,12 @@ public class PontoTransmissao implements Serializable {
 		this.id = id;
 	}
 
-	public String getCodObjeto() {
-		return codObjeto;
+	public String getCodObjetoLocal() {
+		return codObjetoLocal;
 	}
 
-	public void setCodObjeto(String codObjeto) {
-		this.codObjeto = codObjeto;
+	public void setCodObjetoLocal(String codObjetoLocal) {
+		this.codObjetoLocal = codObjetoLocal;
 	}
 
 	public Integer getZona() {
