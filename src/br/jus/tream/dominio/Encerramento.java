@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import br.jus.tream.dominio.pk.UnidadeServicoPK;
+import br.jus.tream.dominio.pk.PontoTransmissaoPK;
 
 @SuppressWarnings("serial")
 @Entity
@@ -18,7 +18,7 @@ import br.jus.tream.dominio.pk.UnidadeServicoPK;
 public class Encerramento implements Serializable {
 
 	@EmbeddedId
-	private UnidadeServicoPK id = new UnidadeServicoPK();
+	private PontoTransmissaoPK id = new PontoTransmissaoPK();
 
 	@Column(length = 20, nullable = false)
 	private String codigo;
@@ -33,7 +33,7 @@ public class Encerramento implements Serializable {
 		super();
 	}
 
-	public Encerramento(UnidadeServicoPK id, String codigo, Date dataCad, Integer status) {
+	public Encerramento(PontoTransmissaoPK id, String codigo, Date dataCad, Integer status) {
 		super();
 		this.id = id;
 		this.codigo = codigo;
@@ -41,11 +41,11 @@ public class Encerramento implements Serializable {
 		this.status = status;
 	}
 
-	public UnidadeServicoPK getId() {
+	public PontoTransmissaoPK getId() {
 		return id;
 	}
 
-	public void setId(UnidadeServicoPK id) {
+	public void setId(PontoTransmissaoPK id) {
 		this.id = id;
 	}
 
