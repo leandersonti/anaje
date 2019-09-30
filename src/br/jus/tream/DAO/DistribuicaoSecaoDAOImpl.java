@@ -9,8 +9,7 @@ import javax.persistence.TypedQuery;
 import br.jus.tream.dominio.CADLocalvotacao;
 import br.jus.tream.dominio.CADSecao;
 import br.jus.tream.dominio.DistribuicaoSecao;
-import br.jus.tream.dominio.UnidadeServico;
-import br.jus.tream.dominio.pk.DistribuicaoSecaoPK;
+import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 
 public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 	
@@ -68,7 +67,7 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 	}
 	
 	@Override
-	public List<DistribuicaoSecao> listar(Integer zona, Integer codmunic) throws Exception {
+	public List<DistribuicaoSecao> listar(CadZonaEleitoralPK pkze) throws Exception {
 		List<DistribuicaoSecao> lista = new ArrayList<DistribuicaoSecao>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
@@ -76,8 +75,8 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 					.createQuery("SELECT ds FROM DistribuicaoSecao ds WHERE "
 								+ "ds.zona=?1 AND ds.codmunic=?2 AND ds.id.unidadeServico.id.dataEleicao.ativo=1 ORDER BY ds.secao",
 							DistribuicaoSecao.class);
-			query.setParameter(1, zona);
-			query.setParameter(2, codmunic);
+			query.setParameter(1, pkze.getZona());
+			query.setParameter(2, pkze.getCodmunic());
 			lista = query.getResultList();
 		} catch (Exception e) {
 			em.close();
@@ -89,7 +88,7 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 	}
 
 	@Override
-	public List<CADSecao> listarParaDistribuir(Integer zona, Integer codmunic, Integer numlocal) throws Exception {
+	public List<CADSecao> listarParaDistribuir(CadZonaEleitoralPK pkze, Integer numlocal) throws Exception {
 		List<CADSecao> lista = new ArrayList<CADSecao>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
@@ -99,11 +98,11 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 													+ "WHERE ds.zona=?4 AND ds.codmunic=?5 AND ds.id.unidadeServico.id.dataEleicao.ativo=1)"
 							+ "ORDER BY s.secao",
 								CADSecao.class);
-			query.setParameter(1, zona);
-			query.setParameter(2, codmunic);
+			query.setParameter(1, pkze.getZona());
+			query.setParameter(2, pkze.getCodmunic());
 			query.setParameter(3, numlocal);
-			query.setParameter(4, zona);
-			query.setParameter(5, codmunic);
+			query.setParameter(4, pkze.getZona());
+			query.setParameter(5, pkze.getCodmunic());
 			lista = query.getResultList();
 		} catch (Exception e) {
 			em.close();
@@ -203,7 +202,6 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 		*/
 		//ds = dao.getBean("253066");
 		//     System.out.println("ZE " + ds.getZona());
-		
 		
 		for(CADLocalvotacao d : dao.listarByClassLocalVotacao(2812019)) {
 			System.out.println("Zona " + d.getZona() + " " + d.getNumLocal() +" - " + d.getNomeLocal());

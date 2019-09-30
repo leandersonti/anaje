@@ -5,6 +5,7 @@ import java.util.List;
 import br.jus.tream.dominio.CADLocalvotacao;
 import br.jus.tream.dominio.CADSecao;
 import br.jus.tream.dominio.DistribuicaoSecao;
+import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 
 public interface DistribuicaoSecaoDAO {
 	
@@ -12,9 +13,9 @@ public interface DistribuicaoSecaoDAO {
 	
 	public List<CADLocalvotacao> listarByClassLocalVotacao(Integer idUnidadeServico) throws Exception;
 		
-	public List<CADSecao> listarParaDistribuir(Integer zona, Integer codmunic, Integer numlocal) throws Exception;
+	public List<CADSecao> listarParaDistribuir(CadZonaEleitoralPK pkze, Integer numlocal) throws Exception;
 	
-	public List<DistribuicaoSecao> listar(Integer zona, Integer codmunic) throws Exception;	 
+	public List<DistribuicaoSecao> listar(CadZonaEleitoralPK pkze) throws Exception;	 
 
 	public DistribuicaoSecao getBean(String codibjeto) throws Exception;
 	
