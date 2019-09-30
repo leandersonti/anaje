@@ -15,7 +15,7 @@ import org.apache.struts2.convention.annotation.ResultPath;
 import com.opensymphony.xwork2.ActionSupport;
 
 import br.jus.tream.DAO.ContratoDAOImpl;
-import br.jus.tream.DAO.DataEleicaoDAOImpl;
+import br.jus.tream.DAO.EleicaoDAOImpl;
 import br.jus.tream.DAO.DistribuicaoTecContratoDAOImpl;
 import br.jus.tream.DAO.TecnicoDAO;
 import br.jus.tream.DAO.TecnicoDAOImpl;
@@ -147,7 +147,7 @@ public class ActionTecnico extends ActionSupport{
 				beanResult.setMensagem(getText("inserir.sucesso"));
 				//ADICIONA CONTRATO
 				DistribuicaoTecContratoPK tecContratopk = new DistribuicaoTecContratoPK();
-				tecContratopk.setDataEleicao(DataEleicaoDAOImpl.getInstance().getBeanAtiva());
+				tecContratopk.setDataEleicao(EleicaoDAOImpl.getInstance().getBeanAtiva());
 				tecContratopk.setContrato(this.contrato);
 				tecContratopk.setTecnico(this.tecnico);
 				DistribuicaoTecnicoContrato dtc = new DistribuicaoTecnicoContrato();

@@ -2,9 +2,6 @@ package br.jus.tream.action;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -14,24 +11,23 @@ import org.apache.struts2.convention.annotation.ResultPath;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import br.jus.tream.DAO.DataEleicaoDAO;
-import br.jus.tream.DAO.DataEleicaoDAOImpl;
-import br.jus.tream.dominio.BeanLogin;
+import br.jus.tream.DAO.EleicaoDAO;
+import br.jus.tream.DAO.EleicaoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
-import br.jus.tream.dominio.DataEleicao;
+import br.jus.tream.dominio.Eleicao;
 
 @SuppressWarnings("serial")
 @Namespace("/eleicao")
 @ResultPath(value = "/")
 @ParentPackage(value = "default")
 public class ActionDataEleicao extends ActionSupport{
-	private List<DataEleicao> lstEleicao;
-	private DataEleicao eleicao;
+	private List<Eleicao> lstEleicao;
+	private Eleicao eleicao;
 	private BeanResult result;
-	private final static DataEleicaoDAO dao = DataEleicaoDAOImpl.getInstance();
+	private final static EleicaoDAO dao = EleicaoDAOImpl.getInstance();
 	private final static Permissao permissao = Permissao.getInstance();
 	
-	@Action(value = "listar", results = { @Result(name = "success", location = "/consultas/data-eleicao.jsp"),
+	@Action(value = "listar", results = { @Result(name = "success", location = "/consultas/eleicao.jsp"),
 			@Result(name = "error", location = "/result.jsp")}, interceptorRefs = @InterceptorRef("authStack")
 	)
 	public String listar() {
@@ -56,13 +52,13 @@ public class ActionDataEleicao extends ActionSupport{
 		return "success";
 	}
 	
-	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmDataEleicao.jsp"),
+	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmEleicao.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String frmCadEleicao() {	
 		return "success";
 	}
 	
-	@Action(value = "frmEditar", results = { @Result(name = "success", location = "/forms/frmDataEleicao.jsp"),
+	@Action(value = "frmEditar", results = { @Result(name = "success", location = "/forms/frmEleicao.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String doFrmEditar() {
 		try {
@@ -166,16 +162,16 @@ public class ActionDataEleicao extends ActionSupport{
 	  return "success";
 	}
 	
-	public List<DataEleicao> getLstEleicao() {
+	public List<Eleicao> getLstEleicao() {
 		return lstEleicao;
 	}
-	public void setLstEleicao(List<DataEleicao> lstEleicao) {
+	public void setLstEleicao(List<Eleicao> lstEleicao) {
 		this.lstEleicao = lstEleicao;
 	}
-	public DataEleicao getEleicao() {
+	public Eleicao getEleicao() {
 		return eleicao;
 	}
-	public void setEleicao(DataEleicao eleicao) {
+	public void setEleicao(Eleicao eleicao) {
 		this.eleicao = eleicao;
 	}
 	public BeanResult getResult() {

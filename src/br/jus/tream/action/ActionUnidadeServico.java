@@ -12,7 +12,7 @@ import org.apache.struts2.convention.annotation.ResultPath;
 import com.opensymphony.xwork2.ActionSupport;
 
 import br.jus.tream.DAO.CadEloDAOImpl;
-import br.jus.tream.DAO.DataEleicaoDAOImpl;
+import br.jus.tream.DAO.EleicaoDAOImpl;
 import br.jus.tream.DAO.DistribuicaoEquipamentoDAOImpl;
 import br.jus.tream.DAO.DistribuicaoSecaoDAOImpl;
 import br.jus.tream.DAO.UnidadeServicoDAO;
@@ -21,7 +21,7 @@ import br.jus.tream.dominio.BeanPontoTransmissao;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.CADLocalvotacao;
 import br.jus.tream.dominio.CADZonaEleitoral;
-import br.jus.tream.dominio.DataEleicao;
+import br.jus.tream.dominio.Eleicao;
 import br.jus.tream.dominio.UnidadeServico;
 import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 import br.jus.tream.dominio.pk.UnidadeServicoPK;
@@ -165,9 +165,9 @@ public class ActionUnidadeServico extends ActionSupport {
 		BeanResult beanResult = new BeanResult();
 		try {
 			UnidadeServicoPK pk = new UnidadeServicoPK();
-			DataEleicao dtEleicao = new DataEleicao();
+			Eleicao dtEleicao = new Eleicao();
 			// PEGANDO ELEIÇÃO ATIVA
-			dtEleicao = DataEleicaoDAOImpl.getInstance().getBeanAtiva();
+			dtEleicao = EleicaoDAOImpl.getInstance().getBeanAtiva();
 			pk.setDataEleicao(dtEleicao);
 			this.uservico.setId(pk);			
 			// PEGANDO CODZONAMUNIC

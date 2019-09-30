@@ -6,7 +6,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import br.jus.tream.dominio.Contrato;
-import br.jus.tream.dominio.DataEleicao;
+import br.jus.tream.dominio.Eleicao;
 import br.jus.tream.dominio.Tecnico;
 
 @SuppressWarnings("serial")
@@ -22,7 +22,7 @@ public class DistribuicaoTecContratoPK implements Serializable{
 
 	@ManyToOne
 	@JoinColumn(name = "id_eleicao", nullable = false)
-	private DataEleicao dataEleicao;
+	private Eleicao dataEleicao;
 	
 	public Tecnico getTecnico() {
 		return tecnico;
@@ -40,11 +40,11 @@ public class DistribuicaoTecContratoPK implements Serializable{
 		this.contrato = contrato;
 	}
 
-	public DataEleicao getDataEleicao() {
+	public Eleicao getDataEleicao() {
 		return dataEleicao;
 	}
 
-	public void setDataEleicao(DataEleicao dataEleicao) {
+	public void setDataEleicao(Eleicao dataEleicao) {
 		this.dataEleicao = dataEleicao;
 	}
 
