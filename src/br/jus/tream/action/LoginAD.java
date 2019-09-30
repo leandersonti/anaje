@@ -60,13 +60,15 @@ public class LoginAD {
 	public BeanLogin getSGRH(String tituloEleitor) throws Exception {
 		UsuarioDAO db = UsuarioDAOImpl.getInstance();
 		BeanLogin login = new BeanLogin();
+		String zeros = "000000000000";
+		String titulo = zeros.substring(tituloEleitor.length()) + tituloEleitor; 
 		try {
 			Usuario usuario = new Usuario();
-			usuario = db.getBean(tituloEleitor);
+			usuario = db.getBean(titulo);
 			if (usuario.getNome().length()>0) {
 				login.setNome(usuario.getNome());
 				login.setFirstName(usuario.getNome());
-				login.setTitulo(usuario.getTituloEleitor());
+				login.setTitulo(titulo);
 				login.setAdmin(usuario.getAdmin());
 				login.setZona(usuario.getZona());
 				login.setIsAmbienteProducao(this.isAmbienteProducao());
@@ -91,7 +93,7 @@ public class LoginAD {
 	public static void main(String[] args) throws SQLException, Exception {
 		BeanLogin s = new BeanLogin();
 		LoginAD l = LoginAD.getInstance();
-		s = l.getLogin("015697172275", "123123");
+		s = l.getLogin("15697172275", "123123");
 		System.out.println("login " + s.getLogou());
 		if (s.getLogou())
 			System.out.println("logou " + s.getNome() + " / " +  " admin " + s.getAdmin());
