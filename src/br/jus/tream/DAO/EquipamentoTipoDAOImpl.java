@@ -1,10 +1,6 @@
 package br.jus.tream.DAO;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 
 import br.jus.tream.dominio.EquipamentoTipo;
 
