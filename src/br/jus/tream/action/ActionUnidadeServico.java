@@ -13,8 +13,11 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import br.jus.tream.DAO.CadEloDAOImpl;
 import br.jus.tream.DAO.DataEleicaoDAOImpl;
+import br.jus.tream.DAO.DistribuicaoEquipamentoDAOImpl;
+import br.jus.tream.DAO.DistribuicaoSecaoDAOImpl;
 import br.jus.tream.DAO.UnidadeServicoDAO;
 import br.jus.tream.DAO.UnidadeServicoDAOImpl;
+import br.jus.tream.dominio.BeanPontoTransmissao;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.CADLocalvotacao;
 import br.jus.tream.dominio.CADZonaEleitoral;
@@ -33,6 +36,7 @@ public class ActionUnidadeServico extends ActionSupport {
 	private List<CADZonaEleitoral> lstZonaEleitoral;
 	private CADZonaEleitoral cadZonaEleitoral;
 	private UnidadeServico uservico;
+	private BeanPontoTransmissao pontoTransmissao;
 	private UnidadeServicoPK id = new UnidadeServicoPK();
 	private BeanResult result;
 	private String codZonaMunic;
@@ -41,6 +45,45 @@ public class ActionUnidadeServico extends ActionSupport {
 	private final static UnidadeServicoDAO dao = UnidadeServicoDAOImpl.getInstance();
 	private final static Permissao permissao = Permissao.getInstance();
 
+	
+	
+	@Action(value = "getBeanFull", results = { @Result(name = "success", location = "/consultas/unidade-servico-bean-full.jsp"),
+			@Result(name = "error", location = "/result.jsp") })
+	public String getBeanFull() {
+		try {
+			BeanPontoTransmissao pontoT = new BeanPontoTransmissao();
+			pontoT.setUnidadeServico(dao.getBean(id.getId()));
+			pontoTransmissao = pontoT;
+			//pontoTransmissao.setUnidadeServico(us);
+			pontoTransmissao.setSecoesDistribuidas(DistribuicaoSecaoDAOImpl.getInstance().listarByClassLocalVotacao(id.getId()));
+			pontoTransmissao.setEquipamentosDistribuidos(DistribuicaoEquipamentoDAOImpl.getInstance().listar(id.getId()));
+		} catch (Exception e) {
+			addActionError(getText("getbean.error") + ". Error: " + e.getMessage() );
+			return "error";
+		}
+		return "success";
+	}
+	
+	@Action(value = "getBeanFullJson", results = { @Result(name = "success", type = "json", params = { "root", "pontoTransmissao" }),
+			@Result(name = "error", location = "/pages/resultAjax.jsp")}
+	   //, interceptorRefs = @InterceptorRef("authStack")
+	)
+	public String getBeanFullJson() {
+		try {
+			BeanPontoTransmissao pontoT = new BeanPontoTransmissao();
+			pontoT.setUnidadeServico(dao.getBean(id.getId()));
+			pontoTransmissao = pontoT;
+			//pontoTransmissao.setUnidadeServico(us);
+			pontoTransmissao.setSecoesDistribuidas(DistribuicaoSecaoDAOImpl.getInstance().listarByClassLocalVotacao(id.getId()));
+			pontoTransmissao.setEquipamentosDistribuidos(DistribuicaoEquipamentoDAOImpl.getInstance().listar(id.getId()));
+		} catch (Exception e) {
+			addActionError(getText("getbean.error") + ". Error: " + e.getMessage() );
+			return "error";
+		}
+		return "success";
+	}
+	
+	
 	@Action(value = "listar", results = { @Result(name = "success", location = "/consultas/unidade-servico.jsp"),
 			@Result(name = "error", location = "/result.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String listar() {
@@ -269,6 +312,14 @@ public class ActionUnidadeServico extends ActionSupport {
 
 	public void setCodmunic(Integer codmunic) {
 		this.codmunic = codmunic;
+	}
+
+	public BeanPontoTransmissao getPontoTransmissao() {
+		return pontoTransmissao;
+	}
+
+	public void setPontoTransmissao(BeanPontoTransmissao pontoTransmissao) {
+		this.pontoTransmissao = pontoTransmissao;
 	}
 
 }
