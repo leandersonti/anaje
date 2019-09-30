@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import br.jus.tream.dominio.SRHServidores;
-import br.jus.tream.dominio.UnidadeServico;
 
 public class SRHServidoresDAOImpl implements SRHServidoresDAO {
 	private DAO<SRHServidores> dao = new DAO<SRHServidores>(SRHServidores.class);
@@ -123,7 +122,7 @@ public class SRHServidoresDAOImpl implements SRHServidoresDAO {
 	    
 	public static void main(String[] args) throws Exception{
 		SRHServidoresDAO dao = SRHServidoresDAOImpl.getInstance();
-		SRHServidores u = new SRHServidores();
+		// SRHServidores u = new SRHServidores();
 		/*
 		u.setTituloEleitor("037337472259");
 		u.setAtivo(1);
