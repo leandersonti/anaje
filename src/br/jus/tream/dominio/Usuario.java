@@ -17,7 +17,9 @@ public class Usuario implements Serializable{
 	private String tituloEleitor;
 	private String nome;
 	private int ativo;
-	private int admin;
+	
+	private int adm;
+	
 	private int zona;
 		
 	public Usuario() {		
@@ -28,7 +30,7 @@ public class Usuario implements Serializable{
 		this.tituloEleitor = tituloEleitor;
 		this.ativo = ativo;
 		this.nome = nome;
-		this.admin = admin;
+		this.adm = admin;
 		this.zona = zona;
 	}
 
@@ -63,11 +65,11 @@ public class Usuario implements Serializable{
 	}
 
 	public int getAdmin() {
-		return admin;
+		return adm;
 	}
 
 	public void setAdmin(int admin) {
-		this.admin = admin;
+		this.adm = admin;
 	}
 
 	public int getZona() {

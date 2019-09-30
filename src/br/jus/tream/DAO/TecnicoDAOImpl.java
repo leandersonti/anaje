@@ -72,7 +72,7 @@ public class TecnicoDAOImpl implements TecnicoDAO {
 		List<Tecnico> lista = new ArrayList<Tecnico>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	  
-		     TypedQuery<Tecnico> query = em.createQuery("SELECT NEW tecnico(t.id) FROM tecnico t", 
+		     TypedQuery<Tecnico> query = em.createQuery("SELECT NEW tecnico(t.id, t.nome) FROM tecnico t", 
 		    		 Tecnico.class);
 			  lista = query.getResultList();
 		  }
@@ -182,7 +182,7 @@ public class TecnicoDAOImpl implements TecnicoDAO {
 		 */
 	
 		
-		  for(Tecnico t:dao.listarCbxResponsavel()) { 
+		  for(Tecnico t:dao.listarCbx()) { 
 			  System.out.println(t.getNome());		  
 		  }
 		 
