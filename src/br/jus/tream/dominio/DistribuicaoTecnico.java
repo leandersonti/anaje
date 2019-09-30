@@ -14,7 +14,7 @@ import br.jus.tream.dominio.pk.DistribuicaoTecnicoPK;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name="distribuicao_tecnico_us")
+@Table(name="distribuicao_tecnico")
 public class DistribuicaoTecnico implements Serializable{
 
 	@EmbeddedId

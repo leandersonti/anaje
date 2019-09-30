@@ -11,7 +11,7 @@ import br.jus.tream.dominio.pk.PontoTransmissaoPK;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "unidade_servico")
+@Table(name = "ponto_transmissao")
 public class PontoTransmissao implements Serializable {
 
 	@EmbeddedId

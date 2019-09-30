@@ -14,7 +14,7 @@ import br.jus.tream.dominio.pk.TecnicoContratoPK;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name="distribuicao_tecnico_contrato")
+@Table(name="tecnico_contrato")
 public class TecnicoContrato implements Serializable{
 
 	@EmbeddedId
