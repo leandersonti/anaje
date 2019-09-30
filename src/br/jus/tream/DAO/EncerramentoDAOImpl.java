@@ -37,8 +37,9 @@ public class EncerramentoDAOImpl implements EncerramentoDAO {
 		List<Encerramento> lista = new ArrayList<Encerramento>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
-			TypedQuery<Encerramento> query = em.createQuery("SELECT e FROM Encerramento e WHERE e.id.dataEleicao.ativo=1 AND e.id.id IN (SELECT us.id.id FROM UnidadeServico us "
-					+ " WHERE us.zona=?1 AND us.codmunic=?2 AND us.id.dataEleicao.ativo=1)",Encerramento.class);
+			TypedQuery<Encerramento> query = em.createQuery("SELECT e FROM Encerramento e WHERE e.id.eleicao.ativo=1 "
+					+ "AND e.id.id IN (SELECT us.id.id FROM PontoTransmissao us "
+					+ " WHERE us.zona=?1 AND us.codmunic=?2 AND us.id.eleicao.ativo=1)",Encerramento.class);
 			 query.setParameter(1, zona);
 			 query.setParameter(2, codmunic);
 			lista = query.getResultList();
