@@ -55,7 +55,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		List<Usuario> lista = new ArrayList<Usuario>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	  
-		     TypedQuery<Usuario> query = em.createQuery("SELECT NEW Usuario(u.tituloEleitor) FROM Usuario u", 
+		     TypedQuery<Usuario> query = em.createQuery("SELECT NEW Usuario(u.tituloEleitor, u.nome) FROM Usuario u", 
 		    		   Usuario.class);
 			  lista = query.getResultList();
 		  }
@@ -107,8 +107,6 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
 	    
 	public static void main(String[] args) throws Exception{
-		
-		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		
 		System.out.println("Done!!");
 		
