@@ -9,7 +9,7 @@ import javax.persistence.TypedQuery;
 
 import org.apache.commons.lang3.StringUtils;
 
-import br.jus.tream.dominio.DataEleicao;
+import br.jus.tream.dominio.Eleicao;
 import br.jus.tream.dominio.Ppo;
 import br.jus.tream.dominio.PpoTipo;
 import br.jus.tream.dominio.Tecnico;
@@ -33,7 +33,7 @@ public class PpoDAOImpl implements PpoDAO {
 		try {
 			// convertendo titulo para 12 caracteres
 			String tit = StringUtils.leftPad(tituloEleitor, 12, "0");
-			TypedQuery<Ppo> query = em.createQuery("SELECT p FROM Ppo p WHERE p.dataEleicao.ativo=1 AND p.tecnico.tituloEleitor=?1 ORDER BY p.dataCad DESC", Ppo.class);
+			TypedQuery<Ppo> query = em.createQuery("SELECT p FROM Ppo p WHERE p.eleicao.ativo=1 AND p.tecnico.tituloEleitor=?1 ORDER BY p.dataCad DESC", Ppo.class);
 			lista = query.setParameter(1, tit).getResultList();					
 		} catch (Exception e) {
 			em.close();
@@ -49,7 +49,7 @@ public class PpoDAOImpl implements PpoDAO {
 		List<Ppo> lista = new ArrayList<Ppo>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
-			TypedQuery<Ppo> query = em.createQuery("SELECT p FROM Ppo p WHERE p.dataEleicao.ativo=1", Ppo.class);
+			TypedQuery<Ppo> query = em.createQuery("SELECT p FROM Ppo p WHERE p.eleicao.ativo=1", Ppo.class);
 			lista = query.getResultList();					
 		} catch (Exception e) {
 			em.close();
@@ -65,7 +65,7 @@ public class PpoDAOImpl implements PpoDAO {
 		List<Ppo> lista = new ArrayList<Ppo>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
-			TypedQuery<Ppo> query = em.createQuery("SELECT p FROM Ppo p WHERE p.dataEleicao.ativo=1 AND p.tecnicoResp.id=?1", Ppo.class);
+			TypedQuery<Ppo> query = em.createQuery("SELECT p FROM Ppo p WHERE p.eleicao.ativo=1 AND p.tecnicoResp.id=?1", Ppo.class);
 			lista = query.setParameter(1, idTecnicoResponsavel).getResultList();					
 		} catch (Exception e) {
 			em.close();
@@ -131,7 +131,7 @@ public class PpoDAOImpl implements PpoDAO {
 		PpoTipo ppotipo = new PpoTipo();
 		ppotipo.setId(1);
 		p.setPpoTipo(ppotipo);
-		DataEleicao dataeleicao = new DataEleicao();
+		Eleicao dataeleicao = new Eleicao();
 		dataeleicao.setId(1);
 		p.setDataEleicao(dataeleicao);
 		
