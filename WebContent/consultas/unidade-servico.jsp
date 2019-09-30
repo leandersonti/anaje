@@ -37,7 +37,7 @@
 			<td><s:property value="zona"/></td>
 			<td><s:property value="local"/></td>
 			<td><s:property value="codmunic"/></td>
-			<td><s:property value="descricao"/></td>
+			<td><a id="detalhePontoTrans${id.id}" href="#" data-record-id="${id.id}"><s:property value="descricao"/></a></td>
 			<td><s:property value="endereco"/></td>
 			<td><s:property value="status"/></td>
 		
@@ -61,6 +61,29 @@
 
    </div>
 </div>  
+
+
+<div class="modal fade" id="modalPontoTrans" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">    
+      <div class="modal-header">
+        <h5 class="modal-title">Ponto de Transmissão</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      
+             <div id="result"></div>
+             
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <jsp:include page = "/javascripts.jsp" />
 
@@ -101,6 +124,20 @@ $(document).ready(function() {
 		$("#form1").submit();
 	});
 	
+	$( "[id*='detalhePontoTrans']" ).click(function(event) {
+		var data = $(event.delegateTarget).data();	
+		var id = data.recordId;
+		var path = "${pageContext.request.contextPath}";	
+		var URL = path+'/uservico/getBeanFull?id.id=' + id	;
+		   $.ajax({
+	           type: "POST",
+	           url: URL,
+	           success: function (result) {     
+	           		$('#result').html(result);
+               }
+	       });
+		   $('#modalPontoTrans').modal('show');
+		});
 
 });
 </script>
