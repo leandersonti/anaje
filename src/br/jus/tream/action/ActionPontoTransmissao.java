@@ -12,37 +12,36 @@ import org.apache.struts2.convention.annotation.ResultPath;
 import com.opensymphony.xwork2.ActionSupport;
 
 import br.jus.tream.DAO.CadEloDAOImpl;
-import br.jus.tream.DAO.EleicaoDAOImpl;
 import br.jus.tream.DAO.DistribuicaoEquipamentoDAOImpl;
 import br.jus.tream.DAO.DistribuicaoSecaoDAOImpl;
-import br.jus.tream.DAO.UnidadeServicoDAO;
-import br.jus.tream.DAO.UnidadeServicoDAOImpl;
+import br.jus.tream.DAO.EleicaoDAOImpl;
+import br.jus.tream.DAO.PontoTransmissaoDAO;
+import br.jus.tream.DAO.PontoTransmissaoDAOImpl;
 import br.jus.tream.dominio.BeanPontoTransmissao;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.CADLocalvotacao;
 import br.jus.tream.dominio.CADZonaEleitoral;
-import br.jus.tream.dominio.Eleicao;
-import br.jus.tream.dominio.UnidadeServico;
+import br.jus.tream.dominio.PontoTransmissao;
 import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
-import br.jus.tream.dominio.pk.UnidadeServicoPK;
+import br.jus.tream.dominio.pk.PontoTransmissaoPK;
 
 @SuppressWarnings("serial")
-@Namespace("/uservico")
+@Namespace("/pontotrans")
 @ResultPath(value = "/")
 @ParentPackage(value = "default")
-public class ActionUnidadeServico extends ActionSupport {
-	private List<UnidadeServico> lstUnidadeServico;
+public class ActionPontoTransmissao extends ActionSupport {
+	private List<PontoTransmissao> lstUnidadeServico;
 	private List<CADLocalvotacao> lstLocalVotacao;
 	private List<CADZonaEleitoral> lstZonaEleitoral;
 	private CADZonaEleitoral cadZonaEleitoral;
-	private UnidadeServico uservico;
+	private PontoTransmissao uservico;
 	private BeanPontoTransmissao pontoTransmissao;
-	private UnidadeServicoPK id = new UnidadeServicoPK();
+	private PontoTransmissaoPK id = new PontoTransmissaoPK();
 	private BeanResult result;
 	private String codZonaMunic;
 	private Integer zona;
 	private Integer codmunic;
-	private final static UnidadeServicoDAO dao = UnidadeServicoDAOImpl.getInstance();
+	private final static PontoTransmissaoDAO dao = PontoTransmissaoDAOImpl.getInstance();
 	private final static Permissao permissao = Permissao.getInstance();
 
 	
@@ -121,7 +120,7 @@ public class ActionUnidadeServico extends ActionSupport {
 		return "success";
 	}
 				
-	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmUnidadeServico.jsp"),
+	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmPontoTransmissao.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String frmCadUnidadeServico() {
 		try {
@@ -164,11 +163,9 @@ public class ActionUnidadeServico extends ActionSupport {
 	public String doAdicionar() {
 		BeanResult beanResult = new BeanResult();
 		try {
-			UnidadeServicoPK pk = new UnidadeServicoPK();
-			Eleicao dtEleicao = new Eleicao();
+			PontoTransmissaoPK pk = new PontoTransmissaoPK();
 			// PEGANDO ELEIÇÃO ATIVA
-			dtEleicao = EleicaoDAOImpl.getInstance().getBeanAtiva();
-			pk.setDataEleicao(dtEleicao);
+			pk.setEleicao(EleicaoDAOImpl.getInstance().getBeanAtiva());
 			this.uservico.setId(pk);			
 			// PEGANDO CODZONAMUNIC
 			String[] zonamunic = this.codZonaMunic.split(";");
@@ -234,11 +231,11 @@ public class ActionUnidadeServico extends ActionSupport {
 		return "success";
 	}
 
-	public List<UnidadeServico> getLstUnidadeServico() {
+	public List<PontoTransmissao> getLstUnidadeServico() {
 		return lstUnidadeServico;
 	}
 
-	public void setLstUnidadeServico(List<UnidadeServico> lstUnidadeServico) {
+	public void setLstUnidadeServico(List<PontoTransmissao> lstUnidadeServico) {
 		this.lstUnidadeServico = lstUnidadeServico;
 	}
 
@@ -258,19 +255,19 @@ public class ActionUnidadeServico extends ActionSupport {
 		this.lstZonaEleitoral = lstZonaEleitoral;
 	}
 
-	public UnidadeServico getUservico() {
+	public PontoTransmissao getUservico() {
 		return uservico;
 	}
 
-	public void setUservico(UnidadeServico uservico) {
+	public void setUservico(PontoTransmissao uservico) {
 		this.uservico = uservico;
 	}
 
-	public UnidadeServicoPK getId() {
+	public PontoTransmissaoPK getId() {
 		return id;
 	}
 
-	public void setId(UnidadeServicoPK id) {
+	public void setId(PontoTransmissaoPK id) {
 		this.id = id;
 	}
 
