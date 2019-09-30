@@ -19,6 +19,9 @@ public interface DistribuicaoTecnicoUsDAO {
 	// CONSULTA PELO NUMERO DO TITULO DO TECNICO
 	public DistribuicaoTecnicoUS getBean(String tituloEleitor) throws Exception;
 	
+	// CONSULTA PELA UNIDADE SERVICO
+	public DistribuicaoTecnicoUS getBean(Integer unidadeservico) throws Exception;
+	
 	public int adicionar (DistribuicaoTecnicoUS ds) throws Exception;
 	
 	// public int atualizar (DistribuicaoTecnicoUS ds) throws Exception;
