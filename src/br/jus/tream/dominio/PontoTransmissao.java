@@ -5,23 +5,17 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import br.jus.tream.dominio.pk.UnidadeServicoPK;
+import br.jus.tream.dominio.pk.PontoTransmissaoPK;
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "unidade_servico")
-public class UnidadeServico implements Serializable {
+public class PontoTransmissao implements Serializable {
 
 	@EmbeddedId
-	private UnidadeServicoPK id = new UnidadeServicoPK();
-
-	@ManyToOne
-	@JoinColumn(name = "id_tipo", nullable = false)
-	private UnidadeServicoTipo tipo;
+	private PontoTransmissaoPK id = new PontoTransmissaoPK();
 
 	@Column(name = "cod_objeto")
 	private String codObjeto;
@@ -78,17 +72,16 @@ public class UnidadeServico implements Serializable {
 	//private List<DistribuicaoEquipamento> distribuicaoEquipamentp = new ArrayList<DistribuicaoEquipamento>();
 	
 
-	public UnidadeServico() {
+	public PontoTransmissao() {
 		super();
 	}
 	
-	public UnidadeServico(UnidadeServicoPK id, UnidadeServicoTipo tipo, String codObjeto, Integer zona, Integer local,
+	public PontoTransmissao(PontoTransmissaoPK id, String codObjeto, Integer zona, Integer local,
 			Integer secao, String descricao, String endereco, Integer codmunic, String sexo, String sala,
 			String contato, String cargoContato, String telefone, String latitude, String longitude, Integer status,
 			Integer oficial, Integer jecon) {
 		super();
 		this.id = id;
-		this.tipo = tipo;
 		this.codObjeto = codObjeto;
 		this.zona = zona;
 		this.local = local;
@@ -108,29 +101,12 @@ public class UnidadeServico implements Serializable {
 		this.jecon = jecon;
 	}
 
-	/*
-	public List<DistribuicaoSecao> getDistribuicaoSecao() {
-		return distribuicaoSecao;
-	}
-
-	public void setDistribuicaoSecao(List<DistribuicaoSecao> distribuicaoSecao) {
-		this.distribuicaoSecao = distribuicaoSecao;
-	}
-*/
-	public UnidadeServicoPK getId() {
+	public PontoTransmissaoPK getId() {
 		return id;
 	}
 
-	public void setId(UnidadeServicoPK id) {
+	public void setId(PontoTransmissaoPK id) {
 		this.id = id;
-	}
-
-	public UnidadeServicoTipo getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(UnidadeServicoTipo tipo) {
-		this.tipo = tipo;
 	}
 
 	public String getCodObjeto() {
@@ -285,7 +261,7 @@ public class UnidadeServico implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		UnidadeServico other = (UnidadeServico) obj;
+		PontoTransmissao other = (PontoTransmissao) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
