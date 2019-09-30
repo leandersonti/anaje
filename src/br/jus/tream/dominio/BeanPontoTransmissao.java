@@ -4,20 +4,20 @@ import java.util.List;
 
 public class BeanPontoTransmissao {
 
-	private UnidadeServico unidadeServico;
+	private PontoTransmissao pontoTransmissao;
 	
 	private List<CADLocalvotacao> secoesDistribuidas;
 	
 	private List<DistribuicaoEquipamento> equipamentosDistribuidos;
 	
-	private List<DistribuicaoTecnicoUS> tecnicosDistribuidos;
+	private List<DistribuicaoTecnico> tecnicosDistribuidos;
 
-	public UnidadeServico getUnidadeServico() {
-		return unidadeServico;
+	public PontoTransmissao getPontoTransmissao() {
+		return pontoTransmissao;
 	}
 
-	public void setUnidadeServico(UnidadeServico unidadeServico) {
-		this.unidadeServico = unidadeServico;
+	public void setUnidadeServico(PontoTransmissao pontoTransmissao) {
+		this.pontoTransmissao = pontoTransmissao;
 	}
 
 	public List<CADLocalvotacao> getSecoesDistribuidas() {
@@ -36,11 +36,11 @@ public class BeanPontoTransmissao {
 		this.equipamentosDistribuidos = equipamentosDistribuidos;
 	}
 
-	public List<DistribuicaoTecnicoUS> getTecnicosDistribuidos() {
+	public List<DistribuicaoTecnico> getTecnicosDistribuidos() {
 		return tecnicosDistribuidos;
 	}
 
-	public void setTecnicosDistribuidos(List<DistribuicaoTecnicoUS> tecnicosDistribuidos) {
+	public void setTecnicosDistribuidos(List<DistribuicaoTecnico> tecnicosDistribuidos) {
 		this.tecnicosDistribuidos = tecnicosDistribuidos;
 	}
 	
