@@ -8,28 +8,28 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import br.jus.tream.dominio.DistribuicaoTecnicoContrato;
+import br.jus.tream.dominio.TecnicoContrato;
 
-public class DistribuicaoTecContratoDAOImpl implements DistribuicaoTecContratoDAO {
+public class TecnicoContratoDAOImpl implements TecnicoContratoDAO {
 	
-	private DAO<DistribuicaoTecnicoContrato> dao = new DAO<DistribuicaoTecnicoContrato>(DistribuicaoTecnicoContrato.class);
+	private DAO<TecnicoContrato> dao = new DAO<TecnicoContrato>(TecnicoContrato.class);
 
-	static DistribuicaoTecContratoDAO db;
+	static TecnicoContratoDAO db;
 	
-	public static DistribuicaoTecContratoDAO getInstance() {
+	public static TecnicoContratoDAO getInstance() {
 		if (db == null) {
-			db = new DistribuicaoTecContratoDAOImpl();
+			db = new TecnicoContratoDAOImpl();
 		}
 		return db;
 	}
 
 	@Override
-	public List<DistribuicaoTecnicoContrato> listar(Integer idTecnico) throws Exception {
-		List<DistribuicaoTecnicoContrato> lista = new ArrayList<DistribuicaoTecnicoContrato>();
+	public List<TecnicoContrato> listar(Integer idTecnico) throws Exception {
+		List<TecnicoContrato> lista = new ArrayList<TecnicoContrato>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
-			TypedQuery<DistribuicaoTecnicoContrato> query = em.createQuery("SELECT d FROM DistribuicaoTecnicoContrato d "
-					+ "WHERE d.id.tecnico.id=?1 ORDER BY d.datacad DESC",DistribuicaoTecnicoContrato.class);
+			TypedQuery<TecnicoContrato> query = em.createQuery("SELECT d FROM TecnicoContrato d "
+					+ "WHERE d.id.tecnico.id=?1 ORDER BY d.datacad DESC",TecnicoContrato.class);
 			 query.setParameter(1, idTecnico);
 			lista = query.getResultList();
 		} catch (Exception e) {
@@ -42,13 +42,13 @@ public class DistribuicaoTecContratoDAOImpl implements DistribuicaoTecContratoDA
 	}
 
 	@Override
-	public DistribuicaoTecnicoContrato getBean(Integer idTecnico) throws Exception {
-		DistribuicaoTecnicoContrato dt = new DistribuicaoTecnicoContrato();
+	public TecnicoContrato getBean(Integer idTecnico) throws Exception {
+		TecnicoContrato dt = new TecnicoContrato();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
-			TypedQuery<DistribuicaoTecnicoContrato> query = em.createQuery("SELECT d FROM DistribuicaoTecnicoContrato d "
-					+ "WHERE d.ativo=1 AND d.id.tecnico.id=?1 AND d.id.dataEleicao.id=(SELECT a.id FROM DataEleicao a WHERE a.ativo=1) "
-					+ "ORDER BY d.datacad DESC",DistribuicaoTecnicoContrato.class);
+			TypedQuery<TecnicoContrato> query = em.createQuery("SELECT d FROM TecnicoContrato d "
+					+ "WHERE d.ativo=1 AND d.id.tecnico.id=?1 AND d.id.eleicao.id=(SELECT a.id FROM Eleicao a WHERE a.ativo=1) "
+					+ "ORDER BY d.datacad DESC",TecnicoContrato.class);
 			 query.setParameter(1, idTecnico);
 			 dt = query.getSingleResult();
 		} catch (Exception e) {
@@ -61,7 +61,7 @@ public class DistribuicaoTecContratoDAOImpl implements DistribuicaoTecContratoDA
 	}
 
 	@Override
-	public int adicionar(DistribuicaoTecnicoContrato distec) throws Exception {
+	public int adicionar(TecnicoContrato distec) throws Exception {
 		int ret = 0;
 		try {
 			// SER HOUVER CONTRATOS ANTERIORES O ATIVO SERÁ AJUSTADO PARA ZERO
@@ -75,16 +75,16 @@ public class DistribuicaoTecContratoDAOImpl implements DistribuicaoTecContratoDA
 		return ret;
 	}
 	
-	public int atualizarAtivo(DistribuicaoTecnicoContrato distec) throws Exception {
+	public int atualizarAtivo(TecnicoContrato distec) throws Exception {
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		int ret = 0;
 		try {
 			em.getTransaction().begin();
-			   Query query = em.createQuery("UPDATE DistribuicaoTecnicoContrato d SET d.ativo=0"
-			   		       + " WHERE d.id.tecnico.id=?1 AND d.id.dataEleicao.id=(SELECT a.id FROM DataEleicao a WHERE a.ativo=1)");
+			   Query query = em.createQuery("UPDATE TecnicoContrato d SET d.ativo=0"
+			   		       + " WHERE d.id.tecnico.id=?1 AND d.id.eleicao.ativo=1");
 			   query.setParameter(1, distec.getTecnico().getId());
 			   query.executeUpdate();			  
-			   query = em.createQuery("UPDATE DistribuicaoTecnicoContrato d SET d.ativo=1"
+			   query = em.createQuery("UPDATE TecnicoContrato d SET d.ativo=1" 
 			   		       + " WHERE d.id.tecnico.id=?1 AND d.id.contrato.id=?2");
 				   query.setParameter(1, distec.getTecnico().getId());
 				   query.setParameter(2, distec.getContrato().getId());
@@ -101,7 +101,7 @@ public class DistribuicaoTecContratoDAOImpl implements DistribuicaoTecContratoDA
 	
 
 	@Override
-	public int atualizar(DistribuicaoTecnicoContrato distec) throws Exception {
+	public int atualizar(TecnicoContrato distec) throws Exception {
 		int ret = 0;
 		try {
 			ret = dao.atualizar(distec);
@@ -112,7 +112,7 @@ public class DistribuicaoTecContratoDAOImpl implements DistribuicaoTecContratoDA
 	}
 
 	@Override
-	public int remover(DistribuicaoTecnicoContrato distec) throws Exception {
+	public int remover(TecnicoContrato distec) throws Exception {
 		int ret = 0;
 		try {
 			ret = dao.remover(distec);
@@ -123,7 +123,7 @@ public class DistribuicaoTecContratoDAOImpl implements DistribuicaoTecContratoDA
 	}
 
 	public static void main(String[] args) throws Exception {
-		DistribuicaoTecContratoDAO dao = DistribuicaoTecContratoDAOImpl.getInstance();
+		TecnicoContratoDAO dao = TecnicoContratoDAOImpl.getInstance();
 
 		
 		/*
@@ -145,7 +145,7 @@ public class DistribuicaoTecContratoDAOImpl implements DistribuicaoTecContratoDA
 		*/
 		
 		
-		DistribuicaoTecnicoContrato d = dao.getBean(289);
+		TecnicoContrato d = dao.getBean(289);
 		System.out.println(".................... Contrato ativo = " + d.getId().getContrato().getDescricao() + " " +d.getDatacad());
 		
 		/*
