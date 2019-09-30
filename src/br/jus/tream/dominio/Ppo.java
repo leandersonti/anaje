@@ -27,7 +27,7 @@ public class Ppo implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name = "id_eleicao", nullable=false)
-	private DataEleicao dataEleicao;
+	private Eleicao eleicao;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_tecnico", nullable=false)
@@ -53,11 +53,11 @@ public class Ppo implements Serializable{
 	public Ppo() {
 	}
 
-	public Ppo(Integer id, DataEleicao dataEleicao, Tecnico tecnico, PpoTipo ppoTipo, Date dataCad, String codigo,
+	public Ppo(Integer id, Eleicao eleicao, Tecnico tecnico, PpoTipo ppoTipo, Date dataCad, String codigo,
 			Tecnico tecnicoResp) {
 		super();
 		this.id = id;
-		this.dataEleicao = dataEleicao;
+		this.eleicao = eleicao;
 		this.tecnico = tecnico;
 		this.ppoTipo = ppoTipo;
 		this.dataCad = dataCad;
@@ -73,12 +73,12 @@ public class Ppo implements Serializable{
 		this.id = id;
 	}
 
-	public DataEleicao getDataEleicao() {
-		return dataEleicao;
+	public Eleicao getEleicao() {
+		return eleicao;
 	}
 
-	public void setDataEleicao(DataEleicao dataEleicao) {
-		this.dataEleicao = dataEleicao;
+	public void setDataEleicao(Eleicao eleicao) {
+		this.eleicao = eleicao;
 	}
 
 	public Tecnico getTecnico() {
