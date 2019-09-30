@@ -47,8 +47,7 @@ public class TecnicoContratoDAOImpl implements TecnicoContratoDAO {
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
 			TypedQuery<TecnicoContrato> query = em.createQuery("SELECT d FROM TecnicoContrato d "
-					+ "WHERE d.ativo=1 AND d.id.tecnico.id=?1 AND d.id.eleicao.id=(SELECT a.id FROM Eleicao a WHERE a.ativo=1) "
-					+ "ORDER BY d.datacad DESC",TecnicoContrato.class);
+					+ "WHERE d.ativo=1 AND d.id.tecnico.id=?1 AND d.id.eleicao.ativo=1 ORDER BY d.datacad DESC",TecnicoContrato.class);
 			 query.setParameter(1, idTecnico);
 			 dt = query.getSingleResult();
 		} catch (Exception e) {
