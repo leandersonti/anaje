@@ -117,10 +117,10 @@ public class EleicaoDAOImpl implements EleicaoDAO {
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		int ret = 0;
 		try {
-			String sql = "UPDATE data_eleicao SET ativo=0 WHERE ativo=1";
+			String sql = "UPDATE Eleicao SET ativo=0 WHERE ativo=1";
 			em.getTransaction().begin();
 			em.createNativeQuery(sql).executeUpdate();
-			sql = "UPDATE data_eleicao SET ativo=1 WHERE id=?1";
+			sql = "UPDATE Eleicao SET ativo=1 WHERE id=?1";
 			em.createNativeQuery(sql).setParameter(1, id).executeUpdate();
 			em.getTransaction().commit();
 			ret = 1;
