@@ -228,8 +228,8 @@ $(document).ready(function() {
 	
 	function limparDados() {
 		$("#descricao").val("");
-		 $("#endereco").val("");
-		 $("#latitude").val("");
+	 	$("#endereco").val("");
+		$("#latitude").val("");
 		$("#longitude").val("");
 		$("#codObjeto").val("");
 		$("#sala").val("");

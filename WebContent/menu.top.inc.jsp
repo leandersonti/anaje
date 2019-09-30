@@ -17,7 +17,7 @@
           </li>
           
           <li class="nav-item">
-             <a class="nav-link" href="${pageContext.request.contextPath}/uservico/listar">Ponto Transmissão</a>
+             <a class="nav-link" href="${pageContext.request.contextPath}/pontotrans/listar">Ponto Transmissão</a>
           </li>
           
           <li class="nav-item">

@@ -16,14 +16,14 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import br.jus.tream.DAO.ContratoDAOImpl;
 import br.jus.tream.DAO.EleicaoDAOImpl;
-import br.jus.tream.DAO.DistribuicaoTecContratoDAOImpl;
+import br.jus.tream.DAO.TecnicoContratoDAOImpl;
 import br.jus.tream.DAO.TecnicoDAO;
 import br.jus.tream.DAO.TecnicoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.Contrato;
-import br.jus.tream.dominio.DistribuicaoTecnicoContrato;
+import br.jus.tream.dominio.TecnicoContrato;
 import br.jus.tream.dominio.Tecnico;
-import br.jus.tream.dominio.pk.DistribuicaoTecContratoPK;
+import br.jus.tream.dominio.pk.TecnicoContratoPK;
 
 @SuppressWarnings("serial")
 @Namespace("/tecnico")
@@ -32,7 +32,7 @@ import br.jus.tream.dominio.pk.DistribuicaoTecContratoPK;
 public class ActionTecnico extends ActionSupport{
 	private List<Tecnico> lstTecnico;
 	private List<Contrato> lstContrato;
-	private List<DistribuicaoTecnicoContrato> lstDistribuicaoTecnicoContrato;
+	private List<TecnicoContrato> lstDistribuicaoTecnicoContrato;
 	private Contrato contrato;
 	private String DtNasc;
 	private Tecnico tecnico;
@@ -122,7 +122,7 @@ public class ActionTecnico extends ActionSupport{
 	public String doFrmEditar() {
 		try {
 			this.tecnico = dao.getBean(this.tecnico.getId());
-			lstDistribuicaoTecnicoContrato = DistribuicaoTecContratoDAOImpl.getInstance().listar(this.tecnico.getId());
+			lstDistribuicaoTecnicoContrato = TecnicoContratoDAOImpl.getInstance().listar(this.tecnico.getId());
 		} catch (Exception e) {
 			addActionError(getText("frmsetup.error") + " Error: " + e.getMessage());
 			return "error";
@@ -136,27 +136,31 @@ public class ActionTecnico extends ActionSupport{
 	public String doAdicionar() throws ParseException {
 		BeanResult beanResult = new BeanResult();		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		try {			
-			if(DtNasc!=null) {
-				Date datanasc = sdf.parse(DtNasc);
-				tecnico.setDataNasc(datanasc);			
-			}		
-			tecnico.setDataCad(new Date());			
-			beanResult.setRet(dao.adicionar(tecnico));
-			if (beanResult.getRet() == 1) {
-				beanResult.setMensagem(getText("inserir.sucesso"));
-				//ADICIONA CONTRATO
-				DistribuicaoTecContratoPK tecContratopk = new DistribuicaoTecContratoPK();
-				tecContratopk.setDataEleicao(EleicaoDAOImpl.getInstance().getBeanAtiva());
-				tecContratopk.setContrato(this.contrato);
-				tecContratopk.setTecnico(this.tecnico);
-				DistribuicaoTecnicoContrato dtc = new DistribuicaoTecnicoContrato();
-				dtc.setId(tecContratopk);
-				DistribuicaoTecContratoDAOImpl.getInstance().adicionar(dtc);
-				//
+		try {
+			if (permissao.getAdmin()) {
+				if(DtNasc!=null) {
+					Date datanasc = sdf.parse(DtNasc);
+					tecnico.setDataNasc(datanasc);			
+				}		
+				tecnico.setDataCad(new Date());			
+				beanResult.setRet(dao.adicionar(tecnico));
+				if (beanResult.getRet() == 1) {
+					beanResult.setMensagem(getText("inserir.sucesso"));
+					//ADICIONA CONTRATO
+					TecnicoContratoPK tecContratopk = new TecnicoContratoPK();
+					tecContratopk.setEleicao(EleicaoDAOImpl.getInstance().getBeanAtiva());
+					tecContratopk.setContrato(this.contrato);
+					tecContratopk.setTecnico(this.tecnico);
+					TecnicoContrato dtc = new TecnicoContrato();
+					dtc.setId(tecContratopk);
+					TecnicoContratoDAOImpl.getInstance().adicionar(dtc);
+					//
+				}	
+				else
+					beanResult.setMensagem(getText("permissao.negada"));
+			}else {
+				
 			}	
-			else
-				beanResult.setMensagem(getText("inserir.error"));
 		} catch (Exception e) {
 			    addActionError(getText("inserir.error") + " Error: " + e.getMessage());
 			  //result.setMensagem(getText("inserir.error") + " Error: " + e.getMessage());
@@ -221,11 +225,11 @@ public class ActionTecnico extends ActionSupport{
 		this.lstContrato = lstContrato;
 	}
 
-	public List<DistribuicaoTecnicoContrato> getLstDistribuicaoTecnicoContrato() {
+	public List<TecnicoContrato> getLstDistribuicaoTecnicoContrato() {
 		return lstDistribuicaoTecnicoContrato;
 	}
 
-	public void setLstDistribuicaoTecnicoContrato(List<DistribuicaoTecnicoContrato> lstDistribuicaoTecnicoContrato) {
+	public void setLstDistribuicaoTecnicoContrato(List<TecnicoContrato> lstDistribuicaoTecnicoContrato) {
 		this.lstDistribuicaoTecnicoContrato = lstDistribuicaoTecnicoContrato;
 	}
 
