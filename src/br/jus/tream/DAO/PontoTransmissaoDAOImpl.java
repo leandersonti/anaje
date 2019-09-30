@@ -29,8 +29,8 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 		List<PontoTransmissao> lista = new ArrayList<PontoTransmissao>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	  
-		     TypedQuery<PontoTransmissao> query = em.createQuery("SELECT u FROM UnidadeServico u "
-		     						+ "WHERE u.id.dataEleicao.ativo=1 ORDER BY u.zona, u.local", 
+		     TypedQuery<PontoTransmissao> query = em.createQuery("SELECT u FROM PontoTransmissao u "
+		     						+ "WHERE u.id.eleicao.ativo=1 ORDER BY u.zona, u.local", 
 		    		 PontoTransmissao.class);
 		      lista = query.getResultList();
 		  }
@@ -76,8 +76,8 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 		List<PontoTransmissao> lista = new ArrayList<PontoTransmissao>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	  
-		     TypedQuery<PontoTransmissao> query = em.createQuery("SELECT u FROM UnidadeServico u "
-		     						+ "WHERE u.id.dataEleicao.ativo=1 AND u.zona=?1 AND u.codmunic=?2 ORDER BY u.local", 
+		     TypedQuery<PontoTransmissao> query = em.createQuery("SELECT u FROM PontoTransmissao u "
+		     						+ "WHERE u.id.eleicao.ativo=1 AND u.zona=?1 AND u.codmunic=?2 ORDER BY u.local", 
 		    		 PontoTransmissao.class);
 		      query.setParameter(1, pkze.getZona());
 		      lista = query.setParameter(2, pkze.getCodmunic()).getResultList();
@@ -96,8 +96,8 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 		PontoTransmissao uservico = new PontoTransmissao();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	  
-		     TypedQuery<PontoTransmissao> query = em.createQuery("SELECT u FROM UnidadeServico u "
-		     												  + "WHERE u.id.dataEleicao.id=?1 AND u.id.id=?2", 
+		     TypedQuery<PontoTransmissao> query = em.createQuery("SELECT u FROM PontoTransmissao u "
+		     												  + "WHERE u.id.eleicao.id=?1 AND u.id.id=?2", 
 		    		 PontoTransmissao.class);
 		     query.setParameter(1, id.getEleicao().getId());
 		     uservico =  query.setParameter(2, id.getId()).getSingleResult();
@@ -116,8 +116,8 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 		PontoTransmissao uservico = new PontoTransmissao();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	  
-		     TypedQuery<PontoTransmissao> query = em.createQuery("SELECT u FROM UnidadeServico u "
-		     												  + "WHERE id.dataEleicao.ativo=1 AND u.id.id=?1", 
+		     TypedQuery<PontoTransmissao> query = em.createQuery("SELECT u FROM PontoTransmissao u "
+		     												  + "WHERE id.eleicao.ativo=1 AND u.id.id=?1", 
 		    		 PontoTransmissao.class);
 		     uservico =  query.setParameter(1, id).getSingleResult();
 		  }
