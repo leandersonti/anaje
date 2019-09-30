@@ -40,7 +40,7 @@ public class ContratoDAOImpl implements ContratoDAO {
 		List<Contrato> lista = new ArrayList<Contrato>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	  
-		     TypedQuery<Contrato> query = em.createQuery("SELECT c FROM Contrato c WHERE c.dataEleicao.id=?1 ORDER BY c.descricao", 
+		     TypedQuery<Contrato> query = em.createQuery("SELECT c FROM Contrato c WHERE c.eleicao.id=?1 ORDER BY c.descricao", 
 		    		   Contrato.class);
 		      lista = query.setParameter(1, id_eleicao).getResultList();
 		  }
@@ -69,7 +69,7 @@ public class ContratoDAOImpl implements ContratoDAO {
 		List<Contrato> lista = new ArrayList<Contrato>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	  
-		     TypedQuery<Contrato> query = em.createQuery("SELECT NEW Contrato(c.id, c.descricao) FROM Contrato c WHERE c.dataEleicao.id=?1", 
+		     TypedQuery<Contrato> query = em.createQuery("SELECT NEW Contrato(c.id, c.descricao) FROM Contrato c WHERE c.eleicao.id=?1", 
 		    		   Contrato.class);
 		      lista = query.setParameter(1, id_eleicao).getResultList();
 		  }
@@ -124,7 +124,7 @@ public class ContratoDAOImpl implements ContratoDAO {
 		ContratoDAO dao = ContratoDAOImpl.getInstance();
 		Contrato c = new Contrato();
 		
-		c.setDataEleicao(DataEleicaoDAOImpl.getInstance().getBeanAtiva());
+		c.setDataEleicao(EleicaoDAOImpl.getInstance().getBeanAtiva());
 	
 		Cargo cargo = new Cargo();
 		cargo.setId(3);
