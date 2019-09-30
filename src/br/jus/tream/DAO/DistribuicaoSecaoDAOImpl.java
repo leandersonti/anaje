@@ -32,7 +32,7 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 		try {
 			TypedQuery<DistribuicaoSecao> query = em
 					.createQuery("SELECT ds FROM DistribuicaoSecao ds WHERE "
-								+ "ds.id.unidadeServico.id.id=?1 AND ds.id.unidadeServico.id.dataEleicao.ativo=1 ORDER BY ds.secao",
+								+ "ds.id.pontoTransmissao.id.id=?1 AND ds.id.pontoTransmissao.id.eleicao.ativo=1 ORDER BY ds.secao",
 							DistribuicaoSecao.class);
 			query.setParameter(1, idUnidadeServico);
 			lista = query.getResultList();
@@ -52,7 +52,7 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 			TypedQuery<CADLocalvotacao> query = em
 					.createQuery("SELECT a FROM CADLocalvotacao a WHERE a.id IN ("
 								+ "SELECT DISTINCT ds.codObjetoLocal FROM DistribuicaoSecao ds "
-								      + "WHERE ds.id.unidadeServico.id.id=?1 AND ds.id.unidadeServico.id.dataEleicao.ativo=1"
+								      + "WHERE ds.id.pontoTransmissao.id.id=?1 AND ds.id.pontoTransmissao.id.eleicao.ativo=1"
 								+ ") ORDER BY a.numLocal",
 								CADLocalvotacao.class);
 			query.setParameter(1, idUnidadeServico);
@@ -73,7 +73,7 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 		try {
 			TypedQuery<DistribuicaoSecao> query = em
 					.createQuery("SELECT ds FROM DistribuicaoSecao ds WHERE "
-								+ "ds.zona=?1 AND ds.codmunic=?2 AND ds.id.unidadeServico.id.dataEleicao.ativo=1 ORDER BY ds.secao",
+								+ "ds.zona=?1 AND ds.codmunic=?2 AND ds.id.pontoTransmissao.id.eleicao.ativo=1 ORDER BY ds.secao",
 							DistribuicaoSecao.class);
 			query.setParameter(1, pkze.getZona());
 			query.setParameter(2, pkze.getCodmunic());
@@ -95,7 +95,7 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 			TypedQuery<CADSecao> query = em
 					.createQuery("SELECT s FROM CADSecao s WHERE s.zona=?1 AND s.codmunic=?2 and s.numLocal=?3 "
 							+ "AND s.secaoPrincipal IS NULL AND s.secao NOT IN (SELECT ds.secao FROM DistribuicaoSecao ds "
-													+ "WHERE ds.zona=?4 AND ds.codmunic=?5 AND ds.id.unidadeServico.id.dataEleicao.ativo=1)"
+													+ "WHERE ds.zona=?4 AND ds.codmunic=?5 AND ds.id.pontoTransmissao.id.eleicao.ativo=1)"
 							+ "ORDER BY s.secao",
 								CADSecao.class);
 			query.setParameter(1, pkze.getZona());
@@ -119,7 +119,7 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
 			TypedQuery<DistribuicaoSecao> query = em.createQuery("SELECT ds FROM DistribuicaoSecao ds WHERE "
-								+ "ds.id.codOjeto=?1 AND ds.id.unidadeServico.id.dataEleicao.ativo=1",
+								+ "ds.id.codOjeto=?1 AND ds.id.pontoTransmissao.id.eleicao.ativo=1",
 				DistribuicaoSecao.class);
 			query.setParameter(1, codobjeto);
 			ds = query.getSingleResult();
