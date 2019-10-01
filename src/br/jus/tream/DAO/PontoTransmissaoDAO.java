@@ -14,15 +14,15 @@ public interface PontoTransmissaoDAO {
 	
 	public List<PontoTransmissao> listar(CadZonaEleitoralPK pkze) throws Exception;	 
 	
-	public PontoTransmissao getBean(PontoTransmissaoPK id) throws Exception;
+	public PontoTransmissao getBean(PontoTransmissaoPK pk) throws Exception;
 	
 	public PontoTransmissao getBean(Integer id) throws Exception;
 	
-	public int adicionar (PontoTransmissao us) throws Exception;
+	public int adicionar (PontoTransmissao pontoTransmissao) throws Exception;
 	
-	public int atualizar (PontoTransmissao us) throws Exception;
+	public int atualizar (PontoTransmissao pontoTransmissao) throws Exception;
 	
-	public int remover (PontoTransmissao us) throws Exception;
+	public int remover (PontoTransmissao pontoTransmissao) throws Exception;
 	
 	
 } 

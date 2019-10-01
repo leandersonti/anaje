@@ -30,7 +30,7 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	  
 		     TypedQuery<PontoTransmissao> query = em.createQuery("SELECT u FROM PontoTransmissao u "
-		     						+ "WHERE u.id.eleicao.ativo=1 ORDER BY u.zona, u.local", 
+		     						+ "WHERE u.id.eleicao.ativo=1 ORDER BY u.zona, u.codLocal", 
 		    		 PontoTransmissao.class);
 		      lista = query.getResultList();
 		  }
@@ -77,7 +77,7 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	  
 		     TypedQuery<PontoTransmissao> query = em.createQuery("SELECT u FROM PontoTransmissao u "
-		     						+ "WHERE u.id.eleicao.ativo=1 AND u.zona=?1 AND u.codmunic=?2 ORDER BY u.local", 
+		     						+ "WHERE u.id.eleicao.ativo=1 AND u.zona=?1 AND u.codmunic=?2 ORDER BY u.codLocal", 
 		    		 PontoTransmissao.class);
 		      query.setParameter(1, pkze.getZona());
 		      lista = query.setParameter(2, pkze.getCodmunic()).getResultList();
@@ -92,15 +92,15 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 	}
 
 	@Override
-	public PontoTransmissao getBean(PontoTransmissaoPK id) throws Exception {
+	public PontoTransmissao getBean(PontoTransmissaoPK pk) throws Exception {
 		PontoTransmissao uservico = new PontoTransmissao();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	  
 		     TypedQuery<PontoTransmissao> query = em.createQuery("SELECT u FROM PontoTransmissao u "
 		     												  + "WHERE u.id.eleicao.id=?1 AND u.id.id=?2", 
 		    		 PontoTransmissao.class);
-		     query.setParameter(1, id.getEleicao().getId());
-		     uservico =  query.setParameter(2, id.getId()).getSingleResult();
+		     query.setParameter(1, pk.getEleicao().getId());
+		     uservico =  query.setParameter(2, pk.getId()).getSingleResult();
 		  }
 		  catch (Exception e) {
 			     em.close();
@@ -116,8 +116,8 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 		PontoTransmissao uservico = new PontoTransmissao();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	  
-		     TypedQuery<PontoTransmissao> query = em.createQuery("SELECT u FROM PontoTransmissao u "
-		     												  + "WHERE id.eleicao.ativo=1 AND u.id.id=?1", 
+		     TypedQuery<PontoTransmissao> query = em.createQuery("SELECT u FROM PontoTransmissao u"
+		     												  + " WHERE u.id.eleicao.ativo=1 AND u.id.id=?1", 
 		    		 PontoTransmissao.class);
 		     uservico =  query.setParameter(1, id).getSingleResult();
 		  }
@@ -133,7 +133,7 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 	@Override
 	public int adicionar(PontoTransmissao pontoTransmissao) throws Exception {
 		int ret = 0;
-		try {
+		try {			
 			PontoTransmissaoPK pk = pontoTransmissao.getId();
 			pk.setId(dao.gerarId());
 			pontoTransmissao.setId(pk);
@@ -168,13 +168,34 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 	
 
 	public static void main(String[] args) throws Exception{
-		PontoTransmissaoDAO dao = PontoTransmissaoDAOImpl.getInstance();
+		//PontoTransmissaoDAO dao = PontoTransmissaoDAOImpl.getInstance();
 		
-		PontoTransmissao pontoTransmissao = new PontoTransmissao();
-		pontoTransmissao = dao.getBean(12019);
-		System.out.println("Descricao " + pontoTransmissao.getZona() + " " + pontoTransmissao.getDescricao());
+		/*
+		PontoTransmissaoPK pk = new PontoTransmissaoPK();
+		Eleicao eleicao = new Eleicao();
+		eleicao = EleicaoDAOImpl.getInstance().getBeanAtiva();
+		pk.setEleicao(eleicao);
+		System.out.println("Eleicao id= " + pk.getEleicao().getId());
+		PontoTransmissao pt = new PontoTransmissao();
+		pt.setId(pk);
+		pt.setZona(60);
+		pt.setCodmunic(2895);
+		pt.setCodLocal(0);
+		pt.setDescricao("CADASTRO MANUAL 03");
+		pt.setEndereco("ESTRADA YELLOW FIELD, COMUNIDADE DO BLACK");
+		pt.setOficial(0);
+		pt.setStatus(0);
+		int ret = dao.adicionar(pt);
+		System.out.println("Ret " + ret);
+		*/
 		
-		
+		/*
+		PontoTransmissao pt = new PontoTransmissao();
+		pt = dao.getBean(132019);
+		System.out.println("Descricao " + pt.getDescricao());
+		int ret = dao.remover(pt);
+		System.out.println("ret == " + ret);
+		*/
 		System.out.println("Done!!");
 
 	}
