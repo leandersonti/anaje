@@ -22,9 +22,7 @@ public class PontoTransmissao implements Serializable {
 	
 	private Integer zona;
 
-	private Integer local;
-
-	private Integer secao;
+	private Integer codLocal;	
 
 	@Column(length = 70, nullable = false)
 	private String descricao;
@@ -60,30 +58,19 @@ public class PontoTransmissao implements Serializable {
 	@Column(nullable = false)
 	private Integer oficial;
 
-	/*
-	@OneToMany(cascade = {CascadeType.REFRESH,CascadeType.REMOVE}, mappedBy = "id.unidadeServico", fetch = FetchType.EAGER)
-	@Fetch(FetchMode.SUBSELECT)
-	private List<DistribuicaoSecao> distribuicaoSecao = new ArrayList<DistribuicaoSecao>();
-	*/
-	//@OneToMany(cascade = {CascadeType.REFRESH,CascadeType.REMOVE}, mappedBy = "id.venda", fetch = FetchType.EAGER)
-	//@Fetch(FetchMode.SUBSELECT)
-	//private List<DistribuicaoEquipamento> distribuicaoEquipamentp = new ArrayList<DistribuicaoEquipamento>();
-	
-
 	public PontoTransmissao() {
-		super();
 	}
 	
 	public PontoTransmissao(PontoTransmissaoPK id, String codObjetoLocal, Integer zona, Integer local,
-			Integer secao, String descricao, String endereco, Integer codmunic, String sexo, String sala,
+			String descricao, String endereco, Integer codmunic, String sexo, String sala,
 			String contato, String cargoContato, String telefone, String latitude, String longitude, Integer status,
 			Integer oficial) {
 		super();
 		this.id = id;
 		this.codObjetoLocal = codObjetoLocal;
 		this.zona = zona;
-		this.local = local;
-		this.secao = secao;
+		this.codLocal = local;
+		
 		this.descricao = descricao;
 		this.endereco = endereco;
 		this.codmunic = codmunic;
@@ -98,6 +85,18 @@ public class PontoTransmissao implements Serializable {
 		this.oficial = oficial;
 	}
 
+	public PontoTransmissao(PontoTransmissaoPK id, Integer zona, Integer local,
+			String descricao, Integer codmunic, Integer status, Integer oficial) {
+		super();
+		this.id = id;
+		this.zona = zona;
+		this.codLocal = local;
+		this.descricao = descricao;		
+		this.codmunic = codmunic;
+		this.status = status;
+		this.oficial = oficial;
+	}
+	
 	public PontoTransmissaoPK getId() {
 		return id;
 	}
@@ -122,20 +121,12 @@ public class PontoTransmissao implements Serializable {
 		this.zona = zona;
 	}
 
-	public Integer getLocal() {
-		return local;
+	public Integer getCodLocal() {
+		return codLocal;
 	}
 
-	public void setLocal(Integer local) {
-		this.local = local;
-	}
-
-	public Integer getSecao() {
-		return secao;
-	}
-
-	public void setSecao(Integer secao) {
-		this.secao = secao;
+	public void setCodLocal(Integer local) {
+		this.codLocal = local;
 	}
 
 	public String getDescricao() {
