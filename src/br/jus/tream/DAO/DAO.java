@@ -167,9 +167,7 @@ public class DAO<T> implements Serializable {
 		return lista;
 	}
 	
-	public int contaTodos() {
-		//new JPAUtility();
-		
+	public int contarRegistros() {
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		int result = 0;
 		try {
@@ -183,7 +181,6 @@ public class DAO<T> implements Serializable {
 	}
 	
 	public T getBean(int id) {
-		//new JPAUtility();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
  	      T ret = (T) em.find(classe, id);
  		   em.close();	

@@ -30,11 +30,11 @@ import br.jus.tream.dominio.pk.PontoTransmissaoPK;
 @ResultPath(value = "/")
 @ParentPackage(value = "default")
 public class ActionPontoTransmissao extends ActionSupport {
-	private List<PontoTransmissao> lstUnidadeServico;
+	private List<PontoTransmissao> lstPontoTransmissao;
 	private List<CADLocalvotacao> lstLocalVotacao;
 	private List<CADZonaEleitoral> lstZonaEleitoral;
 	private CADZonaEleitoral cadZonaEleitoral;
-	private PontoTransmissao uservico;
+	private PontoTransmissao pt;
 	private BeanPontoTransmissao pontoTransmissao;
 	private PontoTransmissaoPK id = new PontoTransmissaoPK();
 	private BeanResult result;
@@ -43,7 +43,6 @@ public class ActionPontoTransmissao extends ActionSupport {
 	private Integer codmunic;
 	private final static PontoTransmissaoDAO dao = PontoTransmissaoDAOImpl.getInstance();
 	private final static Permissao permissao = Permissao.getInstance();
-
 	
 	
 	@Action(value = "getBeanFull", results = { @Result(name = "success", location = "/consultas/unidade-servico-bean-full.jsp"),
@@ -83,7 +82,7 @@ public class ActionPontoTransmissao extends ActionSupport {
 	}
 	
 	
-	@Action(value = "listar", results = { @Result(name = "success", location = "/consultas/unidade-servico.jsp"),
+	@Action(value = "listar", results = { @Result(name = "success", location = "/consultas/ponto-transmissao.jsp"),
 			@Result(name = "error", location = "/result.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String listar() {
 		try {
@@ -92,12 +91,12 @@ public class ActionPontoTransmissao extends ActionSupport {
 			} else {
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX(permissao.getZona());
 			}
-			System.out.println("CodZonaMunic == " + codZonaMunic);
+			// System.out.println("CodZonaMunic == " + codZonaMunic);
 			if (codZonaMunic==null)
-			     this.lstUnidadeServico = dao.listar();
+			     this.lstPontoTransmissao = dao.listar();
 			else {
 				CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
-				this.lstUnidadeServico = dao.listar(pkze);
+				this.lstPontoTransmissao = dao.listar(pkze);
 			}
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
@@ -106,13 +105,13 @@ public class ActionPontoTransmissao extends ActionSupport {
 		return "success";
 	}
 
-	@Action(value = "listarJson", results = { @Result(name = "success", type = "json", params = { "root", "lstUnidadeServico" }),
+	@Action(value = "listarJson", results = { @Result(name = "success", type = "json", params = { "root", "lstPontoTransmissao" }),
 			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String listarJson() {
 		try {
 			// PEGANDO CODZONAMUNIC
 			CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
-			this.lstUnidadeServico = dao.listar(pkze);
+			this.lstPontoTransmissao = dao.listar(pkze);
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";
@@ -136,15 +135,15 @@ public class ActionPontoTransmissao extends ActionSupport {
 		return "success";
 	}
 
-	@Action(value = "frmEditar", results = { @Result(name = "success", location = "/forms/frmUnidadeServico.jsp"),
+	@Action(value = "frmEditar", results = { @Result(name = "success", location = "/forms/frmPontoTransmissao.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String doFrmEditar() {
 		try {
-			this.uservico = dao.getBean(this.id);
+			this.pt = dao.getBean(this.id);
 			if (permissao.getAdmin()) {
 				return "success";
 			} else {
-				if (permissao.getZona()==this.uservico.getZona()) {
+				if (permissao.getZona()==this.pt.getZona()) {
 					return "success";
 				}else {
 					addActionError(getText("permissao.negada"));
@@ -166,10 +165,10 @@ public class ActionPontoTransmissao extends ActionSupport {
 			PontoTransmissaoPK pk = new PontoTransmissaoPK();
 			CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
 			pk.setEleicao(EleicaoDAOImpl.getInstance().getBeanAtiva());
-			this.uservico.setId(pk);			
-			this.uservico.setCodmunic(pkze.getCodmunic());
-			this.uservico.setZona(pkze.getZona());
-			beanResult.setRet(dao.adicionar(this.uservico));
+			this.pt.setId(pk);			
+			this.pt.setCodmunic(pkze.getCodmunic());
+			this.pt.setZona(pkze.getZona());
+			beanResult.setRet(dao.adicionar(this.pt));
 			if (beanResult.getRet() == 1)
 				beanResult.setMensagem(getText("inserir.sucesso"));
 			else
@@ -190,7 +189,7 @@ public class ActionPontoTransmissao extends ActionSupport {
 	public String doAtualizar() {
 		BeanResult beanResult = new BeanResult();
 		try {
-			beanResult.setRet(dao.atualizar(this.uservico));			
+			beanResult.setRet(dao.atualizar(this.pt));			
 			if (beanResult.getRet() == 1) {
 				beanResult.setMensagem(getText("alterar.sucesso"));
 			} else {
@@ -210,7 +209,7 @@ public class ActionPontoTransmissao extends ActionSupport {
 		BeanResult beanResult = new BeanResult();
 		try {
 			if (permissao.getAdmin()) {			
-				beanResult.setRet(dao.remover(this.uservico));
+				beanResult.setRet(dao.remover(this.pt));
 				if (beanResult.getRet()==1)
 				   beanResult.setMensagem(getText("remover.sucesso"));
 				else
@@ -229,13 +228,6 @@ public class ActionPontoTransmissao extends ActionSupport {
 		return "success";
 	}
 
-	public List<PontoTransmissao> getLstUnidadeServico() {
-		return lstUnidadeServico;
-	}
-
-	public void setLstUnidadeServico(List<PontoTransmissao> lstUnidadeServico) {
-		this.lstUnidadeServico = lstUnidadeServico;
-	}
 
 	public List<CADLocalvotacao> getLstLocalVotacao() {
 		return lstLocalVotacao;
@@ -252,13 +244,13 @@ public class ActionPontoTransmissao extends ActionSupport {
 	public void setLstZonaEleitoral(List<CADZonaEleitoral> lstZonaEleitoral) {
 		this.lstZonaEleitoral = lstZonaEleitoral;
 	}
-
-	public PontoTransmissao getUservico() {
-		return uservico;
+	
+	public PontoTransmissao getPt() {
+		return pt;
 	}
 
-	public void setUservico(PontoTransmissao uservico) {
-		this.uservico = uservico;
+	public void setPt(PontoTransmissao pt) {
+		this.pt = pt;
 	}
 
 	public PontoTransmissaoPK getId() {
@@ -315,6 +307,14 @@ public class ActionPontoTransmissao extends ActionSupport {
 
 	public void setPontoTransmissao(BeanPontoTransmissao pontoTransmissao) {
 		this.pontoTransmissao = pontoTransmissao;
+	}
+
+	public List<PontoTransmissao> getLstPontoTransmissao() {
+		return lstPontoTransmissao;
+	}
+
+	public void setLstPontoTransmissao(List<PontoTransmissao> lstPontoTransmissao) {
+		this.lstPontoTransmissao = lstPontoTransmissao;
 	}
 
 }

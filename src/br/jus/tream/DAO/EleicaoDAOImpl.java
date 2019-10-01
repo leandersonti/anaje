@@ -142,10 +142,11 @@ public class EleicaoDAOImpl implements EleicaoDAO {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 		Eleicao data = new Eleicao();
-		data.setDataEleicao(sdf.parse("28/07/2019"));
-		data.setDescricao("Eleição SAWEB T02");
+		data.setDataEleicao(sdf.parse("01/08/2019"));
+		data.setDescricao("Eleição 01 T02");
 		data.setTurno(2);
 		data.setAtivo(0);
+		
 		int ret = dao.adicionar(data);
 		System.out.println("Retorno = " + ret);
 

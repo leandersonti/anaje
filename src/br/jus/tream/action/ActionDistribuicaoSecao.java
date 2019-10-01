@@ -24,7 +24,7 @@ import br.jus.tream.dominio.PontoTransmissao;
 import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 
 @SuppressWarnings("serial")
-@Namespace("/distribsecao")
+@Namespace("/distribuisecao")
 @ResultPath(value = "/")
 @ParentPackage(value = "default")
 public class ActionDistribuicaoSecao extends ActionSupport{

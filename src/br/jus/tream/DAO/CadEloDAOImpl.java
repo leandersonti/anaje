@@ -196,10 +196,16 @@ public class CadEloDAOImpl implements CadEloDAO {
 	public static void main(String[] args) throws Exception {
 		CadEloDAO dao = CadEloDAOImpl.getInstance();
 		
+		
+		for(CADZonaEleitoral z : dao.listarZonaEleitoralCBX(60)) {
+			System.out.println(z.getCodmunic() + " Zona " + z.getFzona() + " " + z.getMunicipio());
+		}
+		
+		/*
 		for(CADLocalvotacao local : dao.listarLocalVotacaoParaCadastrar(31, 2550)) {
 			System.out.println(local.getId() + " :: Zona " + local.getZona() + " " + local.getNumLocal() + " " + local.getNomeLocal());
 		}
-		
+		*/
 		
 		/*
 		for(CADZonaEleitoral z : dao.listarZonaEleitoralCBX(31)) {

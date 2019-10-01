@@ -31,7 +31,7 @@
           <li class="nav-item dropdown">
 	            <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Distribuição</a>
 	            <div class="dropdown-menu" aria-labelledby="dropdown01">
-	              <a class="dropdown-item" href="${pageContext.request.contextPath}/distribsecao/frmCad">Seções</a>
+	              <a class="dropdown-item" href="${pageContext.request.contextPath}/distribuisecao/frmCad">Seções</a>
 	              <a class="dropdown-item" href="${pageContext.request.contextPath}/distribequipamento/frmCad">Equipamentos</a>
 	              <a class="dropdown-item" href="${pageContext.request.contextPath}/distribtecnico/frmCad">Técnicos</a>
 	              <a class="dropdown-item" href="#">Permissões</a>

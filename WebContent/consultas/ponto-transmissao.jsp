@@ -19,7 +19,7 @@
  </div>
   <div class="card-body">
    
-    <table id="table1" class="table table-hover">
+    <table id="table1" class="table table-sm table-hover">
 		<thead>
 			<tr>
 				<th width="5%">Zona</th>
@@ -32,22 +32,22 @@
 			</tr>
 		</thead>
 	<tbody>
-	<s:iterator value="lstUnidadeServico">
+	<s:iterator value="lstPontoTransmissao">
 		<tr id="tr${id.id}">
 			<td><s:property value="zona"/></td>
-			<td><s:property value="local"/></td>
+			<td><s:property value="codLocal"/></td>
 			<td><s:property value="codmunic"/></td>
 			<td><a id="detalhePontoTrans${id.id}" href="#" data-record-id="${id.id}"><s:property value="descricao"/></a></td>
 			<td><s:property value="endereco"/></td>
 			<td><s:property value="status"/></td>
 		
 			<td> 	    
-				    <a href="frmEditar?id.id=${id.id}&id.dataEleicao.id=${id.dataEleicao.id}" id="idedit" class="btn btn-sm btn-warning" role="button">
+				    <a href="frmEditar?id.id=${id.id}&id.eleicao.id=${id.eleicao.id}" id="idedit" class="btn btn-sm btn-warning" role="button">
 							Editar
 				    </a>
 					
-					<a href="#" id="excluir${id.id}${id.dataEleicao.id}" class="btn btn-sm btn-danger" role="button" data-record-id="${id.id}"  
-					     data-record-ideleicao="${id.dataEleicao.id}" data-record-descricao="${descricao}" 
+					<a href="#" id="excluir${id.id}${id.eleicao.id}" class="btn btn-sm btn-danger" role="button" data-record-id="${id.id}"  
+					     data-record-ideleicao="${id.eleicao.id}" data-record-descricao="${descricao}" 
 					     data-record-data="<s:property value="%{getText('format.date',{dataCad})}"/>">
 					  		Remover
 				    </a>
@@ -102,7 +102,7 @@ $(document).ready(function() {
 			  confirmButtonText: 'Sim excluir!'
 			}).then((result) => {
 			  if (result.value) {
-			      var vurl = "remover?uservico.id.id="+id+'&uservico.id.dataEleicao.id='+idDtElei; 
+			      var vurl = "remover?pt.id.id="+id+'&pt.id.eleicao.id='+idDtElei; 
 			      $.getJSON({
 					  url: vurl
 				  }).done(function( data ) {
@@ -128,7 +128,7 @@ $(document).ready(function() {
 		var data = $(event.delegateTarget).data();	
 		var id = data.recordId;
 		var path = "${pageContext.request.contextPath}";	
-		var URL = path+'/uservico/getBeanFull?id.id=' + id	;
+		var URL = path+'/pontotrans/getBeanFull?id.id=' + id	;
 		   $.ajax({
 	           type: "POST",
 	           url: URL,

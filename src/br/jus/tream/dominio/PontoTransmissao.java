@@ -70,7 +70,6 @@ public class PontoTransmissao implements Serializable {
 		this.codObjetoLocal = codObjetoLocal;
 		this.zona = zona;
 		this.codLocal = local;
-		
 		this.descricao = descricao;
 		this.endereco = endereco;
 		this.codmunic = codmunic;

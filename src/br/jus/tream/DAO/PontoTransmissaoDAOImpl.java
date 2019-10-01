@@ -168,7 +168,7 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 	
 
 	public static void main(String[] args) throws Exception{
-		//PontoTransmissaoDAO dao = PontoTransmissaoDAOImpl.getInstance();
+		PontoTransmissaoDAO dao = PontoTransmissaoDAOImpl.getInstance();
 		
 		/*
 		PontoTransmissaoPK pk = new PontoTransmissaoPK();
@@ -196,8 +196,12 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 		int ret = dao.remover(pt);
 		System.out.println("ret == " + ret);
 		*/
+		
+		for (PontoTransmissao p : dao.listar(new CadZonaEleitoralPK("60;2895"))) {
+			System.out.println("Ponto " + p.getZona() + " " + p.getCodLocal() + " " + p.getDescricao());
+		}
+		
 		System.out.println("Done!!");
-
 	}
 
 }
