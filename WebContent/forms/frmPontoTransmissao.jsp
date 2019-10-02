@@ -22,7 +22,6 @@
 				    <input type="hidden" id="oficial" name="pt.status" value="1">
 				    <input type="hidden" id="codObjetoLocal" name="pt.codObjetoLocal" value="">
 				</s:else>
-				
 				<div class="form-row">
 					<div class="col-md-6 mb-6">
 						<label for="zona">Zona:</label>
@@ -58,14 +57,13 @@
 						
 					</div>
 				
-				</div><br>
+				</div>
 
 				<div class="form-row">
 					<label for="descricao">Descrição :</label> <input type="text"
 						class="form-control" id="descricao" name="pt.descricao"
 						value="${pt.descricao}" placeholder="Nome do ponto ou da Escola">
 				</div>
-				<br>
 
 				<div class="form-row">
 					<label for="endereco">Endereço :</label> <input type="text"
@@ -104,9 +102,7 @@
 							name="pt.cargoContato" value="${pt.cargoContato}"
 							placeholder=" ">
 					</div>
-
 				</div>
-				<br>
 
 				<div class="form-row">
 
@@ -131,7 +127,6 @@
 					</div>
 
 				</div>
-				<br>
 
 				<button class="btn btn-primary" id="btnSave" type="button">Enviar</button>
 			</form>

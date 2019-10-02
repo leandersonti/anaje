@@ -1,16 +1,16 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<s:push value="pontoTransmissao">
+<s:push value="beanPontoTransmissao">
          <label> Fase</label> 
 			   <s:if test="%{oficial==1}">
-			       <span class="label label-success" title="${unidadeServico.id.id}">Ofi - ${unidadeServico.id.id}</span>
+			       <span class="label label-success" title="${pontoTransmissao.id.id}">Ofi - ${pontoTransmissao.id.id}</span>
 			    </s:if>
 			    <s:else>
-			        <span class="label label-warning" title="${unidadeServico.id.id}">SM - ${unidadeServico.id.id}</span>
+			        <span class="label label-warning" title="${pontoTransmissao.id.id}">SM - ${pontoTransmissao.id.id}</span>
 			    </s:else>
 	 <br />
-	 <label>ZE: ${unidadeServico.zona} Local:</label> ${unidadeServico.local} - ${unidadeServico.descricao}<br>
-	 ${unidadeServico.endereco}
+	 <label>ZE: ${pontoTransmissao.zona} Local:</label> ${pontoTransmissao.codLocal} - ${pontoTransmissao.descricao}<br>
+	 ${pontoTransmissao.endereco}
 	 	<table class="table table-hover table-sm">
 						<thead class="thead-default">
 						      <tr>

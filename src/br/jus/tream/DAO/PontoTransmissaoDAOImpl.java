@@ -196,10 +196,15 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 		int ret = dao.remover(pt);
 		System.out.println("ret == " + ret);
 		*/
+		PontoTransmissao pt = new PontoTransmissao();
+		pt = dao.getBean(182019);
+		System.out.println("Descricao " + pt.getDescricao());
 		
+		/*
 		for (PontoTransmissao p : dao.listar(new CadZonaEleitoralPK("60;2895"))) {
 			System.out.println("Ponto " + p.getZona() + " " + p.getCodLocal() + " " + p.getDescricao());
 		}
+		*/
 		
 		System.out.println("Done!!");
 	}
