@@ -24,7 +24,7 @@
 				</s:else>
 				<div class="form-row">
 					<div class="col-md-6 mb-6">
-						<label for="zona">Zona:</label>
+						<label for="zona">*Zona:</label>
 						 <s:if test='pt.id != null'>
 							${pt.zona}
 						 </s:if>
@@ -40,7 +40,7 @@
 					</div>
 
 					<div class="col-md-6 mb-6">
-						<label for="local">Local :</label>	
+						<label for="local">*Local :</label>	
 						 <s:if test='pt.id != null'>
 						     ${pt.codLocal}
 						     <s:if test='pt.oficial == 1'>
@@ -51,7 +51,7 @@
 						 	 </s:if>
 						 </s:if>
 						 <s:else>
-						      <select class="form-control" id="selectlocal" name="pt.codLocal"></select>
+						      <select class="form-control" id="codLocal" name="pt.codLocal"></select>
 						 </s:else>	
 					</div>
 				</div>
@@ -133,7 +133,7 @@
 						</div>
 				  </s:if>
 				  <s:else>
-					      <button class="btn btn-primary" id="btnSave" type="button">Enviar</button>
+					      <button class="btn btn-primary" id="btnSave" type="button">Salvar</button>
 				  </s:else>
 			</form>
 		</div>
@@ -189,13 +189,13 @@ $(document).ready(function() {
 		CarregaLocalVotacao();
 	});
 	
-	$('#selectlocal').change(function(event) {
+	$('#codLocal').change(function(event) {
 		getLocalVotacao();
 	});
 
 	function CarregaLocalVotacao() {
 		var codZonaMunic = $("#codZonaMunic option:selected").val();
-		var select = $('#selectlocal');
+		var select = $('#codLocal');
 		select.find('option').remove();
 	 	$.getJSON('../elo/listarJsonLocalVotacaoParaCadastrar?codZonaMunic=' + codZonaMunic, 
 				function(jsonResponse) {
@@ -213,8 +213,7 @@ $(document).ready(function() {
 	
 	function getLocalVotacao() {
 		var codZonaMunic = $("#codZonaMunic option:selected").val().split(';');
-		var numLocal = $("#selectlocal option:selected").val();
-		//console.log(codZonaMunic);
+		var numLocal = $("#codLocal option:selected").val();
 	 	$.getJSON('../elo/getBeanJsonLocalVotacao?zona=' + codZonaMunic[0] 
 				      +'&codmunic=' + codZonaMunic[1] + '&numLocal=' + numLocal, 
 			function(dados) {
@@ -242,8 +241,14 @@ $(document).ready(function() {
 		if ($("#form1")[0].checkValidity() === false) {
 			$("#form1")[0].classList.add('was-validated');
 			return false;
-		} else
-			return true;
+		} 
+		if ($("#codZonaMunic option:selected").val()==-1){
+			return false;
+		}
+		if ($("#codLocal option:selected").val()==-1){
+			return false;
+		}
+		return true;
 	}
 </script>
 

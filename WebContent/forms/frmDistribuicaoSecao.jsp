@@ -41,7 +41,7 @@
 				</div>
 				<div id="ajaxResponse"></div>
 				<br>
-				<button class="btn btn-primary" id="btnSave" type="button">Salvar</button>
+				<button class="btn btn-primary" id="btnSave" type="button">Distribuir</button>
 			</form>
 		</div>
 	</div>
@@ -182,7 +182,6 @@ function CarregaSecoesDistribuidas(){
 	    $("#tbedist > tr").remove();
 	     var linha = "";
         $.each(jsonResponse, function(key, value) {
-        	console.log("key ==" + key);	
         	linha +=  '<tr class="table-active"><th scope="row">' + value.numLocal + '</th><td>' + value.nomeLocal + '</td></tr>';
         	var sec = "";
         	$.each(value.secoesDistribuidas, function(i, jSecoes) {
@@ -192,7 +191,6 @@ function CarregaSecoesDistribuidas(){
         	//console.log(cols);
         	//newRow.append(cols);
       	 });
-        console.log(linha);
 	    $("#tbedist").html(linha);
     });
 }

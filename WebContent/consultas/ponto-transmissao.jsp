@@ -111,26 +111,25 @@ $(document).ready(function() {
 		var id = data.recordId; 
 		var idDtElei = data.recordIdeleicao;
 		var descricao = data.recordDescricao;
-		Swal.fire({
-			  title: 'Excluir?',
+		swal({
+			  title:'Excluir?',
 			  text: "Deseja excluir esse registro? (" + descricao + ")",
-			  type: 'warning',
-			  showCancelButton: true,
-			  confirmButtonText: 'Sim excluir!'
+			  icon: 'warning',
+			  buttons: [true, "Sim excluir!"]
 			}).then((result) => {
-			  if (result.value) {
+			  if (result) {
 			      var vurl = "remover?pt.id.id="+id+'&pt.id.eleicao.id='+idDtElei; 
 			      $.getJSON({
 					  url: vurl
 				  }).done(function( data ) {
 				    	  if (data.ret==1){
 				    		  $('#tr'+id).fadeOut(); 
-				    		     Swal.fire("Remover", data.mensagem, "success");
+				    		     swal("Remover", data.mensagem, "success");
 				    	  }
 				    	  else
-				    		  Swal.fire("Remover", data.mensagem, "error");
+				    		  swal("Remover", data.mensagem, "error");
 					}).fail(function() {
-						Swal.fire("Remover", "Ocorreu um erro ao remover", "error");
+						swal("Remover", "Ocorreu um erro ao remover", "error");
 					});
 			   }
 			})

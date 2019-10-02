@@ -76,14 +76,13 @@ $(document).ready(function() {
 
 	 $("#btnSave").click(function() {
 		if (verificaDados()){
-			 Swal.fire({
+			 swal({
 		         title: "Distribuicao Equipamento?",
 		         text: "Confirma essa distribuicao?",
-		         type: 'warning',
-		         showCancelButton: true,
-			     confirmButtonText: 'Sim'
-				   }).then((result) => {
-						if (result.value) {
+		         icon: 'warning',
+		         buttons: [true, "Salvar"]
+			  }).then((result) => {
+						if (result) {
 							var frm = $("#form1").serialize();
 							$.getJSON({
 									url: 'adicionar',
@@ -92,21 +91,20 @@ $(document).ready(function() {
 							   	if(data.ret==1){
 							   		CarregaEquipamento();
 							   		CarregaEquipamentosDistribuidos()
-							   		Swal.fire('Distribuicao', data.mensagem, "success");
+							   		swal('Distribuicao', data.mensagem, "success");
 							     }	
 							   	else 
-							   		Swal.fire('Distribuicao', data.mensagem, "error");
+							   		swal('Distribuicao', data.mensagem, "error");
 							}).fail(function() {
-									Swal.fire("Adicionar", "Ocorreu um erro ao incluir", "error");
+									swal("Adicionar", "Ocorreu um erro ao incluir", "error");
 							});
 						  } 
 					   }); // -- FIM SWAL --
 		   }else{
-			   Swal.fire("Dados", "Verifique os campos obrigatórios ", "error");
+			   swal("Dados", "Verifique os campos obrigatórios ", "error");
 		   }
 		}); // -- FIM btnSave --
-		
-		});
+	});
 
 	function verificaDados(){
 	    if ($("#form1")[0].checkValidity()===false){
