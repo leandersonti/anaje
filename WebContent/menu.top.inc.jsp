@@ -20,10 +20,6 @@
              <a class="nav-link" href="${pageContext.request.contextPath}/pontotrans/listar">Ponto Transmissão</a>
           </li>
           
-          <li class="nav-item">
-            <a class="nav-link" href="${pageContext.request.contextPath}/tecnico/listar">Técnico</a>
-          </li>
-          
           <li class="nav-item dropdown">
 	            <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Distribuição</a>
 	            <div class="dropdown-menu" aria-labelledby="dropdown01">
@@ -32,10 +28,12 @@
 	              <a class="dropdown-item" href="${pageContext.request.contextPath}/distribtecnico/frmCad">Técnicos</a>
 	              <a class="dropdown-item" href="#">Permissões</a>
 	              <a class="dropdown-item" href="${pageContext.request.contextPath}/distribequipamento/setuplistar">Dist Equipamento</a>
-	              
-	              
 	            </div> 
-	          </li>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link" href="${pageContext.request.contextPath}/tecnico/listar">Técnico</a>
+          </li>
 	          
 	          <li class="nav-item dropdown">
 	            <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Monitoramento</a>

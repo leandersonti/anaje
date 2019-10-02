@@ -80,14 +80,13 @@ $(document).ready(function() {
 			if ( $('#id').length ) { URL = "atualizar"; }
 			else{ URL = "adicionar";  }	
 			if (verificaDados()){
-				 Swal.fire({
+				 swal({
 			         title: "Distribuicao Secao?",
 			         text: "Confirma essa distribuicao?",
-			         type: 'warning',
-			         showCancelButton: true,
-					  confirmButtonText: 'Sim'
-			         }).then((result) => {
-						if (result.value) {
+			         icon: 'warning',
+			         buttons: [true, "Distribuir"]
+		         }).then((result) => {
+						if (result) {
 							var frm = $("#form1").serialize();
 							$.getJSON({
 								url: URL,
@@ -96,17 +95,17 @@ $(document).ready(function() {
 						    	if(data.ret==1){
 						    		CarregaSecoes();
 						    		CarregaSecoesDistribuidas();
-						    		Swal.fire(URL, data.mensagem, "success");
+						    		swal(URL, data.mensagem, "success");
 						         }	
 						    	else 
-						    		Swal.fire(URL, data.mensagem, "error");
+						    		swal(URL, data.mensagem, "error");
 							}).fail(function() {
-									Swal.fire("Adicionar", "Ocorreu um erro ao incluir", "error");
+									swal("Adicionar", "Ocorreu um erro ao incluir", "error");
 							});
 					      } 
 				   }); // -- FIM SWAL --
 			   }else{
-				   Swal.fire("Dados", "Verifique os campos obrigatórios ", "error");
+				   swal("Dados", "Verifique os campos obrigatórios ", "error");
 			   }
 		 	}); // -- FIM btnSave --
 	
@@ -200,11 +199,3 @@ function CarregaSecoesDistribuidas(){
 </script>
 
 <jsp:include page="/mainfooter.inc.jsp" />
-
-
-
-
-
-
-
-

@@ -24,14 +24,22 @@ public class TecnicoDAOImpl implements TecnicoDAO {
 	
 	@Override
 	public List<Tecnico> listar() throws Exception {
-		List<Tecnico> lista = null;
-		  try {
-			  lista = dao.listarTodos();
+		List<Tecnico> lista = new ArrayList<Tecnico>();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+	   try {	  
+		     TypedQuery<Tecnico> query = em.createQuery("SELECT t FROM Tecnico t "
+		     		       + "WHERE t.id IN (SELECT tc.tecnico.id FROM TecnicoContrato tc WHERE tc.id.contrato.eleicao.ativo=1)", 
+		    		 Tecnico.class);
+			  lista = query.getResultList();
 		  }
 		  catch (Exception e) {
-				e.printStackTrace();
-			}
-		return lista;	
+			     em.close();
+				// e.printStackTrace();
+		  }	finally {
+				em.close();
+		  }
+		return lista;
+			
 	}
 	
 	@Override

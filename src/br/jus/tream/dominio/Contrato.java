@@ -111,7 +111,7 @@ public class Contrato implements Serializable{
 		return eleicao;
 	}
 
-	public void setDataEleicao(Eleicao eleicao) {
+	public void setEleicao(Eleicao eleicao) {
 		this.eleicao = eleicao;
 	}
 

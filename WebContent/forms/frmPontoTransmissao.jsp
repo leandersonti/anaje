@@ -41,7 +41,6 @@
 
 					<div class="col-md-6 mb-6">
 						<label for="local">Local :</label>	
-						
 						 <s:if test='pt.id != null'>
 						     ${pt.codLocal}
 						     <s:if test='pt.oficial == 1'>
@@ -54,9 +53,7 @@
 						 <s:else>
 						      <select class="form-control" id="selectlocal" name="pt.codLocal"></select>
 						 </s:else>	
-						
 					</div>
-				
 				</div>
 
 				<div class="form-row">
@@ -127,8 +124,17 @@
 					</div>
 
 				</div>
-
-				<button class="btn btn-primary" id="btnSave" type="button">Enviar</button>
+				  <s:if test='pt.oficial == 1'>
+					    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+						  <strong>Atenção!</strong> Não é possível alterar os dados! Ponto de transmissão em fase oficial.
+						  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						    <span aria-hidden="true">&times;</span>
+						  </button>
+						</div>
+				  </s:if>
+				  <s:else>
+					      <button class="btn btn-primary" id="btnSave" type="button">Enviar</button>
+				  </s:else>
 			</form>
 		</div>
 	</div>
@@ -139,19 +145,19 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
+	
 	 $("#btnSave").click(function() {
 		var URL = ""; 
 		if ( $('#id').length ) { URL = "atualizar"; }
 		else{ URL = "adicionar";  }
 		if (verificaDados()){
-			 Swal.fire({
+			 swal({
 		         title: "Confirma?",
 		         text: "Confirma " + URL + "?",
-		         type: 'warning',
-		         showCancelButton: true,
-				  confirmButtonText: 'Salvar'
-		         }).then((result) => {
-					if (result.value) {
+		         icon: "warning",
+		         buttons: [true, "Salvar"]
+		       }).then((result) => {
+					if (result) {
 						var frm = $("#form1").serialize();
 						// console.log(frm);
 						$.getJSON({
@@ -163,18 +169,17 @@ $(document).ready(function() {
 					    			limparDados();
 					    			CarregaLocalVotacao();
 					    		}
-					    		Swal.fire(URL, data.mensagem, "success");
-					        }	
-					    	else {
-					    		Swal.fire(URL, data.mensagem, "error");
+					    		swal(URL, data.mensagem, "success");
+					        }else {
+					    		swal (URL, data.mensagem, "error" )
 					    	}
 						}).fail(function() {
-								Swal.fire("Adicionar", "Ocorreu um erro ao incluir", "error");
+								swal("Adicionar", "Ocorreu um erro ao incluir", "error");
 						});
 				      } 
 			   }); // -- FIM SWAL --
 		   }else{
-			   Swal.fire("Dados", "Verifique os campos obrigatórios ", "error");
+			   swal("Dados", "Verifique os campos obrigatórios ", "error");
 		   }
 	 	}); // -- FIM btnSave --
 	 

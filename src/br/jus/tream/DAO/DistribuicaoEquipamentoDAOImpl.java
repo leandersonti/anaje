@@ -117,7 +117,7 @@ public class DistribuicaoEquipamentoDAOImpl implements DistribuicaoEquipamentoDA
 	public static void main(String[] args) throws Exception {
 		
 		DistribuicaoEquipamentoDAO dao = DistribuicaoEquipamentoDAOImpl.getInstance();
-		for (DistribuicaoEquipamento d: dao.listar(22019)) {
+		for (DistribuicaoEquipamento d: dao.listar(112019)) {
 			System.out.println(d.getId().getEquipamento().getSerie());
 		}
 		/*
