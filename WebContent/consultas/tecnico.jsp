@@ -9,7 +9,7 @@
   <div class="card-header"><strong><i>Técnicos</i></strong></div>
   <div class="card-body">
    
-    <table id="table1" class="table table-hover">
+    <table id="table1" class="table table-sm table-hover">
 	<thead>
 		<tr>
 			<th width="18%">Nome</th>

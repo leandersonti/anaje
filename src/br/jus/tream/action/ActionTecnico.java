@@ -41,7 +41,7 @@ public class ActionTecnico extends ActionSupport{
 	private final static TecnicoDAO dao = TecnicoDAOImpl.getInstance();	
 	private final static Permissao permissao = Permissao.getInstance();
 	
-	@Action(value = "listar", results = { @Result(name = "success", location = "/consultas/listar-tecnico.jsp"),
+	@Action(value = "listar", results = { @Result(name = "success", location = "/consultas/tecnico.jsp"),
 			@Result(name = "error", location = "/result.jsp") },interceptorRefs = @InterceptorRef("authStack") 
 	)
 	public String listar() {
