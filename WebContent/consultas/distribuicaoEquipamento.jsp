@@ -19,7 +19,7 @@
 		<div class="card-body">
 
 			<div class="container-fluid">
-			<table class="table table-hover" id="tb">
+			<table class="table table-sm table-hover" id="tb">
 			  <thead>
 			    <tr>
 			       <th scope="col">Ponto de Transmissão</th>
@@ -75,10 +75,10 @@
 	     var cbxpt = $('#us');	
 	         cbxpt.find('option').remove();
 	    	 if(codZonaMunic != -1){	    		 
-			     $.getJSON('../uservico/listarJson?codZonaMunic='+codZonaMunic,function(jsonResponse) {
+			     $.getJSON('../pontotrans/listarJson?codZonaMunic='+codZonaMunic,function(jsonResponse) {
 			   	  $('<option>').val(-1).text("Informe o ponto de transmissao").appendTo(cbxpt);
 			             $.each(jsonResponse, function(key, value) {             
-			            	 $('<option>').val(value.id.id).text(value.local + " " + value.descricao).appendTo(cbxpt);
+			            	 $('<option>').val(value.id.id).text(value.codLocal + " " + value.descricao).appendTo(cbxpt);
 			      		 });
 			     });
 	     }else{
@@ -91,9 +91,10 @@
 		console.log('listar?codZonaMunic='+codZonaMunic);
 		$("#tb > tbody:last").children().remove();
 		$.getJSON('listar?codZonaMunic='+codZonaMunic,function(jsonResponse) {
+			console.log(jsonResponse);
 			   $.each(jsonResponse, function(key, value) {             
-		           	 $('#tb > tbody:last-child').append('<tr><td>'+value.id.unidadeServico.descricao+'</td><td>'
-		           			+value.id.unidadeServico.tipo.descricao+'</td><td>'
+		           	 $('#tb > tbody:last-child').append('<tr><td>'+value.id.pontoTransmissao.descricao+'</td><td>'
+		           			+value.id.equipamento.tipo.descricao+'</td><td>'
 		           			+value.id.equipamento.serie+'</td><td>');
 		      	 });
 		     });
