@@ -9,7 +9,7 @@
   <div class="card-header">Contrato</div>
   <div class="card-body">
   
-    <table id="table1" class="table table-sm table-hover">
+    <table id="tbContratos" name="tbContratos" class="table table-sm table-hover">
 	<thead>
 		<tr>
 		<th width="20%">Descrição</th>
@@ -55,44 +55,6 @@
 
 
 <jsp:include page = "/javascripts.jsp" />
-
-<script type="text/javascript" language="javascript" class="init">
-$(document).ready(function() {
-    $('#table1').dataTable( {
-        "order": [[ 0, "des" ],[ 1, "des" ]]
-   });
-
-});
-				
-	$( "[id*='excluir']" ).click(function(event) {
-	    var data = $(event.delegateTarget).data();
-		var id = data.recordId; 
-		var descricao = data.recordDescricao;
-		Swal.fire({
-			  title: 'Excluir?',
-			  text: "Deseja excluir esse registro? (" + descricao + ")",
-			  type: 'warning',
-			  showCancelButton: true,
-			  confirmButtonText: 'Sim excluir!'
-			}).then((result) => {
-			  if (result.value) {
-			    
-			       $.getJSON({
-					  url: "remover?contrato.id="+id
-				   }).done(function( data ) {
-				    	  if (data.ret==1){
-				    		  $('#tr'+id).fadeOut(); 
-				    		     Swal.fire("Remover", data.mensagem, "success");
-				    	  }
-				    	  else
-				    		  Swal.fire("Remover", "Ocorreu um erro ao remover", "error");
-					}).fail(function() {
-						Swal.fire("Remover", "Ocorreu um erro ao remover", "error");
-					});
-			   }
-			})
-	  });
-		
-</script>
+<script src="${pageContext.request.contextPath}/js/contrato.js" charset="utf-8"></script>
 
 <jsp:include page = "/mainfooter.inc.jsp" />

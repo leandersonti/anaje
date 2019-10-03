@@ -1,4 +1,11 @@
 $(document).ready(function() {
+  // DATATABLE COMPONENT
+	if($("#tbContratos").length){
+	  $('#tbContratos').dataTable( {
+	        "order": [[ 0, "des" ],[ 1, "des" ]]
+	   });
+  }
+	
 	 // CLIQUE DO BOTAO SAVE
 	 $("#btnSave").click(function() {
 		var URL = ""; 
@@ -31,6 +38,34 @@ $(document).ready(function() {
 			   swal("Dados", "Verifique os campos obrigatórios ", "error");
 		   }
 	 	}); // -- FIM btnSave --
+	 
+	 // BOTÃO EXCLUIR
+	 $( "[id*='excluir']" ).click(function(event) {
+		    var data = $(event.delegateTarget).data();
+			var id = data.recordId; 
+			var descricao = data.recordDescricao;
+			swal({
+				  title: 'Excluir?',
+				  text: "Deseja excluir esse registro? (" + descricao + ")",
+				  icon: 'warning',
+				  buttons: [true, "Sim excluir!"]
+				}).then((result) => {
+				  if (result) {
+				       $.getJSON({
+						  url: "remover?contrato.id="+id
+					   }).done(function( data ) {
+					    	  if (data.ret==1){
+					    		  $('#tr'+id).fadeOut(); 
+					    		  swal("Remover", data.mensagem, "success");
+					    	  }
+					    	  else
+					    		  swal("Remover", "Ocorreu um erro ao remover", "error");
+						}).fail(function() {
+							swal("Remover", "Ocorreu um erro ao remover", "error");
+						});
+				   }
+				})
+		  });
 	 
 });
 
