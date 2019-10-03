@@ -55,6 +55,6 @@
 </div>
 
 <jsp:include page="/javascripts.jsp" />
-<script src="${pageContext.request.contextPath}/js/eleicao.js"></script>
+<script src="${pageContext.request.contextPath}/js/eleicao.js" charset="utf-8"></script>
 	
 <jsp:include page="/mainfooter.inc.jsp" />

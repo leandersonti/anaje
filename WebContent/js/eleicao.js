@@ -91,7 +91,7 @@ $(document).ready(function() {
 						});
 				      } 
 			   }); // -- FIM SWAL --
-		   }else{ swal("Dados", "Verifique os campos obrigatorios!!", "error");  }
+		   }else{ swal("Dados", "Verifique os campos obrigatórios!", "error");  }
 	 	}); 
 	
 	function verificaDados(){
