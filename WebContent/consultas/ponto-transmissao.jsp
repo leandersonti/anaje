@@ -7,19 +7,20 @@
  <div class="container-fluid">   
  <div class="card">
   <div class="card-header">  
-      <form action="" class="form-inline" name="form1" id="form1">	
+      <form action="" class="form-inline" name="frmConsultaPonto" id="frmConsultaPonto">	
   		Ponto de Transmissão  Zona    
 	          <s:select label="Zona" headerKey="-1"
 								headerValue="Selecione a zona" tooltip="Informe a Zona"
 								list="lstZonaEleitoral" listKey="id.zona+';'+id.codmunic"
 								listValue="fzona +' - '+ municipio"
-								name="codZonaMunic"  id="codZonaMunic" theme="simple"  cssClass="form-control"/>
+								name="codZonaMunic"  id="ZonaMunic" theme="simple"  cssClass="form-control"/>
+					<button class="btn btn-sm btn-primary" id="btnConsultar" type="button">Consultar</button>
          </form>
                      
  </div>
   <div class="card-body">
    
-    <table id="table1" class="table table-sm table-hover">
+    <table id="tabPontoTransmissao" class="table table-sm table-hover">
 		<thead>
 			<tr>
 				<th width="5%">Zona</th>
@@ -80,82 +81,9 @@
 </div>  
 
 
-<div class="modal fade" id="modalPontoTrans" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">    
-      <div class="modal-header">
-        <h5 class="modal-title">Ponto de Transmissão</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      
-             <div id="result"></div>
-             
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
 <jsp:include page = "/javascripts.jsp" />
+<script src="${pageContext.request.contextPath}/js/pontotransmissao.js" charset="utf-8"></script>
 
-<script type="text/javascript" language="javascript" class="init">
-$(document).ready(function() {
-	$( "[id*='excluir']" ).click(function(event) {
-	    var data = $(event.delegateTarget).data();
-		var id = data.recordId; 
-		var idDtElei = data.recordIdeleicao;
-		var descricao = data.recordDescricao;
-		swal({
-			  title:'Excluir?',
-			  text: "Deseja excluir esse registro? (" + descricao + ")",
-			  icon: 'warning',
-			  buttons: [true, "Sim excluir!"]
-			}).then((result) => {
-			  if (result) {
-			      var vurl = "remover?pt.id.id="+id+'&pt.id.eleicao.id='+idDtElei; 
-			      $.getJSON({
-					  url: vurl
-				  }).done(function( data ) {
-				    	  if (data.ret==1){
-				    		  $('#tr'+id).fadeOut(); 
-				    		     swal("Remover", data.mensagem, "success");
-				    	  }
-				    	  else
-				    		  swal("Remover", data.mensagem, "error");
-					}).fail(function() {
-						swal("Remover", "Ocorreu um erro ao remover", "error");
-					});
-			   }
-			})
-	  });
-	
-	$("#codZonaMunic").change(function(event) {
-		console.log("textestsdfsdf");
-		$("#form1").submit();
-	});
-	
-	$( "[id*='detalhePontoTrans']" ).click(function(event) {
-		var data = $(event.delegateTarget).data();	
-		var id = data.recordId;
-		var path = "${pageContext.request.contextPath}";	
-		var URL = path+'/pontotrans/getBeanFull?id.id=' + id	;
-		   $.ajax({
-	           type: "POST",
-	           url: URL,
-	           success: function (result) {     
-	           		$('#result').html(result);
-               }
-	       });
-		   $('#modalPontoTrans').modal('show');
-		});
-
-});
-</script>
+<jsp:include page = "/consultas/ponto-transmissao-detalhes.jsp" />
 
 <jsp:include page = "/mainfooter.inc.jsp" />

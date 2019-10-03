@@ -64,7 +64,6 @@ public class ActionContrato extends ActionSupport {
 	public String frmCadContrato() {
 		try {
 			this.lstCargo = CargoDAOImpl.getInstance().listar();
-
 		} catch (Exception e) {
 			addActionError(getText("frmsetup.error") + " Error: " + e.getMessage());
 			return "error";
@@ -93,13 +92,18 @@ public class ActionContrato extends ActionSupport {
 			if (permissao.getAdmin()) {
 				contrato.setEleicao(EleicaoDAOImpl.getInstance().getBeanAtiva());
 				beanResult.setRet(dao.adicionar(contrato));
-				if (beanResult.getRet() == 1)
+				if (beanResult.getRet() == 1) {
 					beanResult.setMensagem(getText("inserir.sucesso"));
-				else
+					beanResult.setType("success");
+				}
+				else {
 					beanResult.setMensagem(getText("inserir.error"));
+					beanResult.setType("error");
+				}
 			} else {
 		    	beanResult.setRet(0);
-				beanResult.setMensagem(getText("permissao.negada"));				
+				beanResult.setMensagem(getText("permissao.negada"));
+				beanResult.setType("error");
 		    }	
 		} catch (Exception e) {
 			addActionError(getText("inserir.error") + " Error: " + e.getMessage());
@@ -111,7 +115,7 @@ public class ActionContrato extends ActionSupport {
 	}
 
 	@Action(value = "atualizar", results = { @Result(name = "success", type = "json", params = { "root", "result" }),
-			@Result(name = "error", location = "/pages/resultAjax.jsp")},interceptorRefs = @InterceptorRef("authStack"))
+			@Result(name = "error", location = "/pages/resultAjax.jsp")}, interceptorRefs = @InterceptorRef("authStack"))
 	public String doAtualizar() {
 		BeanResult beanResult = new BeanResult();
 		beanResult.setRet(0);
@@ -120,14 +124,18 @@ public class ActionContrato extends ActionSupport {
 				beanResult.setRet(dao.atualizar(this.contrato));
 				if (beanResult.getRet() == 1) {
 					beanResult.setMensagem(getText("alterar.sucesso"));
+					beanResult.setType("success");
 				} else {
 					beanResult.setMensagem(getText("alterar.error"));
+					beanResult.setType("error");
 				}
 			}else {
-				beanResult.setMensagem(getText("permissao.negada"));				
+				beanResult.setMensagem(getText("permissao.negada"));
+				beanResult.setType("error");
 			}
 		} catch (Exception e) {
 			beanResult.setMensagem("Error: " + e.getMessage());
+			beanResult.setType("error");
 			addActionError(getText("alterar.error") + " Error: " + e.getMessage());
 			return "error";
 		}
@@ -143,9 +151,11 @@ public class ActionContrato extends ActionSupport {
 			if (permissao.getAdmin()) {
 				beanResult.setRet(dao.remover(this.contrato));
 				beanResult.setMensagem(getText("remover.sucesso"));
+				beanResult.setType("success");
 			} else {
 		    	beanResult.setRet(0);
-				beanResult.setMensagem(getText("permissao.negada"));				
+				beanResult.setMensagem(getText("permissao.negada"));
+				beanResult.setType("error");
 			}	
 		
 		} catch (Exception e) {

@@ -3,7 +3,7 @@
 <div class="container">
 
 	<div class="card">
-		<div class="card-header">Ponto de Transmissão <s:if test='pt.id != null'> - Editar</s:if><s:else> - Novo</s:else></div>
+		<div class="card-header"><b>Ponto de Transmissão</b> <s:if test='pt.id != null'> - Editar</s:if><s:else> - Novo</s:else></div>
 		<div class="card-body">
 
 			<form action="" method="post" name="form1" id="form1" class="needs-validation_" novalidate>
@@ -57,13 +57,13 @@
 				</div>
 
 				<div class="form-row">
-					<label for="descricao">Descrição :</label> <input type="text"
+					<label for="descricao">* Descrição :</label> <input type="text"
 						class="form-control" id="descricao" name="pt.descricao"
 						value="${pt.descricao}" placeholder="Nome do ponto ou da Escola">
 				</div>
 
 				<div class="form-row">
-					<label for="endereco">Endereço :</label> <input type="text"
+					<label for="endereco">Endereço:</label> <input type="text"
 						class="form-control" id="endereco" name="pt.endereco"
 						value="${pt.endereco}" placeholder="Endereço">
 				</div>
@@ -142,122 +142,6 @@
 </div>
 
 <jsp:include page="/javascripts.jsp" />
-
-<script type="text/javascript">
-$(document).ready(function() {
-	
-	 $("#btnSave").click(function() {
-		var URL = ""; 
-		if ( $('#id').length ) { URL = "atualizar"; }
-		else{ URL = "adicionar";  }
-		if (verificaDados()){
-			 swal({
-		         title: "Confirma?",
-		         text: "Confirma " + URL + "?",
-		         icon: "warning",
-		         buttons: [true, "Salvar"]
-		       }).then((result) => {
-					if (result) {
-						var frm = $("#form1").serialize();
-						// console.log(frm);
-						$.getJSON({
-							url: URL,
-							data: frm
-					    }).done(function( data ) {
-					    	if(data.ret==1){
-					    		if (! $('#id').length ) { 
-					    			limparDados();
-					    			CarregaLocalVotacao();
-					    		}
-					    		swal(URL, data.mensagem, "success");
-					        }else {
-					    		swal (URL, data.mensagem, "error" )
-					    	}
-						}).fail(function() {
-								swal("Adicionar", "Ocorreu um erro ao incluir", "error");
-						});
-				      } 
-			   }); // -- FIM SWAL --
-		   }else{
-			   swal("Dados", "Verifique os campos obrigatórios ", "error");
-		   }
-	 	}); // -- FIM btnSave --
-	 
-	});
-
-	$('#codZonaMunic').change(function(event) {
-		CarregaLocalVotacao();
-	});
-	
-	$('#codLocal').change(function(event) {
-		getLocalVotacao();
-	});
-
-	function CarregaLocalVotacao() {
-		var codZonaMunic = $("#codZonaMunic option:selected").val();
-		var select = $('#codLocal');
-		select.find('option').remove();
-	 	$.getJSON('../elo/listarJsonLocalVotacaoParaCadastrar?codZonaMunic=' + codZonaMunic, 
-				function(jsonResponse) {
-					$('<option>').val(-1).text("Informe o local").appendTo(
-							select);
-					$('<option>').val(0).text("Cadastro Manual").appendTo(
-							select);
-					$.each(jsonResponse, function(key, value) {
-						$('<option>').val(value.numLocal).text(
-								value.numLocal + " " + value.nomeLocal)
-								.appendTo(select);						
-					});
-				}); 
-	}
-	
-	function getLocalVotacao() {
-		var codZonaMunic = $("#codZonaMunic option:selected").val().split(';');
-		var numLocal = $("#codLocal option:selected").val();
-	 	$.getJSON('../elo/getBeanJsonLocalVotacao?zona=' + codZonaMunic[0] 
-				      +'&codmunic=' + codZonaMunic[1] + '&numLocal=' + numLocal, 
-			function(dados) {
-				$("#descricao").val(dados.nomeLocal);
-				$("#endereco").val(dados.endereco);
-				$("#latitude").val(dados.latitude);
-				$("#longitude").val(dados.longitude);
-				$("#codObjetoLocal").val(dados.id);	
-		 });	  
-	}
-	
-	function limparDados() {
-		$("#descricao").val("");
-	 	$("#endereco").val("");
-		$("#latitude").val("");
-		$("#longitude").val("");
-		$("#codObjetoLocal").val("");
-		$("#sala").val("");
-		$("#contato").val("");
-		$("#telefone").val("");
-		$("#cargoContato").val("");
-	}
-	
-	function verificaDados() {
-		if ($("#form1")[0].checkValidity() === false) {
-			$("#form1")[0].classList.add('was-validated');
-			return false;
-		} 
-		if ($("#codZonaMunic option:selected").val()==-1){
-			return false;
-		}
-		if ($("#codLocal option:selected").val()==-1){
-			return false;
-		}
-		return true;
-	}
-</script>
+<script src="${pageContext.request.contextPath}/js/pontotransmissao.js" charset="utf-8"></script>
 
 <jsp:include page="/mainfooter.inc.jsp" />
-
-
-
-
-
-
-
-
