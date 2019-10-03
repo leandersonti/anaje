@@ -64,8 +64,8 @@
 				  try{
 				      if (!s.getNome().equals("")){
 			    %>
-	            <a class="nav-link dropdown-toggle" href="http://example.com" id="sessionmnu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	                <%=s.getTitulo() + " - " + s.getFirstName()%>
+	             <a class="nav-link dropdown-toggle" href="http://example.com" id="sessionmnu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                <%=s.getTitulo() + "-" + s.getFirstName()%>
 	             </a>
 	            <div class="dropdown-menu" aria-labelledby="sessionmnu">
 	              <a class="dropdown-item" href="${pageContext.request.contextPath}/login/logout">Sair</a>
