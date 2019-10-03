@@ -39,13 +39,13 @@
 			</td>
 			<td>  		    
 				    <a href="frmEditar?eleicao.id=${id}" id="idedit" class="btn btn-sm btn-warning" role="button">
-							Editar
+							<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 				    </a>
 					
 					<a href="#" id="excluir${id}" class="btn btn-sm btn-danger" role="button" data-record-id="${id}" 
 					     data-record-data="<s:property value="%{getText('format.date',{dataEleicao})}"/>"
 					     data-record-descricao="${descricao}">
-					  		Remover
+					  		<i class="fa fa-trash-o" aria-hidden="true"></i>
 				    </a>
 			</td>
 		</tr>
