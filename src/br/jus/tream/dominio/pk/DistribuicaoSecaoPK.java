@@ -7,7 +7,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 
-import br.jus.tream.dominio.UnidadeServico;
+import br.jus.tream.dominio.PontoTransmissao;
 
 @SuppressWarnings("serial")
 public class DistribuicaoSecaoPK implements Serializable{
@@ -17,17 +17,17 @@ public class DistribuicaoSecaoPK implements Serializable{
 	  @JoinColumn(name = "id_eleicao", nullable = false),
 	  @JoinColumn(name = "idus", nullable = false)
 	})
-	private UnidadeServico unidadeServico;
+	private PontoTransmissao pontoTransmissao;
 	
 	@Column(name="cod_objeto_secao", nullable = false)
 	private String codOjeto;
 
-	public UnidadeServico getUnidadeServico() {
-		return unidadeServico;
+	public PontoTransmissao getPontoTransmissao() {
+		return pontoTransmissao;
 	}
 
-	public void setUnidadeServico(UnidadeServico unidadeServico) {
-		this.unidadeServico = unidadeServico;
+	public void setPontoTransmissaoo(PontoTransmissao ponto) {
+		this.pontoTransmissao = ponto;
 	}
 
 	public String getCodOjeto() {
@@ -43,7 +43,7 @@ public class DistribuicaoSecaoPK implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((codOjeto == null) ? 0 : codOjeto.hashCode());
-		result = prime * result + ((unidadeServico == null) ? 0 : unidadeServico.hashCode());
+		result = prime * result + ((pontoTransmissao == null) ? 0 : pontoTransmissao.hashCode());
 		return result;
 	}
 
@@ -61,10 +61,10 @@ public class DistribuicaoSecaoPK implements Serializable{
 				return false;
 		} else if (!codOjeto.equals(other.codOjeto))
 			return false;
-		if (unidadeServico == null) {
-			if (other.unidadeServico != null)
+		if (pontoTransmissao == null) {
+			if (other.pontoTransmissao != null)
 				return false;
-		} else if (!unidadeServico.equals(other.unidadeServico))
+		} else if (!pontoTransmissao.equals(other.pontoTransmissao))
 			return false;
 		return true;
 	}

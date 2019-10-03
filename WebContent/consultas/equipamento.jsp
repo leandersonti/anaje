@@ -8,7 +8,7 @@
   <div class="card-header"><strong><i>Equipamentos</i></strong></div>
   <div class="card-body">
   
-	<table id="table1" class="table table-hover">
+	<table id="table1" class="table table-sm table-hover">
 			<thead>
 				<tr>
 					<th width="10%">Tipo</th>					
@@ -39,11 +39,11 @@
 						<td>
 							    
 				    <a href="frmEditar?equipamento.id=${id}" id="idedit" class="btn btn-sm btn-warning" role="button">
-							Editar
+							<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 				    </a>
 					
 					<a href="#" id="excluir${id}" class="btn btn-sm btn-danger" role="button" data-record-id="${id}" data-record-descricao="${tipo.descricao}">
-					  		Remover
+					  		<i class="fa fa-trash-o" aria-hidden="true"></i>
 				    </a>
 						 </td>
 				

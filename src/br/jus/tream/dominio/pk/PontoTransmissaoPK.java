@@ -6,43 +6,43 @@ import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import br.jus.tream.dominio.DataEleicao;
+import br.jus.tream.dominio.Eleicao;
 
 @SuppressWarnings("serial")
-public class UnidadeServicoPK implements Serializable{
+public class PontoTransmissaoPK implements Serializable{
 	
 	@Column(name="idus")
     private Integer id;
 	   
 	@ManyToOne
 	@JoinColumn(name="id_eleicao")
-	private DataEleicao dataEleicao;
+	private Eleicao eleicao;
 	
 	public Integer getId() {
 		return id;
 	}
 
 	public Integer getIdEleicao() {
-		return dataEleicao.getId();
+		return eleicao.getId();
 	}
 	
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public DataEleicao getDataEleicao() {
-		return dataEleicao;
+	public Eleicao getEleicao() {
+		return eleicao;
 	}
 
-	public void setDataEleicao(DataEleicao dataEleicao) {
-		this.dataEleicao = dataEleicao;
+	public void setEleicao(Eleicao eleicao) {
+		this.eleicao = eleicao;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((dataEleicao == null) ? 0 : dataEleicao.hashCode());
+		result = prime * result + ((eleicao == null) ? 0 : eleicao.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
@@ -55,11 +55,11 @@ public class UnidadeServicoPK implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		UnidadeServicoPK other = (UnidadeServicoPK) obj;
-		if (dataEleicao == null) {
-			if (other.dataEleicao != null)
+		PontoTransmissaoPK other = (PontoTransmissaoPK) obj;
+		if (eleicao == null) {
+			if (other.eleicao != null)
 				return false;
-		} else if (!dataEleicao.equals(other.dataEleicao))
+		} else if (!eleicao.equals(other.eleicao))
 			return false;
 		if (id == null) {
 			if (other.id != null)

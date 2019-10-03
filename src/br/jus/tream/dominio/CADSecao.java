@@ -30,6 +30,12 @@ public class CADSecao implements Serializable{
 	@Column(name="num_local")
 	private Integer numLocal;
 	
+	@Column(name="nom_local")
+	private String nomeLocal;
+	
+	@Column(name="cod_objeto_local")
+	private String codObjetoLocal;
+	
 	public CADSecao() {
 		super();
 	}
@@ -38,17 +44,31 @@ public class CADSecao implements Serializable{
 		this.id = id;
 		this.secao = secao;
 	}
-
-	public CADSecao(String id, Integer zona, Integer secao, Integer secaoPrincipal, Integer codmunic, Integer numLocal) {
+	
+	public CADSecao(String id, Integer zona, Integer codmunic, Integer secao, Integer secaoPrincipal, Integer numLocal,
+			String nomeLocal, String codObjetoLocal) {
 		super();
 		this.id = id;
 		this.zona = zona;
+		this.codmunic = codmunic;
 		this.secao = secao;
 		this.secaoPrincipal = secaoPrincipal;
-		this.codmunic = codmunic;
 		this.numLocal = numLocal;
+		this.nomeLocal = nomeLocal;
+		this.codObjetoLocal = codObjetoLocal;
 	}
-	
+	public String getNomeLocal() {
+		return nomeLocal;
+	}
+	public void setNomeLocal(String nomeLocal) {
+		this.nomeLocal = nomeLocal;
+	}
+	public String getCodObjetoLocal() {
+		return codObjetoLocal;
+	}
+	public void setCodObjetoLocal(String codObjetoLocal) {
+		this.codObjetoLocal = codObjetoLocal;
+	}
 	public String getId() {
 		return id;
 	}

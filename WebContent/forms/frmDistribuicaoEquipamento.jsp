@@ -3,52 +3,59 @@
 <div class="container">
 
 	<div class="card">
-		<div class="card-header">
-			<b>Distribuição de Equipamento</b>
-		</div>
-
+		<div class="card-header"><b>Distribuição de Equipamento</b></div>
 		<div class="card-body">
-
 			<form action="" method="post" name="form1" id="form1" class="needs-validation_" novalidate>
-				<input type="hidden" id="id" name="de.tecnico.id" value="1">
-				<div class="form-group ">
-					<label for="inputTipo">Zona:</label>
-					<s:select label="Zona" headerKey="-1"
-						headerValue="Selecione a zona" tooltip="Informe a Zona"
-						list="lstZonaEleitoral" listKey="id.zona+';'+id.codmunic"
-						listValue="fzona +' - '+ municipio" name="codZonaMunic"
-						id="codZonaMunic" theme="simple" cssClass="form-control" />
-				</div>
-			
-				<div class="form-group ">
-					<label for="inputTipo">Ponto Transmissão :</label> <select
-						class="form-control form-control" id="us" name="us.id.id" required>
-						<option value="0">Selecione</option>
-					</select>
-				</div>
-	
-				<div class="form-group ">
-					<label for="inputTipo">Tipo:</label>
-					<s:select label="Equipamento" headerKey="-1"
-						headerValue="Selecione tipo equipamento"
-						tooltip="Informe Equipamento" list="lstEquipamentoTipo"
-						listKey="id" listValue="descricao" name="equipamento.tipo.id" id="tipoEquipamento"
-						theme="simple" cssClass="form-control" />
-				</div>
-	
-				<div class="form-group ">
-					<label for="inputTipo">Equipamento:</label> <select
-						class="form-control form-control" id="idequipamento" name="equipamento.id" required>
-						<option value="0">Selecione</option>
-					</select>
-
-				</div>
-
+			      <input type="hidden" id="id" name="de.tecnico.id" value="1">
+				  <div class="form-row">
+					  <div class="form-group col-md-6">
+					      <label for="inputEmail4">Zona</label>
+					      <s:select label="Zona" headerKey="-1"
+							headerValue="Selecione a zona" tooltip="Informe a Zona"
+							 list="lstZonaEleitoral" listKey="id.zona+';'+id.codmunic"
+							  listValue="fzona +' - '+ municipio" name="codZonaMunic"
+							    id="codZonaMunic" theme="simple" cssClass="form-control" />
+					  </div>
+					  <div class="form-group col-md-6">
+					       <label for="inputPassword4">Ponto Transmissão</label>
+					        <select class="form-control form-control" id="us" name="us.id.id" required>
+								<option value="0">Selecione</option>
+							</select>
+					  </div>
+				   </div>
+				
+				<div class="form-row">
+					  <div class="form-group col-md-6">
+					      <label for="inputEmail4">Tipo</label>
+					      <s:select label="Equipamento" headerKey="-1"
+							headerValue="Selecione tipo equipamento"
+								tooltip="Informe Equipamento" list="lstEquipamentoTipo"
+									listKey="id" listValue="descricao" name="equipamento.tipo.id" id="tipoEquipamento"
+										theme="simple" cssClass="form-control" />
+					  </div>
+					  <div class="form-group col-md-6">
+					       <label for="inputPassword4">Equipamentos</label>
+					        <select	class="form-control form-control" id="idequipamento" name="equipamento.id" required>
+								<option value="0">Selecione</option>
+							</select>
+					  </div>
+				   </div>
+				   
 				<button class="btn btn-primary" id="btnSave" type="button">Enviar</button>
 
 			</form>
 		</div>
 	</div>
+	<table class="table table-sm table-striped" id="tbequipdist" style="display:none;">
+				  <thead>
+					<tr>
+					  <th scope="col">Tipo</th>
+					  <th scope="col">Serie</th>
+					  <th scope="col">Tombamento</th>
+					</tr>
+				  </thead>
+				  <tbody> </tbody>
+			 </table>
 </div>
 
 <jsp:include page="/javascripts.jsp" />
@@ -62,17 +69,20 @@ $(document).ready(function() {
 	 $('#tipoEquipamento').change(function(event) {	
 			  CarregaEquipamento();			     
 	 });
+	 
+	 $('#us').change(function(event) {	
+		  CarregaEquipamentosDistribuidos();			     
+});
 
 	 $("#btnSave").click(function() {
 		if (verificaDados()){
-			 Swal.fire({
+			 swal({
 		         title: "Distribuicao Equipamento?",
 		         text: "Confirma essa distribuicao?",
-		         type: 'warning',
-		         showCancelButton: true,
-			     confirmButtonText: 'Sim'
-				   }).then((result) => {
-						if (result.value) {
+		         icon: 'warning',
+		         buttons: [true, "Salvar"]
+			  }).then((result) => {
+						if (result) {
 							var frm = $("#form1").serialize();
 							$.getJSON({
 									url: 'adicionar',
@@ -80,21 +90,21 @@ $(document).ready(function() {
 							 }).done(function( data ) {
 							   	if(data.ret==1){
 							   		CarregaEquipamento();
-							   		Swal.fire('Distribuicao', data.mensagem, "success");
+							   		CarregaEquipamentosDistribuidos()
+							   		swal('Distribuicao', data.mensagem, "success");
 							     }	
 							   	else 
-							   		Swal.fire('Distribuicao', data.mensagem, "error");
+							   		swal('Distribuicao', data.mensagem, "error");
 							}).fail(function() {
-									Swal.fire("Adicionar", "Ocorreu um erro ao incluir", "error");
+									swal("Adicionar", "Ocorreu um erro ao incluir", "error");
 							});
 						  } 
 					   }); // -- FIM SWAL --
 		   }else{
-			   Swal.fire("Dados", "Verifique os campos obrigatórios ", "error");
+			   swal("Dados", "Verifique os campos obrigatórios ", "error");
 		   }
 		}); // -- FIM btnSave --
-		
-		});
+	});
 
 	function verificaDados(){
 	    if ($("#form1")[0].checkValidity()===false){
@@ -114,10 +124,10 @@ $(document).ready(function() {
 	     var cbxpt = $('#us');	
 	         cbxpt.find('option').remove();
 	    	 if(codZonaMunic != -1){	    		 
-			     $.getJSON('../uservico/listarJson?codZonaMunic='+codZonaMunic,function(jsonResponse) {
+			     $.getJSON('../pontotrans/listarJson?codZonaMunic='+codZonaMunic,function(jsonResponse) {
 			   	  $('<option>').val(-1).text("Informe o ponto de transmissao").appendTo(cbxpt);
 			             $.each(jsonResponse, function(key, value) {             
-			            	 $('<option>').val(value.id.id).text(value.local + " " + value.descricao).appendTo(cbxpt);
+			            	 $('<option>').val(value.id.id).text(("0000" + value.codLocal).slice(-4) + " " + value.descricao).appendTo(cbxpt);
 			      		 });
 			     });
 	     }else{
@@ -139,6 +149,19 @@ $(document).ready(function() {
 	     }else{
 	    	 $('<option>').val(-1).text("Informe o Equipamento").appendTo(cbxpt);
 	     }
+	}
+	
+	function CarregaEquipamentosDistribuidos(){
+		var cdUS = $("#us").val();
+		$("#tbequipdist").hide();
+		 $.getJSON('listarByPontoTransmissaoJson?us.id.id='+cdUS,function(jsonResponse) {
+		    if (jsonResponse.length >=  1){ $("#tbequipdist").show(); }
+			$("#tbequipdist > tbody:last").children().remove();
+	        $.each(jsonResponse, function(key, value) {             
+	           	 $("#tbequipdist > tbody:last-child").append('<tr><td>'+ value.id.equipamento.tipo.descricao 
+	           			 +'</td><td>'+ value.id.equipamento.serie +'</td><td>'+ (value.id.equipamento.tomb ? value.id.equipamento.tomb : "-")  +'</td></tr>');
+	      	 });
+	    });
 	}
 </script>
 

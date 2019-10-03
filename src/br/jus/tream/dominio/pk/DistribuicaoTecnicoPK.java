@@ -7,28 +7,28 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 
 import br.jus.tream.dominio.Tecnico;
-import br.jus.tream.dominio.UnidadeServico;
+import br.jus.tream.dominio.PontoTransmissao;
 
 @SuppressWarnings("serial")
-public class DistribuicaoTecnicoUSPK implements Serializable{
+public class DistribuicaoTecnicoPK implements Serializable{
 		
 	@ManyToOne
 	@JoinColumns({
 	  @JoinColumn(name = "id_eleicao", nullable = false),
 	  @JoinColumn(name = "idus", nullable = false)
 	})
-	private UnidadeServico unidadeServico;
+	private PontoTransmissao pontoTransmissao;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_tecnico", nullable = false)
 	private Tecnico tecnico;
 
-	public UnidadeServico getUnidadeServico() {
-		return unidadeServico;
+	public PontoTransmissao getPontoTransmissao() {
+		return pontoTransmissao;
 	}
 
-	public void setUnidadeServico(UnidadeServico unidadeServico) {
-		this.unidadeServico = unidadeServico;
+	public void setPontoTransmissao(PontoTransmissao ponto) {
+		this.pontoTransmissao = ponto;
 	}
 
 	public Tecnico getTecnico() {
@@ -44,7 +44,7 @@ public class DistribuicaoTecnicoUSPK implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((tecnico == null) ? 0 : tecnico.hashCode());
-		result = prime * result + ((unidadeServico == null) ? 0 : unidadeServico.hashCode());
+		result = prime * result + ((pontoTransmissao == null) ? 0 : pontoTransmissao.hashCode());
 		return result;
 	}
 
@@ -56,16 +56,16 @@ public class DistribuicaoTecnicoUSPK implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		DistribuicaoTecnicoUSPK other = (DistribuicaoTecnicoUSPK) obj;
+		DistribuicaoTecnicoPK other = (DistribuicaoTecnicoPK) obj;
 		if (tecnico == null) {
 			if (other.tecnico != null)
 				return false;
 		} else if (!tecnico.equals(other.tecnico))
 			return false;
-		if (unidadeServico == null) {
-			if (other.unidadeServico != null)
+		if (pontoTransmissao == null) {
+			if (other.pontoTransmissao != null)
 				return false;
-		} else if (!unidadeServico.equals(other.unidadeServico))
+		} else if (!pontoTransmissao.equals(other.pontoTransmissao))
 			return false;
 		return true;
 	}

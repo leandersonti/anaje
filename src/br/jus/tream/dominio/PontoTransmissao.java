@@ -5,32 +5,24 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import br.jus.tream.dominio.pk.UnidadeServicoPK;
+import br.jus.tream.dominio.pk.PontoTransmissaoPK;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "unidade_servico")
-public class UnidadeServico implements Serializable {
+@Table(name = "ponto_transmissao")
+public class PontoTransmissao implements Serializable {
 
 	@EmbeddedId
-	private UnidadeServicoPK id = new UnidadeServicoPK();
+	private PontoTransmissaoPK id = new PontoTransmissaoPK();
 
-	@ManyToOne
-	@JoinColumn(name = "id_tipo", nullable = false)
-	private UnidadeServicoTipo tipo;
-
-	@Column(name = "cod_objeto")
-	private String codObjeto;
+	@Column(name = "cod_objeto_local")
+	private String codObjetoLocal;
 	
 	private Integer zona;
 
-	private Integer local;
-
-	private Integer secao;
+	private Integer codLocal;	
 
 	@Column(length = 70, nullable = false)
 	private String descricao;
@@ -53,7 +45,7 @@ public class UnidadeServico implements Serializable {
 	private String cargoContato;
 
 	@Column(length = 20)
-	private String telefone;
+	private String fone;
 
 	@Column(length = 40)
 	private String latitude;
@@ -66,33 +58,18 @@ public class UnidadeServico implements Serializable {
 	@Column(nullable = false)
 	private Integer oficial;
 
-	private Integer jecon;
-	
-	/*
-	@OneToMany(cascade = {CascadeType.REFRESH,CascadeType.REMOVE}, mappedBy = "id.unidadeServico", fetch = FetchType.EAGER)
-	@Fetch(FetchMode.SUBSELECT)
-	private List<DistribuicaoSecao> distribuicaoSecao = new ArrayList<DistribuicaoSecao>();
-	*/
-	//@OneToMany(cascade = {CascadeType.REFRESH,CascadeType.REMOVE}, mappedBy = "id.venda", fetch = FetchType.EAGER)
-	//@Fetch(FetchMode.SUBSELECT)
-	//private List<DistribuicaoEquipamento> distribuicaoEquipamentp = new ArrayList<DistribuicaoEquipamento>();
-	
-
-	public UnidadeServico() {
-		super();
+	public PontoTransmissao() {
 	}
 	
-	public UnidadeServico(UnidadeServicoPK id, UnidadeServicoTipo tipo, String codObjeto, Integer zona, Integer local,
-			Integer secao, String descricao, String endereco, Integer codmunic, String sexo, String sala,
+	public PontoTransmissao(PontoTransmissaoPK id, String codObjetoLocal, Integer zona, Integer local,
+			String descricao, String endereco, Integer codmunic, String sexo, String sala,
 			String contato, String cargoContato, String telefone, String latitude, String longitude, Integer status,
-			Integer oficial, Integer jecon) {
+			Integer oficial) {
 		super();
 		this.id = id;
-		this.tipo = tipo;
-		this.codObjeto = codObjeto;
+		this.codObjetoLocal = codObjetoLocal;
 		this.zona = zona;
-		this.local = local;
-		this.secao = secao;
+		this.codLocal = local;
 		this.descricao = descricao;
 		this.endereco = endereco;
 		this.codmunic = codmunic;
@@ -100,45 +77,39 @@ public class UnidadeServico implements Serializable {
 		this.sala = sala;
 		this.contato = contato;
 		this.cargoContato = cargoContato;
-		this.telefone = telefone;
+		this.fone = telefone;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.status = status;
 		this.oficial = oficial;
-		this.jecon = jecon;
 	}
 
-	/*
-	public List<DistribuicaoSecao> getDistribuicaoSecao() {
-		return distribuicaoSecao;
+	public PontoTransmissao(PontoTransmissaoPK id, Integer zona, Integer local,
+			String descricao, Integer codmunic, Integer status, Integer oficial) {
+		super();
+		this.id = id;
+		this.zona = zona;
+		this.codLocal = local;
+		this.descricao = descricao;		
+		this.codmunic = codmunic;
+		this.status = status;
+		this.oficial = oficial;
 	}
-
-	public void setDistribuicaoSecao(List<DistribuicaoSecao> distribuicaoSecao) {
-		this.distribuicaoSecao = distribuicaoSecao;
-	}
-*/
-	public UnidadeServicoPK getId() {
+	
+	public PontoTransmissaoPK getId() {
 		return id;
 	}
 
-	public void setId(UnidadeServicoPK id) {
+	public void setId(PontoTransmissaoPK id) {
 		this.id = id;
 	}
 
-	public UnidadeServicoTipo getTipo() {
-		return tipo;
+	public String getCodObjetoLocal() {
+		return codObjetoLocal;
 	}
 
-	public void setTipo(UnidadeServicoTipo tipo) {
-		this.tipo = tipo;
-	}
-
-	public String getCodObjeto() {
-		return codObjeto;
-	}
-
-	public void setCodObjeto(String codObjeto) {
-		this.codObjeto = codObjeto;
+	public void setCodObjetoLocal(String codObjetoLocal) {
+		this.codObjetoLocal = codObjetoLocal;
 	}
 
 	public Integer getZona() {
@@ -149,20 +120,12 @@ public class UnidadeServico implements Serializable {
 		this.zona = zona;
 	}
 
-	public Integer getLocal() {
-		return local;
+	public Integer getCodLocal() {
+		return codLocal;
 	}
 
-	public void setLocal(Integer local) {
-		this.local = local;
-	}
-
-	public Integer getSecao() {
-		return secao;
-	}
-
-	public void setSecao(Integer secao) {
-		this.secao = secao;
+	public void setCodLocal(Integer local) {
+		this.codLocal = local;
 	}
 
 	public String getDescricao() {
@@ -221,12 +184,12 @@ public class UnidadeServico implements Serializable {
 		this.cargoContato = cargoContato;
 	}
 
-	public String getTelefone() {
-		return telefone;
+	public String getFone() {
+		return fone;
 	}
 
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
+	public void setFone(String telefone) {
+		this.fone = telefone;
 	}
 
 	public String getLatitude() {
@@ -261,14 +224,6 @@ public class UnidadeServico implements Serializable {
 		this.oficial = oficial;
 	}
 
-	public Integer getJecon() {
-		return jecon;
-	}
-
-	public void setJecon(Integer jecon) {
-		this.jecon = jecon;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -285,7 +240,7 @@ public class UnidadeServico implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		UnidadeServico other = (UnidadeServico) obj;
+		PontoTransmissao other = (PontoTransmissao) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

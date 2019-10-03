@@ -31,7 +31,7 @@ public class Equipamento implements Serializable{
 
 	@ManyToOne
 	@JoinColumn(name = "id_eleicao", nullable = false)
-	private DataEleicao dataEleicao;
+	private Eleicao eleicao;
 
 	@Column(length=70)
 	private String serie;
@@ -55,12 +55,12 @@ public class Equipamento implements Serializable{
 	public Equipamento() {
 	}
 
-	public Equipamento(Integer id, EquipamentoTipo tipo, DataEleicao dataEleicao, String serie, String tomb,
+	public Equipamento(Integer id, EquipamentoTipo tipo, Eleicao eleicao, String serie, String tomb,
 			String fone, String param, String chave) {
 		super();
 		this.id = id;
 		this.tipo = tipo;
-		this.dataEleicao = dataEleicao;
+		this.eleicao = eleicao;
 		this.serie = serie;
 		this.tomb = tomb;
 		this.fone = fone;
@@ -84,12 +84,12 @@ public class Equipamento implements Serializable{
 		this.tipo = tipo;
 	}
 
-	public DataEleicao getDataEleicao() {
-		return dataEleicao;
+	public Eleicao getEleicao() {
+		return eleicao;
 	}
 
-	public void setDataEleicao(DataEleicao dataEleicao) {
-		this.dataEleicao = dataEleicao;
+	public void setEleicao(Eleicao eleicao) {
+		this.eleicao = eleicao;
 	}
 
 	public String getSerie() {

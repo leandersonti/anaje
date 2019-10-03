@@ -17,12 +17,12 @@ import org.apache.struts2.convention.annotation.ResultPath;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import br.jus.tream.DAO.DataEleicaoDAOImpl;
+import br.jus.tream.DAO.EleicaoDAOImpl;
 import br.jus.tream.DAO.EquipamentoDAO;
 import br.jus.tream.DAO.EquipamentoDAOImpl;
 import br.jus.tream.DAO.EquipamentoTipoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
-import br.jus.tream.dominio.DataEleicao;
+import br.jus.tream.dominio.Eleicao;
 import br.jus.tream.dominio.Equipamento;
 import br.jus.tream.dominio.EquipamentoTipo;
 
@@ -33,7 +33,7 @@ import br.jus.tream.dominio.EquipamentoTipo;
 public class ActionEquipamento extends ActionSupport {
 	private List<Equipamento> lstEquipamento;
 	private List<EquipamentoTipo> lstEquipamentoTipo;
-	private List<DataEleicao> lstDataEleicao;
+	private List<Eleicao> lstDataEleicao;
 	private Equipamento equipamento;
 	private BeanResult result;
 	private Integer tipo;
@@ -101,7 +101,7 @@ public class ActionEquipamento extends ActionSupport {
 		try {
 			this.lstEquipamento = EquipamentoDAOImpl.getInstance().listar();
 			this.lstEquipamentoTipo = EquipamentoTipoDAOImpl.getInstance().listar();
-			this.lstDataEleicao = DataEleicaoDAOImpl.getInstance().listar();
+			this.lstDataEleicao = EleicaoDAOImpl.getInstance().listar();
 		} catch (Exception e) {
 			addActionError(getText("EquipamentoTipo.error.listar"));
 			return "error";
@@ -115,7 +115,7 @@ public class ActionEquipamento extends ActionSupport {
 		try {
 			this.lstEquipamentoTipo = EquipamentoTipoDAOImpl.getInstance().listar();
 			this.lstEquipamento = EquipamentoDAOImpl.getInstance().listar();
-			this.lstDataEleicao = DataEleicaoDAOImpl.getInstance().listar();
+			this.lstDataEleicao = EleicaoDAOImpl.getInstance().listar();
 			equipamento = dao.getBean(this.equipamento.getId());
 		} catch (Exception e) {
 			addActionError(getText("frmsetup.error") + " Error: " + e.getMessage());
@@ -151,9 +151,9 @@ public class ActionEquipamento extends ActionSupport {
 						    while ((text = reader.readLine()) != null) {
 						    	final String row[] = text.split(";");
 						    	final Equipamento equipamento = new Equipamento();			    	
-								DataEleicao dt = new DataEleicao();			    	
-								dt = DataEleicaoDAOImpl.getInstance().getBeanAtiva();					
-								equipamento.setDataEleicao(dt);
+								//Eleicao eleicao = new Eleicao();			    	
+								//eleicao = EleicaoDAOImpl.getInstance().getBeanAtiva();					
+								equipamento.setEleicao(EleicaoDAOImpl.getInstance().getBeanAtiva());
 								equipamento.setTipo(this.equipamento.getTipo());
 						    	equipamento.setSerie(row[0]);
 						    	equipamento.setTomb(row[1]);
@@ -311,11 +311,11 @@ public class ActionEquipamento extends ActionSupport {
 		this.fileUpload = fileUpload;
 	}
 
-	public List<DataEleicao> getLstDataEleicao() {
+	public List<Eleicao> getLstDataEleicao() {
 		return lstDataEleicao;
 	}
 
-	public void setLstDataEleicao(List<DataEleicao> lstDataEleicao) {
+	public void setLstDataEleicao(List<Eleicao> lstDataEleicao) {
 		this.lstDataEleicao = lstDataEleicao;
 	}
 

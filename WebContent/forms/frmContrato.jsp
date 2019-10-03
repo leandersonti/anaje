@@ -9,12 +9,12 @@
 			<form action="" method="post" name="form1" id="form1" class="needs-validation_" novalidate>
 				<s:if test='contrato.id != null'>
 					<input type="hidden" id="id" name="contrato.id" value="${contrato.id}">
-					<input type="hidden" id="id" name="contrato.dataEleicao.id" value="${contrato.dataEleicao.id}">
+					<input type="hidden" id="id2" name="contrato.eleicao.id" value="${contrato.eleicao.id}">
 				</s:if>
 				
 				<div class="form-row">
 					<label for="descricao">*Descrição :</label> 
-					<input type="text" class="form-control" id="descricao" name="contrato.descricao"	placeholder=" " value="${contrato.descricao}" required>
+					<input type="text" class="form-control" id="descricao" name="contrato.descricao" placeholder=" " value="${contrato.descricao}" required>
 					<div class="invalid-feedback">Por favor, informe uma descricao.</div>
 				</div>
 				
@@ -85,12 +85,11 @@ $(document).ready(function() {
 		         }).then((result) => {
 					if (result.value) {
 						var frm = $("#form1").serialize();
-						console.log(frm);
+						// console.log(frm);
 						$.getJSON({
 							url: URL,
 							data: frm
 					    }).done(function( data ) {
-					    	console.log(data);
 					    	if(data.ret==1)
 					    		Swal.fire(URL, data.mensagem, "success");
 					    	else 

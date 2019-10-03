@@ -10,12 +10,12 @@ import org.apache.struts2.convention.annotation.ResultPath;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import br.jus.tream.DAO.DataEleicaoDAOImpl;
+import br.jus.tream.DAO.EleicaoDAOImpl;
 import br.jus.tream.DAO.PpoDAO;
 import br.jus.tream.DAO.PpoDAOImpl;
 import br.jus.tream.DAO.TecnicoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
-import br.jus.tream.dominio.DataEleicao;
+import br.jus.tream.dominio.Eleicao;
 import br.jus.tream.dominio.Ppo;
 import br.jus.tream.dominio.Tecnico;
 
@@ -68,8 +68,8 @@ public class ActionPpo extends ActionSupport {
 			tecnico = TecnicoDAOImpl.getInstance().getBean(tituloEleitor);
 			this.ppo.setTecnico(tecnico);
 			
-			DataEleicao dataeleicao = new DataEleicao();
-			dataeleicao = DataEleicaoDAOImpl.getInstance().getBeanAtiva();
+			Eleicao dataeleicao = new Eleicao();
+			dataeleicao = EleicaoDAOImpl.getInstance().getBeanAtiva();
 			this.ppo.setDataEleicao(dataeleicao);
 	
 				beanResult.setRet(dao.adicionar(ppo));

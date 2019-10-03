@@ -29,7 +29,7 @@ public class Contrato implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name = "id_eleicao", nullable=false)
-	private DataEleicao dataEleicao;
+	private Eleicao eleicao;
 	
 	@Column(length=50, nullable=false)
 	private String sigla;
@@ -74,12 +74,12 @@ public class Contrato implements Serializable{
 		super();
 	}
 
-	public Contrato(Integer id, DataEleicao dataEleicao, String sigla, String descricao, String empresa,
+	public Contrato(Integer id, Eleicao eleicao, String sigla, String descricao, String empresa,
 			Date dataInicio, Date dataFim, Cargo cargo, Date dataInscIni, Date dataInscFim, String num_contrato_tse,
 			Date dtLimiteConfirmacao, Integer totalTecnicos) {
 		super();
 		this.id = id;
-		this.dataEleicao = dataEleicao;
+		this.eleicao = eleicao;
 		this.sigla = sigla;
 		this.descricao = descricao;
 		this.empresa = empresa;
@@ -107,12 +107,12 @@ public class Contrato implements Serializable{
 		this.id = id;
 	}
 
-	public DataEleicao getDataEleicao() {
-		return dataEleicao;
+	public Eleicao getEleicao() {
+		return eleicao;
 	}
 
-	public void setDataEleicao(DataEleicao dataEleicao) {
-		this.dataEleicao = dataEleicao;
+	public void setEleicao(Eleicao eleicao) {
+		this.eleicao = eleicao;
 	}
 
 	public String getSigla() {

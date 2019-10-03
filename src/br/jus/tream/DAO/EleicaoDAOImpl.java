@@ -7,24 +7,24 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import br.jus.tream.dominio.DataEleicao;
+import br.jus.tream.dominio.Eleicao;
 
-public class DataEleicaoDAOImpl implements DataEleicaoDAO {
+public class EleicaoDAOImpl implements EleicaoDAO {
 
-	private DAO<DataEleicao> dao = new DAO<DataEleicao>(DataEleicao.class);
+	private DAO<Eleicao> dao = new DAO<Eleicao>(Eleicao.class);
 
-	static DataEleicaoDAO db;
+	static EleicaoDAO db;
 
-	public static DataEleicaoDAO getInstance() {
+	public static EleicaoDAO getInstance() {
 		if (db == null) {
-			db = new DataEleicaoDAOImpl();
+			db = new EleicaoDAOImpl();
 		}
 		return db;
 	}
 
 	@Override
-	public List<DataEleicao> listar() throws Exception {
-		List<DataEleicao> lista = null;
+	public List<Eleicao> listar() throws Exception {
+		List<Eleicao> lista = null;
 		try {
 			lista = dao.listarTodos();
 		} catch (Exception e) {
@@ -34,8 +34,8 @@ public class DataEleicaoDAOImpl implements DataEleicaoDAO {
 	}
 
 	@Override
-	public DataEleicao getBean(Integer id) throws Exception {
-		DataEleicao obj = new DataEleicao();
+	public Eleicao getBean(Integer id) throws Exception {
+		Eleicao obj = new Eleicao();
 		try {
 			obj = dao.getBean(id);
 		} catch (Exception e) {
@@ -45,13 +45,13 @@ public class DataEleicaoDAOImpl implements DataEleicaoDAO {
 	}
 
 	@Override
-	public DataEleicao getBeanAtiva() throws Exception {
+	public Eleicao getBeanAtiva() throws Exception {
 
-		DataEleicao dataEleicao = new DataEleicao();
+		Eleicao dataEleicao = new Eleicao();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
-			TypedQuery<DataEleicao> query = em.createQuery("SELECT d FROM DataEleicao d WHERE d.ativo=1",
-					DataEleicao.class);
+			TypedQuery<Eleicao> query = em.createQuery("SELECT d FROM Eleicao d WHERE d.ativo=1",
+					Eleicao.class);
 			dataEleicao = query.getSingleResult();
 		} catch (Exception e) {
 			em.close();
@@ -63,12 +63,12 @@ public class DataEleicaoDAOImpl implements DataEleicaoDAO {
 	}
 
 	@Override
-	public List<DataEleicao> listarCbx() throws Exception {
-		List<DataEleicao> lista = new ArrayList<DataEleicao>();
+	public List<Eleicao> listarCbx() throws Exception {
+		List<Eleicao> lista = new ArrayList<Eleicao>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
-			TypedQuery<DataEleicao> query = em.createQuery(
-					"SELECT NEW DataEleicao(d.id, d.dataEleicao, d.descricao) FROM DataEleicao d", DataEleicao.class);
+			TypedQuery<Eleicao> query = em.createQuery(
+					"SELECT NEW Eleicao(d.id, d.dataEleicao, d.descricao) FROM Eleicao d", Eleicao.class);
 			lista = query.getResultList();
 		} catch (Exception e) {
 			em.close();
@@ -80,10 +80,10 @@ public class DataEleicaoDAOImpl implements DataEleicaoDAO {
 	}
 
 	@Override
-	public int adicionar(DataEleicao dateEleicao) throws Exception {
+	public int adicionar(Eleicao eleicao) throws Exception {
 		int ret = 0;
 		try {
-			ret = dao.adicionar(dateEleicao);
+			ret = dao.adicionar(eleicao);
 		} catch (Exception e) {
 			// e.printStackTrace();
 		}
@@ -91,10 +91,10 @@ public class DataEleicaoDAOImpl implements DataEleicaoDAO {
 	}
 
 	@Override
-	public int atualizar(DataEleicao dateEleicao) throws Exception {
+	public int atualizar(Eleicao eleicao) throws Exception {
 		int ret = 0;
 		try {
-			ret = dao.atualizar(dateEleicao);
+			ret = dao.atualizar(eleicao);
 		} catch (Exception e) {
 			// e.printStackTrace();
 		}
@@ -102,10 +102,10 @@ public class DataEleicaoDAOImpl implements DataEleicaoDAO {
 	}
 
 	@Override
-	public int remover(DataEleicao dateEleicao) throws Exception {
+	public int remover(Eleicao eleicao) throws Exception {
 		int ret = 0;
 		try {
-			ret = dao.remover(dateEleicao);
+			ret = dao.remover(eleicao);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -117,10 +117,10 @@ public class DataEleicaoDAOImpl implements DataEleicaoDAO {
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		int ret = 0;
 		try {
-			String sql = "UPDATE data_eleicao SET ativo=0 WHERE ativo=1";
+			String sql = "UPDATE Eleicao SET ativo=0 WHERE ativo=1";
 			em.getTransaction().begin();
 			em.createNativeQuery(sql).executeUpdate();
-			sql = "UPDATE data_eleicao SET ativo=1 WHERE id=?1";
+			sql = "UPDATE Eleicao SET ativo=1 WHERE id=?1";
 			em.createNativeQuery(sql).setParameter(1, id).executeUpdate();
 			em.getTransaction().commit();
 			ret = 1;
@@ -138,14 +138,15 @@ public class DataEleicaoDAOImpl implements DataEleicaoDAO {
 	}
 
 	public static void main(String[] args) throws Exception {
-		DataEleicaoDAO dao = DataEleicaoDAOImpl.getInstance();
+		EleicaoDAO dao = EleicaoDAOImpl.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-		DataEleicao data = new DataEleicao();
-		data.setDataEleicao(sdf.parse("28/07/2019"));
-		data.setDescricao("Eleição SAWEB T02");
+		Eleicao data = new Eleicao();
+		data.setDataEleicao(sdf.parse("01/08/2019"));
+		data.setDescricao("Eleição 01 T02");
 		data.setTurno(2);
 		data.setAtivo(0);
+		
 		int ret = dao.adicionar(data);
 		System.out.println("Retorno = " + ret);
 

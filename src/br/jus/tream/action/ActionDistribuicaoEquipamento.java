@@ -16,14 +16,14 @@ import br.jus.tream.DAO.DistribuicaoEquipamentoDAO;
 import br.jus.tream.DAO.DistribuicaoEquipamentoDAOImpl;
 import br.jus.tream.DAO.EquipamentoDAOImpl;
 import br.jus.tream.DAO.EquipamentoTipoDAOImpl;
-import br.jus.tream.DAO.UnidadeServicoDAOImpl;
+import br.jus.tream.DAO.PontoTransmissaoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.CADZonaEleitoral;
 import br.jus.tream.dominio.DistribuicaoEquipamento;
 import br.jus.tream.dominio.Equipamento;
 import br.jus.tream.dominio.EquipamentoTipo;
 import br.jus.tream.dominio.Tecnico;
-import br.jus.tream.dominio.UnidadeServico;
+import br.jus.tream.dominio.PontoTransmissao;
 import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 import br.jus.tream.dominio.pk.DistribuicaoEquipamentoPK;
 
@@ -38,7 +38,7 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 	private List<DistribuicaoEquipamento> lstDistribuicaoEquipamento;
 	private String codZonaMunic;
 	private BeanResult result;
-	private UnidadeServico us;
+	private PontoTransmissao us;
 	private DistribuicaoEquipamento de;
 	private Equipamento equipamento;
 	private final static DistribuicaoEquipamentoDAO dao = DistribuicaoEquipamentoDAOImpl.getInstance();
@@ -70,7 +70,7 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 		try {
 			if (permissao.getAdmin()) {
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX();
-			} else {
+			} else {				
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX(permissao.getZona());
 			}
 		} catch (Exception e) {
@@ -82,15 +82,34 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 	
 	@Action(value = "listar", results = { 
 			@Result(name = "success", type = "json", params = { "root", "lstDistribuicaoEquipamento" }),
-			@Result(name = "error", location = "/pages/resultAjax.jsp")}, interceptorRefs = @InterceptorRef("authStack"))
+			@Result(name = "error", location = "/pages/resultAjax.jsp")}
+	    //, interceptorRefs = @InterceptorRef("authStack")
+	)
 	public String listar() {
 		try {
-			if (permissao.getAdmin()) {
-				this.lstDistribuicaoEquipamento = dao.listar();
-			} else {
+			//if (permissao.getAdmin()) {
+			//	this.lstDistribuicaoEquipamento = dao.listar();
+			//} else {
+				System.out.println("CodZonaMunic=" + codZonaMunic);
 				CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
+				System.out.println("ZonaMunic=" + pkze.getZona() + " / " + pkze.getCodmunic());
 				this.lstDistribuicaoEquipamento = dao.listar(pkze);
-			}
+			//}
+		} catch (Exception e) {
+			addActionError(getText("listar.error"));
+			return "error";
+		}
+		return "success";
+	}
+	
+	@Action(value = "listarByPontoTransmissaoJson", results = { 
+			@Result(name = "success", type = "json", params = { "root", "lstDistribuicaoEquipamento" }),
+			@Result(name = "error", location = "/pages/resultAjax.jsp")}
+	    //, interceptorRefs = @InterceptorRef("authStack")
+	)
+	public String listarByPontoTransmissao() {
+		try {
+			this.lstDistribuicaoEquipamento = dao.listar(us.getId().getId());
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";
@@ -106,10 +125,10 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 		BeanResult beanResult = new BeanResult();
 		beanResult.setRet(0);
 		try {
-			this.us = UnidadeServicoDAOImpl.getInstance().getBean(this.us.getId().getId());
+			this.us = PontoTransmissaoDAOImpl.getInstance().getBean(this.us.getId().getId());
 				if (permissao.getAdmin() || permissao.getZona() == this.us.getZona()) {					
 					DistribuicaoEquipamentoPK pk = new DistribuicaoEquipamentoPK();
-					pk.setUnidadeServico(us);
+					pk.setPontoTransmissao(us);
 					pk.setEquipamento(equipamento);
 					de.setId(pk);
 					Tecnico tec = new Tecnico(1,"SISTEMA");
@@ -154,11 +173,11 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 		return "success";
 	}
 
-	public UnidadeServico getUs() {
+	public PontoTransmissao getUs() {
 		return us;
 	}
 
-	public void setUs(UnidadeServico us) {
+	public void setUs(PontoTransmissao us) {
 		this.us = us;
 	}
 

@@ -10,15 +10,15 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import br.jus.tream.dominio.pk.DistribuicaoTecContratoPK;
+import br.jus.tream.dominio.pk.TecnicoContratoPK;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name="distribuicao_tecnico_contrato")
-public class DistribuicaoTecnicoContrato implements Serializable{
+@Table(name="tecnico_contrato")
+public class TecnicoContrato implements Serializable{
 
 	@EmbeddedId
-	private DistribuicaoTecContratoPK id = new DistribuicaoTecContratoPK();
+	private TecnicoContratoPK id = new TecnicoContratoPK();
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "datacad", nullable = true)
@@ -26,9 +26,9 @@ public class DistribuicaoTecnicoContrato implements Serializable{
 	
 	private Integer ativo;	
 
-	public DistribuicaoTecnicoContrato() {}
+	public TecnicoContrato() {}
 			
-	public DistribuicaoTecnicoContrato(DistribuicaoTecContratoPK id, Date datacad, Integer ativo) {
+	public TecnicoContrato(TecnicoContratoPK id, Date datacad, Integer ativo) {
 		super();
 		this.id = id;
 		this.datacad = datacad;
@@ -43,11 +43,11 @@ public class DistribuicaoTecnicoContrato implements Serializable{
 		return id.getTecnico();
 	}
 	
-	public DistribuicaoTecContratoPK getId() {
+	public TecnicoContratoPK getId() {
 		return id;
 	}
 
-	public void setId(DistribuicaoTecContratoPK id) {
+	public void setId(TecnicoContratoPK id) {
 		this.id = id;
 	}
 
@@ -83,7 +83,7 @@ public class DistribuicaoTecnicoContrato implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		DistribuicaoTecnicoContrato other = (DistribuicaoTecnicoContrato) obj;
+		TecnicoContrato other = (TecnicoContrato) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

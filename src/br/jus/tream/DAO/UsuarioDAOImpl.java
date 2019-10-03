@@ -38,7 +38,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		Usuario usuario = new Usuario();
 		try {
-			TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u WHERE u.ativo=1 AND u.tituloEleitor=lpad(?1,12,0)", 
+			TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u WHERE u.ativo=1 AND lpad(u.tituloEleitor,12,0)=lpad(?1,12,0)", 
 		    		   Usuario.class);
 			usuario = query.setParameter(1, tituloEleitor).getSingleResult(); 
 		} catch (Exception e) {
@@ -55,7 +55,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		List<Usuario> lista = new ArrayList<Usuario>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	  
-		     TypedQuery<Usuario> query = em.createQuery("SELECT NEW Usuario(u.tituloEleitor) FROM Usuario u", 
+		     TypedQuery<Usuario> query = em.createQuery("SELECT NEW Usuario(u.tituloEleitor, u.nome) FROM Usuario u", 
 		    		   Usuario.class);
 			  lista = query.getResultList();
 		  }
@@ -107,8 +107,16 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
 	    
 	public static void main(String[] args) throws Exception{
+		UsuarioDAO dao = UsuarioDAOImpl.getInstance();
+		Usuario user = new Usuario();
+		user = dao.getBean("15697172275");
+		System.out.println("Nome " + user.getNome());
 		
-		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		/*
+		for(Usuario s : dao.listarCbx()) {
+			System.out.println(s.getNome() + " " + s.getTituloEleitor());
+		}
+		*/
 		
 		System.out.println("Done!!");
 		

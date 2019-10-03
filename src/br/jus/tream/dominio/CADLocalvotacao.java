@@ -1,11 +1,18 @@
 package br.jus.tream.dominio;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @SuppressWarnings("serial")
 @Entity
@@ -38,6 +45,11 @@ public class CADLocalvotacao implements Serializable{
 	
 	@Column(name="num_longitude")
 	private String longitude;
+	
+	@OneToMany(mappedBy = "codObjetoLocal", fetch = FetchType.EAGER)
+	@Fetch(FetchMode.SUBSELECT)
+	private List<DistribuicaoSecao> secoesDistribuidas = new ArrayList<DistribuicaoSecao>();
+	
 	public CADLocalvotacao() {
 		super();
 	}
@@ -61,7 +73,13 @@ public class CADLocalvotacao implements Serializable{
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}
-
+	
+	public List<DistribuicaoSecao> getSecoesDistribuidas() {
+		return secoesDistribuidas;
+	}
+	public void setSecoesDistribuidas(List<DistribuicaoSecao> secoesDistribuidas) {
+		this.secoesDistribuidas = secoesDistribuidas;
+	}
 	public String getId() {
 		return id;
 	}

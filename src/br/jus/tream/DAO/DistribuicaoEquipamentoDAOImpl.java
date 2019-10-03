@@ -28,7 +28,7 @@ public class DistribuicaoEquipamentoDAOImpl implements DistribuicaoEquipamentoDA
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
 			TypedQuery<DistribuicaoEquipamento> query = em
-					.createQuery("SELECT s FROM DistribuicaoEquipamento s WHERE s.id.unidadeServico.id.dataEleicao.ativo=1",
+					.createQuery("SELECT s FROM DistribuicaoEquipamento s WHERE s.id.pontoTransmissao.id.eleicao.ativo=1",
 							DistribuicaoEquipamento.class);			
 			lista = query.getResultList();
 		} catch (Exception e) {
@@ -46,8 +46,8 @@ public class DistribuicaoEquipamentoDAOImpl implements DistribuicaoEquipamentoDA
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
 			TypedQuery<DistribuicaoEquipamento> query = em
-					.createQuery("SELECT s FROM DistribuicaoEquipamento s WHERE s.id.unidadeServico.id.dataEleicao.ativo=1 "
-							+ "AND s.id.unidadeServico.zona=?1 AND s.id.unidadeServico.codmunic=?2",
+					.createQuery("SELECT s FROM DistribuicaoEquipamento s WHERE s.id.pontoTransmissao.id.eleicao.ativo=1 "
+							+ "AND s.id.pontoTransmissao.zona=?1 AND s.id.pontoTransmissao.codmunic=?2",
 							DistribuicaoEquipamento.class);			
 			query.setParameter(1, pkze.getZona());
 			query.setParameter(2, pkze.getCodmunic());
@@ -67,8 +67,8 @@ public class DistribuicaoEquipamentoDAOImpl implements DistribuicaoEquipamentoDA
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
 			TypedQuery<DistribuicaoEquipamento> query = em
-					.createQuery("SELECT s FROM DistribuicaoEquipamento s WHERE s.id.unidadeServico.id.dataEleicao.ativo=1 "
-							+ "AND s.id.unidadeServico.id.id=?1",
+					.createQuery("SELECT s FROM DistribuicaoEquipamento s WHERE s.id.pontoTransmissao.id.eleicao.ativo=1 "
+							+ "AND s.id.pontoTransmissao.id.id=?1",
 							DistribuicaoEquipamento.class);			
 			query.setParameter(1, unidadeServico);
 			lista = query.getResultList();
@@ -117,7 +117,7 @@ public class DistribuicaoEquipamentoDAOImpl implements DistribuicaoEquipamentoDA
 	public static void main(String[] args) throws Exception {
 		
 		DistribuicaoEquipamentoDAO dao = DistribuicaoEquipamentoDAOImpl.getInstance();
-		for (DistribuicaoEquipamento d: dao.listar(22019)) {
+		for (DistribuicaoEquipamento d: dao.listar(112019)) {
 			System.out.println(d.getId().getEquipamento().getSerie());
 		}
 		/*

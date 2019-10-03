@@ -6,10 +6,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import br.jus.tream.dominio.CADLocalvotacao;
 import br.jus.tream.dominio.CADSecao;
 import br.jus.tream.dominio.DistribuicaoSecao;
-import br.jus.tream.dominio.UnidadeServico;
-import br.jus.tream.dominio.pk.DistribuicaoSecaoPK;
+import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 
 public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 	
@@ -32,7 +32,7 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 		try {
 			TypedQuery<DistribuicaoSecao> query = em
 					.createQuery("SELECT ds FROM DistribuicaoSecao ds WHERE "
-								+ "ds.id.unidadeServico.id.id=?1 AND ds.id.unidadeServico.id.dataEleicao.ativo=1 ORDER BY ds.secao",
+								+ "ds.id.pontoTransmissao.id.id=?1 AND ds.id.pontoTransmissao.id.eleicao.ativo=1 ORDER BY ds.secao",
 							DistribuicaoSecao.class);
 			query.setParameter(1, idUnidadeServico);
 			lista = query.getResultList();
@@ -45,17 +45,38 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 		return lista;
 	}
 	
+	public List<CADLocalvotacao> listarByClassLocalVotacao(Integer idUnidadeServico) throws Exception{
+		List<CADLocalvotacao> lista = new ArrayList<CADLocalvotacao>();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		try {
+			TypedQuery<CADLocalvotacao> query = em
+					.createQuery("SELECT a FROM CADLocalvotacao a WHERE a.id IN ("
+								+ "SELECT DISTINCT ds.codObjetoLocal FROM DistribuicaoSecao ds "
+								      + "WHERE ds.id.pontoTransmissao.id.id=?1 AND ds.id.pontoTransmissao.id.eleicao.ativo=1"
+								+ ") ORDER BY a.numLocal",
+								CADLocalvotacao.class);
+			query.setParameter(1, idUnidadeServico);
+			lista = query.getResultList();
+		} catch (Exception e) {
+			em.close();
+			e.printStackTrace();
+		} finally {
+			em.close();
+		}
+		return lista;
+	}
+	
 	@Override
-	public List<DistribuicaoSecao> listar(Integer zona, Integer codmunic) throws Exception {
+	public List<DistribuicaoSecao> listar(CadZonaEleitoralPK pkze) throws Exception {
 		List<DistribuicaoSecao> lista = new ArrayList<DistribuicaoSecao>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
 			TypedQuery<DistribuicaoSecao> query = em
 					.createQuery("SELECT ds FROM DistribuicaoSecao ds WHERE "
-								+ "ds.zona=?1 AND ds.codmunic=?2 AND ds.id.unidadeServico.id.dataEleicao.ativo=1 ORDER BY ds.secao",
+								+ "ds.zona=?1 AND ds.codmunic=?2 AND ds.id.pontoTransmissao.id.eleicao.ativo=1 ORDER BY ds.secao",
 							DistribuicaoSecao.class);
-			query.setParameter(1, zona);
-			query.setParameter(2, codmunic);
+			query.setParameter(1, pkze.getZona());
+			query.setParameter(2, pkze.getCodmunic());
 			lista = query.getResultList();
 		} catch (Exception e) {
 			em.close();
@@ -67,21 +88,21 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 	}
 
 	@Override
-	public List<CADSecao> listarParaDistribuir(Integer zona, Integer codmunic, Integer numlocal) throws Exception {
+	public List<CADSecao> listarParaDistribuir(CadZonaEleitoralPK pkze, Integer numlocal) throws Exception {
 		List<CADSecao> lista = new ArrayList<CADSecao>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
 			TypedQuery<CADSecao> query = em
 					.createQuery("SELECT s FROM CADSecao s WHERE s.zona=?1 AND s.codmunic=?2 and s.numLocal=?3 "
-							+ "AND s.secao NOT IN (SELECT ds.secao FROM DistribuicaoSecao ds "
-													+ "WHERE ds.zona=?4 AND ds.codmunic=?5 AND ds.id.unidadeServico.id.dataEleicao.ativo=1)"
+							+ "AND s.secaoPrincipal IS NULL AND s.secao NOT IN (SELECT ds.secao FROM DistribuicaoSecao ds "
+													+ "WHERE ds.zona=?4 AND ds.codmunic=?5 AND ds.id.pontoTransmissao.id.eleicao.ativo=1)"
 							+ "ORDER BY s.secao",
 								CADSecao.class);
-			query.setParameter(1, zona);
-			query.setParameter(2, codmunic);
+			query.setParameter(1, pkze.getZona());
+			query.setParameter(2, pkze.getCodmunic());
 			query.setParameter(3, numlocal);
-			query.setParameter(4, zona);
-			query.setParameter(5, codmunic);
+			query.setParameter(4, pkze.getZona());
+			query.setParameter(5, pkze.getCodmunic());
 			lista = query.getResultList();
 		} catch (Exception e) {
 			em.close();
@@ -98,7 +119,7 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
 			TypedQuery<DistribuicaoSecao> query = em.createQuery("SELECT ds FROM DistribuicaoSecao ds WHERE "
-								+ "ds.id.codOjeto=?1 AND ds.id.unidadeServico.id.dataEleicao.ativo=1",
+								+ "ds.id.codOjeto=?1 AND ds.id.pontoTransmissao.id.eleicao.ativo=1",
 				DistribuicaoSecao.class);
 			query.setParameter(1, codobjeto);
 			ds = query.getSingleResult();
@@ -159,7 +180,7 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 
 	public static void main(String[] args) throws Exception {
 		DistribuicaoSecaoDAO dao = DistribuicaoSecaoDAOImpl.getInstance();
-		
+		/*
 		DistribuicaoSecaoPK dspk = new DistribuicaoSecaoPK();
 		DistribuicaoSecao ds = new DistribuicaoSecao();
 		UnidadeServico us = new UnidadeServico();
@@ -178,15 +199,17 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 
 		int ret = dao.adicionar(ds);
 		System.out.println("ret == " + ret);
-		
+		*/
 		//ds = dao.getBean("253066");
 		//     System.out.println("ZE " + ds.getZona());
 		
-		/*
-		for(DistribuicaoSecao d : dao.listar(12019)) {
-			System.out.println("Zona " + d.getZona() + " " + d.getSecao() + " " + d.getCodmunic());
+		for(CADLocalvotacao d : dao.listarByClassLocalVotacao(2812019)) {
+			System.out.println("Zona " + d.getZona() + " " + d.getNumLocal() +" - " + d.getNomeLocal());
+			for (DistribuicaoSecao ds : d.getSecoesDistribuidas()) {
+				System.out.println("------ " + ds.getSecao());
+			}
 		}
-		*/
+		
 		
 		/*
 		for(CADSecao cad : dao.listarParaDistribuir(14, 2151, 1040)) {
