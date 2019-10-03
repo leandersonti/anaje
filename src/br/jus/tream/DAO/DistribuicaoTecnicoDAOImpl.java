@@ -179,23 +179,23 @@ public class DistribuicaoTecnicoDAOImpl implements DistribuicaoTecnicoDAO {
 		DistribuicaoTecnico dst = new DistribuicaoTecnico();
 		dst.setDataCad(new Date());		
 		Tecnico t = new Tecnico();
-		t.setId(322);
+		t.setId(1282018);
 		Tecnico t2 = new Tecnico();
-		t2.setId(326);				
+		t2.setId(1302018);				
 		dst.getId().setTecnico(t);
 		dst.setTecnicoResponsavel(t2);
 		
 		PontoTransmissao us = new PontoTransmissao();		
-		 us = PontoTransmissaoDAOImpl.getInstance().getBean(2832019);
+		 us = PontoTransmissaoDAOImpl.getInstance().getBean(112019);
 		dst.getId().setPontoTransmissao(us);
 		
 		DistribuicaoTecnicoPK dstpk = new DistribuicaoTecnicoPK();
 		dstpk.setTecnico(t);
 		dstpk.setPontoTransmissao(us);
 		
-		//int ret = dao.adicionar(dst);				
+		int ret = dao.adicionar(dst);				
 		//int ret = dao.remover(dst);
-		//System.out.println("ret == " + ret);
+		System.out.println("ret == " + ret);
 		
 		System.out.println("Done!!");
 	}

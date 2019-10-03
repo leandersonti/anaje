@@ -1,23 +1,27 @@
 package br.jus.tream.action;
+import java.util.Date;
 import java.util.List;
+
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.ResultPath;
+
 import com.opensymphony.xwork2.ActionSupport;
+
 import br.jus.tream.DAO.CadEloDAOImpl;
-import br.jus.tream.DAO.DistribuicaoSecaoDAO;
-import br.jus.tream.DAO.DistribuicaoSecaoDAOImpl;
+import br.jus.tream.DAO.DistribuicaoTecnicoDAO;
+import br.jus.tream.DAO.DistribuicaoTecnicoDAOImpl;
 import br.jus.tream.DAO.PontoTransmissaoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.CADSecao;
 import br.jus.tream.dominio.CADZonaEleitoral;
 import br.jus.tream.dominio.DistribuicaoSecao;
+import br.jus.tream.dominio.DistribuicaoTecnico;
 import br.jus.tream.dominio.PontoTransmissao;
-import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
-import br.jus.tream.dominio.pk.DistribuicaoSecaoPK;
+import br.jus.tream.dominio.Tecnico;
 @SuppressWarnings("serial")
 @Namespace("/distribtecnico")
 @ResultPath(value = "/")
@@ -27,10 +31,12 @@ public class ActionDistribuicaoTecnico extends ActionSupport{
 	private List<DistribuicaoSecao> lstDistribuicaoSecao;
 	private List<CADZonaEleitoral> lstZonaEleitoral;
 	private BeanResult result;
-	private PontoTransmissao us;
+	private PontoTransmissao pt;
 	private DistribuicaoSecao ds;
+	private Tecnico t;
+	private DistribuicaoTecnico dst;
 	private String codZonaMunic;
-	private final static DistribuicaoSecaoDAO dao = DistribuicaoSecaoDAOImpl.getInstance();
+	private final static DistribuicaoTecnicoDAO dao = DistribuicaoTecnicoDAOImpl.getInstance();
 	private final static Permissao permissao = Permissao.getInstance();
 	private Integer zona, codmunic,numlocal;
 	private String[] secoesCbx;
@@ -50,20 +56,6 @@ public class ActionDistribuicaoTecnico extends ActionSupport{
 			return "error";
 		}	
 		
-		return "success";
-	}
-	
-	@Action(value = "listarParaDistribuirJson", results = { @Result(name = "success", type = "json", params = { "root", "lstCadSecao" }),
-			@Result(name = "error", location = "/pages/resultAjax.jsp") })
-	public String listarSecaoParaDistribuiJson() {
-		try {
-			// PEGANDO CODZONAMUNIC
-			CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
-			this.lstCadSecao = dao.listarParaDistribuir(pkze, numlocal);
-		} catch (Exception e) {
-			addActionError(getText("listar.error"));
-			return "error";
-		}
 		return "success";
 	}
 	
@@ -88,22 +80,25 @@ public class ActionDistribuicaoTecnico extends ActionSupport{
 			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String doAdicionar() {
 		BeanResult beanResult = new BeanResult();
-		try {
-			CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
-			if (permissao.getAdmin() || permissao.getZona()==zona) {
-				this.us = PontoTransmissaoDAOImpl.getInstance().getBean(this.us.getId().getId());
-				ds.getId().setPontoTransmissaoo(us);
-				ds.setZona(pkze.getZona());
-				ds.setCodmunic(pkze.getCodmunic());
-				ds.setVetsecoes(this.secoesCbx);
-				beanResult.setRet(dao.adicionar(ds));
+		try {				
+			String[] zonamunic = ds.getCodZonaMunic().split(";");			
+		    int zona = Integer.valueOf(zonamunic[0]);
+			if (permissao.getAdmin() || permissao.getZona() == zona) {								
+				System.out.println("entrei no if");
+				dst.setDataCad(new Date());							
+				pt = PontoTransmissaoDAOImpl.getInstance().getBean(pt.getId().getId());
+				dst.getId().setPontoTransmissao(pt);
+			
+				beanResult.setRet(dao.adicionar(dst));
+				beanResult.setType("success");
 				beanResult.setMensagem(getText("inserir.sucesso") + " (" + secoesCbx.length + " Secao(oes))");
-			}else
-			{
+			}else{
 				beanResult.setRet(0);
+				beanResult.setType("error");
 				beanResult.setMensagem(getText("permissao.negada"));
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			    addActionError(getText("inserir.error") + " Error: " + e.getMessage());
 			    beanResult.setMensagem(getText("inserir.error") + " Error: " + e.getMessage());
 			return "error";
@@ -140,12 +135,7 @@ public class ActionDistribuicaoTecnico extends ActionSupport{
 	public void setDs(DistribuicaoSecao ds) {
 		this.ds = ds;
 	}
-	public PontoTransmissao getUs() {
-		return us;
-	}
-	public void setUs(PontoTransmissao us) {
-		this.us = us;
-	}
+	
 	public Integer getZona() {
 		return zona;
 	}
@@ -200,5 +190,30 @@ public class ActionDistribuicaoTecnico extends ActionSupport{
 	public void setSecoesCbx(String[] secoesCbx) {
 		this.secoesCbx = secoesCbx;
 	}
+
+	public DistribuicaoTecnico getDst() {
+		return dst;
+	}
+
+	public void setDst(DistribuicaoTecnico dst) {
+		this.dst = dst;
+	}
+
+	public Tecnico getT() {
+		return t;
+	}
+
+	public void setT(Tecnico t) {
+		this.t = t;
+	}
+
+	public PontoTransmissao getPt() {
+		return pt;
+	}
+
+	public void setPt(PontoTransmissao pt) {
+		this.pt = pt;
+	}
+	
 	
 }

@@ -13,7 +13,8 @@
 			<form action="" method="post" name="form1" id="form1"
 				class="needs-validation_" novalidate>
 				
-				<div class="form-group ">
+				<div class="form-row">
+					  <div class="form-group col-md-6">
 					<label for="inputTipo">Zona:</label> <s:select label="Zona" headerKey="-1"
 								headerValue="Selecione a zona" tooltip="Informe a Zona"
 								list="lstZonaEleitoral" listKey="id.zona+';'+id.codmunic"
@@ -21,29 +22,32 @@
 								name="ds.codZonaMunic"  id="codZonaMunic" theme="simple"  cssClass="form-control"/>
 					<div class="invalid-feedback">Por favor, informe a zona eleitoral.</div>
 				</div>				 
-
-				<div class="form-group ">
-					<label for="inputTipo">Ponto Transmissão :</label> <select
-						class="form-control form-control" id="us" name="us.id.id" required>
-						<option value="0">Selecione</option>
-					</select>
-					<div class="invalid-feedback">Por favor, informe o ponto de transmissão.</div>
-				</div>
-				<div class="form-group ">
+			
+				  <div class="form-group col-md-6">
+						<label for="inputTipo">Ponto Transmissão :</label> <select
+							class="form-control form-control" id="us" name="pt.id.id" required>
+							<option value="0">Selecione</option>
+						</select>
+						<div class="invalid-feedback">Por favor, informe o ponto de transmissão.</div>
+				 </div>
+			 </div>
+				<div class="form-row">
+					  <div class="form-group col-md-6">
 					<label for="inputTipo">Contrato:</label> <select
-						class="form-control form-control" id="contrato" name="contrato.id" required>
+						class="form-control form-control" id="contrato" name="" required>
 						<option value="0">Selecione</option>
 					</select>
 				</div>
-				<div class="form-group ">
-					<label for="inputTipo">Técnico:</label> <select
-						class="form-control form-control" id="tecnico" name=" " required>
-						<option value="0">Selecione</option>
-					</select>
+					<div class="form-group col-md-6">
+						<label for="inputTipo">Técnico:</label> <select
+							class="form-control form-control" id="tecnico" name="dst.id.tecnico.id" required>
+							<option value="0">Selecione</option>
+						</select>
+					</div>
 				</div>
 				<div class="form-group ">
 					<label for="inputTipo">Técnico Responsável :</label> <select
-						class="form-control form-control" id="tecnicoresp" name=" " required>
+						class="form-control form-control" id="tecnicoresp" name="dst.tecnicoResponsavel.id" required>
 						<option value="0">Selecione</option>
 					</select>
 				</div>
@@ -74,18 +78,65 @@ $(document).ready(function() {
 			CarregaTecnicoResp();	 
 	});
 	
-
+	
+	 $("#btnSave").click(function() {
+			var URL = ""; 
+			if ( $('#id').length ) { URL = "atualizar"; }
+			else{ URL = "adicionar";  }	
+			//if (verificaDados()){
+				 swal({
+			         title: "Distribuicao Tecnico?",
+			         text: "Confirma essa distribuicao?",
+			         icon: 'warning',
+			         buttons: [true, "Distribuir"]
+		         }).then((result) => {
+						if (result) {
+							var frm = $("#form1").serialize();
+							$.getJSON({
+								url: URL,
+								data: frm
+						    }).done(function( data ) {
+						    	if(data.ret==1){						    		
+						    		swal(URL, data.mensagem, "success");
+						         }	
+						    	else 
+						    		swal(URL, data.mensagem, "error");
+							}).fail(function() {
+									swal("Adicionar", "Ocorreu um erro ao incluir", "error");
+							});
+					      } 
+				   }); // -- FIM SWAL --
+			 //  }else{
+			//	   swal("Dados", "Verifique os campos obrigatórios ", "error");
+			//   }
+		 	}); // -- FIM btnSave --
+		 	
 });
+
+function verificaDados(){
+	/* if ($("#form1")[0].checkValidity()===false){
+    	$("#form1")[0].classList.add('was-validated');
+    	return false;
+    }
+    
+     else{
+    	var cbxCollection = document.getElementById('us');
+    	if (cbxCollection.length==0 || $('#us option:selected').val()==-1 )
+    		return false;
+    	else
+    		return true;
+    } */ 
+ }
 
 function CarregaPontoTransmissao(){
 	 var codZonaMunic = $("#codZonaMunic").val();
     var cbxpt = $('#us');	
         cbxpt.find('option').remove();
    	 if(codZonaMunic != -1){	    		 
-		     $.getJSON('../uservico/listarJson?codZonaMunic='+codZonaMunic,function(jsonResponse) {
+		     $.getJSON('../pontotrans/listarJson?codZonaMunic='+codZonaMunic,function(jsonResponse) {
 		   	  $('<option>').val(-1).text("Informe o ponto de transmissao").appendTo(cbxpt);
 		             $.each(jsonResponse, function(key, value) {             
-		            	 $('<option>').val(value.id.id).text(value.local + " " + value.descricao).appendTo(cbxpt);
+		            	 $('<option>').val(value.id.id).text(("0000" + value.codLocal).slice(-4) + " " + value.descricao).appendTo(cbxpt);
 		      		 });
 		     });
     }else{
