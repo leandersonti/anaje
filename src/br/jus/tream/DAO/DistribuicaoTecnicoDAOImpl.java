@@ -7,38 +7,37 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import br.jus.tream.dominio.DistribuicaoTecnicoUS;
+import br.jus.tream.dominio.DistribuicaoTecnico;
+import br.jus.tream.dominio.PontoTransmissao;
 import br.jus.tream.dominio.Tecnico;
-import br.jus.tream.dominio.UnidadeServico;
 import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
-import br.jus.tream.dominio.pk.DistribuicaoTecnicoUSPK;
-import br.jus.tream.dominio.pk.UnidadeServicoPK;
+import br.jus.tream.dominio.pk.DistribuicaoTecnicoPK;
 
-public class DistribuicaoTecnicoUsDAOImpl implements DistribuicaoTecnicoUsDAO {
+public class DistribuicaoTecnicoDAOImpl implements DistribuicaoTecnicoDAO {
 	
-	private DAO<DistribuicaoTecnicoUS> dao = new DAO<DistribuicaoTecnicoUS>(DistribuicaoTecnicoUS.class);
+	private DAO<DistribuicaoTecnico> dao = new DAO<DistribuicaoTecnico>(DistribuicaoTecnico.class);
 
-	static DistribuicaoTecnicoUsDAO db;
+	static DistribuicaoTecnicoDAO db;
 
-	public static DistribuicaoTecnicoUsDAO getInstance() {
+	public static DistribuicaoTecnicoDAO getInstance() {
 		if (db == null) {
-			db = new DistribuicaoTecnicoUsDAOImpl();
+			db = new DistribuicaoTecnicoDAOImpl();
 		}
 		return db;
 	}
 
 
 	@Override
-	public List<DistribuicaoTecnicoUS> listar(CadZonaEleitoralPK codzonaMunic, Integer contrato) throws Exception {
-		List<DistribuicaoTecnicoUS> lista = new ArrayList<DistribuicaoTecnicoUS>();
+	public List<DistribuicaoTecnico> listar(CadZonaEleitoralPK codzonaMunic, Integer contrato) throws Exception {
+		List<DistribuicaoTecnico> lista = new ArrayList<DistribuicaoTecnico>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
 			
-			TypedQuery<DistribuicaoTecnicoUS> query = em
-					.createQuery("SELECT ds FROM DistribuicaoTecnicoUS ds, DistribuicaoTecnicoContrato dt WHERE "
-								+ "dt.id.contrato.id=?3 AND ds.id.unidadeServico.zona=?1 AND ds.id.unidadeServico.codmunic=?2"
+			TypedQuery<DistribuicaoTecnico> query = em
+					.createQuery("SELECT ds FROM DistribuicaoTecnico ds, DistribuicaoTecnicoContrato dt WHERE "
+								+ "dt.id.contrato.id=?3 AND ds.id.unidadeServico.zona=?1 AND ds.id.UnidadeServico.codmunic=?2"
 								+ " AND ds.id.unidadeServico.id.dataEleicao.ativo=1 AND ds.id.tecnico.id = dt.id.tecnico.id",
-								DistribuicaoTecnicoUS.class);
+								DistribuicaoTecnico.class);
 			query.setParameter(1, codzonaMunic.getZona());
 			query.setParameter(2, codzonaMunic.getCodmunic());
 			query.setParameter(3, contrato);
@@ -53,15 +52,15 @@ public class DistribuicaoTecnicoUsDAOImpl implements DistribuicaoTecnicoUsDAO {
 	}
 	
 	@Override
-	public List<DistribuicaoTecnicoUS> listar(CadZonaEleitoralPK codzonaMunic) throws Exception {
-		List<DistribuicaoTecnicoUS> lista = new ArrayList<DistribuicaoTecnicoUS>();
+	public List<DistribuicaoTecnico> listar(CadZonaEleitoralPK codzonaMunic) throws Exception {
+		List<DistribuicaoTecnico> lista = new ArrayList<DistribuicaoTecnico>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {			  
-			TypedQuery<DistribuicaoTecnicoUS> query = em
-					.createQuery("SELECT ds FROM DistribuicaoTecnicoUS ds WHERE "
+			TypedQuery<DistribuicaoTecnico> query = em
+					.createQuery("SELECT ds FROM DistribuicaoTecnico ds WHERE "
 								+ " ds.id.unidadeServico.zona=?1 AND ds.id.unidadeServico.codmunic=?2"
 								+ " AND ds.id.unidadeServico.id.dataEleicao.ativo=1",
-								DistribuicaoTecnicoUS.class);
+								DistribuicaoTecnico.class);
 			query.setParameter(1, codzonaMunic.getZona());
 			query.setParameter(2, codzonaMunic.getCodmunic());			
 			lista = query.getResultList();
@@ -81,7 +80,7 @@ public class DistribuicaoTecnicoUsDAOImpl implements DistribuicaoTecnicoUsDAO {
 		try {
 			TypedQuery<Tecnico> query = em
 					.createQuery("SELECT s FROM Tecnico s WHERE "
-							+ "s.id NOT IN (SELECT ds.id.tecnico.id FROM DistribuicaoTecnicoUS ds "
+							+ "s.id NOT IN (SELECT ds.id.tecnico.id FROM DistribuicaoTecnico ds "
 							+ "WHERE ds.id.unidadeServico.id.dataEleicao.ativo=1)",
 							Tecnico.class);			
 			lista = query.getResultList();
@@ -101,7 +100,7 @@ public class DistribuicaoTecnicoUsDAOImpl implements DistribuicaoTecnicoUsDAO {
 		try {
 			TypedQuery<Tecnico> query = em
 					.createQuery("SELECT s FROM Tecnico s WHERE s.zona=?1 "
-							+ " AND s.id NOT IN (SELECT ds.id.tecnico.id FROM DistribuicaoTecnicoUS ds "
+							+ " AND s.id NOT IN (SELECT ds.id.tecnico.id FROM DistribuicaoTecnico ds "
 							+ " WHERE ds.id.unidadeServico.id.dataEleicao.ativo=1)",
 							Tecnico.class);	
 			query.setParameter(1, zona);
@@ -116,13 +115,13 @@ public class DistribuicaoTecnicoUsDAOImpl implements DistribuicaoTecnicoUsDAO {
 	}
 	
 	@Override
-	public DistribuicaoTecnicoUS getBean(String tituloEleitor) throws Exception {
-		DistribuicaoTecnicoUS ds = new DistribuicaoTecnicoUS();
+	public DistribuicaoTecnico getBean(String tituloEleitor) throws Exception {
+		DistribuicaoTecnico ds = new DistribuicaoTecnico();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
-			TypedQuery<DistribuicaoTecnicoUS> query = em.createQuery("SELECT ds FROM DistribuicaoTecnicoUS ds WHERE "
+			TypedQuery<DistribuicaoTecnico> query = em.createQuery("SELECT ds FROM DistribuicaoTecnico ds WHERE "
 								+ "ds.id.tecnico.tituloEleitor = ?1 AND ds.id.unidadeServico.id.dataEleicao.ativo=1",
-								DistribuicaoTecnicoUS.class);
+								DistribuicaoTecnico.class);
 			query.setParameter(1, tituloEleitor);
 			ds = query.getSingleResult();
 		} catch (Exception e) {
@@ -135,7 +134,7 @@ public class DistribuicaoTecnicoUsDAOImpl implements DistribuicaoTecnicoUsDAO {
 	}
 
 	@Override
-	public int adicionar(DistribuicaoTecnicoUS ds) throws Exception {
+	public int adicionar(DistribuicaoTecnico ds) throws Exception {
 		int ret = 0;
 		try {
 			 ret = dao.adicionar(ds);
@@ -147,7 +146,7 @@ public class DistribuicaoTecnicoUsDAOImpl implements DistribuicaoTecnicoUsDAO {
 
 
 	@Override
-	public int remover(DistribuicaoTecnicoUS ds) throws Exception {
+	public int remover(DistribuicaoTecnico ds) throws Exception {
 		int ret = 0;
 		try {
 			ret = dao.remover(ds);
@@ -158,8 +157,15 @@ public class DistribuicaoTecnicoUsDAOImpl implements DistribuicaoTecnicoUsDAO {
 	}
 	
 	
+
+	@Override
+	public DistribuicaoTecnico getBean(Integer unidadeservico) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	public static void main(String[] args) throws Exception {
-		DistribuicaoTecnicoUsDAO dao = DistribuicaoTecnicoUsDAOImpl.getInstance();
+		DistribuicaoTecnicoDAO dao = DistribuicaoTecnicoDAOImpl.getInstance();
 		 //CadZonaEleitoralPK cad = new CadZonaEleitoralPK();		 
 		 //cad.setZona(31);
 		 //cad.setCodmunic(2046);
@@ -170,7 +176,7 @@ public class DistribuicaoTecnicoUsDAOImpl implements DistribuicaoTecnicoUsDAO {
 		  }*/
 		
 		
-		DistribuicaoTecnicoUS dst = new DistribuicaoTecnicoUS();
+		DistribuicaoTecnico dst = new DistribuicaoTecnico();
 		dst.setDataCad(new Date());		
 		Tecnico t = new Tecnico();
 		t.setId(322);
@@ -179,13 +185,13 @@ public class DistribuicaoTecnicoUsDAOImpl implements DistribuicaoTecnicoUsDAO {
 		dst.getId().setTecnico(t);
 		dst.setTecnicoResponsavel(t2);
 		
-		UnidadeServico us = new UnidadeServico();		
-		 us = UnidadeServicoDAOImpl.getInstance().getBean(2832019);
-		dst.getId().setUnidadeServico(us);
+		PontoTransmissao us = new PontoTransmissao();		
+		 us = PontoTransmissaoDAOImpl.getInstance().getBean(2832019);
+		dst.getId().setPontoTransmissao(us);
 		
-		DistribuicaoTecnicoUSPK dstpk = new DistribuicaoTecnicoUSPK();
+		DistribuicaoTecnicoPK dstpk = new DistribuicaoTecnicoPK();
 		dstpk.setTecnico(t);
-		dstpk.setUnidadeServico(us);
+		dstpk.setPontoTransmissao(us);
 		
 		//int ret = dao.adicionar(dst);				
 		//int ret = dao.remover(dst);
@@ -193,5 +199,7 @@ public class DistribuicaoTecnicoUsDAOImpl implements DistribuicaoTecnicoUsDAO {
 		
 		System.out.println("Done!!");
 	}
+
+
 
 }
