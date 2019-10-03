@@ -9,7 +9,7 @@
   <div class="card-header">Data Eleição</div>
   <div class="card-body">
   
-    <table id="table1" class="table">
+    <table id="tbeleicao" class="table table-sm table-hover">
 	<thead>
 		<tr>
 			<th width="8%">Data</th>
@@ -56,82 +56,11 @@
     
 	  </div>
 	</div>
-
 </div>
 
    
 
 <jsp:include page = "/javascripts.jsp" />
-
-<script type="text/javascript" language="javascript" class="init">
-$(document).ready(function() {
-    $('#table1').dataTable( {
-        "order": [[ 0, "des" ],[ 1, "des" ]]
-   });
-
-});
-				
-	$( "[id*='excluir']" ).click(function(event) {
-	    var data = $(event.delegateTarget).data();
-		var id = data.recordId; 
-		var descricao = data.recordDescricao;
-		Swal.fire({
-			  title: 'Excluir?',
-			  text: "Deseja excluir esse registro? (" + descricao + ")",
-			  type: 'warning',
-			  showCancelButton: true,
-			  confirmButtonText: 'Sim excluir!'
-			}).then((result) => {
-			  if (result.value) {
-			    
-			       $.getJSON({
-					  url: "remover?eleicao.id="+id
-				   }).done(function( data ) {
-				    	  if (data.ret==1){
-				    		  $('#tr'+id).fadeOut(); 
-				    		     Swal.fire("Remover", data.mensagem, "success");
-				    	  }
-				    	  else
-				    		  Swal.fire("Remover", "Ocorreu um erro ao remover", "error");
-					}).fail(function() {
-						Swal.fire("Remover", "Ocorreu um erro ao remover", "error");
-					});
-			   }
-			})
-	  });
-		
-$( "[id*='setcontext']" ).click(function(event) {
-    var data = $(event.delegateTarget).data();
-	var id = data.recordId;  
-	var turno = data.recordTurno;
-	var dt = data.recordData;
-	Swal.fire({
-		  title: 'Ativar Eleição?',
-		  text: "Deseja tornar a eleição " + dt + " turno " + turno + " ativa?",
-		  type: 'warning',
-		  showCancelButton: true,
-		  confirmButtonText: 'Ativar'
-		}).then((result) => {
-		  if (result.value) {
-		    
-		       $.getJSON({
-				  url: "setcontexto?eleicao.id="+id
-			   }).done(function( data ) {
-			    	  if (data.ret==1){	    		  
-			    		  $( "span:contains('Ativo')" ).attr('class', 'badge badge-pill badge-secondary');
-			    		  $( "span:contains('Ativo')" ).text("Desativado");
-			    		  $('#ele'+id).text("Ativo");
-			    		  $('#ele'+id).attr('class', 'badge badge-pill badge-success');
-			    		  // Swal.fire("Ativar Eleição", data.mensagem, "success");
-			    	  }
-			    	  else
-			    		  Swal.fire("Ativar Eleição", data.mensagem, "error");
-				}).fail(function() {
-					Swal.fire("Ativar Eleição", "Ocorreu um erro ao realizar esse procedimento", "error");
-				});
-		   }
-		})
-   });		
-</script>
+<script src="${pageContext.request.contextPath}/js/eleicao.js"></script>
 
 <jsp:include page = "/mainfooter.inc.jsp" />

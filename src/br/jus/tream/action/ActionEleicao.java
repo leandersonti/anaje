@@ -20,7 +20,7 @@ import br.jus.tream.dominio.Eleicao;
 @Namespace("/eleicao")
 @ResultPath(value = "/")
 @ParentPackage(value = "default")
-public class ActionDataEleicao extends ActionSupport{
+public class ActionEleicao extends ActionSupport{
 	private List<Eleicao> lstEleicao;
 	private Eleicao eleicao;
 	private BeanResult result;
@@ -79,10 +79,12 @@ public class ActionDataEleicao extends ActionSupport{
 	    	//BeanLogin b = (BeanLogin)session.getAttribute("login");
 		    if (permissao.getAdmin()) {
 		    	beanResult.setRet(dao.ativar(this.eleicao.getId()));
+		    	beanResult.setType("success");
 				beanResult.setMensagem(getText("eleicao.setcontexto"));
 		    } else {
 		    	beanResult.setRet(0);
-				beanResult.setMensagem(getText("permissao.negada"));				
+				beanResult.setMensagem(getText("permissao.negada"));
+				beanResult.setType("error");
 		    }
 		} catch (Exception e) {
 			 addActionError(getText("eleicao.setcontexto.error") + " Error: " + e.getMessage());
@@ -99,13 +101,18 @@ public class ActionDataEleicao extends ActionSupport{
 		try {
 			if (permissao.getAdmin()) {
 				beanResult.setRet(dao.adicionar(eleicao));
-				if (beanResult.getRet() == 1)
+				if (beanResult.getRet() == 1) {
 					beanResult.setMensagem(getText("inserir.sucesso"));
-				else
+					beanResult.setType("success");
+				}
+				else {
 					beanResult.setMensagem(getText("inserir.error"));
+					beanResult.setType("error");
+				}
 			}else {
 				beanResult.setRet(0);
 				beanResult.setMensagem(getText("permissao.negada"));
+				beanResult.setType("error");
 			}
 		} catch (Exception e) {
 			    addActionError(getText("alterar.error") + " Error: " + e.getMessage());
@@ -126,8 +133,10 @@ public class ActionDataEleicao extends ActionSupport{
 				beanResult.setRet(dao.atualizar(this.eleicao));
 				if (beanResult.getRet()==1) {
 					beanResult.setMensagem(getText("alterar.sucesso"));
+					beanResult.setType("success");
 				}else {
 					beanResult.setMensagem(getText("alterar.error")); 
+					beanResult.setType("error");
 				}
 			}else {
 				beanResult.setRet(0);
@@ -145,13 +154,15 @@ public class ActionDataEleicao extends ActionSupport{
 			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String doRemover() {
 		BeanResult beanResult = new BeanResult();
+		beanResult.setRet(0);
 		try {
 			if (permissao.getAdmin()) {
 				beanResult.setRet(dao.remover(this.eleicao));
 				beanResult.setMensagem(getText("remover.sucesso"));
+				beanResult.setType("success");
 			}else {
-				beanResult.setRet(0);
 				beanResult.setMensagem(getText("permissao.negada"));
+				beanResult.setType("error");
 			}	
 		} catch (Exception e) {
 			addActionError(getText("remover.error") + " Error: " + e.getMessage());

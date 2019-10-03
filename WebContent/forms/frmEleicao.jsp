@@ -6,7 +6,7 @@
 		<div class="card-header">Cadastrar Data Eleição:</div>
 		<div class="card-body">
 
-			<form action="" method="post" name="form1" id="form1" class="needs-validation_" novalidate>
+			<form action="" method="post" name="frmEleicao" id="frmEleicao" class="needs-validation_" novalidate>
 				<s:if test='eleicao.id != null'>
 					<input type="hidden" id="id" name="eleicao.id" value="${eleicao.id}">
 				</s:if>
@@ -55,59 +55,6 @@
 </div>
 
 <jsp:include page="/javascripts.jsp" />
-
-<script type="text/javascript">
-$(document).ready(function() {
- 
-	 $("#btnSave").click(function() {
-		var URL = ""; 
-		if ( $('#id').length ) { URL = "atualizar"; }
-		else{ URL = "adicionar";  }	
-		if (verificaDados()){
-			 Swal.fire({
-		         title: "Confirma ?",
-		         text: "Confirma " + URL + "?",
-		         type: 'warning',
-		         showCancelButton: true,
-				  confirmButtonText: 'Incluir'
-		         }).then((result) => {
-					if (result.value) {
-						var frm = $("#form1").serialize();
-						$.getJSON({
-							url: URL,
-							data: frm
-					    }).done(function( data ) {
-					    	if(data.ret==1)
-					    		Swal.fire(URL, data.mensagem, "success");
-					    	else 
-					    		Swal.fire(URL, data.mensagem, "error");
-						}).fail(function() {
-								Swal.fire("Adicionar", "Ocorreu um erro ao incluir", "error");
-						});
-				      } 
-			   }); // -- FIM SWAL --
-		   }else{
-			   Swal.fire("Dados", "Verifique os campos obrigatórios ", "error");
-		   }
-	 	}); // -- FIM btnSave --
-	 
-});
-
- function verificaDados(){
-    if ($("#form1")[0].checkValidity()===false){
-    	$("#form1")[0].classList.add('was-validated');
-    	return false;
-    }else 
-	   return true;
- }
-</script>
+<script src="${pageContext.request.contextPath}/js/eleicao.js"></script>
 	
 <jsp:include page="/mainfooter.inc.jsp" />
-
-
-
-
-
-
-
-

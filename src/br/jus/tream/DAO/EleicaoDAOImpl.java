@@ -84,6 +84,10 @@ public class EleicaoDAOImpl implements EleicaoDAO {
 		int ret = 0;
 		try {
 			ret = dao.adicionar(eleicao);
+			if (eleicao.getAtivo()==1) {
+			    this.ativar(eleicao.getId());	
+			}
+			// System.out.println("ID eleicao cadastrada = " + eleicao.getId());
 		} catch (Exception e) {
 			// e.printStackTrace();
 		}
