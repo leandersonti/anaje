@@ -21,15 +21,23 @@
           </li>
           
           <li class="nav-item dropdown ${distribuicao}">
-	            <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Distribuição</a>
-	            <div class="dropdown-menu" aria-labelledby="dropdown01">
-	              <a class="dropdown-item" href="${pageContext.request.contextPath}/distribuisecao/frmCad">Seções</a>
-	              <a class="dropdown-item" href="${pageContext.request.contextPath}/distribequipamento/frmCad">Equipamentos</a>
-	              <a class="dropdown-item" href="${pageContext.request.contextPath}/distribtecnico/frmCad">Técnicos</a>
-	              <a class="dropdown-item" href="#">Permissões</a>
-	              <a class="dropdown-item" href="${pageContext.request.contextPath}/distribequipamento/setuplistar">Dist Equipamento</a>
-	            </div> 
-          </li>
+	            <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Distribuição</a>
+	            <ul class="dropdown-menu" aria-labelledby="dropdown01">
+	              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/distribuisecao/frmCad">Seções</a></li>
+	              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/distribequipamento/frmCad">Equipamentos</a></li>
+	              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/distribtecnico/frmCad">Técnicos</a></li>		             		                                
+	              <li><a class="dropdown-item" href="#">Permissões</a></li>
+	              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/distribequipamento/setuplistar">Dist Equipamento</a></li>
+	              <li class="dropdown-submenu">
+	             	 <a class="dropdown-item dropdown-toggle">Consulta</a>
+	             	 <ul class="dropdown-menu">
+	             	   <li><a class="dropdown-item" href="${pageContext.request.contextPath}/distribuisecao/frmCad">Seções</a></li>		             
+			           <li><a class="dropdown-item" href="${pageContext.request.contextPath}/distribequipamento/frmCad">Equipamentos</a></li>
+			           <li><a class="dropdown-item" href="${pageContext.request.contextPath}/distribtecnico/frmCad">Técnicos</a></li>
+	             	 </ul>	             	 			         			                   
+			      </li>
+				</ul>	              	              	             
+          </li>  
           
           <li class="nav-item ${tecnico}">
             <a class="nav-link" href="${pageContext.request.contextPath}/tecnico/listar">Técnico</a>
