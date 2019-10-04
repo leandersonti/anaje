@@ -96,7 +96,8 @@ $(document).ready(function() {
 								url: URL,
 								data: frm
 						    }).done(function( data ) {
-						    	if(data.ret==1){						    		
+						    	if(data.ret==1){	
+						    		CarregaTecnico();						    		
 						    		swal(URL, data.mensagem, "success");
 						         }	
 						    	else 

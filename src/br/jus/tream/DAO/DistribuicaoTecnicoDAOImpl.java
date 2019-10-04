@@ -1,17 +1,14 @@
 package br.jus.tream.DAO;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import br.jus.tream.dominio.DistribuicaoTecnico;
-import br.jus.tream.dominio.PontoTransmissao;
 import br.jus.tream.dominio.Tecnico;
 import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
-import br.jus.tream.dominio.pk.DistribuicaoTecnicoPK;
 
 public class DistribuicaoTecnicoDAOImpl implements DistribuicaoTecnicoDAO {
 	
