@@ -68,7 +68,7 @@
 	                <%=s.getTitulo() + "-" + s.getFirstName()%>
 	             </a>
 	            <div class="dropdown-menu" aria-labelledby="sessionmnu">
-	              <a class="dropdown-item" href="${pageContext.request.contextPath}/login/logout">Sair</a>
+	              <a class="dropdown-item" href="${pageContext.request.contextPath}/login/logout"><i class="fa fa-power-off" aria-hidden="true"></i> Sair</a>
 	            </div>
 	            
 	            <%

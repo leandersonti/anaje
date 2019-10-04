@@ -15,7 +15,7 @@
  
    <footer class="footer">
       <div class="container">
-         <span class="text-muted">Controle de Ponto de Transmissão 
+         <span class="text-light">Controle de Ponto de Transmissão
       	<%
 	     BeanLogin s = (BeanLogin)session.getAttribute("login");
 		  try{
@@ -27,7 +27,7 @@
 	               <%}
 				   }
 			}catch (Exception e){ %>
-			    <span class="badge badge-pill badge-secondary">Sessão não iniciada</span>
+			       <span class="badge badge-pill badge-secondary"><i class="fa fa-lock" aria-hidden="true"></i> Sessão não iniciada</span>
 		    <%	 
 			     }
 			%>				
