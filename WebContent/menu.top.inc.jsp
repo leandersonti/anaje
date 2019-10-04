@@ -65,7 +65,7 @@
 				      if (!s.getNome().equals("")){
 			    %>
 	             <a class="nav-link dropdown-toggle" href="http://example.com" id="sessionmnu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	                <%=s.getTitulo() + "-" + s.getFirstName()%>
+	                <i class="fa fa-user-circle-o" aria-hidden="true"></i> <%=s.getTitulo() + "-" + s.getFirstName()%>
 	             </a>
 	            <div class="dropdown-menu" aria-labelledby="sessionmnu">
 	              <a class="dropdown-item" href="${pageContext.request.contextPath}/login/logout"><i class="fa fa-power-off" aria-hidden="true"></i> Sair</a>

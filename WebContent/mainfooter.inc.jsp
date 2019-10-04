@@ -25,7 +25,13 @@
 	                <%}else{%>
 	                   | <span class="badge badge-danger">Banco Homologa</span>
 	               <%}
-				   }
+				   
+				  if (s.getAdmin()==1){
+					  out.print(" | <i class=\"fa fa-user\"></i> User Admin"); 
+				  }else{
+					  out.print(" | <i class=\"fa fa-user-o\"></i> User ZE: " + s.getZona());
+				  }
+			  }	  
 			}catch (Exception e){ %>
 			       <span class="badge badge-pill badge-secondary"><i class="fa fa-lock" aria-hidden="true"></i> Sessão não iniciada</span>
 		    <%	 
