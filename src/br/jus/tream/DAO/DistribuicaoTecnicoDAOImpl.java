@@ -115,6 +115,30 @@ public class DistribuicaoTecnicoDAOImpl implements DistribuicaoTecnicoDAO {
 	}
 	
 	@Override
+	public List<Tecnico> listarParaDistribuir(Integer zona, Integer contrato) throws Exception {
+		List<Tecnico> lista = new ArrayList<Tecnico>();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		try {
+			TypedQuery<Tecnico> query = em
+					.createQuery("SELECT NEW Tecnico(t.id,t.nome) FROM Tecnico t " + 
+							" WHERE t.zona=?1 AND t.id in(SELECT d.id.tecnico.id FROM TecnicoContrato d WHERE d.ativo = 1" + 
+							" AND d.id.contrato.id = ?2 AND id.eleicao.ativo = 1) AND " + 
+							" t.id NOT IN (SELECT ds.id.tecnico.id FROM DistribuicaoTecnico ds " + 
+							" WHERE ds.id.pontoTransmissao.id.eleicao.ativo=1)",
+							Tecnico.class);				
+			query.setParameter(1, zona);
+			query.setParameter(2, contrato);
+			lista = query.getResultList();
+		} catch (Exception e) {
+			em.close();
+			e.printStackTrace();
+		} finally {
+			em.close();
+		}
+		return lista;
+	}
+	
+	@Override
 	public DistribuicaoTecnico getBean(String tituloEleitor) throws Exception {
 		DistribuicaoTecnico ds = new DistribuicaoTecnico();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
@@ -171,12 +195,12 @@ public class DistribuicaoTecnicoDAOImpl implements DistribuicaoTecnicoDAO {
 		 //cad.setCodmunic(2046);
 		 
 		 System.out.println("entrei!!");
-		 /*for(Tecnico t:dao.listarParaDistribuir(45)) { 
+		 for(Tecnico t:dao.listarParaDistribuir(65,20)) { 
 			  System.out.println("==="+t.getNome());		  
-		  }*/
+		  }
 		
 		
-		DistribuicaoTecnico dst = new DistribuicaoTecnico();
+		/*DistribuicaoTecnico dst = new DistribuicaoTecnico();
 		dst.setDataCad(new Date());		
 		Tecnico t = new Tecnico();
 		t.setId(1282018);
@@ -196,7 +220,7 @@ public class DistribuicaoTecnicoDAOImpl implements DistribuicaoTecnicoDAO {
 		int ret = dao.adicionar(dst);				
 		//int ret = dao.remover(dst);
 		System.out.println("ret == " + ret);
-		
+		*/
 		System.out.println("Done!!");
 	}
 

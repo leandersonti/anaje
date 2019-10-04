@@ -19,14 +19,14 @@
 								headerValue="Selecione a zona" tooltip="Informe a Zona"
 								list="lstZonaEleitoral" listKey="id.zona+';'+id.codmunic"
 								listValue="fzona +' - '+ municipio"
-								name="ds.codZonaMunic"  id="codZonaMunic" theme="simple"  cssClass="form-control"/>
+								name="codZonaMunic"  id="codZonaMunic" theme="simple"  cssClass="form-control"/>
 					<div class="invalid-feedback">Por favor, informe a zona eleitoral.</div>
 				</div>				 
 			
 				  <div class="form-group col-md-6">
 						<label for="inputTipo">Ponto Transmissão :</label> <select
-							class="form-control form-control" id="us" name="pt.id.id" required>
-							<option value="0">Selecione</option>
+							class="form-control form-control" id="pt" name="pt.id.id" required>
+							<option value="-1">Selecione</option>
 						</select>
 						<div class="invalid-feedback">Por favor, informe o ponto de transmissão.</div>
 				 </div>
@@ -35,20 +35,20 @@
 					  <div class="form-group col-md-6">
 					<label for="inputTipo">Contrato:</label> <select
 						class="form-control form-control" id="contrato" name="" required>
-						<option value="0">Selecione</option>
+						<option value="-1">Selecione</option>
 					</select>
 				</div>
 					<div class="form-group col-md-6">
 						<label for="inputTipo">Técnico:</label> <select
 							class="form-control form-control" id="tecnico" name="dst.id.tecnico.id" required>
-							<option value="0">Selecione</option>
+							<option value="-1">Selecione</option>
 						</select>
 					</div>
 				</div>
 				<div class="form-group ">
 					<label for="inputTipo">Técnico Responsável :</label> <select
 						class="form-control form-control" id="tecnicoresp" name="dst.tecnicoResponsavel.id" required>
-						<option value="0">Selecione</option>
+						<option value="-1">Selecione</option>
 					</select>
 				</div>
 				<button class="btn btn-primary" id="btnSave" type="button">Enviar</button>
@@ -83,7 +83,7 @@ $(document).ready(function() {
 			var URL = ""; 
 			if ( $('#id').length ) { URL = "atualizar"; }
 			else{ URL = "adicionar";  }	
-			//if (verificaDados()){
+			if (verificaDados()){
 				 swal({
 			         title: "Distribuicao Tecnico?",
 			         text: "Confirma essa distribuicao?",
@@ -106,31 +106,29 @@ $(document).ready(function() {
 							});
 					      } 
 				   }); // -- FIM SWAL --
-			 //  }else{
-			//	   swal("Dados", "Verifique os campos obrigatórios ", "error");
-			//   }
+			   }else{
+				   swal("Dados", "Verifique os campos obrigatórios ", "error");
+			   }
 		 	}); // -- FIM btnSave --
 		 	
 });
 
 function verificaDados(){
-	/* if ($("#form1")[0].checkValidity()===false){
-    	$("#form1")[0].classList.add('was-validated');
+	 if($('#pt option:selected').val()==-1){    	
     	return false;
-    }
-    
-     else{
-    	var cbxCollection = document.getElementById('us');
-    	if (cbxCollection.length==0 || $('#us option:selected').val()==-1 )
-    		return false;
-    	else
-    		return true;
-    } */ 
+    } 
+	if($('#tecnico option:selected').val()==-1){    	
+    		return false;    	
+    } 
+	if($('#tecnicoresp option:selected').val()==-1){    	
+		return false;    	
+	} 
+	return true;
  }
 
 function CarregaPontoTransmissao(){
 	 var codZonaMunic = $("#codZonaMunic").val();
-    var cbxpt = $('#us');	
+    var cbxpt = $('#pt');	
         cbxpt.find('option').remove();
    	 if(codZonaMunic != -1){	    		 
 		     $.getJSON('../pontotrans/listarJson?codZonaMunic='+codZonaMunic,function(jsonResponse) {
@@ -162,7 +160,7 @@ function CarregaTecnico(){
     var select = $('#tecnico');	      
         select.find('option').remove();
     	if(contrato != -1){
-		      $.getJSON('../tecnico/listarJsonByContrato?contrato.id='+contrato,function(jsonResponse) {
+		      $.getJSON('../distribtecnico/listarParaDistribuirJson?contrato.id='+contrato,function(jsonResponse) {
 		    	  $('<option>').val(-1).text("Informe o tecnico").appendTo(select);
 		                $.each(jsonResponse, function(key, value) {
 		                $('<option>').val(value.id).text(value.nome).appendTo(select);
