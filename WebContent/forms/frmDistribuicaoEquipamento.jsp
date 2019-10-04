@@ -1,7 +1,8 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<s:set var="distribuicao">active</s:set>
 <jsp:include page="/mainhead.inc.jsp" />
-<div class="container">
 
+<div class="container">
 	<div class="card">
 		<div class="card-header"><b>Distribuição de Equipamento</b></div>
 		<div class="card-body">
