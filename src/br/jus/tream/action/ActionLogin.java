@@ -25,22 +25,39 @@ import br.jus.tream.dominio.BeanLogin;
 public class ActionLogin extends ActionSupport implements SessionAware{  
   private BeanLogin beanlogin;
   private String username,userpass; 
-  private String endpoint;
+  private String endpoint = "/main.jsp";
   
   SessionMap<String,BeanLogin> sessionmap;
+  
   
   @Action(value = "frmLogin", results = { @Result(name = "success", location = "/frmLogin.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp")})
   public String frmLogin() {
-	   HttpSession session = ServletActionContext.getRequest().getSession(true);
-	   endpoint = (String)session.getAttribute("endpoint");
+	   try {
+		   HttpSession session = ServletActionContext.getRequest().getSession(true);
+		   endpoint = (String)session.getAttribute("endpoint");		   
+		   
+		   if(endpoint.length() == 0) {
+			   endpoint = "/main.jsp";
+		   }
+		} catch (Exception e) {
+			this.setEndpoint("/main.jsp");			
+		}
+		   	   
 	  return "success";
   }
+  
+  @Action(value = "main", results = { @Result(name = "success", location = "/main.jsp"),
+			@Result(name = "error", location = "/pages/error.jsp")})
+  public String main() {	 
+	  return "success";
+}
 	
   @Action(value = "process", results = {@Result(name = "success", location = "%{endpoint}", type = "redirect"),
 	        @Result(name = "error", location = "/frmLogin.jsp")})
 	public String getLogin(){  
-		try{
+		try{					
+			
 			this.beanlogin = LoginAD.getInstance().getLogin(this.getUsername(), this.getUserpass());
 			this.beanlogin.setIdEleicao(EleicaoDAOImpl.getInstance().getBeanAtiva().getId());
 		    if(this.beanlogin.getLogou()){ 		    	
@@ -52,6 +69,7 @@ public class ActionLogin extends ActionSupport implements SessionAware{
 				 return "error";
 		    }  
 		}catch (Exception e) {
+			e.printStackTrace();
 			addActionError(getText("error.login")+ "==" + e.getMessage());			 
 			return "error";
 		}
@@ -61,7 +79,7 @@ public class ActionLogin extends ActionSupport implements SessionAware{
   @Action(value = "logout", results = {@Result(name = "success", location = "/frmLogin.jsp"),
 	        @Result(name = "error", location = "/pages/error.jsp")})
 	public String logout(){  
-	    sessionmap.invalidate();  
+	    sessionmap.invalidate(); 	    
 	    return "success";  
 	}  
   

@@ -11,7 +11,7 @@ import br.jus.tream.dominio.BeanLogin;
 @SuppressWarnings("serial")
 public class Permissao implements Serializable{
 	static Permissao db;
-	final static HttpSession session = ServletActionContext.getRequest().getSession(true);
+	//final static HttpSession session = ServletActionContext.getRequest().getSession(true);
 
 	public static Permissao getInstance() {
 		if (db == null) {
@@ -21,19 +21,19 @@ public class Permissao implements Serializable{
 	}
 	
 	public final boolean getAdmin() {
-		//HttpSession session = ServletActionContext.getRequest().getSession(true);
+		HttpSession session = ServletActionContext.getRequest().getSession(true);
     	BeanLogin b = (BeanLogin)session.getAttribute("login");
 	    return (b.getAdmin()==1);
 	}
 	
 	public final int getZona() {
-		//HttpSession session = ServletActionContext.getRequest().getSession(true);
+		HttpSession session = ServletActionContext.getRequest().getSession(true);
     	BeanLogin b = (BeanLogin)session.getAttribute("login");
 	    return b.getZona();
 	}
 	
 	public final int getIdEleicao() {
-		//HttpSession session = ServletActionContext.getRequest().getSession(true);
+		HttpSession session = ServletActionContext.getRequest().getSession(true);
     	BeanLogin b = (BeanLogin)session.getAttribute("login");
 	    return b.getIdEleicao();
 	}
