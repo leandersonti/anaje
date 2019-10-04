@@ -13,6 +13,7 @@
                     <div class="card-header"><img src="${pageContext.request.contextPath}/images/brasao-peq2.png" /> Para entrar informe os dados abaixo</div>
                     <div class="card-body">
                         <form  action="${pageContext.request.contextPath}/login/process" method="post">
+                            <input type="hidden" id="id" name="endpoint" value="${endpoint}">
                             <div class="form-group row">
                                 <label for="email_address" class="col-md-4 col-form-label text-md-right">Título Eleitor</label>
                                 <div class="col-md-6">

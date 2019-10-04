@@ -18,6 +18,7 @@ public class AppInterceptor implements Interceptor{
 	public void init() {}
 	
 	//put interceptor code here
+	@SuppressWarnings("static-access")
 	public String intercept(ActionInvocation invocation) throws Exception {
 		String result = "success";
 
@@ -38,7 +39,12 @@ public class AppInterceptor implements Interceptor{
 			//System.out.println("Sessão expirada xxxxxxxx " + e.getMessage());
 		}
 		// -----------------------   DEPOIS DA ACTION
-		// System.out.println("CustomInterceptor, after invocation.invoke()... Result........>> " + result);
+		//System.out.println("Action Classe Name = " + invocation.getAction().getClass().getSimpleName());
+		//System.out.println("Action endpoint = " + invocation.getInvocationContext().getName());
+		//System.out.println("Action getAction getAnnotations = " + invocation.getProxy().getNamespace());
+		String endpoint = invocation.getProxy().getNamespace() + "/" + invocation.getInvocationContext().getName();
+		invocation.getInvocationContext().getSession().put("endpoint",endpoint); 
+		//invocation.getStack().setValue("endpoint", endpoint);
 		return result;
 	}
 

@@ -2,6 +2,9 @@ package br.jus.tream.action;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -21,17 +24,20 @@ import br.jus.tream.dominio.BeanLogin;
 @ParentPackage(value = "default")
 public class ActionLogin extends ActionSupport implements SessionAware{  
   private BeanLogin beanlogin;
-  private String username,userpass;  
+  private String username,userpass; 
+  private String endpoint;
   
   SessionMap<String,BeanLogin> sessionmap;
   
   @Action(value = "frmLogin", results = { @Result(name = "success", location = "/frmLogin.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp")})
-  public String frmLogin() {	
-		return "success";
+  public String frmLogin() {
+	   HttpSession session = ServletActionContext.getRequest().getSession(true);
+	   endpoint = (String)session.getAttribute("endpoint");
+	  return "success";
   }
 	
-  @Action(value = "process", results = {@Result(name = "success", location = "/main.jsp"),
+  @Action(value = "process", results = {@Result(name = "success", location = "%{endpoint}", type = "redirect"),
 	        @Result(name = "error", location = "/frmLogin.jsp")})
 	public String getLogin(){  
 		try{
@@ -95,6 +101,14 @@ public class ActionLogin extends ActionSupport implements SessionAware{
 		public void setSession(Map map) {  
 		    sessionmap=(SessionMap)map;  
 		    sessionmap.put("login",this.beanlogin);  
+		}
+
+		public String getEndpoint() {
+			return endpoint;
+		}
+
+		public void setEndpoint(String endpoint) {
+			this.endpoint = endpoint;
 		}  
 		
   

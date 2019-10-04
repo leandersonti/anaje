@@ -10,17 +10,19 @@
   <constant name="struts.action.excludePattern" value="/Simple"/>  -->
 
   <package name="default" extends="struts-default,json-default" namespace="/">
+           
            <interceptors>	
 			  <interceptor name="authentication" class="br.jus.tream.interceptor.AppInterceptor">
-			    </interceptor>
+			      </interceptor>
 		              <interceptor-stack name="authStack">
+		                 <interceptor-ref name="params" />
 		     		     <interceptor-ref name="authentication"/>
 				         <interceptor-ref name="defaultStack" />
 				      </interceptor-stack>
 		    </interceptors>
     
 			<global-results>  
-			      <result name="loginNecessario">/frmLogin.jsp</result>
+			      <result name="loginNecessario" type="redirect">/login/frmLogin</result>
 			</global-results>    				
     </package>
     
