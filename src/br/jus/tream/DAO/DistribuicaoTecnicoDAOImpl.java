@@ -141,9 +141,28 @@ public class DistribuicaoTecnicoDAOImpl implements DistribuicaoTecnicoDAO {
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
 			TypedQuery<DistribuicaoTecnico> query = em.createQuery("SELECT ds FROM DistribuicaoTecnico ds WHERE "
-								+ "ds.id.tecnico.tituloEleitor = ?1 AND ds.id.unidadeServico.id.dataEleicao.ativo=1",
+								+ "ds.id.tecnico.tituloEleitor = ?1 AND ds.id.pontoTransmissao.id.eleicao.ativo=1",
 								DistribuicaoTecnico.class);
 			query.setParameter(1, tituloEleitor);
+			ds = query.getSingleResult();
+		} catch (Exception e) {
+			em.close();
+			// e.printStackTrace();
+		} finally {
+			em.close();
+		}
+		return ds;
+	}
+		
+	@Override
+	public DistribuicaoTecnico getBean(Integer unidadeservico) throws Exception {
+		DistribuicaoTecnico ds = new DistribuicaoTecnico();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		try {
+			TypedQuery<DistribuicaoTecnico> query = em.createQuery("SELECT ds FROM DistribuicaoTecnico ds WHERE "
+								+ "ds.id.pontoTransmissao.id.id = ?1 AND ds.id.pontoTransmissao.id.eleicao.ativo=1",
+								DistribuicaoTecnico.class);
+			query.setParameter(1, unidadeservico);
 			ds = query.getSingleResult();
 		} catch (Exception e) {
 			em.close();
@@ -179,22 +198,22 @@ public class DistribuicaoTecnicoDAOImpl implements DistribuicaoTecnicoDAO {
 	
 	
 
-	@Override
-	public DistribuicaoTecnico getBean(Integer unidadeservico) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	public static void main(String[] args) throws Exception {
-		DistribuicaoTecnicoDAO dao = DistribuicaoTecnicoDAOImpl.getInstance();
+		 DistribuicaoTecnicoDAO dao = DistribuicaoTecnicoDAOImpl.getInstance();
 		 //CadZonaEleitoralPK cad = new CadZonaEleitoralPK();		 
 		 //cad.setZona(31);
 		 //cad.setCodmunic(2046);
 		 
 		 System.out.println("entrei!!");
-		 for(Tecnico t:dao.listarParaDistribuir(65,20)) { 
+		/* for(Tecnico t:dao.listarParaDistribuir(65,20)) { 
 			  System.out.println("==="+t.getNome());		  
 		  }
+		 */
+		 DistribuicaoTecnico dst = new DistribuicaoTecnico();
+				 
+		 dst = dao.getBean("037443852224");		 		
+		 System.out.println("==="+dst.getId().getTecnico().getNome());
 		
 		
 		/*DistribuicaoTecnico dst = new DistribuicaoTecnico();
