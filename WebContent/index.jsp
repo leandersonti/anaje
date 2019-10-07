@@ -9,6 +9,7 @@
     <title>PPO</title>
     <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/main.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/font-awesome.min.css" rel="stylesheet">
     <style type="text/css">
 	   body {
 		  padding-top: 1rem;
@@ -78,16 +79,18 @@
 	
 	<br><br><br>
 	<div class="row">
-		<footer class="footer">
-	        <p>&copy; STI/CDES/SAWEB 2019  <i class="glyphicon glyphicon-user" aria-hidden="true"></i><a href="${pageContext.request.contextPath}/login/frmLogin">Login</a>&nbsp;&nbsp; 
+		
+	        <p>&copy; STI/CDES/SAWEB 2019  <i class="fa fa-user-circle" aria-hidden="true"></i><a href="${pageContext.request.contextPath}/login/frmLogin">Login</a>&nbsp;&nbsp; 
 	          <i class="glyphicon glyphicon-tags" aria-hidden="true"></i>
+	          <!-- 
 	          <a href="http://intranet.tre-am.jus.br:8080/Mura/">Mura</a>&nbsp;&nbsp;
-	          <i class="glyphicon glyphicon-info-sign" aria-hidden="true"></i>
+	          
 	          <a href="http://intranet.tre-am.jus.br:8080/acompelei/">AcompElei</a>&nbsp;&nbsp;
-	          <i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>
+	           -->
+	          
 	          <!--  <a href="homologaPonto/frmSetupHomologaPonto">Homologar Ponto Transmissão</a>  -->
 	        </p>
-	      </footer>
+	    
 	</div>
   </div>
 
