@@ -137,7 +137,7 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 		  try {	  
 			    em.getTransaction().begin();
 			    Query query = em.createQuery("UPDATE PontoTransmissao p SET p.oficial=1, p.status=1 "
-		     										+ "WHERE p.id.eleicao.ativo=1 AND p.zona=?1 AND p.codmunic=?2");
+		     								+ "WHERE p.zona=?1 AND p.codmunic=?2");
 		         query.setParameter(1, pkze.getZona());
 			     query.setParameter(2, pkze.getCodmunic()).executeUpdate();
 			    em.getTransaction().commit();
