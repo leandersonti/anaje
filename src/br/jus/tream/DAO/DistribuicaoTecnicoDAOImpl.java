@@ -31,9 +31,9 @@ public class DistribuicaoTecnicoDAOImpl implements DistribuicaoTecnicoDAO {
 		try {
 			
 			TypedQuery<DistribuicaoTecnico> query = em
-					.createQuery("SELECT ds FROM DistribuicaoTecnico ds, DistribuicaoTecnicoContrato dt WHERE "
-								+ "dt.id.contrato.id=?3 AND ds.id.unidadeServico.zona=?1 AND ds.id.UnidadeServico.codmunic=?2"
-								+ " AND ds.id.unidadeServico.id.dataEleicao.ativo=1 AND ds.id.tecnico.id = dt.id.tecnico.id",
+					.createQuery("SELECT ds FROM DistribuicaoTecnico ds,TecnicoContrato dt WHERE "
+								+ "dt.id.contrato.id=?3 AND ds.id.pontoTransmissao.zona=?1 AND ds.id.pontoTransmissao.codmunic=?2"
+								+ " AND ds.id.pontoTransmissao.id.eleicao.ativo=1 AND ds.id.tecnico.id = dt.id.tecnico.id",
 								DistribuicaoTecnico.class);
 			query.setParameter(1, codzonaMunic.getZona());
 			query.setParameter(2, codzonaMunic.getCodmunic());

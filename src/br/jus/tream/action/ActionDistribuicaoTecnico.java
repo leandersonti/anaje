@@ -2,6 +2,8 @@ package br.jus.tream.action;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.plaf.synth.SynthSeparatorUI;
+
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -33,6 +35,7 @@ public class ActionDistribuicaoTecnico extends ActionSupport{
 	private List<DistribuicaoSecao> lstDistribuicaoSecao;
 	private List<CADZonaEleitoral> lstZonaEleitoral;
 	private List<Tecnico> lstTecnico;
+	private List<DistribuicaoTecnico> lstDistribuicaoTecnico;
 	private BeanResult result;
 	private PontoTransmissao pt;
 	private DistribuicaoSecao ds;
@@ -63,21 +66,28 @@ public class ActionDistribuicaoTecnico extends ActionSupport{
 		return "success";
 	}
 	
-	@Action(value = "listar", results = { @Result(name = "success", location = "/consultas/data-eleicao.jsp"),
+	@Action(value = "listar", results = { @Result(name = "success", location = "/consultas/distribuicaoTecnico.jsp"),
 			@Result(name = "error", location = "/result.jsp")}, interceptorRefs = @InterceptorRef("authStack")
 	)
 	public String listar() {
 		try {
-			if (permissao.getAdmin()) {
-				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX();
+				
+			if (permissao.getAdmin()) {				
+				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX();						
 			} else {
-				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoral(permissao.getZona());
+				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX(permissao.getZona());							
 			}
+			
+			if(codZonaMunic != null) {				
+				CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
+				this.lstDistribuicaoTecnico = dao.listar(pkze, contrato.getId());
+			}
+			
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";
 		}
-		return "success";
+		return "success"; 
 	}
 	
 	@Action(value = "listarParaDistribuirJson", results = { @Result(name = "success", type = "json", params = { "root", "lstTecnico" }),
@@ -247,6 +257,14 @@ public class ActionDistribuicaoTecnico extends ActionSupport{
 
 	public void setContrato(Contrato contrato) {
 		this.contrato = contrato;
+	}
+
+	public List<DistribuicaoTecnico> getLstDistribuicaoTecnico() {
+		return lstDistribuicaoTecnico;
+	}
+
+	public void setLstDistribuicaoTecnico(List<DistribuicaoTecnico> lstDistribuicaoTecnico) {
+		this.lstDistribuicaoTecnico = lstDistribuicaoTecnico;
 	}
 	
 	
