@@ -7,9 +7,6 @@
      <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap-4-navbar.min.js"></script>
      <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.bootstrap-duallistbox.js"></script>
      <script type="text/javascript" src="${pageContext.request.contextPath}/js/sweetalert.min.js"></script>
-     																				
-     
-     
     <script>
 	    //LOADING
 	    $(window).load(function() {

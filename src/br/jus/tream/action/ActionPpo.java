@@ -10,14 +10,13 @@ import org.apache.struts2.convention.annotation.ResultPath;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import br.jus.tream.DAO.DistribuicaoTecnicoDAOImpl;
 import br.jus.tream.DAO.EleicaoDAOImpl;
 import br.jus.tream.DAO.PpoDAO;
 import br.jus.tream.DAO.PpoDAOImpl;
-import br.jus.tream.DAO.TecnicoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
-import br.jus.tream.dominio.Eleicao;
+import br.jus.tream.dominio.DistribuicaoTecnico;
 import br.jus.tream.dominio.Ppo;
-import br.jus.tream.dominio.Tecnico;
 
 @SuppressWarnings("serial")
 @Namespace("/ppo")
@@ -64,29 +63,31 @@ public class ActionPpo extends ActionSupport {
 	public String doAdicionar() {
 		BeanResult beanResult = new BeanResult();
 		try {
-			Tecnico tecnico = new Tecnico();
-			tecnico = TecnicoDAOImpl.getInstance().getBean(tituloEleitor);
-			this.ppo.setTecnico(tecnico);
-			
-			Eleicao dataeleicao = new Eleicao();
-			dataeleicao = EleicaoDAOImpl.getInstance().getBeanAtiva();
-			this.ppo.setDataEleicao(dataeleicao);
-	
-				beanResult.setRet(dao.adicionar(ppo));
-				if (beanResult.getRet() == 1)
-					beanResult.setMensagem(getText("inserir.sucesso"));
-				else
-					beanResult.setMensagem(getText("inserir.violado"));
-				
-		} catch (Exception e) {
-			  addActionError(getText("alterar.error") + " Error: " + e.getMessage());
-			 result.setMensagem(getText("inserir.error") + " Error: " + e.getMessage());
-			return "error";
-		}
-		this.result = beanResult;
+				// VERIFICA SE O TÉCNICO ESTÁ DISTRIBUIDO
+				DistribuicaoTecnico distribuicaoTecnico = DistribuicaoTecnicoDAOImpl.getInstance().getBean(tituloEleitor);
+				if (distribuicaoTecnico.getId().getTecnico()!=null) {
+					this.ppo.setTecnico(distribuicaoTecnico.getId().getTecnico());
+					this.ppo.setDataEleicao(EleicaoDAOImpl.getInstance().getBeanAtiva());
+						beanResult.setRet(dao.adicionar(ppo));
+						if (beanResult.getRet() == 1) {
+							beanResult.setMensagem(getText("inserir.sucesso"));
+							beanResult.setType("success");
+						}
+						else {
+							beanResult.setMensagem(getText("inserir.violado"));
+							beanResult.setType("warning");
+						}
+				}else {
+					beanResult.setType("warning");
+					beanResult.setMensagem(getText("ppo.error.distrib.tec"));
+				}	
+			} catch (Exception e) {
+				  addActionError(getText("alterar.error") + " Error: " + e.getMessage());
+				return "error";
+			}
+		  this.result = beanResult;
 		return "success";
 	}
-
 
 	public BeanResult getResult() {
 		return result;

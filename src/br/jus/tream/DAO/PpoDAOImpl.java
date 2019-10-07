@@ -9,6 +9,7 @@ import javax.persistence.TypedQuery;
 
 import org.apache.commons.lang3.StringUtils;
 
+import br.jus.tream.dominio.DistribuicaoTecnico;
 import br.jus.tream.dominio.Eleicao;
 import br.jus.tream.dominio.Ppo;
 import br.jus.tream.dominio.PpoTipo;
@@ -33,7 +34,7 @@ public class PpoDAOImpl implements PpoDAO {
 		try {
 			// convertendo titulo para 12 caracteres
 			String tit = StringUtils.leftPad(tituloEleitor, 12, "0");
-			TypedQuery<Ppo> query = em.createQuery("SELECT p FROM Ppo p WHERE p.eleicao.ativo=1 AND p.tecnico.tituloEleitor=?1 ORDER BY p.dataCad DESC", Ppo.class);
+			TypedQuery<Ppo> query = em.createQuery("SELECT p FROM Ppo p WHERE p.eleicao.ativo=1 AND p.tecnico.tituloEleitor=?1 ORDER BY p.dataCad desc", Ppo.class);
 			lista = query.setParameter(1, tit).getResultList();					
 		} catch (Exception e) {
 			em.close();
@@ -120,11 +121,15 @@ public class PpoDAOImpl implements PpoDAO {
 	public static void main(String[] args) throws Exception {
 		PpoDAO dao = PpoDAOImpl.getInstance();
 		
+		//DistribuicaoTecnico tec = DistribuicaoTecnicoDAOImpl.getInstance().getBean("037443852224");
+		//System.out.println(tec.getId().getTecnico().getNome());
+		
+		/*
 		Ppo p = new Ppo();
 		Tecnico tec = new Tecnico();
-		tec.setId(165);		
+		tec.setId(1312018);		
 		Tecnico tecResp = new Tecnico();
-		tecResp.setId(288);
+		tecResp.setId(1);
 		p.setTecnico(tec);
 		p.setTecnicoResp(tecResp);
 		
@@ -132,12 +137,12 @@ public class PpoDAOImpl implements PpoDAO {
 		ppotipo.setId(1);
 		p.setPpoTipo(ppotipo);
 		Eleicao dataeleicao = new Eleicao();
-		dataeleicao.setId(1);
+		dataeleicao.setId(12019);
 		p.setDataEleicao(dataeleicao);
 		
 		int ret = dao.adicionar(p);
 		System.out.println("Ret " + ret);
-		
+		*/
 		
 		/*
 		Ppo p = new Ppo();
@@ -148,7 +153,7 @@ public class PpoDAOImpl implements PpoDAO {
 		*/
 		
 		
-		for(Ppo ppo: dao.listar("034098754422")) {
+		for(Ppo ppo: dao.listar("037443852224")) {
 			System.out.println(ppo.getPpoTipo().getDescricao() + " "  + ppo.getTecnico().getNome() + " resp:" + ppo.getTecnicoResp().getNome() );
 		}
 		

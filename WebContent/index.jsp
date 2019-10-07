@@ -77,7 +77,7 @@
  	 
 	<div id="stepprogress"></div>
 	
-	<br><br><br>
+	<br><br><br><br><br>
 	<div class="row">
 		
 	        <p>&copy; STI/CDES/SAWEB 2019  <i class="fa fa-lock" aria-hidden="true"></i> <a href="${pageContext.request.contextPath}/login/frmLogin">Login</a>&nbsp;&nbsp; 
@@ -91,8 +91,9 @@
 	</div>
   </div>
 
-  <script src="js/jquery.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>  
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/sweetalert.min.js"></script> 
   <script src="js/ppofront.js" charset="utf-8"></script>
      
   </body>
