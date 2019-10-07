@@ -14,6 +14,8 @@ public interface PontoTransmissaoDAO {
 	
 	public List<PontoTransmissao> listar(CadZonaEleitoralPK pkze) throws Exception;	 
 	
+	public int oficializar(CadZonaEleitoralPK pkze) throws Exception;
+	
 	public PontoTransmissao getBean(PontoTransmissaoPK pk) throws Exception;
 	
 	public PontoTransmissao getBean(Integer id) throws Exception;
