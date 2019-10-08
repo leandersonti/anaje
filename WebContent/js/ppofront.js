@@ -14,7 +14,7 @@ $(document).ready(function() {
 				if (titulo == ""){
 					$('#result').attr("class","alert alert-danger");
 					$('#result').html("Informe por favor o título de eleitor");
-					swal("PPO", "Informe por favor o título de eleitor", "warning");
+					swal("Ops!", "Informe por favor o título de eleitor", "warning");
 				} else	{
 					
 					swal({
@@ -35,7 +35,7 @@ $(document).ready(function() {
 									 $("#result").show();
 						    		 swal(descricao, data.mensagem, data.type);
 								}).fail(function() {
-									swal("PPO", "Ocorreu um erro ao realizar esse procedimento", "error");
+									swal("Ops!", "Ocorreu um erro ao realizar esse procedimento", "error");
 									 $('#result').attr("class","alert alert-danger");
 					       		     $('#result').html("Tecnico nao encontrado!");
 					       		   	 $("#result").show();
