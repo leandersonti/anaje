@@ -12,9 +12,11 @@ public interface PontoTransmissaoDAO {
 		
 	public List<PontoTransmissao> listarSemDistribuicaoSecao() throws Exception;
 	
+	public List<PontoTransmissao> listarSemDistribuicaoTecnico() throws Exception;	
+	
 	public List<PontoTransmissao> listar(CadZonaEleitoralPK pkze) throws Exception;	 
 	
-	public int oficializar(CadZonaEleitoralPK pkze) throws Exception;
+	public int oficializar(CadZonaEleitoralPK pkze) throws Exception;	
 	
 	public PontoTransmissao getBean(PontoTransmissaoPK pk) throws Exception;
 	

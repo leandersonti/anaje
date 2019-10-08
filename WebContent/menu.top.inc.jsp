@@ -16,10 +16,23 @@
             <a class="nav-link" href="${pageContext.request.contextPath}/">AnaJÉ<span class="sr-only">(current)</span></a>
           </li>
           
-          <li class="nav-item ${pontotrans}">
-             <a class="nav-link" href="${pageContext.request.contextPath}/pontotrans/listar">Ponto Transmissão</a>
+          <li class="nav-item dropdown ${pontotrans}">             
+             <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ponto Trasmissão</a>
+	            <ul class="dropdown-menu" aria-labelledby="dropdown01">	              
+	              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/pontotrans/frmCad">Cadastrar</a></li>	              
+	              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/pontotrans/frmCad">Oficializar</a></li>	              		             		                               	              	             
+	              <li class="dropdown-submenu">
+	             	 <a class="dropdown-item dropdown-toggle">Consulta</a>
+	             	 <ul class="dropdown-menu">
+	             	   <li><a class="dropdown-item" href="${pageContext.request.contextPath}/pontotrans/listar">Por Zona</a></li>		             
+			           <li><a class="dropdown-item" href="${pageContext.request.contextPath}/pontotrans/listar">Sem Seções</a></li>
+			           <li><a class="dropdown-item" href="${pageContext.request.contextPath}/pontotrans/listar">Sem Técnicos</a></li>
+			           <li><a class="dropdown-item" href="${pageContext.request.contextPath}/pontotrans/listar">Resumo</a></li>
+	             	 </ul>	             	 			         			                   
+			      </li>
+				</ul>	
           </li>
-          
+           
           <li class="nav-item dropdown ${distribuicao}">
 	            <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Distribuição</a>
 	            <ul class="dropdown-menu" aria-labelledby="dropdown01">
@@ -33,7 +46,7 @@
 	             	 <ul class="dropdown-menu">
 	             	   <li><a class="dropdown-item" href="${pageContext.request.contextPath}/distribuisecao/frmCad">Seções</a></li>		             
 			           <li><a class="dropdown-item" href="${pageContext.request.contextPath}/distribequipamento/frmCad">Equipamentos</a></li>
-			           <li><a class="dropdown-item" href="${pageContext.request.contextPath}/distribtecnico/frmCad">Técnicos</a></li>
+			           <li><a class="dropdown-item" href="${pageContext.request.contextPath}/distribtecnico/listar">Técnicos</a></li>
 	             	 </ul>	             	 			         			                   
 			      </li>
 				</ul>	              	              	             
