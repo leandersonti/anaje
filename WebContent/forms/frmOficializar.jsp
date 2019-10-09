@@ -2,14 +2,11 @@
 <jsp:include page="/mainhead.inc.jsp" />
 <div class="container">
 	<div class="card">
-		<div class="card-header"> <b><i>Cadastrar/Atualizar Usuário : </i> </b></div>
+		<div class="card-header"> <b><i>Oficializar: </i> </b></div>
 		<div class="card-body">
 
 			<form action="adicionar" method="post" name="form1" id="form1" >
-				<s:if test='usuario.tituloEleitor != null'>
-					<input type="hidden" id="id" name="usuario.tituloEleitor" value="${usuario.tituloEleitor}">
-				</s:if>
-				
+			
 				<!-- MULTISELECT DE CONVOCADOS -->
 				<div class="panel-body">
 					<div class="row">								  								
@@ -24,10 +21,11 @@
 				<div class="form-row">					
 					<div class="col-xs-6">
 							 <label	for="inputSolicitante">Zona: </label>
-							<s:select id="zona" class="form-control" theme="simple"
-								name="usuario.zona" headerKey="-1"
-								headerValue="--Selecione--" list="lstZonas"
-								listKey="id.zona" listValue="%{zona + ' - ' + municipio}" required="true" />
+							<s:select label="Zona" headerKey="-1"
+								headerValue="Selecione a zona" tooltip="Informe a Zona"
+								list="lstZonaEleitoral" listKey="id.zona+';'+id.codmunic"
+								listValue="fzona +' - '+ municipio"
+								name="ds.codZonaMunic"  id="codZonaMunic" theme="simple"  cssClass="form-control"/>
 						</div>								
 				</div>						 
 	
@@ -42,7 +40,11 @@
 
 <script type="text/javascript">
 $(document).ready(function() {	
-	loadServidores();	
+	
+	$('#codZonaMunic').change(function(event) {	
+		loadServidores();	     
+	 });	
+	
  	 $("#btnSave").click(function() {
  		 var user =  $("#multiselect2").val(); 	 		
  		 if(user!=null){
@@ -85,23 +87,22 @@ $(document).ready(function() {
 });
 
 function loadServidores() {
-	
-	$.getJSON('../servidor/listarJson', function(jsonResponse) {
+	codZonaMunic = $("#codZonaMunic").val();
+	$.getJSON('listarJson?codZonaMunic='+codZonaMunic, function(jsonResponse) {
 		var select2 = $('#multiselect2');			
-		//select2.find('option').remove(); 
+		select2.find('option').remove();
 		
 		$.each(jsonResponse, function(key, value) {		
-			$('<option>').val(value.tituloEleitor + ';' + value.nome).text(value.siglaUnid +" - " +value.nome).appendTo(select2);
+			$('<option>').val(value.id.id).text(value.descricao).appendTo(select2);
 		});  
 		  $('.listbox').bootstrapDualListbox({
 	 			moveOnSelect: false, 
 	 			moveOnDoubleClick: true,
 	 			preserveSelectionOnMove: 'all',
 	 			nonSelectedListLabel: 'Não-selecionados',
-	 			selectedListLabel: 'Selecionados',
-	 			
-
+	 			selectedListLabel: 'Selecionados',	 			
 	 		});  
+		  $('.listbox').bootstrapDualListbox('refresh');
 	});		
 	  	   
 }

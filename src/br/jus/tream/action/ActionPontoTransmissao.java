@@ -12,16 +12,19 @@ import org.apache.struts2.convention.annotation.ResultPath;
 import com.opensymphony.xwork2.ActionSupport;
 
 import br.jus.tream.DAO.CadEloDAOImpl;
+import br.jus.tream.DAO.CadZonaEleitoralDAOImpl;
 import br.jus.tream.DAO.DistribuicaoEquipamentoDAOImpl;
 import br.jus.tream.DAO.DistribuicaoSecaoDAOImpl;
 import br.jus.tream.DAO.EleicaoDAOImpl;
 import br.jus.tream.DAO.PontoTransmissaoDAO;
 import br.jus.tream.DAO.PontoTransmissaoDAOImpl;
+import br.jus.tream.DAO.SRHServidoresDAOImpl;
 import br.jus.tream.dominio.BeanPontoTransmissao;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.CADLocalvotacao;
 import br.jus.tream.dominio.CADZonaEleitoral;
 import br.jus.tream.dominio.PontoTransmissao;
+import br.jus.tream.dominio.SRHServidores;
 import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 import br.jus.tream.dominio.pk.PontoTransmissaoPK;
 
@@ -32,7 +35,8 @@ import br.jus.tream.dominio.pk.PontoTransmissaoPK;
 public class ActionPontoTransmissao extends ActionSupport {
 	private List<PontoTransmissao> lstPontoTransmissao;
 	private List<CADLocalvotacao> lstLocalVotacao;
-	private List<CADZonaEleitoral> lstZonaEleitoral;
+	private List<CADZonaEleitoral> lstZonaEleitoral;	
+	private List<SRHServidores> lstServidores;
 	private CADZonaEleitoral cadZonaEleitoral;
 	private PontoTransmissao pt;
 	private BeanPontoTransmissao beanPontoTransmissao;
@@ -134,13 +138,37 @@ public class ActionPontoTransmissao extends ActionSupport {
 		}
 		return "success";
 	}
+	
+	@Action(value = "frmOficializar", results = { @Result(name = "success", location = "/forms/frmOficializar.jsp"),
+			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+	public String frmOficializar() {
+		try {
+			
+			if (permissao.getAdmin()) {
+				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX();
+			} else {
+				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX(permissao.getZona());
+			}
+														
+//			CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
+			//this.lstPontoTransmissao = dao.listar(pkze);
+							
+	//		this.setLstServidores(SRHServidoresDAOImpl.getInstance().listar());		
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			addActionError(getText("frmsetup.error") + " Error: " + e.getMessage());
+			return "error"; 
+		} 
+		return "success"; 
+	}
 
 	@Action(value = "frmEditar", results = { @Result(name = "success", location = "/forms/frmPontoTransmissao.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String doFrmEditar() {
 		try {
 			this.pt = dao.getBean(this.id);
-			if (permissao.getAdmin()) {
+			if (permissao.getAdmin()) {  
 				return "success";
 			} else {
 				if (permissao.getZona()==this.pt.getZona()) {
@@ -315,6 +343,15 @@ public class ActionPontoTransmissao extends ActionSupport {
 
 	public void setLstPontoTransmissao(List<PontoTransmissao> lstPontoTransmissao) {
 		this.lstPontoTransmissao = lstPontoTransmissao;
+	}
+	
+
+	public List<SRHServidores> getLstServidores() {
+		return lstServidores;
+	}
+
+	public void setLstServidores(List<SRHServidores> lstServidores) {
+		this.lstServidores = lstServidores;
 	}
 
 }

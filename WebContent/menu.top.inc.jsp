@@ -20,7 +20,7 @@
              <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ponto Trasmissão</a>
 	            <ul class="dropdown-menu" aria-labelledby="dropdown01">	              
 	              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/pontotrans/frmCad">Cadastrar</a></li>	              
-	              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/pontotrans/frmCad">Oficializar</a></li>	              		             		                               	              	             
+	              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/pontotrans/frmOficializar">Oficializar</a></li>	              		             		                               	              	             
 	              <li class="dropdown-submenu">
 	             	 <a class="dropdown-item dropdown-toggle">Consulta</a>
 	             	 <ul class="dropdown-menu">
