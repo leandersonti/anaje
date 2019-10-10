@@ -2,23 +2,12 @@
 <jsp:include page="/mainhead.inc.jsp" />
 <div class="container">
 	<div class="card">
-		<div class="card-header"> <b><i>Oficializar: </i> </b></div>
+		<div class="card-header"> <b><i>Oficializar Ponto de Transmissão: </i> </b></div>
 		<div class="card-body">
 
 			<form action="adicionar" method="post" name="form1" id="form1" >
 			
-				<!-- MULTISELECT DE CONVOCADOS -->
-				<div class="panel-body">
-					<div class="row">								  								
-		 	 				<select name="lstTitulos" id="multiselect2"
-						 		class="listbox" multiple="multiple" size="8">										
-							</select>
-					</div>
-				</div>
-					
-				<br> 
-				
-				<div class="form-row">					
+			<div class="form-row">					
 					<div class="col-xs-6">
 							 <label	for="inputSolicitante">Zona: </label>
 							<s:select label="Zona" headerKey="-1"
@@ -27,8 +16,20 @@
 								listValue="fzona +' - '+ municipio"
 								name="ds.codZonaMunic"  id="codZonaMunic" theme="simple"  cssClass="form-control"/>
 						</div>								
-				</div>						 
+				</div>	
+			
+				<br/>
+				
+				<!-- MULTISELECT DE CONVOCADOS -->
+				<div class="panel-body">
+					<div class="row">								  								
+		 	 				<select name="lstTitulos" id="multiselect2"
+						 		class="listbox" multiple="multiple" size="8">										
+							</select>
+					</div>
+				</div>					
 	
+				<br/>
 				<button class="btn btn-primary" id="btnSave" type="button">Enviar</button>
 			</form>
 		</div>

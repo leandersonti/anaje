@@ -25,8 +25,8 @@
 	             	 <a class="dropdown-item dropdown-toggle">Consulta</a>
 	             	 <ul class="dropdown-menu">
 	             	   <li><a class="dropdown-item" href="${pageContext.request.contextPath}/pontotrans/listar">Por Zona</a></li>		             
-			           <li><a class="dropdown-item" href="${pageContext.request.contextPath}/pontotrans/listar">Sem Seções</a></li>
-			           <li><a class="dropdown-item" href="${pageContext.request.contextPath}/pontotrans/listar">Sem Técnicos</a></li>
+			           <li><a class="dropdown-item" href="${pageContext.request.contextPath}/pontotrans/listarSemDistribuicaoSecao">Sem Seções</a></li>
+			           <li><a class="dropdown-item" href="${pageContext.request.contextPath}/pontotrans/listarSemDistribuicaoTecnico">Sem Técnicos</a></li>
 			           <li><a class="dropdown-item" href="${pageContext.request.contextPath}/pontotrans/listar">Resumo</a></li>
 	             	 </ul>	             	 			         			                   
 			      </li>

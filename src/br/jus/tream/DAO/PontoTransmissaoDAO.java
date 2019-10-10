@@ -10,9 +10,9 @@ public interface PontoTransmissaoDAO {
 	
 	public List<PontoTransmissao> listar() throws Exception;
 		
-	public List<PontoTransmissao> listarSemDistribuicaoSecao() throws Exception;
+	public List<PontoTransmissao> listarSemDistribuicaoSecao(CadZonaEleitoralPK pkze) throws Exception;
 	
-	public List<PontoTransmissao> listarSemDistribuicaoTecnico() throws Exception;	
+	public List<PontoTransmissao> listarSemDistribuicaoTecnico(CadZonaEleitoralPK pkze) throws Exception;	
 	
 	public List<PontoTransmissao> listar(CadZonaEleitoralPK pkze) throws Exception;	 
 	

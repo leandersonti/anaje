@@ -12,13 +12,11 @@ import org.apache.struts2.convention.annotation.ResultPath;
 import com.opensymphony.xwork2.ActionSupport;
 
 import br.jus.tream.DAO.CadEloDAOImpl;
-import br.jus.tream.DAO.CadZonaEleitoralDAOImpl;
 import br.jus.tream.DAO.DistribuicaoEquipamentoDAOImpl;
 import br.jus.tream.DAO.DistribuicaoSecaoDAOImpl;
 import br.jus.tream.DAO.EleicaoDAOImpl;
 import br.jus.tream.DAO.PontoTransmissaoDAO;
 import br.jus.tream.DAO.PontoTransmissaoDAOImpl;
-import br.jus.tream.DAO.SRHServidoresDAOImpl;
 import br.jus.tream.dominio.BeanPontoTransmissao;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.CADLocalvotacao;
@@ -37,6 +35,7 @@ public class ActionPontoTransmissao extends ActionSupport {
 	private List<CADLocalvotacao> lstLocalVotacao;
 	private List<CADZonaEleitoral> lstZonaEleitoral;	
 	private List<SRHServidores> lstServidores;
+	private List<String> lstPontos;
 	private CADZonaEleitoral cadZonaEleitoral;
 	private PontoTransmissao pt;
 	private BeanPontoTransmissao beanPontoTransmissao;
@@ -92,16 +91,17 @@ public class ActionPontoTransmissao extends ActionSupport {
 		try {
 			if (permissao.getAdmin()) {
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX();
+				this.lstPontoTransmissao = dao.listar();
 			} else {
-				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX(permissao.getZona());
-			}
-			// System.out.println("CodZonaMunic == " + codZonaMunic);
-			if (codZonaMunic==null)
-			     this.lstPontoTransmissao = dao.listar();
-			else {
-				CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
-				this.lstPontoTransmissao = dao.listar(pkze);
-			}
+				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX(permissao.getZona());				
+				if (codZonaMunic==null || codZonaMunic.equals("-1")) {
+					
+				} else {					
+					CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
+					this.lstPontoTransmissao = dao.listar(pkze);
+				}
+			}			 
+			
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";
@@ -109,6 +109,57 @@ public class ActionPontoTransmissao extends ActionSupport {
 		return "success";
 	}
 
+	
+	@Action(value = "listarSemDistribuicaoSecao", results = { @Result(name = "success", location = "/consultas/semDistribuicaoSecao.jsp"),
+			@Result(name = "error", location = "/result.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+	public String listarSemDistribuicaoSecao() {
+		try {
+		
+			if (permissao.getAdmin()) {
+				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX();
+				this.lstPontoTransmissao = dao.listar();
+			} else {
+				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX(permissao.getZona());				
+				if (codZonaMunic==null || codZonaMunic.equals("-1")) {
+					
+				} else {					
+					CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
+					this.lstPontoTransmissao = dao.listarSemDistribuicaoSecao(pkze);
+				}
+			}	
+			 
+		} catch (Exception e) {
+			addActionError(getText("listar.error"));
+			return "error";
+		}
+		return "success";
+	}
+	
+	@Action(value = "listarSemDistribuicaoTecnico", results = { @Result(name = "success", location = "/consultas/semDistribuicaoTecnico.jsp"),
+			@Result(name = "error", location = "/result.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+	public String listarSemDistribuicaoTecnico() {
+		try {
+			
+			if (permissao.getAdmin()) {
+				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX();
+				this.lstPontoTransmissao = dao.listar();
+			} else {
+				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX(permissao.getZona());				
+				if (codZonaMunic==null || codZonaMunic.equals("-1")) {
+					
+				} else {					
+					CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
+					this.lstPontoTransmissao = dao.listarSemDistribuicaoTecnico(pkze);
+				}
+			}	
+			
+		} catch (Exception e) {
+			addActionError(getText("listar.error"));
+			return "error";
+		}
+		return "success";
+	}
+	
 	@Action(value = "listarJson", results = { @Result(name = "success", type = "json", params = { "root", "lstPontoTransmissao" }),
 			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String listarJson() {
@@ -148,12 +199,7 @@ public class ActionPontoTransmissao extends ActionSupport {
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX();
 			} else {
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX(permissao.getZona());
-			}
-														
-//			CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
-			//this.lstPontoTransmissao = dao.listar(pkze);
-							
-	//		this.setLstServidores(SRHServidoresDAOImpl.getInstance().listar());		
+			}											
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -196,14 +242,19 @@ public class ActionPontoTransmissao extends ActionSupport {
 			this.pt.setId(pk);			
 			this.pt.setCodmunic(pkze.getCodmunic());
 			this.pt.setZona(pkze.getZona());
-			beanResult.setRet(dao.adicionar(this.pt));
+			// beanResult.setRet(dao.adicionar(this.pt));
+			
+			for (String item : this.lstPontos) {								
+				beanResult.setRet(dao.adicionar(this.pt));
+			}			
 			if (beanResult.getRet() == 1)
 				beanResult.setMensagem(getText("inserir.sucesso"));
 			else
 				beanResult.setMensagem(getText("inserir.error"));
 			
+			beanResult.setMensagem(getText("inserir.sucesso"));	
+			
 		} catch (Exception e) {
-			    // System.out.println("Erro " + e.getMessage());
 			  addActionError(getText("inserir.error") + " Error: " + e.getMessage());
 			// result.setMensagem(getText("inserir.error") + " Error: " + e.getMessage());
 			return "error";
@@ -352,6 +403,14 @@ public class ActionPontoTransmissao extends ActionSupport {
 
 	public void setLstServidores(List<SRHServidores> lstServidores) {
 		this.lstServidores = lstServidores;
+	}
+
+	public List<String> getLstPontos() {
+		return lstPontos;
+	}
+
+	public void setLstPontos(List<String> lstPontos) {
+		this.lstPontos = lstPontos;
 	}
 
 }

@@ -44,18 +44,21 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 	}
 	
 	@Override
-	public List<PontoTransmissao> listarSemDistribuicaoSecao() throws Exception {
+	public List<PontoTransmissao> listarSemDistribuicaoSecao(CadZonaEleitoralPK pkze) throws Exception {
 		List<PontoTransmissao> lista = new ArrayList<PontoTransmissao>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	 
 		   String sql = "SELECT pt FROM PontoTransmissao pt " + 
-		   		"  WHERE pt.id.eleicao.ativo=1" + 
+		   		"  WHERE pt.id.eleicao.ativo=1" +  
+		   		"  AND pt.zona=?1" + 
+				"  AND pt.codmunic=?2" +
 		   		"  AND (pt.id.id, pt.id.eleicao.id) NOT IN ( " + 
 		   		"     SELECT distinct ds.id.pontoTransmissao.id.id, ds.id.pontoTransmissao.id.eleicao.id " + 
 		   		"        FROM DistribuicaoSecao ds " + 
 		   		"        WHERE ds.id.pontoTransmissao.id.eleicao.ativo=1)";
 		   TypedQuery<PontoTransmissao> query = em.createQuery(sql, PontoTransmissao.class);
-		      lista = query.getResultList();
+		   	  query.setParameter(1, pkze.getZona());
+		      lista = query.setParameter(2, pkze.getCodmunic()).getResultList();
 		  }
 		  catch (Exception e) {
 			     em.close();
@@ -67,18 +70,21 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 	}
 		
 	@Override
-	public List<PontoTransmissao> listarSemDistribuicaoTecnico() throws Exception {
+	public List<PontoTransmissao> listarSemDistribuicaoTecnico(CadZonaEleitoralPK pkze) throws Exception {
 		List<PontoTransmissao> lista = new ArrayList<PontoTransmissao>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	 
 		   String sql = "SELECT pt FROM PontoTransmissao pt " + 
-		   		"  WHERE pt.id.eleicao.ativo=1" + 
+		   		"  WHERE pt.id.eleicao.ativo=1 " +
+				"  AND pt.zona=?1" + 
+				"  AND pt.codmunic=?2" +
 		   		"  AND (pt.id.id, pt.id.eleicao.id) NOT IN ( " + 
 		   		"     SELECT distinct ds.id.pontoTransmissao.id.id, ds.id.pontoTransmissao.id.eleicao.id " + 
 		   		"        FROM DistribuicaoTecnico ds " + 
 		   		"        WHERE ds.id.pontoTransmissao.id.eleicao.ativo=1)";
 		   TypedQuery<PontoTransmissao> query = em.createQuery(sql, PontoTransmissao.class);
-		      lista = query.getResultList();
+		      query.setParameter(1, pkze.getZona());
+		      lista = query.setParameter(2, pkze.getCodmunic()).getResultList();
 		  }
 		  catch (Exception e) {
 			     em.close();
@@ -248,7 +254,7 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 		
 		
 		
-		for (PontoTransmissao p : dao.listarSemDistribuicaoTecnico()) {
+		for (PontoTransmissao p : dao.listarSemDistribuicaoSecao(new CadZonaEleitoralPK("60;2895"))) {
 			System.out.println("Ponto " + p.getZona() + " " + p.getCodLocal() + " " + p.getDescricao());
 		}
 		 
