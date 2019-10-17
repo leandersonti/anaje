@@ -203,11 +203,13 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 		//ds = dao.getBean("253066");
 		//     System.out.println("ZE " + ds.getZona());
 		
-		for(CADLocalvotacao d : dao.listarByClassLocalVotacao(2812019)) {
-			System.out.println("Zona " + d.getZona() + " " + d.getNumLocal() +" - " + d.getNomeLocal());
-			for (DistribuicaoSecao ds : d.getSecoesDistribuidas()) {
-				System.out.println("------ " + ds.getSecao());
-			}
+		CadZonaEleitoralPK pkze = new CadZonaEleitoralPK("60;2895");
+		
+		for(DistribuicaoSecao d : dao.listar(pkze)) {
+			System.out.println("Zona " + d.getZona() + " " + d.getNumLocal() +" - " + d.getSecao() + " - " + d.getId().getPontoTransmissao().getDescricao());
+			//for (DistribuicaoSecao ds : d.getSecoesDistribuidas()) {
+				//System.out.println("------ " + ds.getSecao());
+			//}
 		}
 		
 		
