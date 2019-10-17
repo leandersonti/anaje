@@ -33,7 +33,7 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 	private List<CADLocalvotacao> lstPorLocalVotacao;
 	private List<CADZonaEleitoral> lstZonaEleitoral;
 	private BeanResult result;
-	private PontoTransmissao us;
+	private PontoTransmissao pontoTransmissao;
 	private DistribuicaoSecao ds;
 	private String codZonaMunic;
 	private final static DistribuicaoSecaoDAO dao = DistribuicaoSecaoDAOImpl.getInstance();
@@ -96,7 +96,7 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 			@Result(name = "error", location = "/pages/resultAjax.jsp")})
 	public String listarByPontoTransmissaoJson() {
 		try {
-			lstPorLocalVotacao = dao.listarByClassLocalVotacao(us.getId().getId());
+			lstPorLocalVotacao = dao.listarByClassLocalVotacao(pontoTransmissao.getId().getId());
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";
@@ -113,8 +113,8 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 			String[] vetLocal = codObjetoLocal.split(";");
 		    int zona = Integer.valueOf(zonamunic[0]);
 			if (permissao.getAdmin() || permissao.getZona()==zona) {
-				this.us = PontoTransmissaoDAOImpl.getInstance().getBean(this.us.getId().getId());
-				ds.getId().setPontoTransmissaoo(us);
+				this.pontoTransmissao = PontoTransmissaoDAOImpl.getInstance().getBean(this.pontoTransmissao.getId().getId());
+				ds.getId().setPontoTransmissaoo(pontoTransmissao);
 				ds.setZona(zona);
 				ds.setNumLocal(Integer.parseInt(vetLocal[1]));
 				ds.setCodObjetoLocal(vetLocal[0]);
@@ -166,12 +166,12 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 		this.ds = ds;
 	}
 
-	public PontoTransmissao getUs() {
-		return us;
+	public PontoTransmissao getPontoTransmissao() {
+		return pontoTransmissao;
 	}
 
-	public void setUs(PontoTransmissao us) {
-		this.us = us;
+	public void setPontoTransmissao(PontoTransmissao ponto) {
+		this.pontoTransmissao = ponto;
 	}
 
 	public Integer getZona() {

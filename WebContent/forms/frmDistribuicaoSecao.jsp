@@ -25,7 +25,7 @@
 					  </div>
 					  <div class="form-group col-md-6">
 					       <label for="us">Ponto Transmissão</label>
-					        <select class="form-control form-control" id="us" name="us.id.id" required>
+					        <select class="form-control form-control" id="us" name="pontoTransmissao.id.id" required>
 									<option value="0">Selecione</option>
 							</select>
 							<div class="invalid-feedback">Por favor, informe o ponto de transmissão.</div>
@@ -178,7 +178,7 @@ function CarregaSecoesDistribuidas(){
 	var cdUS = $("#us").val();
 	$("#tbedist").hide();
 	
-	 $.getJSON('listarByPontoTransmissaoJson?us.id.id='+cdUS,function(jsonResponse) {
+	 $.getJSON('listarByPontoTransmissaoJson?pontoTransmissao.id.id='+cdUS,function(jsonResponse) {
 	    if (jsonResponse.length >=  1){ $("#tbedist").show(); }
 	    $("#tbedist > tr").remove();
 	     var linha = "";
