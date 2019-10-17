@@ -6,13 +6,13 @@
 	<div class="card">
 		<div class="card-header">
 		 <form action="" class="form-inline" name="frmConsultaEquipamento" id="frmConsultaEquipamento">	
-			Equipamentos Distribuídos :
+			Equipamentos Distribuídos
 			<s:select label="Zona" headerKey="-1" headerValue="Selecione a zona"
 				tooltip="Informe a Zona" list="lstZonaEleitoral"
 				listKey="id.zona+';'+id.codmunic"
 				listValue="fzona +' - '+ municipio" name="codZonaMunic"
 				id="codZonaMunic" theme="simple" cssClass="form-control" />
-			- <select id="us" name="us.id.id" >
+			- <select class="form-control form-control" id="pontoTransmisao" name="pontoTransmisao.id.id" >
 				<option value="0">Informe Ponto Transmissão</option>
 			</select> <a href="#" id="btnconsultar" class="btn btn btn-primary btn-sm" role="button">Consultar</a>
 		 </form>
@@ -62,7 +62,7 @@
 	
 	function CarregaPontoTransmissao(){
 		 var codZonaMunic = $("#codZonaMunic").val();
-	     var cbxpt = $('#us');	
+	     var cbxpt = $('#pontoTransmisao');	
 	         cbxpt.find('option').remove();
 	    	 if(codZonaMunic != -1){	    		 
 			     $.getJSON('../pontotrans/listarJson?codZonaMunic='+codZonaMunic,function(jsonResponse) {
@@ -77,10 +77,10 @@
 	}
 	
 	function CarregaEquipDistribuidos(){
-		var codZonaMunic = $("#codZonaMunic").val();
-		console.log('listar?codZonaMunic='+codZonaMunic);
+		var id = $("#pontoTransmisao").val();
+		console.log("=="+id);
 		$("#tb > tbody:last").children().remove();
-		$.getJSON('listar?codZonaMunic='+codZonaMunic,function(jsonResponse) {
+		$.getJSON('listar?pontoTransmisao.id.id='+id,function(jsonResponse) {
 			console.log(jsonResponse);
 			   $.each(jsonResponse, function(key, value) {             
 		           	 $('#tb > tbody:last-child').append('<tr><td>'+value.id.pontoTransmissao.descricao+'</td><td>'
