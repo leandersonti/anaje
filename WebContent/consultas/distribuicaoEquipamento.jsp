@@ -5,16 +5,17 @@
 <div class="container-fluid">
 	<div class="card">
 		<div class="card-header">
-			<b>Equipamentos Distribuídos :</b>
+		 <form action="" class="form-inline" name="frmConsultaEquipamento" id="frmConsultaEquipamento">	
+			Equipamentos Distribuídos
 			<s:select label="Zona" headerKey="-1" headerValue="Selecione a zona"
 				tooltip="Informe a Zona" list="lstZonaEleitoral"
 				listKey="id.zona+';'+id.codmunic"
 				listValue="fzona +' - '+ municipio" name="codZonaMunic"
-				id="codZonaMunic" theme="simple" cssClass="col-md-2 mb-2" />
-			- <select id="us" name="us.id.id">
+				id="codZonaMunic" theme="simple" cssClass="form-control" />
+			- <select class="form-control form-control" id="pontoTransmissao" name="pontoTransmissao.id.id" >
 				<option value="0">Informe Ponto Transmissão</option>
-			</select> <a href="#" id="btnconsultar" class="btn btn btn-primary btn-sm" role="button">Listar Todos</a>
-
+			</select> <a href="#" id="btnconsultar" class="btn btn btn-primary btn-sm" role="button">Consultar</a>
+		 </form>
 		</div>
 		<div class="card-body">
 
@@ -45,65 +46,45 @@
 <jsp:include page="/javascripts.jsp" />
 
 <script type="text/javascript" language="javascript" class="init">
-	$(document).ready(function() {
-	$('#table1').dataTable({
-		"order" : [ [ 0, "des" ], [ 1, "des" ] ]
-	});
-
+$(document).ready(function() {
 	$('#codZonaMunic').change(function(event) {
-		CarregaPontoTransmissao();
-		CarregaEquipDistribuidos()
-	});
-	
-	/*
-	$('#btnconsultar').click(function(event) {
-	    var codZonaMunic = $("#codZonaMunic").val();
-		$.getJSON('listar?codZonaMunic='+codZonaMunic,
-		function(jsonResponse) {
-		$("#tb tr").remove(); 
-			  $.each(jsonResponse, function(key, value) {             
-		           	 console.log(jsonResponse);
-		           	 $('#tb > tbody:last-child').append('<tr><td>'+value.id.unidadeServico.descricao+'</td><td>'
-		           			+value.id.unidadeServico.tipo.descricao+'</td><td>'
-		           			+value.id.equipamento.serie+'</td><td>');
-		      	 });
-		     });
-	});
-	*/
-	function CarregaPontoTransmissao(){
-		 var codZonaMunic = $("#codZonaMunic").val();
-	     var cbxpt = $('#us');	
-	         cbxpt.find('option').remove();
-	    	 if(codZonaMunic != -1){	    		 
+		var codZonaMunic = $("#codZonaMunic").val();
+		var cbxpt = $('#pontoTransmissao');	
+		cbxpt.find('option').remove();
+	 	 if(codZonaMunic != -1){	    		 
 			     $.getJSON('../pontotrans/listarJson?codZonaMunic='+codZonaMunic,function(jsonResponse) {
-			   	  $('<option>').val(-1).text("Informe o ponto de transmissao").appendTo(cbxpt);
+			   	        $('<option>').val(99999).text("Todos").appendTo(cbxpt);
 			             $.each(jsonResponse, function(key, value) {             
 			            	 $('<option>').val(value.id.id).text(value.codLocal + " " + value.descricao).appendTo(cbxpt);
 			      		 });
 			     });
-	     }else{
-	    	 $('<option>').val(-1).text("Informe o Ponto de Transmissao").appendTo(cbxpt);
+		     }else{
+		    	 $('<option>').val(-1).text("Informe o Ponto de Transmissao").appendTo(cbxpt);
 	     }
-	}
+	});
 	
-	function CarregaEquipDistribuidos(){
+	$('#btnconsultar').click(function(event) {
 		var codZonaMunic = $("#codZonaMunic").val();
-		console.log('listar?codZonaMunic='+codZonaMunic);
-		$("#tb > tbody:last").children().remove();
-		$.getJSON('listar?codZonaMunic='+codZonaMunic,function(jsonResponse) {
-			console.log(jsonResponse);
-			   $.each(jsonResponse, function(key, value) {             
-		           	 $('#tb > tbody:last-child').append('<tr><td>'+value.id.pontoTransmissao.descricao+'</td><td>'
-		           			+value.id.equipamento.tipo.descricao+'</td><td>'
-		           			+value.id.equipamento.serie+'</td><td>');
-		      	 });
-		     });
-	}
+		var param = ($("#pontoTransmissao").val() == "99999" ? "codZonaMunic=" + codZonaMunic : "pontoTransmissao.id.id=" + $("#pontoTransmissao").val()); 
+		var url = "listarByPontoTransmissaoJson?"+param;
+		console.log(url);
+		if(codZonaMunic != -1){
+			$("#tb > tbody:last").children().remove();
+			$.getJSON(url, function(jsonResponse) {
+				   $.each(jsonResponse, function(key, value) {     
+					   
+			           	 $('#tb > tbody:last-child').append('<tr><td>'+value.id.pontoTransmissao.descricao+'</td><td>'
+			           			+value.id.equipamento.tipo.descricao+'</td><td>'
+			           			+value.id.equipamento.serie+'</td><td>');
+			      	 });
+			     });
+		}else
+		{
+		   swal("Atenção", "Informe a Zona Eleitoral", "error");
+		}
+	});
 	
-	
-	
-
-});
+});	
 </script>
 
 <jsp:include page="/mainfooter.inc.jsp" />

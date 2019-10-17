@@ -19,7 +19,7 @@
 					  </div>
 					  <div class="form-group col-md-6">
 					       <label for="inputPassword4">Ponto Transmissão</label>
-					        <select class="form-control form-control" id="us" name="us.id.id" required>
+					        <select class="form-control form-control" id="us" name="pontoTransmissao.id.id" required>
 								<option value="0">Selecione</option>
 							</select>
 					  </div>
@@ -155,7 +155,7 @@ $(document).ready(function() {
 	function CarregaEquipamentosDistribuidos(){
 		var cdUS = $("#us").val();
 		$("#tbequipdist").hide();
-		 $.getJSON('listarByPontoTransmissaoJson?us.id.id='+cdUS,function(jsonResponse) {
+		 $.getJSON('listarByPontoTransmissaoJson?pontoTransmissao.id.id='+cdUS,function(jsonResponse) {
 		    if (jsonResponse.length >=  1){ $("#tbequipdist").show(); }
 			$("#tbequipdist > tbody:last").children().remove();
 	        $.each(jsonResponse, function(key, value) {             
