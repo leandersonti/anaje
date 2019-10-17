@@ -38,7 +38,7 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 	private List<DistribuicaoEquipamento> lstDistribuicaoEquipamento;
 	private String codZonaMunic;
 	private BeanResult result;
-	private PontoTransmissao us;
+	private PontoTransmissao pontoTransmissao;
 	private DistribuicaoEquipamento de;
 	private Equipamento equipamento;
 	private final static DistribuicaoEquipamentoDAO dao = DistribuicaoEquipamentoDAOImpl.getInstance();
@@ -109,7 +109,10 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 	)
 	public String listarByPontoTransmissao() {
 		try {
-			this.lstDistribuicaoEquipamento = dao.listar(us.getId().getId());
+			if (pontoTransmissao.getId().getId()==99999)
+				this.lstDistribuicaoEquipamento = dao.listar();
+			else	
+			   this.lstDistribuicaoEquipamento = dao.listar(pontoTransmissao.getId().getId());
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";
@@ -125,10 +128,10 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 		BeanResult beanResult = new BeanResult();
 		beanResult.setRet(0);
 		try {
-			this.us = PontoTransmissaoDAOImpl.getInstance().getBean(this.us.getId().getId());
-				if (permissao.getAdmin() || permissao.getZona() == this.us.getZona()) {					
+			this.pontoTransmissao = PontoTransmissaoDAOImpl.getInstance().getBean(this.pontoTransmissao.getId().getId());
+				if (permissao.getAdmin() || permissao.getZona() == this.pontoTransmissao.getZona()) {					
 					DistribuicaoEquipamentoPK pk = new DistribuicaoEquipamentoPK();
-					pk.setPontoTransmissao(us);
+					pk.setPontoTransmissao(pontoTransmissao);
 					pk.setEquipamento(equipamento);
 					de.setId(pk);
 					Tecnico tec = new Tecnico(1,"SISTEMA");
@@ -173,12 +176,12 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 		return "success";
 	}
 
-	public PontoTransmissao getUs() {
-		return us;
+	public PontoTransmissao getPontoTransmissao() {
+		return pontoTransmissao;
 	}
 
-	public void setUs(PontoTransmissao us) {
-		this.us = us;
+	public void setPontoTransmissao(PontoTransmissao us) {
+		this.pontoTransmissao = us;
 	}
 
 	public BeanResult getResult() {
