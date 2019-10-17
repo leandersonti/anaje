@@ -2,38 +2,36 @@
 <jsp:include page="/mainhead.inc.jsp" />
 <div class="container">
 	<div class="card">
-		<div class="card-header"> <b><i>Oficializar Ponto de Transmissão: </i> </b></div>
+		<div class="card-header">
+			<b><i>Oficializar Ponto de Transmissão: </i> </b>
+		</div>
 		<div class="card-body">
 
-			<form action="adicionar" method="post" name="form1" id="form1" >
-			
-			<div class="form-row">					
-					<div class="col-xs-6">
-							 <label	for="inputSolicitante">Zona: </label>
-							<s:select label="Zona" headerKey="-1"
-								headerValue="Selecione a zona" tooltip="Informe a Zona"
-								list="lstZonaEleitoral" listKey="id.zona+';'+id.codmunic"
-								listValue="fzona +' - '+ municipio"
-								name="ds.codZonaMunic"  id="codZonaMunic" theme="simple"  cssClass="form-control"/>
-						</div>								
-				</div>	
-			
-				<br/>
-				
-				<!-- MULTISELECT DE CONVOCADOS -->
-				<div class="panel-body">
-					<div class="row">								  								
-		 	 				<select name="lstTitulos" id="multiselect2"
-						 		class="listbox" multiple="multiple" size="8">										
-							</select>
+			<form action="adicionar" method="post" name="form1" id="form1">
+
+				<div class="form-row">
+					<div class="col-md-12 mb-12">
+						<label for="inputSolicitante">Zona: </label>
+						<s:select label="Zona" headerKey="-1"
+							headerValue="Selecione a zona" tooltip="Informe a Zona"
+							list="lstZonaEleitoral" listKey="id.zona+';'+id.codmunic"
+							listValue="fzona +' - '+ municipio" name="ds.codZonaMunic"
+							id="codZonaMunic" theme="simple" cssClass="form-control" />
 					</div>
-				</div>					
-	
-				<br/>
+												
+					<!-- MULTISELECT DE CONVOCADOS -->
+					<div class="col-md-12 mb-12">		
+					<br>				
+							<select name="lstTitulos" id="multiselect2" class="listbox"
+								multiple="multiple" size="8">
+							</select>						
+					</div>
+				</div>  
+				<br />
 				<button class="btn btn-primary" id="btnSave" type="button">Enviar</button>
 			</form>
 		</div>
-	</div>
+	</div> 
 
 </div>
 
@@ -117,7 +115,7 @@ function loadServidores() {
 	   return true;
  }
 </script>
-	
+
 <jsp:include page="/mainfooter.inc.jsp" />
 
 
