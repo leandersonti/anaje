@@ -89,7 +89,7 @@ $(document).ready(function() {
 
 function loadServidores() {
 	codZonaMunic = $("#codZonaMunic").val();
-	$.getJSON('listarJson?codZonaMunic='+codZonaMunic, function(jsonResponse) {
+	$.getJSON('listarSemOficializar?codZonaMunic='+codZonaMunic, function(jsonResponse) {
 		var select2 = $('#multiselect2');			
 		select2.find('option').remove();
 		

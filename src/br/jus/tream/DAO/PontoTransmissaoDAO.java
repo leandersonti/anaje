@@ -14,7 +14,9 @@ public interface PontoTransmissaoDAO {
 	
 	public List<PontoTransmissao> listarSemDistribuicaoTecnico(CadZonaEleitoralPK pkze) throws Exception;	
 	
-	public List<PontoTransmissao> listar(CadZonaEleitoralPK pkze) throws Exception;	 
+	public List<PontoTransmissao> listarSemOficializar(CadZonaEleitoralPK pkze) throws Exception;	 
+	
+	public List<PontoTransmissao> listar(CadZonaEleitoralPK pkze) throws Exception;	
 	
 	public int oficializar(CadZonaEleitoralPK pkze) throws Exception;	
 	

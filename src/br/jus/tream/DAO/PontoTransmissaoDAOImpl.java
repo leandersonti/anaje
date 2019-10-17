@@ -95,6 +95,30 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 		return lista;
 	}
 	
+	
+	@Override
+	public List<PontoTransmissao> listarSemOficializar(CadZonaEleitoralPK pkze) throws Exception {
+		List<PontoTransmissao> lista = new ArrayList<PontoTransmissao>();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+	   try {	  
+		     TypedQuery<PontoTransmissao> query = em.createQuery("SELECT u FROM PontoTransmissao u "
+		     						+ "WHERE u.id.eleicao.ativo=1 "
+		     						+ "AND u.zona=?1 "		     						
+		     						+ "AND u.codmunic=?2 "
+		     						+ "AND u.oficial=0 ",		     						
+		    		 PontoTransmissao.class);
+		      query.setParameter(1, pkze.getZona());
+		      lista = query.setParameter(2, pkze.getCodmunic()).getResultList();
+		  }
+		  catch (Exception e) {
+			     em.close();
+				 e.printStackTrace();
+		  }	finally {
+				em.close();
+		  }
+		return lista;
+	}
+	
 
 	@Override
 	public List<PontoTransmissao> listar(CadZonaEleitoralPK pkze) throws Exception {
@@ -254,7 +278,7 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 		
 		
 		
-		for (PontoTransmissao p : dao.listarSemDistribuicaoSecao(new CadZonaEleitoralPK("60;2895"))) {
+		for (PontoTransmissao p : dao.listarSemOficializar(new CadZonaEleitoralPK("60;2895"))) {
 			System.out.println("Ponto " + p.getZona() + " " + p.getCodLocal() + " " + p.getDescricao());
 		}
 		 

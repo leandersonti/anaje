@@ -176,6 +176,20 @@ public class ActionPontoTransmissao extends ActionSupport {
 		}
 		return "success";
 	}
+	
+	@Action(value = "listarSemOficializar", results = { @Result(name = "success", type = "json", params = { "root", "lstPontoTransmissao" }),
+			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+	public String listarSemOficializar() {
+		try {
+			// PEGANDO CODZONAMUNIC
+			CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
+			this.lstPontoTransmissao = dao.listarSemOficializar(pkze);
+		} catch (Exception e) {
+			addActionError(getText("listar.error"));
+			return "error";
+		}
+		return "success";
+	}
 				
 	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmPontoTransmissao.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
