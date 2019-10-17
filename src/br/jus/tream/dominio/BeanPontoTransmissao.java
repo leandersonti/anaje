@@ -16,7 +16,7 @@ public class BeanPontoTransmissao {
 		return pontoTransmissao;
 	}
 
-	public void setUnidadeServico(PontoTransmissao pontoTransmissao) {
+	public void setPontoTransmissao(PontoTransmissao pontoTransmissao) {
 		this.pontoTransmissao = pontoTransmissao;
 	}
 
@@ -43,8 +43,6 @@ public class BeanPontoTransmissao {
 	public void setTecnicosDistribuidos(List<DistribuicaoTecnico> tecnicosDistribuidos) {
 		this.tecnicosDistribuidos = tecnicosDistribuidos;
 	}
-	
-	
-		
+
 	
 }

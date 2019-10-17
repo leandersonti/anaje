@@ -53,9 +53,8 @@ public class ActionPontoTransmissao extends ActionSupport {
 	public String getBeanFull() {
 		try {
 			BeanPontoTransmissao pontoT = new BeanPontoTransmissao();
-			pontoT.setUnidadeServico(dao.getBean(id.getId()));
+			pontoT.setPontoTransmissao(dao.getBean(id.getId()));
 			beanPontoTransmissao = pontoT;
-			//pontoTransmissao.setUnidadeServico(us);
 			beanPontoTransmissao.setSecoesDistribuidas(DistribuicaoSecaoDAOImpl.getInstance().listarByClassLocalVotacao(id.getId()));
 			beanPontoTransmissao.setEquipamentosDistribuidos(DistribuicaoEquipamentoDAOImpl.getInstance().listar(id.getId()));
 		} catch (Exception e) {
@@ -72,9 +71,8 @@ public class ActionPontoTransmissao extends ActionSupport {
 	public String getBeanFullJson() {
 		try {
 			BeanPontoTransmissao pontoT = new BeanPontoTransmissao();
-			pontoT.setUnidadeServico(dao.getBean(id.getId()));
+			pontoT.setPontoTransmissao(dao.getBean(id.getId()));
 			beanPontoTransmissao = pontoT;
-			//pontoTransmissao.setUnidadeServico(us);
 			beanPontoTransmissao.setSecoesDistribuidas(DistribuicaoSecaoDAOImpl.getInstance().listarByClassLocalVotacao(id.getId()));
 			beanPontoTransmissao.setEquipamentosDistribuidos(DistribuicaoEquipamentoDAOImpl.getInstance().listar(id.getId()));
 		} catch (Exception e) {
@@ -91,7 +89,12 @@ public class ActionPontoTransmissao extends ActionSupport {
 		try {
 			if (permissao.getAdmin()) {
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX();
-				this.lstPontoTransmissao = dao.listar();
+				if (codZonaMunic!=null) {
+					CadZonaEleitoralPK pk = new CadZonaEleitoralPK(codZonaMunic);
+					this.lstPontoTransmissao = dao.listar(pk);
+				}else {
+				   this.lstPontoTransmissao = dao.listar();
+				}
 			} else {
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX(permissao.getZona());				
 				if (codZonaMunic==null || codZonaMunic.equals("-1")) {
@@ -176,7 +179,7 @@ public class ActionPontoTransmissao extends ActionSupport {
 				
 	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmPontoTransmissao.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
-	public String frmCadUnidadeServico() {
+	public String frmCad() {
 		try {
 			if (permissao.getAdmin()) {
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX();
@@ -242,16 +245,18 @@ public class ActionPontoTransmissao extends ActionSupport {
 			this.pt.setId(pk);			
 			this.pt.setCodmunic(pkze.getCodmunic());
 			this.pt.setZona(pkze.getZona());
-			// beanResult.setRet(dao.adicionar(this.pt));
-			
+			beanResult.setRet(dao.adicionar(this.pt));
+			/*
 			for (String item : this.lstPontos) {								
 				beanResult.setRet(dao.adicionar(this.pt));
 			}			
-			if (beanResult.getRet() == 1)
-				beanResult.setMensagem(getText("inserir.sucesso"));
-			else
-				beanResult.setMensagem(getText("inserir.error"));
-			
+			*/
+			if (beanResult.getRet() == 1) {
+				beanResult.setMsg(getText("inserir.sucesso"), "error");
+			}	
+			else {
+				beanResult.setMsg(getText("inserir.error"), "error");
+			}
 			beanResult.setMensagem(getText("inserir.sucesso"));	
 			
 		} catch (Exception e) {

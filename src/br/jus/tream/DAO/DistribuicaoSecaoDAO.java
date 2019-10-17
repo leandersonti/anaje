@@ -9,9 +9,9 @@ import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 
 public interface DistribuicaoSecaoDAO {
 	
-	public List<DistribuicaoSecao> listar(Integer idUnidadeServico) throws Exception;
+	public List<DistribuicaoSecao> listar(Integer idPontoTransmissao) throws Exception;
 	
-	public List<CADLocalvotacao> listarByClassLocalVotacao(Integer idUnidadeServico) throws Exception;
+	public List<CADLocalvotacao> listarByClassLocalVotacao(Integer idPontoTransmissao) throws Exception;
 		
 	public List<CADSecao> listarParaDistribuir(CadZonaEleitoralPK pkze, Integer numlocal) throws Exception;
 	

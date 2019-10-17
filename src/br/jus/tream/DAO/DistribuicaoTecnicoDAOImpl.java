@@ -55,8 +55,8 @@ public class DistribuicaoTecnicoDAOImpl implements DistribuicaoTecnicoDAO {
 		try {			  
 			TypedQuery<DistribuicaoTecnico> query = em
 					.createQuery("SELECT ds FROM DistribuicaoTecnico ds WHERE "
-								+ " ds.id.unidadeServico.zona=?1 AND ds.id.unidadeServico.codmunic=?2"
-								+ " AND ds.id.unidadeServico.id.dataEleicao.ativo=1",
+								+ " ds.id.pontoTransmissao.zona=?1 AND ds.id.pontoTransmissao.codmunic=?2"
+								+ " AND ds.id.pontoTransmissao.id.eleicao.ativo=1",
 								DistribuicaoTecnico.class);
 			query.setParameter(1, codzonaMunic.getZona());
 			query.setParameter(2, codzonaMunic.getCodmunic());			
@@ -78,7 +78,7 @@ public class DistribuicaoTecnicoDAOImpl implements DistribuicaoTecnicoDAO {
 			TypedQuery<Tecnico> query = em
 					.createQuery("SELECT s FROM Tecnico s WHERE "
 							+ "s.id NOT IN (SELECT ds.id.tecnico.id FROM DistribuicaoTecnico ds "
-							+ "WHERE ds.id.unidadeServico.id.dataEleicao.ativo=1)",
+							+ "WHERE ds.id.pontoTransmissao.id.eleicao.ativo=1)",
 							Tecnico.class);			
 			lista = query.getResultList();
 		} catch (Exception e) {
@@ -98,7 +98,7 @@ public class DistribuicaoTecnicoDAOImpl implements DistribuicaoTecnicoDAO {
 			TypedQuery<Tecnico> query = em
 					.createQuery("SELECT s FROM Tecnico s WHERE s.zona=?1 "
 							+ " AND s.id NOT IN (SELECT ds.id.tecnico.id FROM DistribuicaoTecnico ds "
-							+ " WHERE ds.id.unidadeServico.id.dataEleicao.ativo=1)",
+							+ " WHERE ds.id.pontoTransmissao.id.eleicao.ativo=1)",
 							Tecnico.class);	
 			query.setParameter(1, zona);
 			lista = query.getResultList();
@@ -155,14 +155,14 @@ public class DistribuicaoTecnicoDAOImpl implements DistribuicaoTecnicoDAO {
 	}
 		
 	@Override
-	public DistribuicaoTecnico getBean(Integer unidadeservico) throws Exception {
+	public DistribuicaoTecnico getBean(Integer idPontoTransmissao) throws Exception {
 		DistribuicaoTecnico ds = new DistribuicaoTecnico();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
 			TypedQuery<DistribuicaoTecnico> query = em.createQuery("SELECT ds FROM DistribuicaoTecnico ds WHERE "
 								+ "ds.id.pontoTransmissao.id.id = ?1 AND ds.id.pontoTransmissao.id.eleicao.ativo=1",
 								DistribuicaoTecnico.class);
-			query.setParameter(1, unidadeservico);
+			query.setParameter(1, idPontoTransmissao);
 			ds = query.getSingleResult();
 		} catch (Exception e) {
 			em.close();
@@ -195,9 +195,6 @@ public class DistribuicaoTecnicoDAOImpl implements DistribuicaoTecnicoDAO {
 		}
 		return ret;
 	}
-	
-	
-
 	
 	public static void main(String[] args) throws Exception {
 		 DistribuicaoTecnicoDAO dao = DistribuicaoTecnicoDAOImpl.getInstance();

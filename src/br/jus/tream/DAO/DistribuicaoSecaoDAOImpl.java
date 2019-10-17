@@ -26,7 +26,7 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 
 
 	@Override
-	public List<DistribuicaoSecao> listar(Integer idUnidadeServico) throws Exception {
+	public List<DistribuicaoSecao> listar(Integer idPontoTransmissao) throws Exception {
 		List<DistribuicaoSecao> lista = new ArrayList<DistribuicaoSecao>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
@@ -34,7 +34,7 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 					.createQuery("SELECT ds FROM DistribuicaoSecao ds WHERE "
 								+ "ds.id.pontoTransmissao.id.id=?1 AND ds.id.pontoTransmissao.id.eleicao.ativo=1 ORDER BY ds.secao",
 							DistribuicaoSecao.class);
-			query.setParameter(1, idUnidadeServico);
+			query.setParameter(1, idPontoTransmissao);
 			lista = query.getResultList();
 		} catch (Exception e) {
 			em.close();
@@ -45,7 +45,7 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 		return lista;
 	}
 	
-	public List<CADLocalvotacao> listarByClassLocalVotacao(Integer idUnidadeServico) throws Exception{
+	public List<CADLocalvotacao> listarByClassLocalVotacao(Integer idPontoTransmissao) throws Exception{
 		List<CADLocalvotacao> lista = new ArrayList<CADLocalvotacao>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
@@ -55,7 +55,7 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 								      + "WHERE ds.id.pontoTransmissao.id.id=?1 AND ds.id.pontoTransmissao.id.eleicao.ativo=1"
 								+ ") ORDER BY a.numLocal",
 								CADLocalvotacao.class);
-			query.setParameter(1, idUnidadeServico);
+			query.setParameter(1, idPontoTransmissao);
 			lista = query.getResultList();
 		} catch (Exception e) {
 			em.close();

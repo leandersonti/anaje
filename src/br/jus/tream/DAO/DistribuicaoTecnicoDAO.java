@@ -22,7 +22,7 @@ public interface DistribuicaoTecnicoDAO {
 	public DistribuicaoTecnico getBean(String tituloEleitor) throws Exception;
 	
 	// CONSULTA PELA UNIDADE SERVICO
-	public DistribuicaoTecnico getBean(Integer unidadeservico) throws Exception;
+	public DistribuicaoTecnico getBean(Integer idPontoTransmissao) throws Exception;
 	
 	public int adicionar (DistribuicaoTecnico ds) throws Exception;
 	

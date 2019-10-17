@@ -23,13 +23,6 @@ public class DistribuicaoEquipamentoPK implements Serializable{
 	})
 	private PontoTransmissao pontoTransmissao;
 	
-	/*
-	@ManyToOne
-	@JoinColumns(value = {
-	        @JoinColumn(name = "idus", referencedColumnName = "idus", updatable = false, insertable = false),
-	        @JoinColumn(name = "id_eleicao", referencedColumnName = "id_eleicao", updatable = false, insertable = false)})
-	private UnidadeServico unidadeServico;
-	*/
 	public Equipamento getEquipamento() {
 		return equipamento;
 	}

@@ -27,6 +27,10 @@ public class BeanResult {
 	public void setMensagem(String message) {
 		this.mensagem = message;
 	}
+	public void setMsg(String message, String type) {
+		this.mensagem = message;
+		this.type = type;
+	}
 	public String getBtn() {
 		return btn;
 	}
