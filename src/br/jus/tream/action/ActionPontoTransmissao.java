@@ -14,6 +14,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import br.jus.tream.DAO.CadEloDAOImpl;
 import br.jus.tream.DAO.DistribuicaoEquipamentoDAOImpl;
 import br.jus.tream.DAO.DistribuicaoSecaoDAOImpl;
+import br.jus.tream.DAO.DistribuicaoTecnicoDAOImpl;
 import br.jus.tream.DAO.EleicaoDAOImpl;
 import br.jus.tream.DAO.PontoTransmissaoDAO;
 import br.jus.tream.DAO.PontoTransmissaoDAOImpl;
@@ -33,7 +34,7 @@ import br.jus.tream.dominio.pk.PontoTransmissaoPK;
 public class ActionPontoTransmissao extends ActionSupport {
 	private List<PontoTransmissao> lstPontoTransmissao;
 	private List<CADLocalvotacao> lstLocalVotacao;
-	private List<CADZonaEleitoral> lstZonaEleitoral;	
+	private List<CADZonaEleitoral> lstZonaEleitoral;
 	private List<SRHServidores> lstServidores;
 	private List<String> lstPontos;
 	private CADZonaEleitoral cadZonaEleitoral;
@@ -46,65 +47,70 @@ public class ActionPontoTransmissao extends ActionSupport {
 	private Integer codmunic;
 	private final static PontoTransmissaoDAO dao = PontoTransmissaoDAOImpl.getInstance();
 	private final static Permissao permissao = Permissao.getInstance();
-	
-	
-	@Action(value = "getBeanFull", results = { @Result(name = "success", location = "/consultas/ponto-transmissao-bean-full.jsp"),
+
+	@Action(value = "getBeanFull", results = {
+			@Result(name = "success", location = "/consultas/ponto-transmissao-bean-full.jsp"),
 			@Result(name = "error", location = "/result.jsp") })
 	public String getBeanFull() {
 		try {
 			BeanPontoTransmissao pontoT = new BeanPontoTransmissao();
 			pontoT.setPontoTransmissao(dao.getBean(id.getId()));
 			beanPontoTransmissao = pontoT;
-			beanPontoTransmissao.setSecoesDistribuidas(DistribuicaoSecaoDAOImpl.getInstance().listarByClassLocalVotacao(id.getId()));
-			beanPontoTransmissao.setEquipamentosDistribuidos(DistribuicaoEquipamentoDAOImpl.getInstance().listar(id.getId()));
+			beanPontoTransmissao.setSecoesDistribuidas(
+					DistribuicaoSecaoDAOImpl.getInstance().listarByClassLocalVotacao(id.getId()));
+			beanPontoTransmissao
+					.setEquipamentosDistribuidos(DistribuicaoEquipamentoDAOImpl.getInstance().listar(id.getId()));
+			beanPontoTransmissao.setTecnicosDistribuidos(DistribuicaoTecnicoDAOImpl.getInstance().listar(id.getId()));
 		} catch (Exception e) {
-			addActionError(getText("getbean.error") + ". Error: " + e.getMessage() );
+			addActionError(getText("getbean.error") + ". Error: " + e.getMessage());
 			return "error";
 		}
 		return "success";
 	}
-	
-	@Action(value = "getBeanFullJson", results = { @Result(name = "success", type = "json", params = { "root", "beanPontoTransmissao" }),
-			@Result(name = "error", location = "/pages/resultAjax.jsp")}
-	   //, interceptorRefs = @InterceptorRef("authStack")
+
+	@Action(value = "getBeanFullJson", results = {
+			@Result(name = "success", type = "json", params = { "root", "beanPontoTransmissao" }),
+			@Result(name = "error", location = "/pages/resultAjax.jsp") }
+	// , interceptorRefs = @InterceptorRef("authStack")
 	)
 	public String getBeanFullJson() {
 		try {
 			BeanPontoTransmissao pontoT = new BeanPontoTransmissao();
 			pontoT.setPontoTransmissao(dao.getBean(id.getId()));
 			beanPontoTransmissao = pontoT;
-			beanPontoTransmissao.setSecoesDistribuidas(DistribuicaoSecaoDAOImpl.getInstance().listarByClassLocalVotacao(id.getId()));
-			beanPontoTransmissao.setEquipamentosDistribuidos(DistribuicaoEquipamentoDAOImpl.getInstance().listar(id.getId()));
+			beanPontoTransmissao.setSecoesDistribuidas(
+					DistribuicaoSecaoDAOImpl.getInstance().listarByClassLocalVotacao(id.getId()));
+			beanPontoTransmissao
+					.setEquipamentosDistribuidos(DistribuicaoEquipamentoDAOImpl.getInstance().listar(id.getId()));
 		} catch (Exception e) {
-			addActionError(getText("getbean.error") + ". Error: " + e.getMessage() );
+			addActionError(getText("getbean.error") + ". Error: " + e.getMessage());
 			return "error";
 		}
 		return "success";
 	}
-	
-	
+
 	@Action(value = "listar", results = { @Result(name = "success", location = "/consultas/ponto-transmissao.jsp"),
 			@Result(name = "error", location = "/result.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String listar() {
 		try {
 			if (permissao.getAdmin()) {
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX();
-				if (codZonaMunic!=null) {
+				if (codZonaMunic != null) {
 					CadZonaEleitoralPK pk = new CadZonaEleitoralPK(codZonaMunic);
 					this.lstPontoTransmissao = dao.listar(pk);
-				}else {
-				   this.lstPontoTransmissao = dao.listar();
+				} else {
+					this.lstPontoTransmissao = dao.listar();
 				}
 			} else {
-				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX(permissao.getZona());				
-				if (codZonaMunic==null || codZonaMunic.equals("-1")) {
-					
-				} else {					
+				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX(permissao.getZona());
+				if (codZonaMunic == null || codZonaMunic.equals("-1")) {
+
+				} else {
 					CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
 					this.lstPontoTransmissao = dao.listar(pkze);
 				}
-			}			 
-			
+			}
+
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";
@@ -112,58 +118,72 @@ public class ActionPontoTransmissao extends ActionSupport {
 		return "success";
 	}
 
-	
-	@Action(value = "listarSemDistribuicaoSecao", results = { @Result(name = "success", location = "/consultas/semDistribuicaoSecao.jsp"),
+	@Action(value = "listarSemDistribuicaoSecao", results = {
+			@Result(name = "success", location = "/consultas/semDistribuicaoSecao.jsp"),
 			@Result(name = "error", location = "/result.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String listarSemDistribuicaoSecao() {
 		try {
-		
+			System.out.println("===" + codZonaMunic);
 			if (permissao.getAdmin()) {
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX();
-				this.lstPontoTransmissao = dao.listar();
-			} else {
-				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX(permissao.getZona());				
-				if (codZonaMunic==null || codZonaMunic.equals("-1")) {
-					
-				} else {					
+				if (codZonaMunic == null || codZonaMunic.equals("-1")) {
+
+				} else {
 					CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
+					System.out.println("===" + codZonaMunic);
 					this.lstPontoTransmissao = dao.listarSemDistribuicaoSecao(pkze);
 				}
-			}	
-			 
+			} else {
+				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX(permissao.getZona());
+				if (codZonaMunic == null || codZonaMunic.equals("-1")) {
+
+				} else {
+					CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
+					System.out.println("===" + codZonaMunic);
+					this.lstPontoTransmissao = dao.listarSemDistribuicaoSecao(pkze);
+				}
+			}
+
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";
 		}
 		return "success";
 	}
-	
-	@Action(value = "listarSemDistribuicaoTecnico", results = { @Result(name = "success", location = "/consultas/semDistribuicaoTecnico.jsp"),
+
+	@Action(value = "listarSemDistribuicaoTecnico", results = {
+			@Result(name = "success", location = "/consultas/semDistribuicaoTecnico.jsp"),
 			@Result(name = "error", location = "/result.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String listarSemDistribuicaoTecnico() {
 		try {
-			
+
 			if (permissao.getAdmin()) {
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX();
-				this.lstPontoTransmissao = dao.listar();
-			} else {
-				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX(permissao.getZona());				
-				if (codZonaMunic==null || codZonaMunic.equals("-1")) {
-					
-				} else {					
+				if (codZonaMunic == null || codZonaMunic.equals("-1")) {
+
+				} else {
 					CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
 					this.lstPontoTransmissao = dao.listarSemDistribuicaoTecnico(pkze);
 				}
-			}	
-			
+			} else {
+				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX(permissao.getZona());
+				if (codZonaMunic == null || codZonaMunic.equals("-1")) {
+
+				} else {
+					CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
+					this.lstPontoTransmissao = dao.listarSemDistribuicaoTecnico(pkze);
+				}
+			}
+
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";
 		}
 		return "success";
 	}
-	
-	@Action(value = "listarJson", results = { @Result(name = "success", type = "json", params = { "root", "lstPontoTransmissao" }),
+
+	@Action(value = "listarJson", results = {
+			@Result(name = "success", type = "json", params = { "root", "lstPontoTransmissao" }),
 			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String listarJson() {
 		try {
@@ -176,8 +196,9 @@ public class ActionPontoTransmissao extends ActionSupport {
 		}
 		return "success";
 	}
-	
-	@Action(value = "listarSemOficializar", results = { @Result(name = "success", type = "json", params = { "root", "lstPontoTransmissao" }),
+
+	@Action(value = "listarSemOficializar", results = {
+			@Result(name = "success", type = "json", params = { "root", "lstPontoTransmissao" }),
 			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String listarSemOficializar() {
 		try {
@@ -190,7 +211,7 @@ public class ActionPontoTransmissao extends ActionSupport {
 		}
 		return "success";
 	}
-				
+
 	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmPontoTransmissao.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String frmCad() {
@@ -206,24 +227,24 @@ public class ActionPontoTransmissao extends ActionSupport {
 		}
 		return "success";
 	}
-	
+
 	@Action(value = "frmOficializar", results = { @Result(name = "success", location = "/forms/frmOficializar.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String frmOficializar() {
 		try {
-			
+
 			if (permissao.getAdmin()) {
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX();
 			} else {
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX(permissao.getZona());
-			}											
-			
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			addActionError(getText("frmsetup.error") + " Error: " + e.getMessage());
-			return "error"; 
-		} 
-		return "success"; 
+			return "error";
+		}
+		return "success";
 	}
 
 	@Action(value = "frmEditar", results = { @Result(name = "success", location = "/forms/frmPontoTransmissao.jsp"),
@@ -231,12 +252,12 @@ public class ActionPontoTransmissao extends ActionSupport {
 	public String doFrmEditar() {
 		try {
 			this.pt = dao.getBean(this.id);
-			if (permissao.getAdmin()) {  
+			if (permissao.getAdmin()) {
 				return "success";
 			} else {
-				if (permissao.getZona()==this.pt.getZona()) {
+				if (permissao.getZona() == this.pt.getZona()) {
 					return "success";
-				}else {
+				} else {
 					addActionError(getText("permissao.negada"));
 					return "error";
 				}
@@ -245,7 +266,7 @@ public class ActionPontoTransmissao extends ActionSupport {
 			addActionError(getText("frmsetup.error") + " Error: " + e.getMessage());
 			return "error";
 		}
-		
+
 	}
 
 	@Action(value = "adicionar", results = { @Result(name = "success", type = "json", params = { "root", "result" }),
@@ -256,25 +277,23 @@ public class ActionPontoTransmissao extends ActionSupport {
 			PontoTransmissaoPK pk = new PontoTransmissaoPK();
 			CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
 			pk.setEleicao(EleicaoDAOImpl.getInstance().getBeanAtiva());
-			this.pt.setId(pk);			
+			this.pt.setId(pk);
 			this.pt.setCodmunic(pkze.getCodmunic());
 			this.pt.setZona(pkze.getZona());
 			beanResult.setRet(dao.adicionar(this.pt));
 			/*
-			for (String item : this.lstPontos) {								
-				beanResult.setRet(dao.adicionar(this.pt));
-			}			
-			*/
+			 * for (String item : this.lstPontos) {
+			 * beanResult.setRet(dao.adicionar(this.pt)); }
+			 */
 			if (beanResult.getRet() == 1) {
 				beanResult.setMsg(getText("inserir.sucesso"), "error");
-			}	
-			else {
+			} else {
 				beanResult.setMsg(getText("inserir.error"), "error");
 			}
-			beanResult.setMensagem(getText("inserir.sucesso"));	
-			
+			beanResult.setMensagem(getText("inserir.sucesso"));
+
 		} catch (Exception e) {
-			  addActionError(getText("inserir.error") + " Error: " + e.getMessage());
+			addActionError(getText("inserir.error") + " Error: " + e.getMessage());
 			// result.setMensagem(getText("inserir.error") + " Error: " + e.getMessage());
 			return "error";
 		}
@@ -287,7 +306,7 @@ public class ActionPontoTransmissao extends ActionSupport {
 	public String doAtualizar() {
 		BeanResult beanResult = new BeanResult();
 		try {
-			beanResult.setRet(dao.atualizar(this.pt));			
+			beanResult.setRet(dao.atualizar(this.pt));
 			if (beanResult.getRet() == 1) {
 				beanResult.setMensagem(getText("alterar.sucesso"));
 			} else {
@@ -306,26 +325,25 @@ public class ActionPontoTransmissao extends ActionSupport {
 	public String doRemover() {
 		BeanResult beanResult = new BeanResult();
 		try {
-			if (permissao.getAdmin()) {			
+			if (permissao.getAdmin()) {
 				beanResult.setRet(dao.remover(this.pt));
-				if (beanResult.getRet()==1)
-				   beanResult.setMensagem(getText("remover.sucesso"));
+				if (beanResult.getRet() == 1)
+					beanResult.setMensagem(getText("remover.sucesso"));
 				else
 					beanResult.setMensagem(getText("restricao.integridade.violada"));
 			} else {
 				beanResult.setRet(0);
 				beanResult.setMensagem(getText("permissao.negada"));
 			}
-		 } catch (Exception e) {
-			  addActionError(getText("remover.error") + " Error: " + e.getMessage());
-			 beanResult.setMensagem(getText("remover.error") + " Error: " + e.getMessage());
+		} catch (Exception e) {
+			addActionError(getText("remover.error") + " Error: " + e.getMessage());
+			beanResult.setMensagem(getText("remover.error") + " Error: " + e.getMessage());
 			// r.setMensagem(getText("remover.error") + " Error: " + e.getMessage());
 			return "error";
-		 }
+		}
 		this.result = beanResult;
 		return "success";
 	}
-
 
 	public List<CADLocalvotacao> getLstLocalVotacao() {
 		return lstLocalVotacao;
@@ -342,7 +360,7 @@ public class ActionPontoTransmissao extends ActionSupport {
 	public void setLstZonaEleitoral(List<CADZonaEleitoral> lstZonaEleitoral) {
 		this.lstZonaEleitoral = lstZonaEleitoral;
 	}
-	
+
 	public PontoTransmissao getPt() {
 		return pt;
 	}
@@ -414,7 +432,6 @@ public class ActionPontoTransmissao extends ActionSupport {
 	public void setLstPontoTransmissao(List<PontoTransmissao> lstPontoTransmissao) {
 		this.lstPontoTransmissao = lstPontoTransmissao;
 	}
-	
 
 	public List<SRHServidores> getLstServidores() {
 		return lstServidores;

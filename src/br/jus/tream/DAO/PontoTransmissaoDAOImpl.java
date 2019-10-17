@@ -278,7 +278,7 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 		
 		
 		
-		for (PontoTransmissao p : dao.listarSemOficializar(new CadZonaEleitoralPK("60;2895"))) {
+		for (PontoTransmissao p : dao.listarSemDistribuicaoSecao(new CadZonaEleitoralPK("60;2895"))) {
 			System.out.println("Ponto " + p.getZona() + " " + p.getCodLocal() + " " + p.getDescricao());
 		}
 		 

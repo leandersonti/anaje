@@ -153,25 +153,26 @@ public class DistribuicaoTecnicoDAOImpl implements DistribuicaoTecnicoDAO {
 		}
 		return ds;
 	}
-		
+	
+	
 	@Override
-	public DistribuicaoTecnico getBean(Integer idPontoTransmissao) throws Exception {
-		DistribuicaoTecnico ds = new DistribuicaoTecnico();
+	public List<DistribuicaoTecnico> listar(Integer idPontoTransmissao) throws Exception {
+		List<DistribuicaoTecnico> lista = new ArrayList<DistribuicaoTecnico>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
 			TypedQuery<DistribuicaoTecnico> query = em.createQuery("SELECT ds FROM DistribuicaoTecnico ds WHERE "
 								+ "ds.id.pontoTransmissao.id.id = ?1 AND ds.id.pontoTransmissao.id.eleicao.ativo=1",
 								DistribuicaoTecnico.class);
 			query.setParameter(1, idPontoTransmissao);
-			ds = query.getSingleResult();
+			lista = query.getResultList();
 		} catch (Exception e) {
 			em.close();
 			// e.printStackTrace();
 		} finally {
 			em.close();
 		}
-		return ds;
-	}
+		return lista;
+	} 
 
 	@Override
 	public int adicionar(DistribuicaoTecnico ds) throws Exception {

@@ -1,24 +1,30 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<s:push value="beanPontoTransmissao">
-         <label> Fase</label> 
+<s:push value="beanPontoTransmissao">         
+	<div class="form-row">			
+	<div class="col-md-4 mb-4">
 			   <s:if test="%{oficial==1}">
-			       <span class="label label-success" title="${pontoTransmissao.id.id}">Ofi - ${pontoTransmissao.id.id}</span>
+			       <span class="badge badge-pill badge-success" title="${pontoTransmissao.id.id}">Fase Ofi - ${pontoTransmissao.id.id}</span>
 			    </s:if>
 			    <s:else>
-			        <span class="label label-warning" title="${pontoTransmissao.id.id}">SM - ${pontoTransmissao.id.id}</span>
-			    </s:else>
-	 <br />
-	 <label>ZE: ${pontoTransmissao.zona} Local:</label> ${pontoTransmissao.codLocal} - ${pontoTransmissao.descricao}<br>
-	 ${pontoTransmissao.endereco}
+			        <span class="badge badge-pill badge-danger" title="${pontoTransmissao.id.id}">Fase SM - ${pontoTransmissao.id.id}</span>
+			    </s:else>	<br>
+			  ZE: ${pontoTransmissao.zona}	  		 				    			    			
+		</div>
+		<div class="col-md-6 mb-6">
+		   <label>
+		  	 Local: ${pontoTransmissao.codLocal} - ${pontoTransmissao.descricao}<br>		  
+			 Endereço: ${pontoTransmissao.endereco}</label>
+		</div>
+		</div>		
 	 	<table class="table table-hover table-sm">
-						<thead class="thead-default">
+						<thead class="thead-dark">
 						      <tr>
 							      <th>Num Local</th>						      
 							      <th>Nome Local</th>								      						     
 							   </tr>
 						</thead>	
-				<tbody>						
+			 	<tbody>						
 				<s:iterator value="secoesDistribuidas">				
 					<tr>
 						<td><s:property value="numLocal" /></td>
@@ -40,7 +46,7 @@
 			</table>
 
 			<table class="table table-hover table-sm">
-						<thead class="thead-default">
+						<thead class="thead-dark">
 						      <tr>
 							      <th>Equipamento</th>						      
 							      <th>Serie</th>								      						     
@@ -54,6 +60,27 @@
 						<td><s:property value="id.equipamento.tipo.descricao" /></td>
 						<td><s:property value="id.equipamento.serie" /></td>																										
 						<td><s:property value="id.equipamento.tomb" /></td>
+						<td></td>
+					</tr>									
+				</s:iterator>											
+				</tbody>
+			</table>
+			
+			<table class="table table-hover table-sm">
+						<thead class="thead-dark">
+						      <tr>
+							      <th>Tecnico</th>						      
+							      <th>Celular</th>								      						     
+							      <th>Titulo</th>
+							      <th></th>
+							   </tr>
+						</thead>	
+				<tbody>						
+				<s:iterator value="tecnicosDistribuidos">				
+					<tr>
+						<td><s:property value="id.tecnico.nome" /></td>
+						<td><s:property value="id.tecnico.celular" /></td>																										
+						<td><s:property value="id.tecnico.tituloEleitor" /></td>
 						<td></td>
 					</tr>									
 				</s:iterator>											

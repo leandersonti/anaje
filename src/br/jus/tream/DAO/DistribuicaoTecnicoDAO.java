@@ -12,17 +12,16 @@ public interface DistribuicaoTecnicoDAO {
 		
 	public List<DistribuicaoTecnico> listar(CadZonaEleitoralPK codzonaMunic) throws Exception;
 	
+	public List<DistribuicaoTecnico> listar(Integer idPontoTransmissao) throws Exception;
+	
 	public List<Tecnico> listarParaDistribuir() throws Exception;
 	
 	public List<Tecnico> listarParaDistribuir(Integer zona) throws Exception;
 	
-	public List<Tecnico> listarParaDistribuir(Integer zona, Integer contrato) throws Exception;
+	public List<Tecnico> listarParaDistribuir(Integer zona, Integer contrato) throws Exception;		
 	
 	// CONSULTA PELO NUMERO DO TITULO DO TECNICO
-	public DistribuicaoTecnico getBean(String tituloEleitor) throws Exception;
-	
-	// CONSULTA PELA UNIDADE SERVICO
-	public DistribuicaoTecnico getBean(Integer idPontoTransmissao) throws Exception;
+	public DistribuicaoTecnico getBean(String tituloEleitor) throws Exception;	
 	
 	public int adicionar (DistribuicaoTecnico ds) throws Exception;
 	
