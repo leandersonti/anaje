@@ -44,6 +44,10 @@ img.topmnu{
     top: 2px;
 }
 
+.dropdown-menu {
+   background-color: #dce8f5;
+}
+
 /* LOADING */
 .wrapper {
     /* Size and position */
