@@ -117,57 +117,10 @@ public class DistribuicaoEquipamentoDAOImpl implements DistribuicaoEquipamentoDA
 	public static void main(String[] args) throws Exception {
 		
 		DistribuicaoEquipamentoDAO dao = DistribuicaoEquipamentoDAOImpl.getInstance();
-		for (DistribuicaoEquipamento d: dao.listar(112019)) {
-			System.out.println(d.getId().getEquipamento().getSerie());
+		CadZonaEleitoralPK pkze = new CadZonaEleitoralPK("14;2151");
+		for(DistribuicaoEquipamento e : dao.listar(pkze)) {
+			System.out.println("PT " + e.getId().getPontoTransmissao().getDescricao() + " == " + e.getId().getEquipamento().getSerie());
 		}
-		/*
-		DataEleicao dataEleicao = new DataEleicao();
-		dataEleicao.setId(1);
-		Equipamento eq = new Equipamento();
-		eq.setId(1);
-		
-		UnidadeServicoPK uspk = new UnidadeServicoPK();
-		uspk.setId(1);
-		uspk.setDataEleicao(dataEleicao);	
-		UnidadeServico us= new UnidadeServico();
-		us.setId(uspk);
-		
-		DistribuicaoEquipamentoPK pke = new DistribuicaoEquipamentoPK();
-		pke.setEquipamento(eq);
-		pke.setUnidadeServico(us);
-		
-		DistribuicaoEquipamento de = new DistribuicaoEquipamento();
-		de.setId(pke);
-		
-		Tecnico t = new Tecnico();
-		t.setId(1);
-		de.setTecnico(t);
-		
-		int ret =dao.adicionar(de);
-		 
-		System.out.println("Retorno = " + ret);
-		*/
-		
-		
-		
-	   
-		/*
-		dspk.setIdUnidadeServico(2432019);
-		dspk.setIdEleicao(1);
-		dspk.setCodOjeto("Eec517041012551913");
-		
-		ds.setId(dspk);
-		ds.setZona(60);
-		ds.setSecao(30);
-		ds.setCodmunic(2895);
-		*/
-		//ds = dao.getBean(dspk);
-		
-		//for(DistribuicaoSecao d : dao.listar(dspk)) {
-		//	System.out.println("Zona " + d.getZona() + " " + d.getSecao() + " " + d.getCodmunic());
-		//}
-		
-		
 		
 		System.out.println("Done!!");
 		

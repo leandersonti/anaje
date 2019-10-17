@@ -90,7 +90,7 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 			//if (permissao.getAdmin()) {
 			//	this.lstDistribuicaoEquipamento = dao.listar();
 			//} else {
-				System.out.println("CodZonaMunic=" + codZonaMunic);
+				
 				CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
 				System.out.println("ZonaMunic=" + pkze.getZona() + " / " + pkze.getCodmunic());
 				this.lstDistribuicaoEquipamento = dao.listar(pkze);
@@ -109,8 +109,10 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 	)
 	public String listarByPontoTransmissao() {
 		try {
-			if (pontoTransmissao.getId().getId()==99999)
-				this.lstDistribuicaoEquipamento = dao.listar();
+			if (pontoTransmissao.getId().getId()==99999) {
+				CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
+				this.lstDistribuicaoEquipamento = dao.listar(pkze);
+			}	
 			else	
 			   this.lstDistribuicaoEquipamento = dao.listar(pontoTransmissao.getId().getId());
 		} catch (Exception e) {
