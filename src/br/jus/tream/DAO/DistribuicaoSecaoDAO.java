@@ -12,6 +12,8 @@ public interface DistribuicaoSecaoDAO {
 	public List<DistribuicaoSecao> listar(Integer idPontoTransmissao) throws Exception;
 	
 	public List<CADLocalvotacao> listarByClassLocalVotacao(Integer idPontoTransmissao) throws Exception;
+	
+	public List<CADLocalvotacao> listarByClassLocalVotacao(CadZonaEleitoralPK pkze) throws Exception;
 		
 	public List<CADSecao> listarParaDistribuir(CadZonaEleitoralPK pkze, Integer numlocal) throws Exception;
 	

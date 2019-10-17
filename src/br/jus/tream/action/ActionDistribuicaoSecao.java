@@ -60,6 +60,22 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 		return "success";
 	}
 	
+	@Action(value = "setuplistar", results = { @Result(name = "success", location = "/consultas/distribuicaoSecao.jsp"),
+			@Result(name = "error", location = "/result.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+	public String setupListar() {
+		try {
+			if (permissao.getAdmin()) {
+				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX();
+			} else {				
+				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX(permissao.getZona());
+			}
+		} catch (Exception e) {
+			addActionError(getText("listar.error"));
+			return "error";
+		}
+		return "success";
+	}
+	
 	@Action(value = "listarParaDistribuirJson", results = { @Result(name = "success", type = "json", params = { "root", "lstCadSecao" }),
 			@Result(name = "error", location = "/pages/resultAjax.jsp") })
 	public String listarSecaoParaDistribuirJson() {
@@ -96,7 +112,12 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 			@Result(name = "error", location = "/pages/resultAjax.jsp")})
 	public String listarByPontoTransmissaoJson() {
 		try {
-			lstPorLocalVotacao = dao.listarByClassLocalVotacao(pontoTransmissao.getId().getId());
+			if (codZonaMunic != null) {
+				// CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
+				// lstPorLocalVotacao = dao.listar(pkze);
+			}	
+			else	
+				lstPorLocalVotacao = dao.listarByClassLocalVotacao(pontoTransmissao.getId().getId());
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";

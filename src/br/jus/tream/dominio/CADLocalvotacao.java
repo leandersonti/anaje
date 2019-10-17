@@ -59,6 +59,19 @@ public class CADLocalvotacao implements Serializable{
 		this.nomeLocalidade = nomeLocalidade;
 		this.numLocal = numLocal;
 	}
+	
+	public CADLocalvotacao(String id, Integer zona,  Integer codmunic, Integer numLocal,
+			String nomeLocal, String endereco, String latitude, String longitude) {
+		super();
+		this.id = id;
+		this.zona = zona;
+		this.codmunic = codmunic;
+		this.numLocal = numLocal;
+		this.nomeLocal = nomeLocal;
+		this.endereco = endereco;
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
 
 	public CADLocalvotacao(String id, Integer zona, String nomeLocalidade, Integer codmunic, Integer numLocal,
 			String nomeLocal, String endereco, String latitude, String longitude) {
