@@ -57,7 +57,20 @@
 	
 	
 	$('#btnconsultar').click(function(event) {
-		CarregaEquipDistribuidos();	
+		var id = $("#pontoTransmisao").val();
+		console.log("=="+id);
+		$("#tb > tbody:last").children().remove();
+		$.getJSON('listarByPontoTransmissaoJson?pontoTransmisao.id.id='+id,function(jsonResponse) {
+			console.log("aqui");
+			console.log(jsonResponse);
+			   $.each(jsonResponse, function(key, value) {             
+		           	 $('#tb > tbody:last-child').append('<tr><td>'+value.id.pontoTransmissao.descricao+'</td><td>'
+		           			+value.id.equipamento.tipo.descricao+'</td><td>'
+		           			+value.id.equipamento.serie+'</td><td>');
+		      	 });
+		     });
+		
+		
 	});
 	
 	function CarregaPontoTransmissao(){
@@ -80,7 +93,8 @@
 		var id = $("#pontoTransmisao").val();
 		console.log("=="+id);
 		$("#tb > tbody:last").children().remove();
-		$.getJSON('listar?pontoTransmisao.id.id='+id,function(jsonResponse) {
+		$.getJSON('listarByPontoTransmissaoJson?pontoTransmisao.id.id='+id,function(jsonResponse) {
+			console.log("aqui");
 			console.log(jsonResponse);
 			   $.each(jsonResponse, function(key, value) {             
 		           	 $('#tb > tbody:last-child').append('<tr><td>'+value.id.pontoTransmissao.descricao+'</td><td>'
