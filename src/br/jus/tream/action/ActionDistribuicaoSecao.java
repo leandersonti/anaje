@@ -108,16 +108,16 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 	}
 	
 	@Action(value = "listarByPontoTransmissaoJson", results = { 
-			@Result(name = "success", type = "json", params = { "root", "lstPorLocalVotacao"}),
+			@Result(name = "success", type = "json", params = { "root", "lstDistribuicaoSecao"}),
 			@Result(name = "error", location = "/pages/resultAjax.jsp")})
 	public String listarByPontoTransmissaoJson() {
 		try {
 			if (codZonaMunic != null) {
-				// CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
-				// lstPorLocalVotacao = dao.listar(pkze);
+				CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
+				lstDistribuicaoSecao = dao.listar(pkze);
 			}	
 			else	
-				lstPorLocalVotacao = dao.listarByClassLocalVotacao(pontoTransmissao.getId().getId());
+				lstDistribuicaoSecao = dao.listar(pontoTransmissao.getId().getId());
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";

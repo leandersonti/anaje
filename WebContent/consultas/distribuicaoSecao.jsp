@@ -6,7 +6,7 @@
 	<div class="card">
 		<div class="card-header">
 		 <form action="" class="form-inline" name="frmConsultaEquipamento" id="frmConsultaEquipamento">	
-			Seções Distribuídos
+			<b>Seções Distribuídos</b>  
 			<s:select label="Zona" headerKey="-1" headerValue="Selecione a zona"
 				tooltip="Informe a Zona" list="lstZonaEleitoral"
 				listKey="id.zona+';'+id.codmunic"
@@ -24,8 +24,8 @@
 			  <thead>
 			    <tr>
 			       <th scope="col">Ponto de Transmissão</th>
-			       <th scope="col">Tipo</th>
-   			       <th scope="col">Serie</th>
+			       <th scope="col">Zona</th>
+   			       <th scope="col">Seção</th>
 			       <th scope="col">Menu</th>
 			    </tr>
 			  </thead>
@@ -72,10 +72,9 @@ $(document).ready(function() {
 			$("#tb > tbody:last").children().remove();
 			$.getJSON(url, function(jsonResponse) {
 				   $.each(jsonResponse, function(key, value) {     
-					   
-			           	 $('#tb > tbody:last-child').append('<tr><td>'+value.id.pontoTransmissao.descricao+'</td><td>'
-			           			+value.id.equipamento.tipo.descricao+'</td><td>'
-			           			+value.id.equipamento.serie+'</td><td>');
+			           	 $('#tb > tbody:last-child').append('<tr id="tr'+value.codObjetoLocal+'"><td>'+value.id.pontoTransmissao.descricao+'</td><td>'
+			           			+ value.zona+'</td><td>'
+			           			+ value.secao+'</td><td>');
 			      	 });
 			     });
 		}else

@@ -43,7 +43,7 @@
 	              <li class="dropdown-submenu">
 	             	 <a class="dropdown-item dropdown-toggle">Consulta</a>
 	             	 <ul class="dropdown-menu">
-	             	   <li><a class="dropdown-item" href="${pageContext.request.contextPath}/distribuisecao/frmCad">Seções</a></li>		             
+	             	   <li><a class="dropdown-item" href="${pageContext.request.contextPath}/distribuisecao/setuplistar">Seções</a></li>		             
 			           <li><a class="dropdown-item" href="${pageContext.request.contextPath}/distribequipamento/setuplistar">Equipamentos</a></li>
 			           <li><a class="dropdown-item" href="${pageContext.request.contextPath}/distribtecnico/listar">Técnicos</a></li>
 	             	 </ul>	             	 			         			                   
