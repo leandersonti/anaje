@@ -109,7 +109,7 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 	)
 	public String listarByPontoTransmissao() {
 		try {
-			if (pontoTransmissao.getId().getId()==99999) {
+			if (codZonaMunic != null) {
 				CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
 				this.lstDistribuicaoEquipamento = dao.listar(pkze);
 			}	
