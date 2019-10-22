@@ -34,19 +34,25 @@
 							<th scope="col">Nome</th>
 	 						<th scope="col">Celular</th>
 							<th scope="col">NumLocal</th>
-							<th scope="col">Ponto Transmissao</th>							
+							<th scope="col">Ponto Transmissao</th>
+							<th scope="col">-</th>									
 						</tr>
 					</thead>
 
 					<tbody>
-				 <s:iterator value="lstDistribuicaoTecnico">				
+				 <s:iterator value="lstDistribuicaoTecnico">				 		
 					<tr>
 						<td><s:property value="id.tecnico.nome" /></td>
 						<td><s:property value="id.tecnico.celular" /></td>						
 						<td><s:property value="id.pontoTransmissao.codLocal" /></td>
-						<td><s:property value="id.pontoTransmissao.descricao" /></td>						
-						<!--  <td><s:property value="dttotalizacao" /></td>-->																										
-					</tr>									
+						<td><s:property value="id.pontoTransmissao.descricao" /></td>													
+						<td>
+							<a href="#" id="excluir${id.tecnico.id}" class="btn btn-sm btn-danger" role="button" data-record-id="${id.tecnico.id}"  
+						     data-record-idponto="${id.pontoTransmissao.id.id}">
+						  		<i class="fa fa-trash-o" aria-hidden="true"></i>
+					    	</a>													
+					    </td>											
+					</tr>				 					
 				</s:iterator>	
 					</tbody>
 				</table>
@@ -87,6 +93,35 @@
 			});
 		});
 	}
+	
+	// CLICK DO BOTÃO EXCLUIR PONTO DE TRANSMISSAO
+	$( "[id*='excluir']" ).click(function(event) {
+	    var data = $(event.delegateTarget).data();
+		var id = data.recordId; 
+		var idPonto = data.recordIdponto;
+		swal({
+			  title:'Excluir?',
+			  text: "Deseja excluir esse registro?",
+			  icon: 'warning',
+			  buttons: [true, "Sim excluir!"]
+			}).then((result) => {
+			  if (result) {
+			      var vurl = "remover?dst.id.tecnico.id="+id+'&dst.id.pontoTransmissao.id.id='+idPonto; 
+			      $.getJSON({
+					  url: vurl
+				  }).done(function( data ) {
+				    	  if (data.ret==1){
+				    		  $('#tr'+id).fadeOut(); 
+				    		     swal("Remover", data.mensagem, "success");
+				    	  }
+				    	  else
+				    		  swal("Remover", data.mensagem, "error");
+					}).fail(function() {
+						swal("Remover", "Ocorreu um erro ao remover", "error");
+					});
+			   }
+			})
+	  });
 </script>
 
 <jsp:include page="/mainfooter.inc.jsp" />
