@@ -16,9 +16,11 @@ public interface DistribuicaoTecnicoDAO {
 	
 	public List<Tecnico> listarParaDistribuir() throws Exception;
 	
-	public List<Tecnico> listarParaDistribuir(Integer zona) throws Exception;
+	/* public List<Tecnico> listarParaDistribuir(Integer zona) throws Exception; */
 	
 	public List<Tecnico> listarParaDistribuir(Integer zona, Integer contrato) throws Exception;		
+	
+	public List<Tecnico> listarParaDistribuir(Integer contrato) throws Exception;
 	
 	// CONSULTA PELO NUMERO DO TITULO DO TECNICO
 	public DistribuicaoTecnico getBean(String tituloEleitor) throws Exception;	

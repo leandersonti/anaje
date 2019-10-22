@@ -28,18 +28,17 @@ public class TecnicoDAOImpl implements TecnicoDAO {
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	  
 		     TypedQuery<Tecnico> query = em.createQuery("SELECT t FROM Tecnico t "
-		     		       + "WHERE t.id IN (SELECT tc.tecnico.id FROM TecnicoContrato tc WHERE tc.id.contrato.eleicao.ativo=1)", 
+		     		       + "WHERE t.id IN (SELECT tc.id.tecnico.id FROM TecnicoContrato tc WHERE tc.id.contrato.eleicao.ativo=1)", 
 		    		 Tecnico.class);
 			  lista = query.getResultList();
 		  }
 		  catch (Exception e) {
 			     em.close();
-				// e.printStackTrace();
+				 e.printStackTrace();
 		  }	finally {
 				em.close();
 		  }
-		return lista;
-			
+		return lista;			
 	}
 	
 	@Override
@@ -190,7 +189,7 @@ public class TecnicoDAOImpl implements TecnicoDAO {
 		 */
 	
 		
-		  for(Tecnico t:dao.listarCbx()) { 
+		  for(Tecnico t:dao.listar()) { 
 			  System.out.println(t.getNome());		  
 		  }
 		 
