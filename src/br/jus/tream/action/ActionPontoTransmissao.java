@@ -119,7 +119,7 @@ public class ActionPontoTransmissao extends ActionSupport {
 	}
 
 	@Action(value = "listarSemDistribuicaoSecao", results = {
-			@Result(name = "success", location = "/consultas/semDistribuicaoSecao.jsp"),
+			@Result(name = "success", location = "/consultas/pontoSemDistribuicaoSecao.jsp"),
 			@Result(name = "error", location = "/result.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String listarSemDistribuicaoSecao() {
 		try {
@@ -152,7 +152,7 @@ public class ActionPontoTransmissao extends ActionSupport {
 	}
 
 	@Action(value = "listarSemDistribuicaoTecnico", results = {
-			@Result(name = "success", location = "/consultas/semDistribuicaoTecnico.jsp"),
+			@Result(name = "success", location = "/consultas/pontoSemDistribuicaoTecnico.jsp"),
 			@Result(name = "error", location = "/result.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String listarSemDistribuicaoTecnico() {
 		try {

@@ -2,8 +2,6 @@ package br.jus.tream.action;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.plaf.synth.SynthSeparatorUI;
-
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -16,7 +14,10 @@ import com.opensymphony.xwork2.ActionSupport;
 import br.jus.tream.DAO.CadEloDAOImpl;
 import br.jus.tream.DAO.DistribuicaoTecnicoDAO;
 import br.jus.tream.DAO.DistribuicaoTecnicoDAOImpl;
+import br.jus.tream.DAO.PontoTransmissaoDAO;
 import br.jus.tream.DAO.PontoTransmissaoDAOImpl;
+import br.jus.tream.DAO.TecnicoDAO;
+import br.jus.tream.DAO.TecnicoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.CADSecao;
 import br.jus.tream.dominio.CADZonaEleitoral;
@@ -26,6 +27,7 @@ import br.jus.tream.dominio.DistribuicaoTecnico;
 import br.jus.tream.dominio.PontoTransmissao;
 import br.jus.tream.dominio.Tecnico;
 import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
+import br.jus.tream.dominio.pk.PontoTransmissaoPK;
 @SuppressWarnings("serial")
 @Namespace("/distribtecnico")
 @ResultPath(value = "/")
@@ -142,6 +144,15 @@ public class ActionDistribuicaoTecnico extends ActionSupport{
 		BeanResult beanResult = new BeanResult();
 		try {
 			if (permissao.getAdmin()) {
+				TecnicoDAO daoTec = TecnicoDAOImpl.getInstance();			
+				daoTec.getBean(dst.getId().getTecnico().getId());
+				
+				PontoTransmissaoDAO daoPonto = PontoTransmissaoDAOImpl.getInstance();				
+				PontoTransmissaoPK pk = new PontoTransmissaoPK();
+				pk.setId(dst.getId().getPontoTransmissao().getId().getId());
+				daoPonto.getBean(pk);
+				
+				beanResult.setRet(dao.remover(dst));
 				beanResult.setRet(1);
 				beanResult.setMensagem(getText("remover.sucesso"));
 			}else {
