@@ -143,17 +143,8 @@ public class ActionDistribuicaoTecnico extends ActionSupport{
 	public String doRemover() {
 		BeanResult beanResult = new BeanResult();
 		try {
-			if (permissao.getAdmin()) {
-				TecnicoDAO daoTec = TecnicoDAOImpl.getInstance();			
-				daoTec.getBean(dst.getId().getTecnico().getId());
-				
-				PontoTransmissaoDAO daoPonto = PontoTransmissaoDAOImpl.getInstance();				
-				PontoTransmissaoPK pk = new PontoTransmissaoPK();
-				pk.setId(dst.getId().getPontoTransmissao().getId().getId());
-				daoPonto.getBean(pk);
-				
-				beanResult.setRet(dao.remover(dst));
-				beanResult.setRet(1);
+			if (permissao.getAdmin()) {				
+				beanResult.setRet(dao.remover(dst));				
 				beanResult.setMensagem(getText("remover.sucesso"));
 			}else {
 				beanResult.setRet(0);
@@ -166,7 +157,7 @@ public class ActionDistribuicaoTecnico extends ActionSupport{
 		}
 		this.result = beanResult;
 	  return "success";
-	}
+	} 
 	
 	public DistribuicaoSecao getDs() {
 		return ds;

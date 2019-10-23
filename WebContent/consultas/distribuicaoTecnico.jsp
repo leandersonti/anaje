@@ -41,7 +41,7 @@
 
 					<tbody>
 				 <s:iterator value="lstDistribuicaoTecnico">				 		
-					<tr>
+					<tr id="tr${id.tecnico.id}">
 						<td><s:property value="id.tecnico.nome" /></td>
 						<td><s:property value="id.tecnico.celular" /></td>						
 						<td><s:property value="id.pontoTransmissao.codLocal" /></td>
@@ -112,10 +112,11 @@
 				  }).done(function( data ) {
 				    	  if (data.ret==1){
 				    		  $('#tr'+id).fadeOut(); 
-				    		     swal("Remover", data.mensagem, "success");
+				    		  swal("Remover", data.mensagem, "success");
 				    	  }
-				    	  else
+				    	  else{
 				    		  swal("Remover", data.mensagem, "error");
+				    	  }				    		  
 					}).fail(function() {
 						swal("Remover", "Ocorreu um erro ao remover", "error");
 					});

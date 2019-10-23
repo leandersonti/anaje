@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import br.jus.tream.dominio.DistribuicaoTecnico;
+import br.jus.tream.dominio.PontoTransmissao;
 import br.jus.tream.dominio.Tecnico;
 import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
+import br.jus.tream.dominio.pk.DistribuicaoTecnicoPK;
 
 public class DistribuicaoTecnicoDAOImpl implements DistribuicaoTecnicoDAO {
 	
@@ -191,8 +194,14 @@ public class DistribuicaoTecnicoDAOImpl implements DistribuicaoTecnicoDAO {
 	@Override
 	public int remover(DistribuicaoTecnico ds) throws Exception {
 		int ret = 0;
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
-			ret = dao.remover(ds);
+			  em.getTransaction().begin();
+			    Query query = em.createQuery("DELETE DistribuicaoTecnico p WHERE p.id.tecnico.id=?1 AND p.id.pontoTransmissao.id.id =?2");
+		         query.setParameter(1, ds.getId().getTecnico().getId());			     
+			     query.setParameter(2, ds.getId().getPontoTransmissao().getId().getId()).executeUpdate();
+			    em.getTransaction().commit();
+			    ret  = 1;			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -210,23 +219,19 @@ public class DistribuicaoTecnicoDAOImpl implements DistribuicaoTecnicoDAO {
 		 for(Tecnico t:dao.listarParaDistribuir(20)) { 
 			  System.out.println("==="+t.getNome());		  
 		  }
-		 
+		 DistribuicaoTecnico dst = new DistribuicaoTecnico();
 		/*
-		 * DistribuicaoTecnico dst = new DistribuicaoTecnico();
-		 * 
 		 * dst = dao.getBean("037443852224");
 		 * System.out.println("==="+dst.getId().getTecnico().getNome());
 		 */
 		
-		
-		/*DistribuicaoTecnico dst = new DistribuicaoTecnico();
-		dst.setDataCad(new Date());		
+		//dst.setDataCad(new Date(20));		
 		Tecnico t = new Tecnico();
 		t.setId(1282018);
-		Tecnico t2 = new Tecnico();
-		t2.setId(1302018);				
-		dst.getId().setTecnico(t);
-		dst.setTecnicoResponsavel(t2);
+		/*
+		 * Tecnico t2 = new Tecnico(); t2.setId(1302018); dst.getId().setTecnico(t);
+		 * dst.setTecnicoResponsavel(t2);
+		 */
 		
 		PontoTransmissao us = new PontoTransmissao();		
 		 us = PontoTransmissaoDAOImpl.getInstance().getBean(112019);
@@ -236,10 +241,11 @@ public class DistribuicaoTecnicoDAOImpl implements DistribuicaoTecnicoDAO {
 		dstpk.setTecnico(t);
 		dstpk.setPontoTransmissao(us);
 		
-		int ret = dao.adicionar(dst);				
-		//int ret = dao.remover(dst);
+		//int ret = dao.adicionar(dst);				
+		int ret = dao.remover(dst);
 		System.out.println("ret == " + ret);
-		*/
+		
+		 		
 		System.out.println("Done!!");
 	}
 
