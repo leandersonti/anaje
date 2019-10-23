@@ -74,7 +74,8 @@ $(document).ready(function() {
 				   $.each(jsonResponse, function(key, value) {     
 			           	 $('#tb > tbody:last-child').append('<tr id="tr'+value.codObjetoLocal+'"><td>'+value.id.pontoTransmissao.descricao+'</td><td>'
 			           			+ value.zona+'</td><td>'
-			           			+ value.secao+'</td><td>');
+			           			+ value.secao+'</td>'+
+			           			'<td><button class="btn btn-sm btn-danger" onclick="removeRow(this)" data-codojeto="'+value.id.codOjeto+'" data-idponto="'+value.id.pontoTransmissao.id.id+'" type="button"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td></tr>');
 			      	 });
 			     });
 		}else
@@ -82,6 +83,37 @@ $(document).ready(function() {
 		   swal("Atenção", "Informe a Zona Eleitoral", "error");
 		}
 	});
+	
+	 removeRow = function(handler) {		    	   
+			var codOjeto = $(handler).attr('data-codojeto'); 
+			var idPonto = $(handler).attr('data-idponto');			
+			var tr = $(handler).closest('tr');			
+			swal({
+				  title:'Excluir?',
+				  text: "Deseja excluir esse registro?",
+				  icon: 'warning',
+				  buttons: [true, "Sim excluir!"]
+				}).then((result) => {
+				  if (result) {
+				      var vurl = "remover?ds.id.codOjeto="+codOjeto+'&ds.id.pontoTransmissao.id.id='+idPonto; 
+				      $.getJSON({
+						  url: vurl
+					  }).done(function( data ) {
+					    	  if (data.ret==1){
+					    		  tr.fadeOut(400, function(){ 
+					    		      tr.remove(); 
+					    		    }); 
+					    		  swal("Remover", data.mensagem, "success");
+					    	  }
+					    	  else{
+					    		  swal("Remover", data.mensagem, "error");
+					    	  }				    		  
+						}).fail(function() {
+							swal("Remover", "Ocorreu um erro ao remover", "error");
+						});
+				   }
+				})		    		
+		  };
 	
 });	
 </script>

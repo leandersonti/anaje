@@ -26,7 +26,7 @@ public class DistribuicaoSecaoPK implements Serializable{
 		return pontoTransmissao;
 	}
 
-	public void setPontoTransmissaoo(PontoTransmissao ponto) {
+	public void setPontoTransmissao(PontoTransmissao ponto) {
 		this.pontoTransmissao = ponto;
 	}
 

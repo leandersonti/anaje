@@ -14,6 +14,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import br.jus.tream.DAO.CadEloDAOImpl;
 import br.jus.tream.DAO.DistribuicaoSecaoDAO;
 import br.jus.tream.DAO.DistribuicaoSecaoDAOImpl;
+import br.jus.tream.DAO.EquipamentoDAOImpl;
 import br.jus.tream.DAO.PontoTransmissaoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.CADLocalvotacao;
@@ -135,7 +136,7 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 		    int zona = Integer.valueOf(zonamunic[0]);
 			if (permissao.getAdmin() || permissao.getZona()==zona) {
 				this.pontoTransmissao = PontoTransmissaoDAOImpl.getInstance().getBean(this.pontoTransmissao.getId().getId());
-				ds.getId().setPontoTransmissaoo(pontoTransmissao);
+				ds.getId().setPontoTransmissao(pontoTransmissao);
 				ds.setZona(zona);
 				ds.setNumLocal(Integer.parseInt(vetLocal[1]));
 				ds.setCodObjetoLocal(vetLocal[0]);
@@ -164,7 +165,11 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 		BeanResult beanResult = new BeanResult();
 		try {
 			if (permissao.getAdmin()) {
-				beanResult.setRet(1);
+											
+				this.pontoTransmissao = PontoTransmissaoDAOImpl.getInstance().getBean(ds.getId().getPontoTransmissao().getId().getId());								
+				ds.getId().setPontoTransmissao(pontoTransmissao);
+				
+				beanResult.setRet(dao.remover(ds));				
 				beanResult.setMensagem(getText("remover.sucesso"));
 			}else {
 				beanResult.setRet(0);
