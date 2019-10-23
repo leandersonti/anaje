@@ -66,16 +66,15 @@ $(document).ready(function() {
 	$('#btnconsultar').click(function(event) {
 		var codZonaMunic = $("#codZonaMunic").val();
 		var param = ($("#pontoTransmissao").val() == "99999" ? "codZonaMunic=" + codZonaMunic : "pontoTransmissao.id.id=" + $("#pontoTransmissao").val()); 
-		var url = "listarByPontoTransmissaoJson?"+param;
-		console.log(url);
+		var url = "listarByPontoTransmissaoJson?"+param;	
 		if(codZonaMunic != -1){
 			$("#tb > tbody:last").children().remove();
 			$.getJSON(url, function(jsonResponse) {
-				   $.each(jsonResponse, function(key, value) {     
-					   
-			           	 $('#tb > tbody:last-child').append('<tr><td>'+value.id.pontoTransmissao.descricao+'</td><td>'
+				   $.each(jsonResponse, function(key, value) {     					   
+			           	 $('#tb > tbody:last-child').append('<tr ><td>'+value.id.pontoTransmissao.descricao+'</td><td>'
 			           			+value.id.equipamento.tipo.descricao+'</td><td>'
-			           			+value.id.equipamento.serie+'</td><td>');
+			           			+value.id.equipamento.serie+'</td>'+
+			           			'<td><button class="btn btn-sm btn-danger" onclick="removeRow(this)" data-idequip="'+value.id.equipamento.id+'" data-idponto="'+value.id.pontoTransmissao.id.id+'" type="button"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td></tr>');
 			      	 });
 			     });
 		}else
@@ -83,6 +82,38 @@ $(document).ready(function() {
 		   swal("Atenção", "Informe a Zona Eleitoral", "error");
 		}
 	});
+	
+	  removeRow = function(handler) {
+		    //var data = $(event.delegateTarget).data();		    
+			var idEquip = $(handler).attr('data-idequip'); 
+			var idPonto = $(handler).attr('data-idponto');			
+			var tr = $(handler).closest('tr');			
+			swal({
+				  title:'Excluir?',
+				  text: "Deseja excluir esse registro?",
+				  icon: 'warning',
+				  buttons: [true, "Sim excluir!"]
+				}).then((result) => {
+				  if (result) {
+				      var vurl = "remover?de.id.equipamento.id="+idEquip+'&de.id.pontoTransmissao.id.id='+idPonto; 
+				      $.getJSON({
+						  url: vurl
+					  }).done(function( data ) {
+					    	  if (data.ret==1){
+					    		  tr.fadeOut(400, function(){ 
+					    		      tr.remove(); 
+					    		    }); 
+					    		  swal("Remover", data.mensagem, "success");
+					    	  }
+					    	  else{
+					    		  swal("Remover", data.mensagem, "error");
+					    	  }				    		  
+						}).fail(function() {
+							swal("Remover", "Ocorreu um erro ao remover", "error");
+						});
+				   }
+				})		    		
+		  };
 	
 });	
 </script>

@@ -96,6 +96,7 @@ public class DAO<T> implements Serializable {
 
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			ret = 5; // ocorreu um erro
 			if (em.isOpen()) {
 				em.close();

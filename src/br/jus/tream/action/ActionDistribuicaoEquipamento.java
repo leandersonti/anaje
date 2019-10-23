@@ -163,7 +163,13 @@ public class ActionDistribuicaoEquipamento extends ActionSupport {
 		BeanResult beanResult = new BeanResult();
 		try {
 			if (permissao.getAdmin()) {
-				beanResult.setRet(1);
+				this.equipamento = EquipamentoDAOImpl.getInstance().getBean(de.getId().getEquipamento().getId());				
+				this.pontoTransmissao = PontoTransmissaoDAOImpl.getInstance().getBean(de.getId().getPontoTransmissao().getId().getId());
+				
+				de.getId().setPontoTransmissao(pontoTransmissao);
+				de.getId().setEquipamento(equipamento);	
+				
+				beanResult.setRet(dao.remover(de));						
 				beanResult.setMensagem(getText("remover.sucesso"));
 			} else {
 				beanResult.setRet(0);
