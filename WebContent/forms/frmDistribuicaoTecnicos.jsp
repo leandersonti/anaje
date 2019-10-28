@@ -56,6 +56,16 @@
 			</form>
 		</div>
 	</div>
+		<table class="table table-sm table-striped" id="tbtecdist" style="display:none;">
+				  <thead>
+					<tr>					  
+					  <th scope="col">Nome</th>					  
+					  <th scope="col">Tenico Responsavel</th>
+					  <th scope="col">Celular</th>
+					</tr>
+				  </thead>
+				  <tbody> </tbody>
+			 </table>
 </div>
 
 <jsp:include page="/javascripts.jsp" />
@@ -78,6 +88,9 @@ $(document).ready(function() {
 			CarregaTecnicoResp();	 
 	});
 	
+	$('#pt').change(function(event){
+		CarregaTecnicosDistribuidos();
+	});
 	
 	 $("#btnSave").click(function() {
 			var URL = ""; 
@@ -188,6 +201,19 @@ function CarregaTecnicoResp(){
    		 }else{
    			 $('<option>').val(-1).text("Informe o responsavel").appendTo(select);   			 
    		 }
+}
+
+function CarregaTecnicosDistribuidos(){
+	var pt = $("#pt").val();
+	$("#tbequipdist").hide();
+	 $.getJSON('listarDistribuidosJson?dst.id.pontoTransmissao.id.id='+pt,function(jsonResponse) {
+	    if (jsonResponse.length >=  1){ $("#tbtecdist").show(); }
+		$("#tbtecdist > tbody:last").children().remove();
+        $.each(jsonResponse, function(key, value) {             
+           	 $("#tbtecdist > tbody:last-child").append('<tr><td>'+ value.id.tecnico.nome 
+           			 +'</td><td>'+ value.tecnicoResponsavel.nome +'</td><td>'+ (value.id.tecnico.celular  ? value.id.tecnico.celular : "-")  +'</td></tr>');
+      	 });
+    });
 }
 </script>
 

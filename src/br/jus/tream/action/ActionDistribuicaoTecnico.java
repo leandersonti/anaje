@@ -14,10 +14,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import br.jus.tream.DAO.CadEloDAOImpl;
 import br.jus.tream.DAO.DistribuicaoTecnicoDAO;
 import br.jus.tream.DAO.DistribuicaoTecnicoDAOImpl;
-import br.jus.tream.DAO.PontoTransmissaoDAO;
 import br.jus.tream.DAO.PontoTransmissaoDAOImpl;
-import br.jus.tream.DAO.TecnicoDAO;
-import br.jus.tream.DAO.TecnicoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.CADSecao;
 import br.jus.tream.dominio.CADZonaEleitoral;
@@ -27,7 +24,6 @@ import br.jus.tream.dominio.DistribuicaoTecnico;
 import br.jus.tream.dominio.PontoTransmissao;
 import br.jus.tream.dominio.Tecnico;
 import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
-import br.jus.tream.dominio.pk.PontoTransmissaoPK;
 @SuppressWarnings("serial")
 @Namespace("/distribtecnico")
 @ResultPath(value = "/")
@@ -101,6 +97,20 @@ public class ActionDistribuicaoTecnico extends ActionSupport{
 			} else {
 				this.lstTecnico = dao.listarParaDistribuir(permissao.getZona(), contrato.getId());
 			}
+		} catch (Exception e) {
+			addActionError(getText("listar.error"));
+			return "error";
+		}
+		return "success";
+	}
+	
+	@Action(value = "listarDistribuidosJson", results = { @Result(name = "success", type = "json", params = { "root", "lstDistribuicaoTecnico" }),
+			@Result(name = "error", location = "/login.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+	public String listarDistribuidosJson() {
+		try {			
+			
+				this.lstDistribuicaoTecnico = dao.listar(dst.getId().getPontoTransmissao().getId().getId());
+				
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";
