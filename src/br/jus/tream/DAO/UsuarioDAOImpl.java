@@ -34,6 +34,25 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	}
 	
 	@Override
+	public List<Usuario> listarPorZona(int zona) throws Exception{
+		List<Usuario> lista = new ArrayList<Usuario>();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+	   try {	  
+		     TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u WHERE u.zona = ?1", 
+		    		   Usuario.class);
+		     	query.setParameter(1, zona);
+			  lista = query.getResultList();
+		  }
+		  catch (Exception e) {
+			     em.close();
+				// e.printStackTrace();
+		  }	finally {
+				em.close();
+		  }
+		return lista;	
+	} 
+	
+	@Override
 	public Usuario getBean(String tituloEleitor) throws Exception{
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		Usuario usuario = new Usuario();
@@ -69,10 +88,10 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	} 
 	
 	@Override
-	public int adicionar (Usuario dateEleicao) throws Exception{
+	public int adicionar (Usuario usuario) throws Exception{
 		int ret = 0;
 		try {
-			dao.adicionar(dateEleicao);
+			dao.adicionar(usuario);
 			ret =1;
 		} catch (Exception e) {
 			//e.printStackTrace();
@@ -81,10 +100,10 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	}
 	
 	@Override
-	public int atualizar (Usuario dateEleicao) throws Exception{
+	public int atualizar (Usuario usuario) throws Exception{
 		int ret = 0;
 		try {
-			dao.atualizar(dateEleicao);
+			dao.atualizar(usuario);
 			ret =1;
 		} catch (Exception e) {
 			//e.printStackTrace();
@@ -93,10 +112,10 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	}
 	
 	@Override
-	public int remover (Usuario dateEleicao) throws Exception{
+	public int remover (Usuario usuario) throws Exception{
 		int ret = 0;
 		try {
-			dao.remover(dateEleicao);
+			dao.remover(usuario);
 			ret =1;
 		} catch (Exception e) {
 			e.printStackTrace();
