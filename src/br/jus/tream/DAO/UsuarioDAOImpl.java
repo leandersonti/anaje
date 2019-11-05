@@ -49,6 +49,24 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	}
 
 	@Override
+	public Usuario getBeanAtivo(String tituloEleitor) throws Exception {
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		Usuario usuario = new Usuario();
+		try {
+			TypedQuery<Usuario> query = em.createQuery(
+					"SELECT u FROM Usuario u WHERE lpad(u.tituloEleitor,12,0)=lpad(?1,12,0)",
+					Usuario.class);
+			usuario = query.setParameter(1, tituloEleitor).getSingleResult();
+		} catch (Exception e) {
+			em.close();
+			e.printStackTrace();
+		} finally {
+			em.close();
+		}
+		return usuario;
+	}
+
+	@Override
 	public Usuario getBean(String tituloEleitor) throws Exception {
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		Usuario usuario = new Usuario();
@@ -65,7 +83,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		}
 		return usuario;
 	}
-
+	
 	@Override
 	public List<Usuario> listarCbx() throws Exception {
 		List<Usuario> lista = new ArrayList<Usuario>();

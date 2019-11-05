@@ -14,6 +14,8 @@ public interface UsuarioDAO {
 	
 	public Usuario getBean(String tituloEleitor) throws Exception;
 	
+	public Usuario getBeanAtivo(String tituloEleitor) throws Exception;
+	
 	public int adicionar (Usuario usuario) throws Exception;
 	
 	public int atualizar (Usuario usuario) throws Exception;
