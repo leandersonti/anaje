@@ -30,10 +30,10 @@
 			<td><s:property value="adm"/></td>			
 			<td>
 			<s:if test="ativo == 1">
-				<input type="checkbox" id="ativar${tituloEleitor}" data-record-id="${tituloEleitor} data-record-data="<s:property value="tituloEleitor"/> class="form-check-input" id="exampleCheck1" checked>
+				<input type="checkbox" id="ativar" data-record-id="${tituloEleitor}" class="form-check-input" id="exampleCheck1" checked>
 			</s:if>
 			<s:else>
-				<input type="checkbox" id="ativar${tituloEleitor}" data-record-id="${tituloEleitor} data-record-data="<s:property value="tituloEleitor"/> class="form-check-input" id="exampleCheck1">
+				<input type="checkbox" id="ativar" data-record-id="${tituloEleitor}" class="form-check-input" id="exampleCheck1">
 			</s:else>			
     		 <label class="form-check-label" for="exampleCheck1">Ativo</label>	  
     		</td>
@@ -128,27 +128,33 @@ $(document).ready(function() {
 					})
 			  });
 		 	
+		 	
+		 	
 		 // BOTÃO EXCLUIR
 		 $( "[id*='ativar']" ).click(function(event) {
 			    var data = $(event.delegateTarget).data();
 				var id = data.recordId; 
-				var descricao = data.recordDescricao;
+				var ativo = $("#ativar").val();
+				if(ativo == "on"){
+					ativo = 1;
+				}else{
+					ativo = 0;
+				}
 				swal({
 					  title: 'Ativar?',
-					  text: "Deseja ativar esse registro? (" + descricao + ")",
+					  text: "Deseja ativar esse registro? (" + ativo + ")",
 					  icon: 'warning',
 					  buttons: [true, "Sim ativar!"]
 					}).then((result) => {
-					  if (result) {
+					  if (result) { 
 					       $.getJSON({
-							  url: "atualizar?usuario.tituloEleitor="+id
+							  url: "atualizar?usuario.tituloEleitor="+id+"&ativo="+ativo
 						   }).done(function( data ) {
-						    	  if (data.ret==1){
-						    		  $('#tr'+id).fadeOut(); 
-						    		  swal("Remover", data.mensagem, "success");
+						    	  if (data.ret==1){						    		
+						    		  swal("Ativado", data.mensagem, "success");
 						    	  }
 						    	  else
-						    		  swal("Remover", "Ocorreu um erro ao remover", "error");
+						    		  swal("Ativado", "Ocorreu um erro ao remover", "error");
 							}).fail(function() {
 								swal("Remover", "Ocorreu um erro ao remover", "error");
 							});
