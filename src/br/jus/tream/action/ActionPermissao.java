@@ -11,10 +11,11 @@ import org.apache.struts2.convention.annotation.ResultPath;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import br.jus.tream.DAO.CadEloDAOImpl;
+import br.jus.tream.DAO.CadZonaEleitoralDAOImpl;
 import br.jus.tream.DAO.UsuarioDAO;
 import br.jus.tream.DAO.UsuarioDAOImpl;
 import br.jus.tream.dominio.BeanResult;
+import br.jus.tream.dominio.CADZonaEleitoral;
 import br.jus.tream.dominio.Usuario;
 
 @SuppressWarnings("serial")
@@ -23,8 +24,10 @@ import br.jus.tream.dominio.Usuario;
 @ParentPackage(value = "default")
 public class ActionPermissao extends ActionSupport{
 	private List<Usuario> lstUsuarios;
+	private List<CADZonaEleitoral> lstZonas;
 	private Usuario usuario;	
 	private BeanResult result;
+	private int ativo;
 	private final static UsuarioDAO dao = UsuarioDAOImpl.getInstance();
 	private final static Permissao permissao = Permissao.getInstance();
 	
@@ -60,24 +63,17 @@ public class ActionPermissao extends ActionSupport{
 	
 	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmPermissao.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
-	public String frmCadEleicao() {	
-		return "success";
-	}
-	
-	@Action(value = "frmEditar", results = { @Result(name = "success", location = "/forms/frmPermissao.jsp"),
-			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
-	public String doFrmEditar() {
+	public String frmCad() {
 		try {
-			//this.encerramento = dao.getBean();
+			this.setLstZonas(CadZonaEleitoralDAOImpl.getInstance().listar());			
 		} catch (Exception e) {
 			addActionError(getText("frmsetup.error") + " Error: " + e.getMessage());
 			return "error";
 		}
-		return "success";
+		return "success"; 
 	}
 	
-
-	
+		
 	@Action(value = "adicionar", results = { @Result(name = "success", type = "json", params = { "root", "result" }),
 			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String doAdicionar() {
@@ -109,6 +105,11 @@ public class ActionPermissao extends ActionSupport{
 		BeanResult beanResult = new BeanResult();
 		try {
 			if (permissao.getAdmin()) {
+				
+				this.usuario = dao.getBean(this.usuario.getTituloEleitor());
+				
+				this.usuario.setAtivo(ativo);
+				
 				beanResult.setRet(dao.atualizar(this.usuario));
 				if (beanResult.getRet()==1) {
 					beanResult.setMensagem(getText("alterar.sucesso"));
@@ -174,6 +175,22 @@ public class ActionPermissao extends ActionSupport{
 
 	public static Permissao getPermissao() {
 		return permissao;
+	}
+
+	public List<CADZonaEleitoral> getLstZonas() {
+		return lstZonas;
+	}
+
+	public void setLstZonas(List<CADZonaEleitoral> lstZonas) {
+		this.lstZonas = lstZonas;
+	}
+
+	public int getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(int ativo) {
+		this.ativo = ativo;
 	}
 
 	
