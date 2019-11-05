@@ -26,8 +26,7 @@ public class ActionPermissao extends ActionSupport{
 	private List<Usuario> lstUsuarios;
 	private List<CADZonaEleitoral> lstZonas;
 	private Usuario usuario;	
-	private BeanResult result;
-	private int ativo;
+	private BeanResult result;	
 	private final static UsuarioDAO dao = UsuarioDAOImpl.getInstance();
 	private final static Permissao permissao = Permissao.getInstance();
 	
@@ -99,18 +98,57 @@ public class ActionPermissao extends ActionSupport{
 	}
 	
 	
-	@Action(value = "atualizar", results = { @Result(name = "success", type = "json", params = { "root", "result" }),
+	@Action(value = "ativarUser", results = { @Result(name = "success", type = "json", params = { "root", "result" }),
 			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
-	public String doAtualizar() {
+	public String doAtivarUser() {
 		BeanResult beanResult = new BeanResult();
 		try {
 			if (permissao.getAdmin()) {
 				
-				this.usuario = dao.getBean(this.usuario.getTituloEleitor());
+				this.usuario = dao.getBeanAtivo(this.usuario.getTituloEleitor());
 				
-				this.usuario.setAtivo(ativo);
+				if(this.usuario.getAtivo() == 1) {
+				  this.usuario.setAtivo(0);				  
+				}else {
+					this.usuario.setAtivo(1);
+				}
+						
+				beanResult.setRet(dao.atualizar(this.usuario));
+				
+				if (beanResult.getRet()==1) {
+					beanResult.setMensagem(getText("alterar.sucesso"));
+				}else {
+					beanResult.setMensagem(getText("alterar.error")); 
+				}
+			}else {
+				beanResult.setRet(0);
+				beanResult.setMensagem(getText("permissao.negada"));
+			}
+		} catch (Exception e) {
+			addActionError(getText("alterar.error") + " Error: " + e.getMessage());
+			return "error";
+		}
+		 this.result = beanResult;
+		return "success";
+	}
+	
+	@Action(value = "ativarAdm", results = { @Result(name = "success", type = "json", params = { "root", "result" }),
+			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+	public String doAtivarAdm() {
+		BeanResult beanResult = new BeanResult();
+		try {
+			if (permissao.getAdmin()) {
+				
+				this.usuario = dao.getBeanAtivo(this.usuario.getTituloEleitor());
+				
+				if(this.usuario.getAdm() == 1) {
+				  this.usuario.setAdm(0);				  
+				}else {
+				 this.usuario.setAdm(1);	 
+				}
 				
 				beanResult.setRet(dao.atualizar(this.usuario));
+				
 				if (beanResult.getRet()==1) {
 					beanResult.setMensagem(getText("alterar.sucesso"));
 				}else {
@@ -183,14 +221,6 @@ public class ActionPermissao extends ActionSupport{
 
 	public void setLstZonas(List<CADZonaEleitoral> lstZonas) {
 		this.lstZonas = lstZonas;
-	}
-
-	public int getAtivo() {
-		return ativo;
-	}
-
-	public void setAtivo(int ativo) {
-		this.ativo = ativo;
 	}
 
 	

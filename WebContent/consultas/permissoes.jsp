@@ -27,18 +27,24 @@
 			<td><s:property value="tituloEleitor"/></td>
 			<td><s:property value="nome"/></td>
 			<td><s:property value="zona"/></td>	
-			<td><s:property value="adm"/></td>			
+			<td>	
+				<a href="#" id="adm${tituloEleitor}" <s:if test="adm == 1">class="btn btn-sm btn-success"</s:if><s:else>class="btn btn-sm btn-danger"</s:else> role="button" data-record-id="${tituloEleitor}" 
+					     data-record-data="<s:property value="tituloEleitor"/>"
+					     data-record-descricao="${nome}"
+					    data-record-adm="${adm}">
+					  		<i <s:if test="adm == 1">class="fa fa-thumbs-o-up"</s:if><s:else>class="fa fa-thumbs-o-down"</s:else> aria-hidden="true"></i>
+				    </a>																
+			</td>			
 			<td>
-			<s:if test="ativo == 1">
-				<input type="checkbox" id="ativar" data-record-id="${tituloEleitor}" class="form-check-input" id="exampleCheck1" checked>
-			</s:if>
-			<s:else>
-				<input type="checkbox" id="ativar" data-record-id="${tituloEleitor}" class="form-check-input" id="exampleCheck1">
-			</s:else>			
-    		 <label class="form-check-label" for="exampleCheck1">Ativo</label>	  
+					<a href="#" id="ativar${tituloEleitor}" <s:if test="ativo == 1">class="btn btn-sm btn-success"</s:if><s:else>class="btn btn-sm btn-danger"</s:else> role="button" data-record-id="${tituloEleitor}" 
+					     data-record-data="<s:property value="tituloEleitor"/>"
+					     data-record-descricao="${nome}"
+					     data-record-ativo="${ativo}">
+					  		<i <s:if test="ativo == 1">class="fa fa-thumbs-o-up"</s:if><s:else>class="fa fa-thumbs-o-down"</s:else> aria-hidden="true"></i>
+				    </a>						 
     		</td>
-		  
-			<td>  		 				
+		   
+			<td>  		 			 	
 					<a href="#" id="excluir${tituloEleitor}" class="btn btn-sm btn-danger" role="button" data-record-id="${tituloEleitor}" 
 					     data-record-data="<s:property value="tituloEleitor"/>"
 					     data-record-descricao="${nome}">
@@ -46,7 +52,7 @@
 				    </a>
 			</td>
 		</tr>
-		</s:iterator>
+		</s:iterator>  
 	 </tbody>	
 	</table>
 	
@@ -67,39 +73,6 @@ $(document).ready(function() {
 		   });
 	  }
 		
-		 // CLIQUE DO BOTAO SAVE
-		 $("#btnSave").click(function() {
-			var URL = ""; 
-			if ( $('#id').length ) { URL = "atualizar"; }
-			else{ URL = "adicionar";  }	
-			if (verificaDados()){
-				 swal({
-			         title: "Confirma ?",
-			         text: "Confirma " + URL + "?",
-			         icon: 'warning',
-			         buttons: [true, "Sim Incluir!"]
-			         }).then((result) => {
-						if (result) {
-							var frm = $("#form1").serialize();
-							// console.log(frm);
-							$.getJSON({
-								url: URL,
-								data: frm
-						    }).done(function( data ) {
-						    	//if(data.ret==1)
-						    	swal(URL, data.mensagem, data.type);
-						    	//else 
-						    	//	swal(URL, data.mensagem, "error");
-							}).fail(function() {
-								swal("Adicionar", "Ocorreu um erro ao incluir", "error");
-							});
-					      } 
-				   }); // -- FIM SWAL --
-			   }else{
-				   swal("Dados", "Verifique os campos obrigatórios ", "error");
-			   }
-		 	}); // -- FIM btnSave --
-		 
 		 // BOTÃO EXCLUIR
 		 $( "[id*='excluir']" ).click(function(event) {
 			    var data = $(event.delegateTarget).data();
@@ -130,28 +103,62 @@ $(document).ready(function() {
 		 	
 		 	
 		 	
-		 // BOTÃO EXCLUIR
+		 // BOTÃO Ativar
 		 $( "[id*='ativar']" ).click(function(event) {
 			    var data = $(event.delegateTarget).data();
 				var id = data.recordId; 
-				var ativo = $("#ativar").val();
-				if(ativo == "on"){
-					ativo = 1;
+				var descricao = data.recordDescricao;
+				var ativo = data.recordAtivo;				
+				if(ativo == 1){
+				  var title = 'Desativar';
 				}else{
-					ativo = 0;
+				  var title = 'Ativar';
 				}
+					
 				swal({
-					  title: 'Ativar?',
+					  title: title,
 					  text: "Deseja ativar esse registro? (" + ativo + ")",
 					  icon: 'warning',
 					  buttons: [true, "Sim ativar!"]
 					}).then((result) => {
 					  if (result) { 
 					       $.getJSON({
-							  url: "atualizar?usuario.tituloEleitor="+id+"&ativo="+ativo
+							  url: "ativarUser?usuario.tituloEleitor="+id
 						   }).done(function( data ) {
 						    	  if (data.ret==1){						    		
 						    		  swal("Ativado", data.mensagem, "success");
+						    	  }
+						    	  else
+						    		  swal("Ativado", "Ocorreu um erro ao remover", "error");
+							}).fail(function() {
+								swal("Remover", "Ocorreu um erro ao remover", "error");
+							});
+					   }
+					})
+			  });
+		 
+		 $( "[id*='adm']" ).click(function(event) {
+			    var data = $(event.delegateTarget).data();
+				var id = data.recordId; 	
+				var descricao = data.recordDescricao;
+				var adm = data.recordAdm;
+				if(adm == 1){
+					  var title = 'Tirar Adm';
+					}else{
+					  var title = 'Tornar Adm';
+					}
+				swal({
+					  title: title,
+					  text: "Deseja ativar esse registro? (" + adm + ")",
+					  icon: 'warning',
+					  buttons: [true, "Sim!"]
+					}).then((result) => {
+					  if (result) { 
+					       $.getJSON({
+							  url: "ativarAdm?usuario.tituloEleitor="+id
+						   }).done(function( data ) {
+						    	  if (data.ret==1){						    		
+						    		  swal("Admin", data.mensagem, "success");
 						    	  }
 						    	  else
 						    		  swal("Ativado", "Ocorreu um erro ao remover", "error");
