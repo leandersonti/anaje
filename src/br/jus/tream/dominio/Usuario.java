@@ -16,10 +16,8 @@ public class Usuario implements Serializable{
 	@Column(name = "titulo_eleitor")
 	private String tituloEleitor;
 	private String nome;
-	private int ativo;
-	
-	private int adm;
-	
+	private int ativo;	
+	private int adm;	
 	private int zona;
 		
 	public Usuario() {		
@@ -78,6 +76,14 @@ public class Usuario implements Serializable{
 
 	public void setZona(int zona) {
 		this.zona = zona;
+	}
+
+	public int getAdm() {
+		return adm;
+	}
+
+	public void setAdm(int adm) {
+		this.adm = adm;
 	}
 
 	@Override
