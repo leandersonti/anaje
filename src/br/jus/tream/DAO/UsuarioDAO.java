@@ -8,9 +8,13 @@ public interface UsuarioDAO {
 	
 	public List<Usuario> listar() throws Exception;
 	
+	public List<Usuario> listarPorZona(int zona) throws Exception;
+		
 	public List<Usuario> listarCbx() throws Exception; 
 	
 	public Usuario getBean(String tituloEleitor) throws Exception;
+	
+	public Usuario getBeanAtivo(String tituloEleitor) throws Exception;
 	
 	public int adicionar (Usuario usuario) throws Exception;
 	
