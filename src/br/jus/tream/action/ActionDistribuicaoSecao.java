@@ -126,6 +126,24 @@ public class ActionDistribuicaoSecao extends ActionSupport{
 		return "success";
 	}
 	
+	@Action(value = "listarByClassLocalVotacaoJson", results = { 
+			@Result(name = "success", type = "json", params = { "root", "lstPorLocalVotacao"}),
+			@Result(name = "error", location = "/pages/resultAjax.jsp")})
+	public String listarByClassLocalVotacaoJson() {
+		try {
+			if (codZonaMunic != null) {
+				CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
+				lstPorLocalVotacao = dao.listarByClassLocalVotacao(pkze);
+			}	
+			else	
+				lstPorLocalVotacao = dao.listarByClassLocalVotacao(pontoTransmissao.getId().getId());
+		} catch (Exception e) {
+			addActionError(getText("listar.error"));
+			return "error";
+		}
+		return "success";
+	}
+	
 	@Action(value = "adicionar", results = { @Result(name = "success", type = "json", params = { "root", "result" }),
 			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String doAdicionar() {

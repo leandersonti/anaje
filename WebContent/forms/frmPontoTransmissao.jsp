@@ -1,4 +1,5 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<s:set var="pontotrans">active</s:set>
 <jsp:include page="/mainhead.inc.jsp" />
 <div class="container">
 

@@ -6,7 +6,7 @@ import javax.persistence.Persistence;
 
 public class EntityManagerProvider {
 	private static final EntityManagerProvider INSTANCE = new EntityManagerProvider();
-    // PRODUCAO: oracleprod  // HOMOLOGAÇÃO: oraclehomo mysql: mysql
+    // PRODUCAO: oracleprod  // HOMOLOGAÇÃO: oraclehomo // mysql: mysql
     private String connDB = "oraclehomo";
     
     private final EntityManagerFactory factory;

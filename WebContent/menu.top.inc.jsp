@@ -85,7 +85,18 @@
 				      if (!s.getNome().equals("")){
 			    %>
 	             <a class="nav-link dropdown-toggle" href="http://example.com" id="sessionmnu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	                <i class="fa fa-user-circle-o" aria-hidden="true"></i> <%=s.getTitulo() + "-" + s.getFirstName()%>
+	                <i class="fa fa-user-circle-o" aria-hidden="true"></i> <%=s.getTitulo()%> 
+	                    <%
+	                     if (s.getAdmin()==1){
+							  out.print(" | Admin"); 
+						  }else{
+							  out.print(" | <i class=\"fa fa-user-o\"></i>" + s.getZona() + "ª ZE");
+						  }
+	                      if (s.getIsAmbienteProducao()){ %>
+						    <i class="fa fa-database" aria-hidden="true" style="color:green" title="Banco Produção"></i>
+						  <%}else{%>
+						      <i class="fa fa-database" aria-hidden="true" style="color:red" title="Banco Homologa"></i>
+						  <%}%>
 	             </a>
 	            <div class="dropdown-menu" aria-labelledby="sessionmnu">
 	              <a class="dropdown-item" href="${pageContext.request.contextPath}/login/logout"><i class="fa fa-power-off" aria-hidden="true"></i> Sair</a>

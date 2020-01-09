@@ -32,7 +32,6 @@
 					  </div>
 				   </div>
 				   
-
 				<div class="form-group ">
 					<label for="inputTipo">Local Votação:</label> 
 					 <select class="form-control form-control" id="numlocal" name="codObjetoLocal" required>
@@ -41,7 +40,7 @@
 					<div class="invalid-feedback">Por favor, informe o local de votação.</div>
 				</div>
 				<div id="ajaxResponse"></div>
-				<br>
+				
 				<button class="btn btn-primary" id="btnSave" type="button">Distribuir</button>
 			</form>
 		</div>
@@ -178,7 +177,7 @@ function CarregaSecoesDistribuidas(){
 	var cdUS = $("#us").val();
 	$("#tbedist").hide();
 	
-	 $.getJSON('listarByPontoTransmissaoJson?pontoTransmissao.id.id='+cdUS,function(jsonResponse) {
+	 $.getJSON('listarByClassLocalVotacaoJson?pontoTransmissao.id.id='+cdUS,function(jsonResponse) {
 	    if (jsonResponse.length >=  1){ $("#tbedist").show(); }
 	    $("#tbedist > tr").remove();
 	     var linha = "";

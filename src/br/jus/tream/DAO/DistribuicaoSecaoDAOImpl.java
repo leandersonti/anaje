@@ -227,11 +227,19 @@ public class DistribuicaoSecaoDAOImpl implements DistribuicaoSecaoDAO {
 		
 		//CadZonaEleitoralPK pkze = new CadZonaEleitoralPK("60;2895");
 		
+		/*
 		for(DistribuicaoSecao s : dao.listar(112019)) {
 			System.out.println("Zona " + s.getId().getPontoTransmissao().getZona() + " "+ s.getId().getPontoTransmissao().getDescricao() + " " + s.getSecao());
-			//for (DistribuicaoSecao ds : d.getSecoesDistribuidas()) {
-				//System.out.println("------ " + ds.getSecao());
-			//}
+		}
+		*/
+		
+		for(CADLocalvotacao s : dao.listarByClassLocalVotacao(112019)) {
+			System.out.println(s.getNumLocal() + " " + s.getNomeLocal());
+			System.out.print("...");
+			for(DistribuicaoSecao x : s.getSecoesDistribuidas()) {
+				System.out.print(x.getSecao() + ",");
+			}
+			System.out.println("");
 		}
 		
 		
