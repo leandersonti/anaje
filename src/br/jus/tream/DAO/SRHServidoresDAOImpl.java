@@ -37,7 +37,7 @@ public class SRHServidoresDAOImpl implements SRHServidoresDAO {
 		List<SRHServidores> lista = new ArrayList<SRHServidores>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
-			TypedQuery<SRHServidores> query = em.createQuery("SELECT s FROM SRHServidores s WHERE s.tituloEleitor NOT IN (SELECT u.tituloEleitor FROM Usuario u)", 
+			TypedQuery<SRHServidores> query = em.createQuery("SELECT s FROM SRHServidores s WHERE s.tituloEleitor NOT IN (SELECT u.tituloEleitor FROM Usuario u) ORDER BY s.nome", 
 					SRHServidores.class);
 			lista = query.getResultList();
 		} catch (Exception e) {

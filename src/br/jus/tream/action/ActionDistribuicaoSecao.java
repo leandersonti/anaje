@@ -14,7 +14,6 @@ import com.opensymphony.xwork2.ActionSupport;
 import br.jus.tream.DAO.CadEloDAOImpl;
 import br.jus.tream.DAO.DistribuicaoSecaoDAO;
 import br.jus.tream.DAO.DistribuicaoSecaoDAOImpl;
-import br.jus.tream.DAO.EquipamentoDAOImpl;
 import br.jus.tream.DAO.PontoTransmissaoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.CADLocalvotacao;

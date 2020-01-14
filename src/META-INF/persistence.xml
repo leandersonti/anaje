@@ -23,6 +23,27 @@
 		</properties>
 	</persistence-unit>
 	
+	<persistence-unit name="oracleprod" transaction-type="RESOURCE_LOCAL">
+		<!-- <provider>org.hibernate.ejb.HibernatePersistence</provider> -->
+		 <!-- mappings for annotated classes -->        
+		 <properties>
+		    <property name="eclipselink.allow-zero-id" value="true"/>
+		    <property name="hibernate.hbm2ddl.auto" value="none" />
+			<property name="javax.persistence.jdbc.driver" value="oracle.jdbc.driver.OracleDriver" />
+
+			<property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@172.16.20.192:1521:xe" />
+			<property name="javax.persistence.jdbc.user" value="anajeadm" />
+			<property name="javax.persistence.jdbc.password" value="admanaje" />
+			
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect" />
+			<property name="hibernate.connection.driver_class" value="oracle.jdbc.driver.OracleDriver" />
+			<!--  org.hibernate.LazyInitializationException - could not initialize proxy - no Session -->
+			<!-- <property name="hibernate.enable_lazy_load_no_trans" value="true" />	 -->
+		</properties>
+	</persistence-unit>
+	
 	<persistence-unit name="mysql" transaction-type="RESOURCE_LOCAL">
 		<properties>
 			<property name="eclipselink.allow-zero-id" value="true"/>

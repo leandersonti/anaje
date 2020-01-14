@@ -12,8 +12,8 @@
 				tooltip="Informe a Zona" list="lstZonaEleitoral"
 				listKey="id.zona+';'+id.codmunic"
 				listValue="fzona +' - '+ municipio" name="codZonaMunic"
-				id="codZonaMunic" theme="simple" cssClass="form-control" />
-			- <select class="form-control form-control" id="pontoTransmissao" name="pontoTransmissao.id.id" >
+				id="codZonaMunic" theme="simple" cssClass="form-control form-control-sm" />
+			- <select class="form-control form-control-sm" id="pontoTransmissao" name="pontoTransmissao.id.id" >
 				<option value="0">Informe Ponto Transmissão</option>
 			</select> <a href="#" id="btnconsultar" class="btn btn btn-primary btn-sm" role="button">Consultar</a>
 		 </form>

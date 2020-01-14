@@ -8,57 +8,39 @@
 		<div class="card-body">
 
 			<form action="" method="post" name="form1" id="form1" class="needs-validation_" novalidate>				
-				
+				<input type="hidden" value="" name="usuario.nome" id="nome" />
 				<div class="form-row">
-					<label for="descricao">*Titulo de Eleitor :</label> 
-					<input type="text" class="form-control" id="descricao" name="usuario.tituloEleitor" placeholder=" " value="${usuario.tituloEleitor}" required>
-					<div class="invalid-feedback">Por favor, informe uma descricao.</div>
-				</div>
-				
-				<div class="form-row">
-					
 					<div class="col-md-6 mb-3">
-						<label for="sigla">Nome :</label> 
-						<input type="text" class="form-control" id="sigla" name="usuario.nome" placeholder="" value="${usuario.nome}" required>
-						<div class="invalid-feedback">Por favor, informe uma descricao.</div>
+						<label for="descricao">*Servidor :</label> 
+					    <select class="form-control" name="usuario.tituloEleitor" id="tituloeleitor" required>
+					  			<option>Small select</option>
+						</select>
+					    <div class="invalid-feedback">Por favor, informe um usuário.</div>
 					</div>
 					
 					<div  class="col-md-6 mb-3">
 						 <label	for="inputSolicitante">Zona: </label>
-							<s:select id="zona" class="form-control" theme="simple"
-								name="usuario.zona" headerKey="-1"
-								headerValue="--Selecione--" list="lstZonas"
-								listKey="id.zona" listValue="%{zona + ' - ' + municipio}" required="true" />
-				    </div>
-					 
+						 <s:select id="codZonaMunic" class="form-control" theme="simple"
+								name="usuario.zona" headerKey="0"
+								   headerValue="Usuário TRE-AM" list="lstZonaEleitoral"
+								      listKey="id.zona" listValue="%{fzona + ' - ' + municipio}" required="true" />	
+				    </div>					 
 				</div>
-				 
-				<div class="form-row">					
-					<div class="col-md-6 mb-3">
+				
+					<div class="form-check form-check-inline">
+						<input type="checkbox" name="usuario.adm" value="1" 
+							   class="form-check-input" id="usuario.adm" <s:if test="usuario.adm == 1">checked</s:if>>
 						
-						<s:if test="usuario.adm == 1">
-							<input type="checkbox" name="usuario.adm" class="form-check-input" id="exampleCheck1" checked>
-						</s:if>
-						<s:else>
-							<input type="checkbox" name="usuario.adm" class="form-check-input" id="exampleCheck1">
-						</s:else>
-						<label for="sigla">*Adm :</label> 	
+						<label for="sigla">Adm </label> 	
 						<div class="invalid-feedback">Por favor, informe uma descricao.</div>
 					</div>
-					
-					<div class="col-md-6 mb-3">						
-						 <s:if test="usuario.ativo == 1">
-							<input type="checkbox" name="usuario.ativo" class="form-check-input" id="exampleCheck1" checked>
-						</s:if>
-						<s:else>
-							<input type="checkbox" name="usuario.ativo" class="form-check-input" id="exampleCheck1">
-						</s:else>	
-						<label for="ativo">*Ativo :</label>
+					<div class="form-check form-check-inline">
+						<input type="checkbox" name="usuario.ativo" value="1" 
+							      class="form-check-input" id="usuario.ativo" <s:if test="usuario.ativo == 1">checked</s:if>>
+						<label for="ativo">Ativo </label>
 						<div class="invalid-feedback">Por favor, informe a empresa.</div>
-				    </div>
-				</div>
-										
-				<br>
+					</div>
+
 				<button class="btn btn-primary" id="btnSave" type="button">Enviar</button>
 			</form>
 		</div>
@@ -69,44 +51,73 @@
 <jsp:include page="/javascripts.jsp" />
 <script>
 $(document).ready(function() {	
-	loadServidores();	
+	loadServidores();
+	
+	$( "#tituloeleitor").select2({
+	    theme: "bootstrap4"
+	});
+	
+	
  	 $("#btnSave").click(function() {
- 		 var user =  $("#multiselect2").val(); 	 		
- 		 if(user!=null){ 			  		
- 			var URL = "adicionar";  	
+	    	var URL = "adicionar";  	
  			if (verificaDados()){
- 				 Swal.fire({
+ 				 swal({
  			         title: "Confirma ?",
  			         text: "Confirma " + URL + "?",
- 			         type: 'warning',
- 			         showCancelButton: true,
- 					  confirmButtonText: 'Incluir'
- 			         }).then((result) => {
- 						if (result.value) {
- 							var frm = $("#form1").serialize();						
+ 			         icon: "warning",
+ 			         buttons: [true, "Salvar"]
+ 			       }).then((result) => {
+ 						if (result) {
+ 							var frm = $("#form1").serialize();	
+ 							console.log(frm);
  							$.getJSON({
  								url: URL,
  								data: frm
  						    }).done(function( data ) {					    	
  						    	if(data.ret==1)
- 						    		Swal.fire(URL, data.mensagem, "success");
+ 						    		swal(URL, data.mensagem, "success");
  						    	else 
- 						    		Swal.fire(URL, data.mensagem, "error");
+ 						    		swal(URL, data.mensagem, "error");
  							}).fail(function() {
- 									Swal.fire("Adicionar", "Ocorreu um erro ao incluir", "error");
+ 									swal("Adicionar", "Ocorreu um erro ao incluir", "error");
  							});
  					      } 
  				   }); // -- FIM SWAL --
  			   }else{
- 				   Swal.fire("Dados", "Verifique os campos obrigatórios ", "error");
+ 				   swal("Servidor", "Informe pelo menos um servidor", "error");
  			   }
- 			 
- 		 }else{
- 			 alert("Escolha ao menos um Usuário !");
- 		 }
-
-	 	}); // -- FIM btnSave -- */
-	 
+ 		
+ 	}); // -- FIM btnSave -- */
+ 	
+ 	function loadServidores(){
+ 		var vUrl = "../servidor/listarParaPermissaoJson";
+ 		var select = $('#tituloeleitor');	      
+ 	    select.find('option').remove();
+ 		$.getJSON({
+				url: vUrl
+		    }).done(function( data ) {					    	
+		    	$('<option>').val(0).text("Informe o servidor").appendTo(select);			    	  
+			      $.each(data, function(key, value) {
+			            $('<option>').val(value.tituloEleitor).text(value.nome).appendTo(select);
+	      	      });
+			}).fail(function() {
+				swal("Servidores", "Ocorreu um erro ao ler dados dos servidores", "error");
+			});
+ 	}
+ 		      
+ 	function verificaDados(){
+ 		//console.log($('#tituloeleitor').select2('data')[0]);
+ 		//console.log("Nome = " + $('#tituloeleitor').select2('data')[0].text);
+ 		// $("#tituloeleitor option:selected").text);
+ 		if ($('#tituloeleitor').select2('data')[0].id==0){
+ 			return false;
+ 		}else{
+ 			$('#nome').val($('#tituloeleitor').select2('data')[0].text);
+ 			//console.log($('#nome').val());
+ 			return true;
+ 		}
+ 			
+ 	} 
 });
 
 </script>

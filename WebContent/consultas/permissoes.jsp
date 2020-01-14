@@ -26,7 +26,14 @@
 		<tr id="tr${tituloEleitor}">
 			<td><s:property value="tituloEleitor"/></td>
 			<td><s:property value="nome"/></td>
-			<td><s:property value="zona"/></td>	
+			<td>
+				<s:if test="zona==0">
+			        <span class="badge badge-info">TRE</span>
+			    </s:if>
+			    <s:else>
+			    	<s:property value="zona"/>
+			    </s:else>
+			</td>	
 			<td>	
 				<a href="#" id="adm${tituloEleitor}" <s:if test="adm == 1">class="btn btn-sm btn-success"</s:if><s:else>class="btn btn-sm btn-danger"</s:else> role="button" data-record-id="${tituloEleitor}" 
 					     data-record-data="<s:property value="tituloEleitor"/>"

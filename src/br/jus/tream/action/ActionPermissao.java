@@ -11,7 +11,7 @@ import org.apache.struts2.convention.annotation.ResultPath;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import br.jus.tream.DAO.CadZonaEleitoralDAOImpl;
+import br.jus.tream.DAO.CadEloDAOImpl;
 import br.jus.tream.DAO.UsuarioDAO;
 import br.jus.tream.DAO.UsuarioDAOImpl;
 import br.jus.tream.dominio.BeanResult;
@@ -24,7 +24,7 @@ import br.jus.tream.dominio.Usuario;
 @ParentPackage(value = "default")
 public class ActionPermissao extends ActionSupport{
 	private List<Usuario> lstUsuarios;
-	private List<CADZonaEleitoral> lstZonas;
+	private List<CADZonaEleitoral> lstZonaEleitoral;
 	private Usuario usuario;	
 	private BeanResult result;	
 	private final static UsuarioDAO dao = UsuarioDAOImpl.getInstance();
@@ -49,7 +49,7 @@ public class ActionPermissao extends ActionSupport{
 	}
 
 	@Action(value = "listarJson", results = { @Result(name = "success", type = "json", params = { "root", "lstUsuarios" }),
-			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+			@Result(name = "error", location = "/pages/resultAjax.jsp")})
 	public String listarJson() {
 		try {
 			this.lstUsuarios = dao.listarCbx();
@@ -63,8 +63,12 @@ public class ActionPermissao extends ActionSupport{
 	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmPermissao.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String frmCad() {
-		try {
-			this.setLstZonas(CadZonaEleitoralDAOImpl.getInstance().listar());			
+		try {			
+			if (permissao.getAdmin()) {
+				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX();
+			} else {
+				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX(permissao.getZona());
+			}			
 		} catch (Exception e) {
 			addActionError(getText("frmsetup.error") + " Error: " + e.getMessage());
 			return "error";
@@ -215,13 +219,12 @@ public class ActionPermissao extends ActionSupport{
 		return permissao;
 	}
 
-	public List<CADZonaEleitoral> getLstZonas() {
-		return lstZonas;
+	public List<CADZonaEleitoral> getLstZonaEleitoral() {
+		return lstZonaEleitoral;
 	}
 
-	public void setLstZonas(List<CADZonaEleitoral> lstZonas) {
-		this.lstZonas = lstZonas;
+	public void setLstZonaEleitoral(List<CADZonaEleitoral> lstZonaEleitoral) {
+		this.lstZonaEleitoral = lstZonaEleitoral;
 	}
-
 	
 }

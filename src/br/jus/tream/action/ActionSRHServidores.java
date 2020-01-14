@@ -3,7 +3,6 @@ package br.jus.tream.action;
 import java.util.List;
 
 import org.apache.struts2.convention.annotation.Action;
-import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
@@ -38,8 +37,8 @@ public class ActionSRHServidores extends ActionSupport {
 		return "success";
 	}
 
-	  @Action(value = "listarJson", results = { @Result(name = "success", type = "json", params = { "root", "lstServidores" }),	  
-	  @Result(name = "error", location = "/login.jsp") }, interceptorRefs = @InterceptorRef("authStack"))	  
+	  @Action(value = "listarParaPermissaoJson", results = { @Result(name = "success", type = "json", params = { "root", "lstServidores" }),	  
+	  @Result(name = "error", location = "/pages/resultAjax.jsp")})	  
 	  public String listarJson() { 		  
 		  try {
 			    this.lstServidores = dao.ListParaUser();

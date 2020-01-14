@@ -26,7 +26,14 @@
 		<tr id="tr${tituloEleitor}">
 			<td><s:property value="nome"/></td>
 			<td><s:property value="tituloEleitor"/></td>
-			<td><s:property value="zona"/></td>
+			<td>
+			    <s:if test="zona==0">
+			        TRE
+			    </s:if>
+			    <s:else>
+			    	<s:property value="zona"/>
+			    </s:else>
+			</td>
 			<td>
 			<s:if test="ativo ==1">
 				<img  src="${pageContext.request.contextPath}/images/check_ok.png" style="width: 20px;height: 20px;">

@@ -20,7 +20,7 @@
 				</s:if>
 				<s:else>
 				    <input type="hidden" id="oficial" name="pt.oficial" value="0">
-				    <input type="hidden" id="oficial" name="pt.status" value="1">
+				    <input type="hidden" id="status" name="pt.status" value="1">
 				    <input type="hidden" id="codObjetoLocal" name="pt.codObjetoLocal" value="">
 				</s:else>
 				<div class="form-row">

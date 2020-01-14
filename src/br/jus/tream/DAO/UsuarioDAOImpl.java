@@ -30,7 +30,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		}
 		return lista;
 	}
-
+		
 	@Override
 	public List<Usuario> listarPorZona(int zona) throws Exception {
 		List<Usuario> lista = new ArrayList<Usuario>();
