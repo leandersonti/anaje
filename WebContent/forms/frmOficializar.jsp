@@ -21,15 +21,24 @@
 					</div>
 												
 					<div class="col-md-6 mb-3">
-					     <label for="inputSolicitante">Ponto Transmissão: </label>		
+					     <label for="inputSolicitante">*Ponto Transmissão: </label>		
 						 <select class="form-control" name="id.id" id="idus" required>
-					  			<option>--</option>
-						</select>						
+					  			<option value="0">Informe o Ponto</option>
+						</select>					
+						<div class="invalid-feedback">Informe o ponto de transmissõa.</div>	
 					</div>
 				</div>  
-				<br />
+				
 				<button class="btn btn-primary" id="btnSave" type="button">Enviar</button>
 			</form>
+			<div class="row">
+			<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			  <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+			  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			    <span aria-hidden="true">&times;</span>
+			  </button>
+			</div>
+			</div>
 		</div>
 	</div> 
 
@@ -87,32 +96,29 @@ function carregarPontosTransmissao() {
 	$.getJSON('listarSemOficializar?codZonaMunic='+codZonaMunic, function(jsonResponse) {
 		var cbxIUS = $('#idus');			
 		cbxIUS.find('option').remove();
-		console.log(jsonResponse);
-		$('<option>').val(999999).text("Oficializar todos").appendTo(cbxIUS);
-		$.each(jsonResponse, function(key, value) {		
-			$('<option>').val(value.id.id).text(value.descricao).appendTo(cbxIUS);
-		});  
-		/*
-		  $('.listbox').bootstrapDualListbox({
-	 			moveOnSelect: false, 
-	 			moveOnDoubleClick: true,
-	 			preserveSelectionOnMove: 'all',
-	 			nonSelectedListLabel: 'Não-selecionados',
-	 			selectedListLabel: 'Selecionados',	 			
-	 		});  
-		  $('.listbox').bootstrapDualListbox('refresh');
-		  */
+		$('<option>').val(0).text("Informe o ponto").appendTo(cbxIUS);
+		if (jsonResponse.length>0){
+			$('<option>').val(999999).text("Oficializar todos").appendTo(cbxIUS);
+			$.each(jsonResponse, function(key, value) {		
+				$('<option>').val(value.id.id).text(value.descricao).appendTo(cbxIUS);
+			});
+		}else
+			swal("Todos os pontos já foram oficializados ou não há ponto(s) disponíve(ies)l para " + $("#codZonaMunic option:selected").text() );
+		    //swal("Pontos Tranmissão", "Todos os pontos já foram oficializados ou não ponto disponível", "info");
+		  		
 	});		
 	  	   
 }
 
 
  function verificaDados(){
-    if ($("#form1")[0].checkValidity()===false){
-    	$("#form1")[0].classList.add('was-validated');
+    if ($("#idus").val()==0){
+    	  $("#idus")[0].classList.add('is-invalid');
     	return false;
-    }else 
+    }else {
+   		$("#idus")[0].classList.remove('is-invalid');
 	   return true;
+    } 
  }
 </script>
 
