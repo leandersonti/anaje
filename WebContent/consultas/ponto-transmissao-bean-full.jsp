@@ -3,7 +3,7 @@
 <s:push value="beanPontoTransmissao">         
 	<div class="form-row">			
 	<div class="col-md-4 mb-4">
-			   <s:if test="%{oficial==1}">
+			   <s:if test="%{pontoTransmissao.oficial==1}">
 			       <span class="badge badge-pill badge-success" title="${pontoTransmissao.id.id}">Fase Ofi - ${pontoTransmissao.id.id}</span>
 			    </s:if>
 			    <s:else>
@@ -11,7 +11,7 @@
 			    </s:else>	<br>
 			  ZE: ${pontoTransmissao.zona}	  		 				    			    			
 		</div>
-		<div class="col-md-6 mb-6">
+		<div class="col-md-8 mb-12">
 		   <label>
 		  	 Local: ${pontoTransmissao.codLocal} - ${pontoTransmissao.descricao}<br>		  
 			 Endereço: ${pontoTransmissao.endereco}</label>

@@ -22,6 +22,7 @@ import br.jus.tream.dominio.BeanPontoTransmissao;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.CADLocalvotacao;
 import br.jus.tream.dominio.CADZonaEleitoral;
+import br.jus.tream.dominio.Eleicao;
 import br.jus.tream.dominio.PontoTransmissao;
 import br.jus.tream.dominio.SRHServidores;
 import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
@@ -123,7 +124,7 @@ public class ActionPontoTransmissao extends ActionSupport {
 			@Result(name = "error", location = "/result.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String listarSemDistribuicaoSecao() {
 		try {
-			System.out.println("===" + codZonaMunic);
+			// System.out.println("===" + codZonaMunic);
 			if (permissao.getAdmin()) {
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX();
 				if (codZonaMunic == null || codZonaMunic.equals("-1")) {
@@ -232,7 +233,7 @@ public class ActionPontoTransmissao extends ActionSupport {
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String frmOficializar() {
 		try {
-
+			// id = new PontoTransmissaoPK(0, EleicaoDAOImpl.getInstance().getBeanAtiva());			
 			if (permissao.getAdmin()) {
 				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX();
 			} else {
@@ -311,6 +312,35 @@ public class ActionPontoTransmissao extends ActionSupport {
 				beanResult.setMensagem(getText("alterar.sucesso"));
 			} else {
 				beanResult.setMensagem(getText("alterar.error"));
+			}
+		} catch (Exception e) {
+			addActionError(getText("alterar.error") + " Error: " + e.getMessage());
+			return "error";
+		}
+		this.result = beanResult;
+		return "success";
+	}
+	
+	@Action(value = "oficializar", results = { @Result(name = "success", type = "json", params = { "root", "result" }),
+			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+	public String doOficializar() {
+		BeanResult beanResult = new BeanResult();
+		try {
+			Eleicao eleicao = new Eleicao();
+			eleicao.setId(permissao.getIdEleicao());
+			id.setEleicao(eleicao);
+			// OFICIALIZA TODOS OS PONTOS
+			if (id.getId()==999999) {
+				CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
+			    beanResult.setRet(dao.oficializar(pkze, permissao.getIdEleicao()));
+			}   
+			else // OFICIALIZA UM PONTO
+				beanResult.setRet(dao.oficializar(id));
+			
+			if (beanResult.getRet() == 1) {
+				beanResult.setMensagem(getText("pt.oficializado.sucesso"));
+			} else {
+				beanResult.setMensagem(getText("pt.oficializado.error"));
 			}
 		} catch (Exception e) {
 			addActionError(getText("alterar.error") + " Error: " + e.getMessage());

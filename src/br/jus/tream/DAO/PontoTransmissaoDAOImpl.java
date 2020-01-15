@@ -181,17 +181,16 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 	}
 	
 	@Override
-	public int oficializar(CadZonaEleitoralPK pkze) throws Exception{
+	public int oficializar(PontoTransmissaoPK pk) throws Exception{
 		int ret = 0;
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		  try {	  
 			    em.getTransaction().begin();
-			    Query query = em.createQuery("UPDATE PontoTransmissao p SET p.oficial=1, p.status=1 "
-		     								+ "WHERE p.id.eleicao.id=?3 AND p.zona=?1 AND p.codmunic=?2");
-		         query.setParameter(1, pkze.getZona());
-			     query.setParameter(2, pkze.getCodmunic());
-			     query.setParameter(3, EleicaoDAOImpl.getInstance().getBeanAtiva().getId()).executeUpdate();
-			    em.getTransaction().commit();
+			      Query query = em.createQuery("UPDATE PontoTransmissao p SET p.oficial=1, p.status=1 "
+		     								+ "WHERE p.id.eleicao.id=?1 AND p.id.id=?2");
+		           query.setParameter(1, pk.getIdEleicao());
+			       query.setParameter(2, pk.getId()).executeUpdate();
+			     em.getTransaction().commit();
 			    ret  = 1;
 			  }
 			  catch (Exception e) {
@@ -201,7 +200,29 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 				em.close();
 		  }
 	  return ret; 
-	}	 
+	}
+	
+	public int oficializar(CadZonaEleitoralPK pkze, Integer idEleicao) throws Exception{
+		int ret = 0;
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		  try {	  
+			    em.getTransaction().begin();
+			      Query query = em.createQuery("UPDATE PontoTransmissao p SET p.oficial=1, p.status=1 "
+		     								+ "WHERE p.oficial=0 AND p.id.eleicao.id=?3 AND p.zona=?1 AND p.codmunic=?2");
+		           query.setParameter(1, pkze.getZona());
+		           query.setParameter(3, idEleicao);
+			       query.setParameter(2, pkze.getCodmunic()).executeUpdate();
+			     em.getTransaction().commit();
+			    ret  = 1;
+			  }
+			  catch (Exception e) {
+				    em.close();
+				 e.printStackTrace();
+			  }	finally {
+				em.close();
+		  }
+	  return ret; 
+	}
 
 	@Override
 	public int adicionar(PontoTransmissao pontoTransmissao) throws Exception {
@@ -242,8 +263,23 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 
 	public static void main(String[] args) throws Exception{
 		PontoTransmissaoDAO dao = PontoTransmissaoDAOImpl.getInstance();
-		//int ret = dao.oficializar(new CadZonaEleitoralPK("60;2895"));
-		//System.out.println("Ret = " + ret);
+		/*
+		Eleicao eleicao = new Eleicao();
+		eleicao = EleicaoDAOImpl.getInstance().getBeanAtiva();
+		PontoTransmissaoPK pk = new PontoTransmissaoPK(832020, eleicao);
+		
+		System.out.println("Eleicao id= " + pk.getEleicao().getId());
+		PontoTransmissao pt = new PontoTransmissao();
+		pt.setId(pk);
+		
+		int ret = dao.oficializar(pk);
+		System.out.println("Ret = " + ret);
+		*/
+
+		
+		int ret = dao.oficializar(new CadZonaEleitoralPK("60;2895"), 12019);
+		System.out.println("Ret = " + ret);
+		
 		/*
 		PontoTransmissaoPK pk = new PontoTransmissaoPK();
 		Eleicao eleicao = new Eleicao();
@@ -277,11 +313,11 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 		*/
 		
 		
-		
+		/*
 		for (PontoTransmissao p : dao.listarSemDistribuicaoSecao(new CadZonaEleitoralPK("60;2895"))) {
 			System.out.println("Ponto " + p.getZona() + " " + p.getCodLocal() + " " + p.getDescricao());
 		}
-		 
+		 */
 		
 		System.out.println("Done!!");
 	}

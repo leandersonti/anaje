@@ -37,6 +37,15 @@ public class PontoTransmissaoPK implements Serializable{
 	public void setEleicao(Eleicao eleicao) {
 		this.eleicao = eleicao;
 	}
+	
+	public PontoTransmissaoPK() {
+	}
+	
+	public PontoTransmissaoPK(Integer id, Eleicao eleicao) {
+		super();
+		this.id = id;
+		this.eleicao = eleicao;
+	}
 
 	@Override
 	public int hashCode() {

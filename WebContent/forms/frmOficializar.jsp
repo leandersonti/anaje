@@ -11,21 +11,20 @@
 			<form action="adicionar" method="post" name="form1" id="form1">
 
 				<div class="form-row">
-					<div class="col-md-12 mb-12">
+					<div class="col-md-6 mb-3">
 						<label for="inputSolicitante">Zona: </label>
 						<s:select label="Zona" headerKey="-1"
 							headerValue="Selecione a zona" tooltip="Informe a Zona"
 							list="lstZonaEleitoral" listKey="id.zona+';'+id.codmunic"
-							listValue="fzona +' - '+ municipio" name="ds.codZonaMunic"
+							listValue="fzona +' - '+ municipio" name="codZonaMunic"
 							id="codZonaMunic" theme="simple" cssClass="form-control" />
 					</div>
 												
-					<!-- MULTISELECT DE CONVOCADOS -->
-					<div class="col-md-12 mb-12">		
-					<br>				
-							<select name="lstTitulos" id="multiselect2" class="listbox"
-								multiple="multiple" size="8">
-							</select>						
+					<div class="col-md-6 mb-3">
+					     <label for="inputSolicitante">Ponto Transmissão: </label>		
+						 <select class="form-control" name="id.id" id="idus" required>
+					  			<option>--</option>
+						</select>						
 					</div>
 				</div>  
 				<br />
@@ -42,59 +41,58 @@
 $(document).ready(function() {	
 	
 	$('#codZonaMunic').change(function(event) {	
-		loadServidores();	     
+		carregarPontosTransmissao();	     
 	 });	
 	
  	 $("#btnSave").click(function() {
- 		 var user =  $("#multiselect2").val(); 	 		
- 		 if(user!=null){
- 			var URL = ""; 
- 			if ( $('#id').length ) { URL = "atualizar"; }
- 			else{ URL = "adicionar";  }	
+ 		 var idus =  $("#idus").val(); 	 		
+ 		 var URL = ""; 
+ 			//if ( $('#id').length ) { URL = "atualizar"; }
+ 			//else{ 
+ 			URL = "oficializar"; 	
  			if (verificaDados()){
- 				 Swal.fire({
+ 				 swal({
  			         title: "Confirma ?",
  			         text: "Confirma " + URL + "?",
- 			         type: 'warning',
- 			         showCancelButton: true,
- 					  confirmButtonText: 'Incluir'
+ 			         icon: "warning",
+ 			          buttons: [true, "Sim"]
  			         }).then((result) => {
- 						if (result.value) {
- 							var frm = $("#form1").serialize();						
+ 						if (result) {
+ 							var frm = $("#form1").serialize();	
+ 							console.log(frm);
  							$.getJSON({
  								url: URL,
  								data: frm
  						    }).done(function( data ) {					    	
- 						    	if(data.ret==1)
- 						    		Swal.fire(URL, data.mensagem, "success");
+ 						    	if(data.ret==1){
+ 						    		carregarPontosTransmissao();
+ 						    		swal(URL, data.mensagem, "success");
+ 						    	}
  						    	else 
- 						    		Swal.fire(URL, data.mensagem, "error");
+ 						    		swal(URL, data.mensagem, "error");
  							}).fail(function() {
- 									Swal.fire("Adicionar", "Ocorreu um erro ao incluir", "error");
+ 									swal("Adicionar", "Ocorreu um erro ao incluir", "error");
  							});
  					      } 
  				   }); // -- FIM SWAL --
  			   }else{
- 				   Swal.fire("Dados", "Verifique os campos obrigatórios ", "error");
+ 				   swal("Dados", "Verifique os campos obrigatórios ", "error");
  			   }
- 			 
- 		 }else{
- 			 alert("Escolha ao menos um Usuário !");
- 		 }
-
 	 	}); // -- FIM btnSave -- */
 	 
 });
 
-function loadServidores() {
+function carregarPontosTransmissao() {
 	codZonaMunic = $("#codZonaMunic").val();
 	$.getJSON('listarSemOficializar?codZonaMunic='+codZonaMunic, function(jsonResponse) {
-		var select2 = $('#multiselect2');			
-		select2.find('option').remove();
-		
+		var cbxIUS = $('#idus');			
+		cbxIUS.find('option').remove();
+		console.log(jsonResponse);
+		$('<option>').val(999999).text("Oficializar todos").appendTo(cbxIUS);
 		$.each(jsonResponse, function(key, value) {		
-			$('<option>').val(value.id.id).text(value.descricao).appendTo(select2);
+			$('<option>').val(value.id.id).text(value.descricao).appendTo(cbxIUS);
 		});  
+		/*
 		  $('.listbox').bootstrapDualListbox({
 	 			moveOnSelect: false, 
 	 			moveOnDoubleClick: true,
@@ -103,6 +101,7 @@ function loadServidores() {
 	 			selectedListLabel: 'Selecionados',	 			
 	 		});  
 		  $('.listbox').bootstrapDualListbox('refresh');
+		  */
 	});		
 	  	   
 }
