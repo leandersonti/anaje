@@ -338,9 +338,9 @@ public class ActionPontoTransmissao extends ActionSupport {
 				beanResult.setRet(dao.oficializar(id));
 			
 			if (beanResult.getRet() == 1) {
-				beanResult.setMensagem(getText("pt.oficializado.sucesso"));
+				beanResult.setMensagem(getText("ponto.oficializado.sucesso"));
 			} else {
-				beanResult.setMensagem(getText("pt.oficializado.error"));
+				beanResult.setMensagem(getText("ponto.oficializado.error"));
 			}
 		} catch (Exception e) {
 			addActionError(getText("alterar.error") + " Error: " + e.getMessage());

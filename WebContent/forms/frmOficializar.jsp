@@ -95,6 +95,7 @@ function carregarPontosTransmissao() {
 	codZonaMunic = $("#codZonaMunic").val();
 	$.getJSON('listarSemOficializar?codZonaMunic='+codZonaMunic, function(jsonResponse) {
 		var cbxIUS = $('#idus');			
+		cbxIUS.removeClass("is-invalid");
 		cbxIUS.find('option').remove();
 		$('<option>').val(0).text("Informe o ponto").appendTo(cbxIUS);
 		if (jsonResponse.length>0){
@@ -102,10 +103,8 @@ function carregarPontosTransmissao() {
 			$.each(jsonResponse, function(key, value) {		
 				$('<option>').val(value.id.id).text(value.descricao).appendTo(cbxIUS);
 			});
-		}else
-			swal("Todos os pontos já foram oficializados ou não há ponto(s) disponíve(ies)l para " + $("#codZonaMunic option:selected").text() );
-		    //swal("Pontos Tranmissão", "Todos os pontos já foram oficializados ou não ponto disponível", "info");
-		  		
+		} //else
+			// swal("Todos os pontos já foram oficializados ou não há ponto(s) disponíve(ies)l para " + $("#codZonaMunic option:selected").text() );		  		
 	});		
 	  	   
 }
