@@ -12,6 +12,8 @@ public interface PontoTransmissaoDAO {
 		
 	public List<PontoTransmissao> listarSemDistribuicaoSecao(CadZonaEleitoralPK pkze) throws Exception;
 	
+	public List<PontoTransmissao> listarSemDistribuicaoSecao() throws Exception;
+	
 	public List<PontoTransmissao> listarSemDistribuicaoTecnico(CadZonaEleitoralPK pkze) throws Exception;	
 	
 	public List<PontoTransmissao> listarSemOficializar(CadZonaEleitoralPK pkze) throws Exception;	 

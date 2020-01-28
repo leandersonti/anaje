@@ -44,6 +44,29 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 	}
 	
 	@Override
+	public List<PontoTransmissao> listarSemDistribuicaoSecao() throws Exception{
+		List<PontoTransmissao> lista = new ArrayList<PontoTransmissao>();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+	   try {	 
+		   String sql = "SELECT pt FROM PontoTransmissao pt " + 
+		   		"  WHERE pt.id.eleicao.ativo=1" +  
+		   		"  AND (pt.id.id, pt.id.eleicao.id) NOT IN ( " + 
+		   		"     SELECT distinct ds.id.pontoTransmissao.id.id, ds.id.pontoTransmissao.id.eleicao.id " + 
+		   		"        FROM DistribuicaoSecao ds " + 
+		   		"        WHERE ds.id.pontoTransmissao.id.eleicao.ativo=1)";
+		   TypedQuery<PontoTransmissao> query = em.createQuery(sql, PontoTransmissao.class);
+	       lista = query.getResultList();
+		  }
+		  catch (Exception e) {
+			     em.close();
+				 e.printStackTrace();
+		  }	finally {
+				em.close();
+		  } 
+		return lista;
+	}
+	
+	@Override
 	public List<PontoTransmissao> listarSemDistribuicaoSecao(CadZonaEleitoralPK pkze) throws Exception {
 		List<PontoTransmissao> lista = new ArrayList<PontoTransmissao>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
@@ -263,6 +286,11 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 
 	public static void main(String[] args) throws Exception{
 		PontoTransmissaoDAO dao = PontoTransmissaoDAOImpl.getInstance();
+		
+		for (PontoTransmissao p : dao.listarSemDistribuicaoSecao()) {
+			System.out.println("Ponto " + p.getZona() + " " + p.getCodLocal() + " " + p.getDescricao());
+		}
+		
 		/*
 		Eleicao eleicao = new Eleicao();
 		eleicao = EleicaoDAOImpl.getInstance().getBeanAtiva();
@@ -277,8 +305,8 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 		*/
 
 		
-		int ret = dao.oficializar(new CadZonaEleitoralPK("60;2895"), 12019);
-		System.out.println("Ret = " + ret);
+		//int ret = dao.oficializar(new CadZonaEleitoralPK("60;2895"), 12019);
+		//System.out.println("Ret = " + ret);
 		
 		/*
 		PontoTransmissaoPK pk = new PontoTransmissaoPK();
