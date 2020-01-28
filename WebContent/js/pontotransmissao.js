@@ -147,3 +147,19 @@ function verificaDados() {
 	}
 	return true;
 }
+/*
+$("#btnPontoSemSecoes").click(function() {
+	$.getJSON('listarTodosSemDistribuicaoSecaoJson', 
+		function(jsonResponse) {
+		    $('#tbody').empty();
+			$.each(jsonResponse, function(key, value) {
+				var linha = "<tr>";
+				      linha += "<td>"+ value.zona +"</td><td>"+ value.codLocal+"</td><td>"+ 
+				      value.codmunic +'</td><td><a id="detalhePontoTrans${id.id}" href="#" data-record-id="${id.id}">'+ value.descricao+"</a></td>"
+				      linha += "<td>"+ value.endereco+"</td><td>"+value.status+"</td><td>"+value.oficial+"</td><td>-</td>"	
+				    linha += "</tr>"
+				$('#tbody').append(linha);				    	
+		    });
+	 });  
+});
+*/
