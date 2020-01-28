@@ -3,7 +3,6 @@ package br.jus.tream.action;
 import java.util.List;
 
 import org.apache.struts2.convention.annotation.Action;
-import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
@@ -53,7 +52,7 @@ public class ActionELO extends ActionSupport {
 
 	@Action(value = "listarJsonZonaEleitoral", results = {
 			@Result(name = "success", type = "json", params = { "root", "lstZonaEleitoral" }),
-			@Result(name = "error", location = "/pages/resultAjax.jsp")}, interceptorRefs = @InterceptorRef("authStack"))
+			@Result(name = "error", location = "/pages/resultAjax.jsp")})
 	public String listarJsonZonaEleitoral() {
 		try {
 			Permissao permissao = Permissao.getInstance();
@@ -61,6 +60,23 @@ public class ActionELO extends ActionSupport {
 				this.lstZonaEleitoral = dao.listarZonaEleitoral();
 			else
 				this.lstZonaEleitoral = dao.listarZonaEleitoral(permissao.getZona());
+		} catch (Exception e) {
+			addActionError(getText("listar.error") + " table: ZonaEleitoral");
+			return "error";
+		}
+		return "success";
+	}
+	
+	@Action(value = "listarJsonZonaEleitoralCBX", results = {
+			@Result(name = "success", type = "json", params = { "root", "lstZonaEleitoral" }),
+			@Result(name = "error", location = "/pages/resultAjax.jsp")})
+	public String listarJsonZonaEleitoralCBX() {
+		try {
+			Permissao permissao = Permissao.getInstance();
+			if (permissao.getAdmin())
+				this.lstZonaEleitoral = dao.listarZonaEleitoralCBX();
+			else
+				this.lstZonaEleitoral = dao.listarZonaEleitoralCBX(permissao.getZona());
 		} catch (Exception e) {
 			addActionError(getText("listar.error") + " table: ZonaEleitoral");
 			return "error";
