@@ -3,8 +3,8 @@
 <jsp:include page="/mainhead.inc.jsp" />
 <div class="container">
 	<div class="card">
-		<div class="card-header">
-			<b><i>Oficializar Ponto de Transmissão: </i> </b>
+		<div class="card-header text-white bg-dark">
+			<b>Oficializar Ponto de Transmissão</b>
 		</div>
 		<div class="card-body">
 
@@ -25,7 +25,7 @@
 						 <select class="form-control" name="id.id" id="idus" required>
 					  			<option value="0">Informe o Ponto</option>
 						</select>					
-						<div class="invalid-feedback">Informe o ponto de transmissõa.</div>	
+						<div class="invalid-feedback">Informe o ponto de transmissão</div>	
 					</div>
 				</div>  
 				
@@ -61,7 +61,6 @@ $(document).ready(function() {
  			         }).then((result) => {
  						if (result) {
  							var frm = $("#form1").serialize();	
- 							console.log(frm);
  							$.getJSON({
  								url: URL,
  								data: frm

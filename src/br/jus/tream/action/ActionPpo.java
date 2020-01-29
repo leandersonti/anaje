@@ -3,6 +3,7 @@ package br.jus.tream.action;
 import java.util.List;
 
 import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
@@ -16,7 +17,10 @@ import br.jus.tream.DAO.PpoDAO;
 import br.jus.tream.DAO.PpoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.DistribuicaoTecnico;
+import br.jus.tream.dominio.PontoTransmissao;
 import br.jus.tream.dominio.Ppo;
+import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
+import br.jus.tream.dominio.pk.PontoTransmissaoPK;
 
 @SuppressWarnings("serial")
 @Namespace("/ppo")
@@ -25,11 +29,19 @@ import br.jus.tream.dominio.Ppo;
 public class ActionPpo extends ActionSupport {
 	private List<Ppo> lstPpo;
 	private Ppo ppo;
+	private String codZonaMunic;
+	private PontoTransmissaoPK pkPonto = new PontoTransmissaoPK();
 	private BeanResult result;
 	private String tituloEleitor;
 	private Integer idTecnicoResponsavel;
 	private Integer id;
 	private final static PpoDAO dao = PpoDAOImpl.getInstance();
+	
+	@Action(value = "frmSetupReinicializa", results = { @Result(name = "success", location = "/forms/frmReinicializarPPO.jsp"),
+			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+	public String frmCad() {
+		return "success";
+	}
 	
 	@Action(value = "listarJsonByTitulo", results = {
 			@Result(name = "success", type = "json", params = { "root", "lstPpo" }),
@@ -55,6 +67,26 @@ public class ActionPpo extends ActionSupport {
 			addActionError(getText("listar.error"));
 			return "error";
 		}
+		return "success";
+	}
+	
+	@Action(value = "reiniciarJson", results = { @Result(name = "success", type = "json", params = { "root", "result" }),
+			@Result(name = "error", location = "/pages/resultAjax.jsp") })
+	public String reiniciar() {
+		BeanResult beanResult = new BeanResult();
+		beanResult.setType("success");
+		try {
+			// (CadZonaEleitoralPK pkzona, PontoTransmissaoPK ponto) 
+			CadZonaEleitoralPK pkzona = new CadZonaEleitoralPK(this.codZonaMunic);
+			beanResult.setRet(PpoDAOImpl.getInstance().reinicializar(pkzona, pkPonto));
+			beanResult.setMensagem(getText("ppo.reinicializar.sucesso"));
+			beanResult.setType("success");
+		} catch (Exception e) {
+			 beanResult.setType("warning");
+			 beanResult.setMensagem(getText("ppo.error.reinicializar") + " Error: " + e.getMessage());
+			//return "error";
+		}
+		this.result = beanResult;
 		return "success";
 	}
 
@@ -135,6 +167,22 @@ public class ActionPpo extends ActionSupport {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getCodZonaMunic() {
+		return codZonaMunic;
+	}
+
+	public void setCodZonaMunic(String codZonaMunic) {
+		this.codZonaMunic = codZonaMunic;
+	}
+
+	public PontoTransmissaoPK getPkPonto() {
+		return pkPonto;
+	}
+
+	public void setPkPonto(PontoTransmissaoPK pkPonto) {
+		this.pkPonto = pkPonto;
 	}
 
 }

@@ -5,15 +5,15 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureQuery;
 import javax.persistence.TypedQuery;
 
 import org.apache.commons.lang3.StringUtils;
 
-import br.jus.tream.dominio.DistribuicaoTecnico;
-import br.jus.tream.dominio.Eleicao;
 import br.jus.tream.dominio.Ppo;
-import br.jus.tream.dominio.PpoTipo;
-import br.jus.tream.dominio.Tecnico;
+import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
+import br.jus.tream.dominio.pk.PontoTransmissaoPK;
 
 public class PpoDAOImpl implements PpoDAO {
 	private DAO<Ppo> dao = new DAO<Ppo>(Ppo.class);
@@ -76,6 +76,33 @@ public class PpoDAOImpl implements PpoDAO {
 		}
 		return lista;
 	}
+	
+	@Override
+	public int reinicializar(CadZonaEleitoralPK pkzona, PontoTransmissaoPK ponto) throws Exception{
+		int ret = 0;
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		System.out.println("Zona " + pkzona.getZona() + " codmunic:" + pkzona.getCodmunic() + " idPonto=" + ponto.getId());
+		try {
+			StoredProcedureQuery query = em
+				    .createStoredProcedureQuery("reinicializar_ppo")
+				    .registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN)
+				    .registerStoredProcedureParameter(2, Integer.class, ParameterMode.IN)
+				    .registerStoredProcedureParameter(3, Integer.class, ParameterMode.IN)
+				    .registerStoredProcedureParameter(4, Integer.class, ParameterMode.OUT)
+				    .setParameter(1, pkzona.getZona())
+				    .setParameter(2, pkzona.getCodmunic())
+				    .setParameter(3, ponto.getId());
+			query.execute();
+			ret = (int) query.getOutputParameterValue(4);
+			System.out.println("Ret == " + ret);
+		} catch (Exception e) {
+			em.close();
+			// e.printStackTrace();
+		} finally {
+			em.close();
+		}
+		return ret;
+	}
 
 	@Override
 	public Ppo getBean(Integer id) throws Exception {
@@ -121,6 +148,14 @@ public class PpoDAOImpl implements PpoDAO {
 	public static void main(String[] args) throws Exception {
 		PpoDAO dao = PpoDAOImpl.getInstance();
 		
+		int ret = 0;
+		// Zona 60 codmunic:2895 idPonto=999999
+		PontoTransmissaoPK pkponto = new PontoTransmissaoPK(99999, 12019);
+		CadZonaEleitoralPK pkzona = new CadZonaEleitoralPK("60;2895");
+		ret = dao.reinicializar(pkzona, pkponto);
+		System.out.println("Ret == " + ret);
+		
+		
 		//DistribuicaoTecnico tec = DistribuicaoTecnicoDAOImpl.getInstance().getBean("037443852224");
 		//System.out.println(tec.getId().getTecnico().getNome());
 		
@@ -152,11 +187,11 @@ public class PpoDAOImpl implements PpoDAO {
 		System.out.println("Ret " + ret);
 		*/
 		
-		
+		/*
 		for(Ppo ppo: dao.listar("037443852224")) {
 			System.out.println(ppo.getPpoTipo().getDescricao() + " "  + ppo.getTecnico().getNome() + " resp:" + ppo.getTecnicoResp().getNome() );
 		}
-		
+		*/
 		System.out.println("Done!!");
 		
 		

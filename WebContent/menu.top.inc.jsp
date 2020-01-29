@@ -61,6 +61,8 @@
 	              <a class="dropdown-item" href="#">PPO</a>
 	              <a class="dropdown-item" href="#">Encerramento</a>
 	              <a class="dropdown-item" href="#">Equipamentos</a>
+	              <a class="dropdown-item" href="${pageContext.request.contextPath}/ppo/frmSetupReinicializa">Reinicia PPO</a>
+	              
 	            </div>
 	          </li>   
 

@@ -18,6 +18,7 @@ import br.jus.tream.DAO.DistribuicaoTecnicoDAOImpl;
 import br.jus.tream.DAO.EleicaoDAOImpl;
 import br.jus.tream.DAO.PontoTransmissaoDAO;
 import br.jus.tream.DAO.PontoTransmissaoDAOImpl;
+import br.jus.tream.DAO.PpoDAOImpl;
 import br.jus.tream.dominio.BeanPontoTransmissao;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.CADLocalvotacao;
@@ -332,13 +333,20 @@ public class ActionPontoTransmissao extends ActionSupport {
 			Eleicao eleicao = new Eleicao();
 			eleicao.setId(permissao.getIdEleicao());
 			id.setEleicao(eleicao);
-			// OFICIALIZA TODOS OS PONTOS
-			if (id.getId()==999999) {
-				CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
-			    beanResult.setRet(dao.oficializar(pkze, permissao.getIdEleicao()));
+			CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
+			
+			if (id.getId()==999999) {	    
+				// REINICIALIZAR PPO
+			    PpoDAOImpl.getInstance().reinicializar(pkze, id);
+			 // OFICIALIZA TODOS OS PONTOS
+				beanResult.setRet(dao.oficializar(pkze, permissao.getIdEleicao()));
 			}   
-			else // OFICIALIZA UM PONTO
-				beanResult.setRet(dao.oficializar(id));
+			else{ 
+			     // REINICIALIZAR PPO
+				  PpoDAOImpl.getInstance().reinicializar(pkze, id);
+				 // OFICIALIZA UM PONTO  
+				 beanResult.setRet(dao.oficializar(id));
+			}
 			
 			if (beanResult.getRet() == 1) {
 				beanResult.setMensagem(getText("ponto.oficializado.sucesso"));

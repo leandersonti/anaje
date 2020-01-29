@@ -41,6 +41,13 @@ public class PontoTransmissaoPK implements Serializable{
 	public PontoTransmissaoPK() {
 	}
 	
+	public PontoTransmissaoPK(Integer idus, Integer idEleicao ) {
+		Eleicao eleicao = new Eleicao();
+		eleicao.setId(idEleicao);
+		this.eleicao = eleicao;
+		this.id = idus;
+	}
+	
 	public PontoTransmissaoPK(Integer id, Eleicao eleicao) {
 		super();
 		this.id = id;
