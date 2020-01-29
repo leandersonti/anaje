@@ -8,13 +8,13 @@
  <div class="card">
   <div class="card-header">  
       <form action="" class="form-inline" name="frmConsultaPonto" id="frmConsultaPonto">	
-  		Pontos sem Tecnicos  
-	          <s:select label="Zona" headerKey="-1"
-								headerValue="Selecione a zona" tooltip="Informe a Zona"
-								list="lstZonaEleitoral" listKey="id.zona+';'+id.codmunic"
-								listValue="fzona +' - '+ municipio"
-								name="codZonaMunic"  id="ZonaMunic" theme="simple"  cssClass="form-control"/>
-					<button class="btn btn-sm btn-primary" id="btnConsultar" type="button">Consultar</button>
+  		Pontos sem Tecnicos&nbsp  
+  		
+  		<select class="form-control form-control" id="ZonaMunic" name="codZonaMunic">
+									<option value="0">Selecione</option>
+				</select>&nbsp
+				
+	            <button class="btn btn-sm btn-primary" id="btnConsultar" type="submit">Consultar</button>
          </form>
                      
  </div>
@@ -30,10 +30,7 @@
 				<th width="12%">Endereço</th>
 				<th width="5%">Status</th>
 				<th width="5%">Modo</th>
-				<th width="15%"><a href="frmCad" class="btn btn-sm btn-primary" role="button" title="Cadastrar novo ponto">
-				         			<i class="fa fa-file-o" aria-hidden="true"></i>
-								</a>
-				</th>
+				<th width="15%"></th>
 			</tr>
 		</thead>
 	<tbody>
@@ -82,6 +79,22 @@
 
 
 <jsp:include page = "/javascripts.jsp" />
+<script>
+ var codZonaMunic = '${codZonaMunic}';
+ var select = $('#ZonaMunic');
+ select.find('option').remove();
+	$.getJSON('../elo/listarJsonZonaEleitoralCBX', 
+		function(jsonResponse) {
+			$('<option>').val(-1).text("Informe a Zona").appendTo(select);
+			$('<option>').val('9999;9999').text("Listar todos").appendTo(select);
+			$.each(jsonResponse, function(key, value) {				
+				$('<option>').val(value.id.zona + ";" + value.id.codmunic).text(
+					value.fzona + " - " + value.municipio)
+						.appendTo(select);
+			});
+			$('#ZonaMunic  option[value="'+codZonaMunic+'"]').prop("selected", true);
+		}); 
+</script>
 <script src="${pageContext.request.contextPath}/js/pontotransmissao.js" charset="utf-8"></script>
 
 <jsp:include page = "/consultas/ponto-transmissao-detalhes.jsp" />

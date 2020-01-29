@@ -95,8 +95,6 @@
 			});
 			$('#ZonaMunic  option[value="'+codZonaMunic+'"]').prop("selected", true);
 		}); 
-
-
 </script>
 
 
