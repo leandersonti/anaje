@@ -91,7 +91,30 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 		  } 
 		return lista;
 	}
-		
+	
+	@Override
+	public List<PontoTransmissao> listarSemDistribuicaoTecnico() throws Exception {
+		List<PontoTransmissao> lista = new ArrayList<PontoTransmissao>();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+	   try {	 
+		   String sql = "SELECT pt FROM PontoTransmissao pt " + 
+		   		"  WHERE pt.id.eleicao.ativo=1 " +
+		   		"  AND (pt.id.id, pt.id.eleicao.id) NOT IN ( " + 
+		   		"     SELECT distinct ds.id.pontoTransmissao.id.id, ds.id.pontoTransmissao.id.eleicao.id " + 
+		   		"        FROM DistribuicaoTecnico ds " + 
+		   		"        WHERE ds.id.pontoTransmissao.id.eleicao.ativo=1)";
+		     TypedQuery<PontoTransmissao> query = em.createQuery(sql, PontoTransmissao.class);
+             lista = query.getResultList();
+		  }
+		  catch (Exception e) {
+			     em.close();
+				 e.printStackTrace();
+		  }	finally {
+				em.close();
+		  } 
+		return lista;
+	}
+	
 	@Override
 	public List<PontoTransmissao> listarSemDistribuicaoTecnico(CadZonaEleitoralPK pkze) throws Exception {
 		List<PontoTransmissao> lista = new ArrayList<PontoTransmissao>();
@@ -287,7 +310,7 @@ public class PontoTransmissaoDAOImpl implements PontoTransmissaoDAO {
 	public static void main(String[] args) throws Exception{
 		PontoTransmissaoDAO dao = PontoTransmissaoDAOImpl.getInstance();
 		
-		for (PontoTransmissao p : dao.listarSemDistribuicaoSecao()) {
+		for (PontoTransmissao p : dao.listarSemDistribuicaoTecnico()) {
 			System.out.println("Ponto " + p.getZona() + " " + p.getCodLocal() + " " + p.getDescricao());
 		}
 		

@@ -6,7 +6,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import br.jus.tream.dominio.Eleicao;
 import br.jus.tream.dominio.Encerramento;
+import br.jus.tream.dominio.pk.PontoTransmissaoPK;
 
 public class EncerramentoDAOImpl implements EncerramentoDAO {
 
@@ -22,13 +24,22 @@ public class EncerramentoDAOImpl implements EncerramentoDAO {
 	}
 
 	@Override
-	public Encerramento getBean(int id) throws Exception {
+	public Encerramento getBean(PontoTransmissaoPK id) throws Exception {
 		Encerramento encerramento = new Encerramento();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
-			encerramento = dao.getBean(id);
+			TypedQuery<Encerramento> query = em.createQuery("SELECT e FROM Encerramento e WHERE e.id.eleicao.ativo=1 "
+					+ "AND e.id.id=?1 AND e.id.eleicao.id=?2", Encerramento.class);
+			 query.setParameter(1, id.getId());
+			 query.setParameter(2, id.getIdEleicao());
+			 encerramento = query.getSingleResult();
 		} catch (Exception e) {
-			e.printStackTrace();
+			em.close();
+			 e.printStackTrace();
+		} finally {
+			em.close();
 		}
+		
 		return encerramento;
 	}
 
@@ -87,12 +98,23 @@ public class EncerramentoDAOImpl implements EncerramentoDAO {
 	}
 
 	public static void main(String[] args) throws Exception {
-		//Encerramento e = new Encerramento();
+		Encerramento e = new Encerramento();
 		EncerramentoDAO dao = EncerramentoDAOImpl.getInstance();
+		Eleicao eleicao = new Eleicao();
+		eleicao.setId(12019);
+		PontoTransmissaoPK pk = new PontoTransmissaoPK();
+		pk.setId(842020);
+		pk.setEleicao(eleicao);
+		e = dao.getBean(pk);
+		System.out.println("Encerramento " + e.getId().getId() + " " + e.getCodigo());
 		
+		
+		
+		/*
 		for(Encerramento e:dao.listar(33, 2038)) {
 			System.out.println("Status===" + e.getStatus());
 		}
+		*/
 
 	}
 }

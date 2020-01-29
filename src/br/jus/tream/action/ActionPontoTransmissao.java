@@ -165,29 +165,24 @@ public class ActionPontoTransmissao extends ActionSupport {
 			@Result(name = "error", location = "/result.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String listarSemDistribuicaoTecnico() {
 		try {
-
 			if (permissao.getAdmin()) {
-				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX();
-				if (codZonaMunic == null || codZonaMunic.equals("-1")) {
-
-				} else {
+				if (!(codZonaMunic == null || codZonaMunic.equals("-1"))) {
 					CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
-					this.lstPontoTransmissao = dao.listarSemDistribuicaoTecnico(pkze);
+					if (pkze.getZona()==9999)
+						this.lstPontoTransmissao = dao.listarSemDistribuicaoTecnico();
+					 else
+					   this.lstPontoTransmissao = dao.listarSemDistribuicaoTecnico(pkze);
 				}
 			} else {
-				this.lstZonaEleitoral = CadEloDAOImpl.getInstance().listarZonaEleitoralCBX(permissao.getZona());
-				if (codZonaMunic == null || codZonaMunic.equals("-1")) {
-
-				} else {
+				if (!(codZonaMunic == null || codZonaMunic.equals("-1"))) {
 					CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
 					this.lstPontoTransmissao = dao.listarSemDistribuicaoTecnico(pkze);
 				}
 			}
-
-		} catch (Exception e) {
+		 } catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";
-		}
+		 }
 		return "success";
 	}
 
