@@ -118,7 +118,7 @@ public class PpoDAOImpl implements PpoDAO {
 	public int reinicializar(CadZonaEleitoralPK pkzona, PontoTransmissaoPK ponto) throws Exception{
 		int ret = 0;
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
-		System.out.println("Zona " + pkzona.getZona() + " codmunic:" + pkzona.getCodmunic() + " idPonto=" + ponto.getId());
+		//System.out.println("Zona " + pkzona.getZona() + " codmunic:" + pkzona.getCodmunic() + " idPonto=" + ponto.getId());
 		try {
 			StoredProcedureQuery query = em
 				    .createStoredProcedureQuery("reinicializar_ppo")
@@ -131,7 +131,7 @@ public class PpoDAOImpl implements PpoDAO {
 				    .setParameter(3, ponto.getId());
 			query.execute();
 			ret = (int) query.getOutputParameterValue(4);
-			System.out.println("Ret == " + ret);
+			//System.out.println("Ret == " + ret);
 		} catch (Exception e) {
 			em.close();
 			// e.printStackTrace();
