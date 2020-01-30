@@ -25,6 +25,8 @@ public class VWPpo implements Serializable{
 	@Column(name="descricao")
 	private String pontoTransmissao;
 	
+	private Integer oficial;
+	
 	private String nome;
 	
 	private Integer zona;
@@ -48,7 +50,7 @@ public class VWPpo implements Serializable{
 
 	public VWPpo(Integer idTecnico, Integer idTecnicoResp, Integer idus, String pontoTransmissao, String nome,
 			Integer zona, Integer codmunic, String chegouCartorio, String chegouPonto, String oficializouSistema,
-			String encerrou) {
+			String encerrou, Integer ofic) {
 		super();
 		this.idTecnico = idTecnico;
 		this.idTecnicoResp = idTecnicoResp;
@@ -61,6 +63,7 @@ public class VWPpo implements Serializable{
 		this.chegouPonto = chegouPonto;
 		this.oficializouSistema = oficializouSistema;
 		this.encerrou = encerrou;
+		this.oficial = ofic;
 	}
 
 	public Integer getIdTecnicoResp() {
@@ -89,6 +92,14 @@ public class VWPpo implements Serializable{
 
 	public String getPontoTransmissao() {
 		return pontoTransmissao;
+	}
+
+	public Integer getOficial() {
+		return oficial;
+	}
+
+	public void setOficial(Integer oficial) {
+		this.oficial = oficial;
 	}
 
 	public void setPontoTransmissao(String pontoTransmissao) {
@@ -179,9 +190,9 @@ public class VWPpo implements Serializable{
 	@Override
 	public String toString() {
 		return "VWPpo [idTecnico=" + idTecnico + ", idTecnicoResp=" + idTecnicoResp + ", idus=" + idus
-				+ ", pontoTransmissao=" + pontoTransmissao + ", nome=" + nome + ", zona=" + zona + ", codmunic="
-				+ codmunic + ", chegouCartorio=" + chegouCartorio + ", chegouPontop=" + chegouPonto
-				+ ", oficializouSistema=" + oficializouSistema + ", encerrou=" + encerrou + "]";
+				+ ", pontoTransmissao=" + pontoTransmissao + ", oficial=" + oficial + ", nome=" + nome + ", zona="
+				+ zona + ", codmunic=" + codmunic + ", chegouCartorio=" + chegouCartorio + ", chegouPonto="
+				+ chegouPonto + ", oficializouSistema=" + oficializouSistema + ", encerrou=" + encerrou + "]";
 	}
 	
 }

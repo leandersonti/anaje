@@ -46,7 +46,14 @@
 			<td><s:property value="zona"/></td>
 			<td><s:property value="codmunic"/></td>
 			<td><s:property value="nome"/></td>
-			<td><a id="detalhePontoTrans${idus}" href="#" data-record-id="${idus}"><s:property value="pontoTransmissao"/></a></td>
+			<td>
+				<s:if test='oficial == 0'>
+				      <i class="fa fa-circle-o" aria-hidden="true" title="Fase Simulado"></i>
+				 </s:if>
+				 <s:else>
+				 	<i class="fa fa-circle" style="color:green" aria-hidden="true" title="Fase Oficial"></i>
+				 </s:else>
+				 <a id="detalhePontoTrans${idus}" href="#" data-record-id="${idus}"><s:property value="pontoTransmissao"/></a></td>
 			<td>
 				<s:if test='chegouCartorio == null'>
 				      <i class="fa fa-circle-o" aria-hidden="true"></i>
@@ -83,6 +90,8 @@
 		</s:iterator>
 	 </tbody>	
 	</table>	
+	<br>
+	<i class="fa fa-circle-o" aria-hidden="true" title="Fase Simulado"></i> Fase Simulado | <i class="fa fa-circle" style="color:green" aria-hidden="true" title="Fase Oficial"></i> Fase Oficial
   </div>
 </div>
 
