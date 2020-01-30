@@ -17,8 +17,8 @@ import br.jus.tream.DAO.PpoDAO;
 import br.jus.tream.DAO.PpoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.DistribuicaoTecnico;
-import br.jus.tream.dominio.PontoTransmissao;
 import br.jus.tream.dominio.Ppo;
+import br.jus.tream.dominio.VWPpo;
 import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 import br.jus.tream.dominio.pk.PontoTransmissaoPK;
 
@@ -28,6 +28,7 @@ import br.jus.tream.dominio.pk.PontoTransmissaoPK;
 @ParentPackage(value = "default")
 public class ActionPpo extends ActionSupport {
 	private List<Ppo> lstPpo;
+	private List<VWPpo> lstVWPpo;
 	private Ppo ppo;
 	private String codZonaMunic;
 	private PontoTransmissaoPK pkPonto = new PontoTransmissaoPK();
@@ -40,6 +41,20 @@ public class ActionPpo extends ActionSupport {
 	@Action(value = "frmSetupReinicializa", results = { @Result(name = "success", location = "/forms/frmReinicializarPPO.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String frmCad() {
+		return "success";
+	}
+	
+	@Action(value = "listarView", results = { @Result(name = "success", location = "/consultas/ppoview.jsp"),
+			@Result(name = "error", location = "/result.jsp")}, interceptorRefs = @InterceptorRef("authStack")
+	)
+	public String listarView() {
+		try {
+			CadZonaEleitoralPK pkzona = new CadZonaEleitoralPK(codZonaMunic);
+			this.lstVWPpo = dao.listarView(pkzona, idTecnicoResponsavel);
+		} catch (Exception e) {
+			addActionError(getText("listar.error"));
+			return "error";
+		}
 		return "success";
 	}
 	
@@ -183,6 +198,14 @@ public class ActionPpo extends ActionSupport {
 
 	public void setPkPonto(PontoTransmissaoPK pkPonto) {
 		this.pkPonto = pkPonto;
+	}
+
+	public List<VWPpo> getLstVWPpo() {
+		return lstVWPpo;
+	}
+
+	public void setLstVWPpo(List<VWPpo> lstVWPpo) {
+		this.lstVWPpo = lstVWPpo;
 	}
 
 }

@@ -62,6 +62,7 @@ $(document).ready(function() {
    $('#codZonaMunic').change(function(event) {	
 	      $('#result').empty();
 	      $('#ajaxResponse').text('');
+	      $("#tbedist > tr").remove();
 		  CarregaLocalVotacao();	  		  
 		  CarregaPontoTransmissao();				     
 	 });

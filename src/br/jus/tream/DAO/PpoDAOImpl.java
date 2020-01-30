@@ -12,6 +12,7 @@ import javax.persistence.TypedQuery;
 import org.apache.commons.lang3.StringUtils;
 
 import br.jus.tream.dominio.Ppo;
+import br.jus.tream.dominio.VWPpo;
 import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 import br.jus.tream.dominio.pk.PontoTransmissaoPK;
 
@@ -75,6 +76,42 @@ public class PpoDAOImpl implements PpoDAO {
 			em.close();
 		}
 		return lista;
+	}
+	
+	public List<VWPpo> listarView(CadZonaEleitoralPK pkzona, int idTecResponsavel) throws Exception{
+		{
+			List<VWPpo> lista = new ArrayList<VWPpo>();
+			EntityManager em = EntityManagerProvider.getInstance().createManager();
+			TypedQuery<VWPpo> query = null;
+			try {
+				if (pkzona.getZona()==9999 && idTecResponsavel==9999) {
+					query = em.createQuery("SELECT p FROM VWPpo p ORDER BY p.zona, p.codmunic, p.nome", VWPpo.class);	
+				}else {					
+					if (pkzona.getZona()!=9999 && idTecResponsavel==9999 ) {
+						query = em.createQuery("SELECT p FROM VWPpo p WHERE p.zona=?1 AND p.codmunic=?2 ORDER BY p.nome", VWPpo.class);
+						query.setParameter(1, pkzona.getZona());
+						query.setParameter(2, pkzona.getCodmunic());
+					}else {
+						if (pkzona.getZona()==9999 && idTecResponsavel!=9999 ) {
+							query = em.createQuery("SELECT p FROM VWPpo p WHERE p.idTecnicoResp=?1 ORDER BY p.nome", VWPpo.class);
+							query.setParameter(1, idTecResponsavel);
+						}else {
+							query = em.createQuery("SELECT p FROM VWPpo p WHERE p.zona=?1 AND p.codmunic=?2 AND p.idTecnicoResp=?3 ORDER BY p.nome", VWPpo.class);
+							query.setParameter(1, pkzona.getZona());
+							query.setParameter(2, pkzona.getCodmunic());
+							query.setParameter(3, idTecResponsavel);
+						}
+					}	
+				}				
+				lista = query.getResultList();					
+			} catch (Exception e) {
+				em.close();
+				// e.printStackTrace();
+			} finally {
+				em.close();
+			}
+			return lista;
+		}
 	}
 	
 	@Override
@@ -147,14 +184,14 @@ public class PpoDAOImpl implements PpoDAO {
 	
 	public static void main(String[] args) throws Exception {
 		PpoDAO dao = PpoDAOImpl.getInstance();
-		
+		/*
 		int ret = 0;
 		// Zona 60 codmunic:2895 idPonto=999999
 		PontoTransmissaoPK pkponto = new PontoTransmissaoPK(99999, 12019);
 		CadZonaEleitoralPK pkzona = new CadZonaEleitoralPK("60;2895");
 		ret = dao.reinicializar(pkzona, pkponto);
 		System.out.println("Ret == " + ret);
-		
+		*/
 		
 		//DistribuicaoTecnico tec = DistribuicaoTecnicoDAOImpl.getInstance().getBean("037443852224");
 		//System.out.println(tec.getId().getTecnico().getNome());
@@ -192,9 +229,16 @@ public class PpoDAOImpl implements PpoDAO {
 			System.out.println(ppo.getPpoTipo().getDescricao() + " "  + ppo.getTecnico().getNome() + " resp:" + ppo.getTecnicoResp().getNome() );
 		}
 		*/
+		
+		CadZonaEleitoralPK pkzona = new CadZonaEleitoralPK("9999;2895");
+		int idTecnicoResp = 1432018;
+		//int idTecnicoResp = 9999;
+				
+		for(VWPpo p: dao.listarView(pkzona, idTecnicoResp)) {
+			System.out.println(p.toString());
+		}
+		
 		System.out.println("Done!!");
-		
-		
 		
 		
 	}
