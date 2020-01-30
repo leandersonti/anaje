@@ -31,66 +31,51 @@
 				
 				<button class="btn btn-primary" id="btnSave" type="button">Reinicializar</button>
 			</form>
-			
 		</div>
-	</div> 
-	
-				
+	</div> 			
 </div>
 
 <jsp:include page="/javascripts.jsp" />
 <script type="text/javascript">
+var URLSIS = "${pageContext.request.contextPath}";
 $(document).ready(function() {
+	carregaZonaEleitoralCBX();
 	
-var select = $('#codZonaMunic');
-select.find('option').remove();
-	$.getJSON('../elo/listarJsonZonaEleitoralCBX', 
-		function(jsonResponse) {
-			$('<option>').val(0).text("Informe a Zona").appendTo(select);
-			$('<option>').val('9999;9999').text("Reinicializar Todos").appendTo(select);
-			$.each(jsonResponse, function(key, value) {				
-				$('<option>').val(value.id.zona + ";" + value.id.codmunic).text(
-					value.fzona + " - " + value.municipio)
-						.appendTo(select);
-			});
-		}); 
-
 	$('#codZonaMunic').change(function(event) {	
 		$('#codZonaMunic').removeClass("is-invalid");
-		carregaPontoTransmissao();	     
-	 });
+		carregarPontoTransmissao();	     
+	});
 	
-	 $("#btnSave").click(function() {
- 		 var idus =  $("#idus").val(); 	 		
- 		 var URL = "reiniciarJson"; 	
- 			if (verificaDados()){
- 				 swal({
- 			         title: "Confirma ?",
- 			         text: "Confirma Reinicialização do PPO?",
- 			         icon: "warning",
- 			          buttons: [true, "Sim"]
- 			         }).then((result) => {
- 						if (result) {
- 							var frm = $("#frmReiniciarPPO").serialize();	
- 							// console.log(frm);
- 							$.getJSON({
- 								url: URL,
- 								data: frm
- 						    }).done(function( data ) {					    	
- 						    	if(data.ret==1){
- 						    		swal("Reinicialização", data.mensagem, "success");
- 						    	}
- 						    	else 
- 						    		swal(URL, data.mensagem, "error");
- 							}).fail(function() {
- 									swal("Reinicialização", "Ocorreu um erro ao reinicializar PPO", "error");
- 							});
- 					      } 
- 				   }); // -- FIM SWAL --
- 			   }else{
- 				   swal("Dados", "Verifique os campos obrigatórios ", "error");
- 			   }
-	 	}); // -- FIM btnSave -- */
+   $("#btnSave").click(function() {
+ 	 var idus =  $("#idus").val(); 	 		
+ 	 var URL = "reiniciarJson"; 	
+ 		if (verificaDados()){
+ 			 swal({
+ 		         title: "Confirma ?",
+ 		         text: "Confirma Reinicialização do PPO?",
+ 		         icon: "warning",
+ 		          buttons: [true, "Sim"]
+ 	         }).then((result) => {
+ 				if (result) {
+ 					var frm = $("#frmReiniciarPPO").serialize();	
+ 					$.getJSON({
+ 						url: URL,
+ 						data: frm
+ 				    }).done(function( data ) {					    	
+ 				    	if(data.ret==1){
+ 					    		swal("Reinicialização", data.mensagem, "success");
+ 				    	}
+ 				    	else 
+ 				    		swal(URL, data.mensagem, "error");
+ 					}).fail(function() {
+ 							swal("Reinicialização", "Ocorreu um erro ao reinicializar PPO", "error");
+ 					});
+ 			      } 
+ 			   }); // -- FIM SWAL --
+ 		 }else{
+ 			   swal("Dados", "Verifique os campos obrigatórios ", "error");
+ 	     }
+	 }); // -- FIM btnSave -- */
 	 	
  });	
 
@@ -108,24 +93,6 @@ function verificaDados(){
 	   return true;
     } 
  }
- 
-function carregaPontoTransmissao(){
-	var codZonaMunic = $("#codZonaMunic").val();
-    var cbxpt = $('#idus');
-        cbxpt.find('option').remove();
-   	 if(codZonaMunic != -1){	    		 
-		     $.getJSON('../pontotrans/listarJson?codZonaMunic='+codZonaMunic,function(jsonResponse) {
-		   	  $('<option>').val(0).text("Informe o ponto de transmissao").appendTo(cbxpt);
-		   	$('<option>').val(999999).text("Todos os pontos").appendTo(cbxpt);
-		             $.each(jsonResponse, function(key, value) {             
-		            	 $('<option>').val(value.id.id).text( ("0000" + value.codLocal).slice(-4) + " " + value.descricao).appendTo(cbxpt);
-		      		 });
-		     });
-    }else{
-   	 $('<option>').val(-1).text("Informe o Ponto de Transmissao").appendTo(cbxpt);
-    }
-}
-
 </script>
-
+<script src="${pageContext.request.contextPath}/js/commonutils.js" charset="utf-8"></script>
 <jsp:include page="/mainfooter.inc.jsp" />

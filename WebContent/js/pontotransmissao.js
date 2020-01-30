@@ -6,8 +6,6 @@ $(document).ready(function() {
 		   // $("#tabPontoTransmissao").DataTable();
      }
 	
-	
-	
 	$("#btnConsultar").click(function() {
 		$("#frmConsultaPonto").submit();
 	});

@@ -38,69 +38,48 @@
 </div>
 
 <jsp:include page="/javascripts.jsp" />
-
 <script type="text/javascript">
+var URLSIS = "${pageContext.request.contextPath}";
 $(document).ready(function() {	
 	
 	$('#codZonaMunic').change(function(event) {	
-		carregarPontosTransmissao();	     
-	 });	
+		//$('#codZonaMunic').removeClass("is-invalid");
+		carregarPontoTransmissaoNaoOficializados();	     
+	});	
 	
- 	 $("#btnSave").click(function() {
- 		 var idus =  $("#idus").val(); 	 		
- 		 var URL = ""; 
- 			//if ( $('#id').length ) { URL = "atualizar"; }
- 			//else{ 
- 			URL = "oficializar"; 	
- 			if (verificaDados()){
- 				 swal({
- 			         title: "Confirma ?",
- 			         text: "Confirma " + URL + "?",
- 			         icon: "warning",
- 			          buttons: [true, "Sim"]
- 			         }).then((result) => {
- 						if (result) {
- 							var frm = $("#form1").serialize();	
- 							$.getJSON({
- 								url: URL,
- 								data: frm
- 						    }).done(function( data ) {					    	
- 						    	if(data.ret==1){
- 						    		carregarPontosTransmissao();
- 						    		swal(URL, data.mensagem, "success");
- 						    	}
- 						    	else 
- 						    		swal(URL, data.mensagem, "error");
- 							}).fail(function() {
- 									swal("Adicionar", "Ocorreu um erro ao incluir", "error");
- 							});
- 					      } 
- 				   }); // -- FIM SWAL --
- 			   }else{
- 				   swal("Dados", "Verifique os campos obrigatórios ", "error");
- 			   }
-	 	}); // -- FIM btnSave -- */
+	
+  $("#btnSave").click(function() {
+ 	 var idus =  $("#idus").val(); 	 		
+ 	 var URL = "oficializar"; 	
+ 	if (verificaDados()){
+ 		 swal({
+ 	         title: "Confirma ?",
+ 	         text: "Confirma " + URL + "?",
+ 	         icon: "warning",
+ 	         buttons: [true, "Sim"]
+ 		 }).then((result) => {
+ 			 if (result) {
+ 				var frm = $("#form1").serialize();	
+ 				$.getJSON({
+ 					url: URL,
+ 					data: frm
+ 			    }).done(function( data ) {					    	
+ 			    	if(data.ret==1){
+ 			    		carregarPontoTransmissao();
+ 						swal(URL, data.mensagem, "success");
+ 					}else 
+ 						swal(URL, data.mensagem, "error");
+ 				}).fail(function() {
+ 							swal("Adicionar", "Ocorreu um erro ao incluir", "error");
+ 				});
+ 		     } 
+ 		   }); // -- FIM SWAL --
+ 	}else{
+ 		   swal("Dados", "Verifique os campos obrigatórios ", "error");
+ 	   }
+   }); // -- FIM btnSave -- */
 	 
 });
-
-function carregarPontosTransmissao() {
-	codZonaMunic = $("#codZonaMunic").val();
-	$.getJSON('listarSemOficializar?codZonaMunic='+codZonaMunic, function(jsonResponse) {
-		var cbxIUS = $('#idus');			
-		cbxIUS.removeClass("is-invalid");
-		cbxIUS.find('option').remove();
-		$('<option>').val(0).text("Informe o ponto").appendTo(cbxIUS);
-		if (jsonResponse.length>0){
-			$('<option>').val(999999).text("Oficializar todos").appendTo(cbxIUS);
-			$.each(jsonResponse, function(key, value) {		
-				$('<option>').val(value.id.id).text(value.descricao).appendTo(cbxIUS);
-			});
-		} //else
-			// swal("Todos os pontos já foram oficializados ou não há ponto(s) disponíve(ies)l para " + $("#codZonaMunic option:selected").text() );		  		
-	});		
-	  	   
-}
-
 
  function verificaDados(){
     if ($("#idus").val()==0){
@@ -112,13 +91,5 @@ function carregarPontosTransmissao() {
     } 
  }
 </script>
-
+<script src="${pageContext.request.contextPath}/js/commonutils.js" charset="utf-8"></script>
 <jsp:include page="/mainfooter.inc.jsp" />
-
-
-
-
-
-
-
-
