@@ -93,6 +93,8 @@
 	<br>
 	<i class="fa fa-circle-o" aria-hidden="true" title="Fase Simulado"></i> Fase Simulado | <i class="fa fa-circle" style="color:green" aria-hidden="true" title="Fase Oficial"></i> Fase Oficial
   </div>
+  
+  <button type="button" class="btn btn-default" id="btnPrint2">Imprimir</button>
 </div>
 
    </div>

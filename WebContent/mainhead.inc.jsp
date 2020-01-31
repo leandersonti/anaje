@@ -13,7 +13,7 @@
     <link rel="SHORTCUT ICON" href="${pageContext.request.contextPath}/favicon.ico">
     <jsp:include page = "/css.inc.jsp" />
 </head>
-<body>
+<body translate="no">
          <!-- MENU TOP -->
 	<jsp:include page = "/menu.top.inc.jsp" />
 	

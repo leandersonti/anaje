@@ -13,7 +13,7 @@
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="${pageContext.request.contextPath}/">AnaJÉ<span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/">TRE-AM<span class="sr-only">(current)</span></a>
           </li>
           
           <li class="nav-item dropdown ${pontotrans}">             
@@ -50,10 +50,21 @@
 			      </li>
 				</ul>	              	              	             
           </li>  
-          
+          <!-- 
           <li class="nav-item ${tecnico}">
             <a class="nav-link" href="${pageContext.request.contextPath}/tecnico/listar">Técnico</a>
-          </li>
+          </li>  -->
+          
+          <li class="nav-item dropdown ${tecnico}">
+	            <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" 
+	                                     aria-haspopup="true" aria-expanded="false">Técnico</a>
+	            <div class="dropdown-menu" aria-labelledby="dropdown01">
+	               <a class="dropdown-item" href="${pageContext.request.contextPath}/tecnico/listar">Consultar</a>
+	               <a class="dropdown-item" href="${pageContext.request.contextPath}/tecnico/frmCad">Cadastrar</a>
+	               <a class="dropdown-item" href="#">Mudar de cargo</a>
+	            </div>
+	       </li> 
+	          
 	          
 	          <li class="nav-item dropdown ${monitoramento}">
 	            <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Monitoramento</a>

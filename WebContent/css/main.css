@@ -3,7 +3,7 @@ body {
 }
 
 .container-min{
-	   min-height: 650px; 
+   min-height: 650px; 
 }
 
 .panel-footer {
@@ -206,3 +206,30 @@ img.topmnu{
   } 
   /* FIM STEP PROGRESS BAR */
   
+@media screen {
+  #printSection {
+      display: none;
+  }
+}
+
+@media print {
+  body * {
+    visibility:hidden;
+  }
+  #printSection, #printSection * {
+    visibility:visible;
+  }
+  #printSection {
+    position:absolute; 
+    left:0;
+    top:0;
+  }
+  
+  .modal {
+    overflow: hidden;
+    visibility:visible;
+    width: 100%;
+    font-size: 80%;
+  }
+   
+}
