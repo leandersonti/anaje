@@ -11,7 +11,10 @@ import javax.persistence.TypedQuery;
 
 import org.apache.commons.lang3.StringUtils;
 
+import br.jus.tream.dominio.Eleicao;
 import br.jus.tream.dominio.Ppo;
+import br.jus.tream.dominio.PpoTipo;
+import br.jus.tream.dominio.Tecnico;
 import br.jus.tream.dominio.VWPpo;
 import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 import br.jus.tream.dominio.pk.PontoTransmissaoPK;
@@ -151,14 +154,43 @@ public class PpoDAOImpl implements PpoDAO {
 		}
 		return obj;
 	}
+	
+	@Override
+	public Ppo getBean(Tecnico tecnico, Integer ppotipo) throws Exception{
+		Ppo obj = new Ppo();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		try {
+			TypedQuery<Ppo> query = 
+					em.createQuery("SELECT p FROM Ppo p WHERE p.eleicao.ativo=1 AND p.ppoTipo.id=?1 AND p.tecnico.id=?2", Ppo.class);
+				  query.setParameter(1,ppotipo);
+			obj = query.setParameter(2, tecnico.getId()).getSingleResult();					
+		} catch (Exception e) {
+			em.close();
+			// e.printStackTrace();
+		} finally {
+			em.close();
+		}
+		return obj;
+	}
 
 	@Override
 	public int adicionar(Ppo ppo) throws Exception {
 		int ret = 0;
+		String codalpha = dao.gerarCodigoAlpha();
 		try {
 			ppo.setDataCad(new Date(System.currentTimeMillis()));
-			ppo.setCodigo(dao.gerarCodigoAlpha());
-			ret = dao.adicionar(ppo);
+			ppo.setCodigo(codalpha);
+			if (ppo.getPpoTipo().getId()==1) {
+				ret = dao.adicionar(ppo);
+			}else {
+				Ppo p = this.getBean(ppo.getTecnico(), ppo.getPpoTipo().getId()-1);
+				if (p.getId() == null) {
+					 ret = 5; // não existe registro anterior
+				} 
+				else {
+					ret = dao.adicionar(ppo); 
+				}
+			}
 		} catch (Exception e) {
 			// e.printStackTrace();
 		}
@@ -196,7 +228,7 @@ public class PpoDAOImpl implements PpoDAO {
 		//DistribuicaoTecnico tec = DistribuicaoTecnicoDAOImpl.getInstance().getBean("037443852224");
 		//System.out.println(tec.getId().getTecnico().getNome());
 		
-		/*
+		
 		Ppo p = new Ppo();
 		Tecnico tec = new Tecnico();
 		tec.setId(1312018);		
@@ -206,15 +238,15 @@ public class PpoDAOImpl implements PpoDAO {
 		p.setTecnicoResp(tecResp);
 		
 		PpoTipo ppotipo = new PpoTipo();
-		ppotipo.setId(1);
+		ppotipo.setId(5);
 		p.setPpoTipo(ppotipo);
 		Eleicao dataeleicao = new Eleicao();
 		dataeleicao.setId(12019);
 		p.setDataEleicao(dataeleicao);
 		
 		int ret = dao.adicionar(p);
-		System.out.println("Ret " + ret);
-		*/
+		System.out.println("Retorno ..... " + ret);
+		
 		
 		/*
 		Ppo p = new Ppo();
@@ -230,14 +262,13 @@ public class PpoDAOImpl implements PpoDAO {
 		}
 		*/
 		
+		/*
 		CadZonaEleitoralPK pkzona = new CadZonaEleitoralPK("9999;2895");
 		int idTecnicoResp = 1432018;
-		//int idTecnicoResp = 9999;
-				
 		for(VWPpo p: dao.listarView(pkzona, idTecnicoResp)) {
 			System.out.println(p.toString());
 		}
-		
+		*/
 		System.out.println("Done!!");
 		
 		

@@ -2,7 +2,6 @@ $(document).ready(function() {
 	var loading = '<img src="images/waiting.gif" /> processando...';
 	
 	$( "[id*='checkincluir']" ).click(function(event) {
-		
 	    var data = $(event.delegateTarget).data();
 		var id = data.recordId;  
 		var descricao = data.recordDescricao;
@@ -16,7 +15,6 @@ $(document).ready(function() {
 					$('#result').html("Informe por favor o título de eleitor");
 					swal("Ops!", "Informe por favor o título de eleitor", "warning");
 				} else	{
-					
 					swal({
 						  title: 'Confirme',
 						  text: "Deseja registrar o procedimento " + descricao +  "?",

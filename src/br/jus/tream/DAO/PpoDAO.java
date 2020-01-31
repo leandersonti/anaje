@@ -3,6 +3,7 @@ package br.jus.tream.DAO;
 import java.util.List;
 
 import br.jus.tream.dominio.Ppo;
+import br.jus.tream.dominio.Tecnico;
 import br.jus.tream.dominio.VWPpo;
 import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 import br.jus.tream.dominio.pk.PontoTransmissaoPK;
@@ -18,6 +19,8 @@ public interface PpoDAO {
 	public List<Ppo> listar(Integer idTecnicoResponsavel) throws Exception;
 
 	public Ppo getBean(Integer id) throws Exception;
+	
+	public Ppo getBean(Tecnico tecnico, Integer ppotipo) throws Exception;
 	
 	public int reinicializar(CadZonaEleitoralPK pkzona, PontoTransmissaoPK ponto) throws Exception;
 

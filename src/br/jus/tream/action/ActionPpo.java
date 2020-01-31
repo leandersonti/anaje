@@ -121,8 +121,13 @@ public class ActionPpo extends ActionSupport {
 							beanResult.setType("success");
 						}
 						else {
-							beanResult.setMensagem(getText("inserir.violado"));
-							beanResult.setType("warning");
+							if (beanResult.getRet() == 5) {
+								beanResult.setMensagem(getText("ppo.error.registroanterior"));
+								beanResult.setType("warning");
+							}else {
+								beanResult.setMensagem(getText("inserir.violado"));
+								beanResult.setType("warning");
+							}
 						}
 				}else {
 					beanResult.setType("warning");
