@@ -35,16 +35,16 @@
 					
 					<div class="col-md-3 mb-3">
 						<label for="dtNasc">Dt de Nasc. :</label> 
-						<input type="text" class="form-control" id="dtNasc" name="DtNasc" value="<s:text name="format.date"><s:param value="tecnico.dataNasc"/></s:text>" placeholder="dd/mm/aaaa"/>						
+						<input type="text" class="form-control" id="dtNasc" name="DtNasc" value="" placeholder="dd/mm/aaaa"/>						
 					</div>
 					
 					<div class="col-md-3 mb-3">
 							<label for="inputState">Sexo:</label>
 						<select id="sexo" class="form-control" name="tecnico.sexo">
 						        <option value="">Selecione...</option>
-						        <option value="M">Masculino</option>
-						        <option value="F">Feminino</option>
-						        <option value="O">Outros</option>
+						        <option value="M"<s:if test='tecnico.sexo == "M"'> Selected</s:if>>Masculino</option>
+						        <option value="F"<s:if test='tecnico.sexo == "F"'> Selected</s:if>>Feminino</option>
+						        <option value="O"<s:if test='tecnico.sexo == "O"'> Selected</s:if>>Outros</option>
      					 </select>												
 					</div>
 				</div>				
@@ -179,10 +179,11 @@ $(document).ready(function() {
 	 
 });
 
-var idtec =  $('#id').val();
-$.getJSON('../tecnico/getBeanJson?id='+idtec,function(jsonResponse) {		
-	 document.getElementById("sexo").value = jsonResponse.sexo;
-});
+
+//var idtec =  $('#id').val();
+//$.getJSON('../tecnico/getBeanJson?id='+idtec,function(jsonResponse) {		
+//	 document.getElementById("sexo").value = jsonResponse.sexo;
+//});
 
 
  function verificaDados(){

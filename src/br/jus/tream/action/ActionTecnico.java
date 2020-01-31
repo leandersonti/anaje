@@ -36,7 +36,7 @@ public class ActionTecnico extends ActionSupport{
 	private Contrato contrato;
 	private String DtNasc;
 	private Tecnico tecnico;
-	private Integer id;	
+	private Integer id = 0;	
 	private BeanResult result;	
 	private final static TecnicoDAO dao = TecnicoDAOImpl.getInstance();	
 	private final static Permissao permissao = Permissao.getInstance();
@@ -92,7 +92,7 @@ public class ActionTecnico extends ActionSupport{
 	
 	
 	@Action(value = "getBeanJson", results = { @Result(name = "success", type = "json", params = { "root", "tecnico" }),
-			@Result(name = "error", location = "/login.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+			@Result(name = "error", location = "/login.jsp")})
 	public String getBeanJson() {
 		try {
 			this.tecnico = TecnicoDAOImpl.getInstance().getBean(this.id);
