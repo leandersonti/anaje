@@ -92,7 +92,7 @@ public class ActionTecnico extends ActionSupport{
 	}
 	
 	@Action(value = "listarJson", results = { @Result(name = "success", type = "json", params = { "root", "lstTecnico" }),
-			@Result(name = "error", location = "/login.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+			@Result(name = "error", location = "/pages/resultAjax.jsp")})
 	public String listarJson() {
 		try {
 			this.lstTecnico = dao.listar();
@@ -104,7 +104,7 @@ public class ActionTecnico extends ActionSupport{
 	}
 	
 	@Action(value = "listarCbxJson", results = { @Result(name = "success", type = "json", params = { "root", "lstTecnico" }),
-			@Result(name = "error", location = "/login.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+			@Result(name = "error", location = "/login.jsp")})
 	public String listarCbxJson() {
 		try {
 			this.lstTecnico = dao.listarCbx();
@@ -116,7 +116,7 @@ public class ActionTecnico extends ActionSupport{
 	}
 	
 	@Action(value = "listarJsonByContrato", results = { @Result(name = "success", type = "json", params = { "root", "lstTecnico" }),
-			@Result(name = "error", location = "/login.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+			@Result(name = "error", location = "/pages/resultAjax.jsp")})
 	public String listarJsonByContrato() {
 		try {
 			this.lstTecnico = dao.listarCbx(contrato.getId());
@@ -128,7 +128,7 @@ public class ActionTecnico extends ActionSupport{
 	}
 	
 	@Action(value = "listarJsonResponsavel", results = { @Result(name = "success", type = "json", params = { "root", "lstTecnico" }),
-			@Result(name = "error", location = "/login.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+			@Result(name = "error", location = "/login.jsp")})
 	public String listarJsonResponsavel() {
 		try {
 			this.lstTecnico = dao.listarCbxResponsavel();
