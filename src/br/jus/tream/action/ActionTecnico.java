@@ -16,14 +16,13 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import br.jus.tream.DAO.ContratoDAOImpl;
 import br.jus.tream.DAO.EleicaoDAOImpl;
-import br.jus.tream.DAO.TecnicoContratoDAO;
 import br.jus.tream.DAO.TecnicoContratoDAOImpl;
 import br.jus.tream.DAO.TecnicoDAO;
 import br.jus.tream.DAO.TecnicoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.Contrato;
-import br.jus.tream.dominio.TecnicoContrato;
 import br.jus.tream.dominio.Tecnico;
+import br.jus.tream.dominio.TecnicoContrato;
 import br.jus.tream.dominio.pk.TecnicoContratoPK;
 
 @SuppressWarnings("serial")
