@@ -52,7 +52,7 @@ public class TecnicoContratoDAOImpl implements TecnicoContratoDAO {
 			 dt = query.getSingleResult();
 		} catch (Exception e) {
 			em.close();
-			 e.printStackTrace();
+		    // e.printStackTrace();
 		} finally {
 			em.close();
 		}
@@ -64,7 +64,7 @@ public class TecnicoContratoDAOImpl implements TecnicoContratoDAO {
 		int ret = 0;
 		try {
 			// SER HOUVER CONTRATOS ANTERIORES O ATIVO SERÁ AJUSTADO PARA ZERO
-			atualizarAtivo(distec);
+			// atualizarAtivo(distec);
 			distec.setDatacad(new Date(System.currentTimeMillis()));
 			distec.setAtivo(1);
 			ret = dao.adicionar(distec);
@@ -74,6 +74,7 @@ public class TecnicoContratoDAOImpl implements TecnicoContratoDAO {
 		return ret;
 	}
 	
+	/*
 	public int atualizarAtivo(TecnicoContrato distec) throws Exception {
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		int ret = 0;
@@ -96,9 +97,30 @@ public class TecnicoContratoDAOImpl implements TecnicoContratoDAO {
 			em.close();
 		}
 		return ret;
+	} */
+	
+	@Override
+	public int mudarCargo(TecnicoContrato distec) throws Exception{
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		int ret = 0;
+		try {
+			em.getTransaction().begin();
+			   Query query = em.createQuery("UPDATE TecnicoContrato d SET d.id.contrato.id=?1" 
+			   		                 + " WHERE d.id.tecnico.id=?2 AND d.id.eleicao.id=?3");
+			       query.setParameter(1, distec.getContrato().getId());
+				   query.setParameter(2, distec.getTecnico().getId());
+				   query.setParameter(3, distec.getEleicao().getId());
+			   query.executeUpdate();
+			 em.getTransaction().commit();
+		} catch (Exception e) {
+			em.close();
+			 e.printStackTrace();
+		} finally {
+			em.close();
+		}
+		return ret;
 	}
 	
-
 	@Override
 	public int atualizar(TecnicoContrato distec) throws Exception {
 		int ret = 0;
@@ -144,8 +166,19 @@ public class TecnicoContratoDAOImpl implements TecnicoContratoDAO {
 		*/
 		
 		
-		TecnicoContrato d = dao.getBean(289);
-		System.out.println(".................... Contrato ativo = " + d.getId().getContrato().getDescricao() + " " +d.getDatacad());
+		TecnicoContrato d = dao.getBean(1102018);
+		System.out.println("Tecnico " + d.getTecnico().getNome());
+		System.out.println("............ Contrato ativo = " + d.getContrato().getDescricao() + " " +d.getDatacad());
+		System.out.println("ContratoId " + d.getContrato().getId());
+		// TecnicoContratoPK pk = d.getId();
+		
+		// mudando contrato
+		//Contrato contrato = new Contrato();
+		//contrato.setId(20);
+		//pk.setContrato(contrato);
+		//int ret=dao.mudarCargo(d);
+		//System.out.println("Ret == " + ret);
+		
 		
 		/*
 		for (DistribuicaoTecnicoContrato dd : dao.listar(247)) {

@@ -79,13 +79,13 @@ public class TecnicoDAOImpl implements TecnicoDAO {
 		List<Tecnico> lista = new ArrayList<Tecnico>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	  
-		     TypedQuery<Tecnico> query = em.createQuery("SELECT NEW tecnico(t.id, t.nome) FROM tecnico t ORDER BY t.nome", 
+		     TypedQuery<Tecnico> query = em.createQuery("SELECT NEW Tecnico(t.id, t.nome) FROM Tecnico t ORDER BY t.nome", 
 		    		 Tecnico.class);
 			  lista = query.getResultList();
 		  }
 		  catch (Exception e) {
 			     em.close();
-				// e.printStackTrace();
+				 e.printStackTrace();
 		  }	finally {
 				em.close();
 		  }

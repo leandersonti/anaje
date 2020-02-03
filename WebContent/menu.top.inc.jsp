@@ -61,7 +61,7 @@
 	            <div class="dropdown-menu" aria-labelledby="dropdown01">
 	               <a class="dropdown-item" href="${pageContext.request.contextPath}/tecnico/listar">Consultar</a>
 	               <a class="dropdown-item" href="${pageContext.request.contextPath}/tecnico/frmCad">Cadastrar</a>
-	               <a class="dropdown-item" href="#">Mudar de cargo</a>
+	               <a class="dropdown-item" href="${pageContext.request.contextPath}/tecnico/frmSetupTrocarCargo">Mudar de cargo</a>
 	            </div>
 	       </li> 
 	          

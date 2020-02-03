@@ -48,7 +48,7 @@ public class CargoDAOImpl implements CargoDAO {
 		List<Cargo> lista = new ArrayList<Cargo>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
-			TypedQuery<Cargo> query = em.createQuery("SELECT NEW Cargo(d.id, d.dataEleicao) FROM Cargo d", Cargo.class);
+			TypedQuery<Cargo> query = em.createQuery("SELECT d FROM Cargo d ORDER BY d.descricao", Cargo.class);
 			lista = query.getResultList();
 		} catch (Exception e) {
 			em.close();
@@ -95,8 +95,8 @@ public class CargoDAOImpl implements CargoDAO {
 	public static void main(String[] args) throws Exception {
 
 		// teste para inserir Cargo [OK]
-		//CargoDAO dao = CargoDAOImpl.getInstance();
-		//Cargo cargo = new Cargo();
+		CargoDAO dao = CargoDAOImpl.getInstance();
+		
 		/*
 		 * cargo.setDescricao("teste add cargo 2"); int ret = dao.inserir(cargo);
 		 * System.out.println(ret);
@@ -114,16 +114,17 @@ public class CargoDAOImpl implements CargoDAO {
 		 */
 
 		// teste para listar cargo [OK]
-		/*
-		 * for(Cargo c : dao.listar()) { System.out.println("codigo: "+c.getId() +
-		 * " descrição: "+c.getDescricao()); }
-		 */
+		
+		  for(Cargo c : dao.listarCbx()) { 
+			  System.out.println("codigo: "+c.getId() +  " descrição: "+c.getDescricao()); 
+		  }
+		 
 
 		// teste para getBean [OK]
 		/*
 		 * cargo = dao.getBean(1);
 		 * System.out.println("descriçaõ: "+cargo.getDescricao());
 		 */
-
+		  System.out.println("Done!!!");
 	}
 }

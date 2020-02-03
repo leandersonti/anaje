@@ -16,6 +16,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import br.jus.tream.DAO.ContratoDAOImpl;
 import br.jus.tream.DAO.EleicaoDAOImpl;
+import br.jus.tream.DAO.TecnicoContratoDAO;
 import br.jus.tream.DAO.TecnicoContratoDAOImpl;
 import br.jus.tream.DAO.TecnicoDAO;
 import br.jus.tream.DAO.TecnicoDAOImpl;
@@ -34,12 +35,49 @@ public class ActionTecnico extends ActionSupport{
 	private List<Contrato> lstContrato;
 	private List<TecnicoContrato> lstDistribuicaoTecnicoContrato;
 	private Contrato contrato;
+	private TecnicoContrato tc;
 	private String DtNasc;
 	private Tecnico tecnico;
 	private Integer id = 0;	
 	private BeanResult result;	
 	private final static TecnicoDAO dao = TecnicoDAOImpl.getInstance();	
 	private final static Permissao permissao = Permissao.getInstance();
+	
+	
+	@Action(value = "frmSetupTrocarCargo", results = { @Result(name = "success", location = "/forms/frmMudarCargoTecnico.jsp"),
+			@Result(name = "error", location = "/pages/error.jsp")}, interceptorRefs = @InterceptorRef("authStack"))
+	public String frmSetupTrocarCargo() {
+		if (permissao.getAdmin()) {
+		    return "success";
+		}else {
+			addActionError(getText("permissao.negada"));
+			return "success";
+		}
+	}
+	
+	@Action(value = "mudarContrato", results = { @Result(name = "success", type = "json", params = { "root", "result" }),
+			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+	public String doMudarContrato() {
+		BeanResult b = new BeanResult();
+		try {
+			int idContrato = tc.getId().getContrato().getId();
+			TecnicoContrato tecnicoContrato = TecnicoContratoDAOImpl.getInstance().getBean(tc.getTecnico().getId());
+			Contrato c = new Contrato();
+			c.setId(idContrato);
+			tecnicoContrato.getId().setContrato(c);
+			b.setRet(TecnicoContratoDAOImpl.getInstance().mudarCargo(tecnicoContrato));
+			b.setMensagem("Mudança de contrato realizado com sucesso!");
+			b.setType("success");
+		} catch (Exception e) {
+			b.setRet(0);
+			b.setType("error");
+			b.setMensagem(getText("alterar.error"));
+			this.result = b;
+			return "error";
+		}
+		this.result = b;
+		return "success";
+	}
 	
 	@Action(value = "listar", results = { @Result(name = "success", location = "/consultas/tecnico.jsp"),
 			@Result(name = "error", location = "/result.jsp") },interceptorRefs = @InterceptorRef("authStack") 
@@ -59,6 +97,18 @@ public class ActionTecnico extends ActionSupport{
 	public String listarJson() {
 		try {
 			this.lstTecnico = dao.listar();
+		} catch (Exception e) {
+			addActionError(getText("listar.error"));
+			return "error";
+		}
+		return "success";
+	}
+	
+	@Action(value = "listarCbxJson", results = { @Result(name = "success", type = "json", params = { "root", "lstTecnico" }),
+			@Result(name = "error", location = "/login.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+	public String listarCbxJson() {
+		try {
+			this.lstTecnico = dao.listarCbx();
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";
@@ -271,6 +321,14 @@ public class ActionTecnico extends ActionSupport{
 
 	public void setResult(BeanResult result) {
 		this.result = result;
+	}
+
+	public TecnicoContrato getTc() {
+		return tc;
+	}
+
+	public void setTc(TecnicoContrato tecnicoContrato) {
+		this.tc = tecnicoContrato;
 	}
 
 	

@@ -12,6 +12,8 @@ public interface TecnicoContratoDAO {
 	public TecnicoContrato getBean(Integer idTecnico) throws Exception;
 
 	public int adicionar(TecnicoContrato distec) throws Exception;
+	
+	public int mudarCargo(TecnicoContrato distec) throws Exception;
 
 	public int atualizar(TecnicoContrato distec) throws Exception;
 

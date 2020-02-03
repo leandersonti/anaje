@@ -95,6 +95,13 @@ public class TecnicoContrato implements Serializable{
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "TecnicoContrato [tecnico (" + id.getTecnico().getId() + ") " + id.getTecnico().getNome() +  
+				", contrato (" +  id.getContrato().getId() + ") " + id.getContrato().getDescricao() + 
+				", Eleicao (" + id.getEleicao().getId() + ")" + id.getEleicao().getDataEleicao() + ", datacad=" + datacad + ", ativo=" + ativo + "]";
+	}
 			
 	
 }
