@@ -28,7 +28,7 @@ public class TecnicoDAOImpl implements TecnicoDAO {
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	  
 		     TypedQuery<Tecnico> query = em.createQuery("SELECT t FROM Tecnico t "
-		     		       + "WHERE t.id IN (SELECT tc.id.tecnico.id FROM TecnicoContrato tc WHERE tc.id.contrato.eleicao.ativo=1)", 
+		     		       + "WHERE t.id IN (SELECT tc.id.tecnico.id FROM TecnicoContrato tc WHERE tc.id.contrato.eleicao.ativo=1) ORDER BY t.nome", 
 		    		 Tecnico.class);
 			  lista = query.getResultList();
 		  }
@@ -79,7 +79,7 @@ public class TecnicoDAOImpl implements TecnicoDAO {
 		List<Tecnico> lista = new ArrayList<Tecnico>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	  
-		     TypedQuery<Tecnico> query = em.createQuery("SELECT NEW tecnico(t.id, t.nome) FROM tecnico t", 
+		     TypedQuery<Tecnico> query = em.createQuery("SELECT NEW tecnico(t.id, t.nome) FROM tecnico t ORDER BY t.nome", 
 		    		 Tecnico.class);
 			  lista = query.getResultList();
 		  }
@@ -99,7 +99,7 @@ public class TecnicoDAOImpl implements TecnicoDAO {
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	  
 		     TypedQuery<Tecnico> query = em.createQuery("SELECT NEW Tecnico(t.id,t.nome) FROM Tecnico t "
-		     		+ "WHERE t.id in(SELECT d.id.tecnico.id FROM TecnicoContrato d WHERE d.ativo = 1 AND d.id.contrato.id = ?1 AND id.eleicao.ativo = 1) ", 
+		     		+ "WHERE t.id in(SELECT d.id.tecnico.id FROM TecnicoContrato d WHERE d.ativo = 1 AND d.id.contrato.id = ?1 AND id.eleicao.ativo = 1) ORDER BY t.nome ", 
 		    		 Tecnico.class);
 		     	query.setParameter(1, contrato);
 			  lista = query.getResultList();
@@ -119,7 +119,7 @@ public class TecnicoDAOImpl implements TecnicoDAO {
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 	   try {	  
 		     TypedQuery<Tecnico> query = em.createQuery("SELECT NEW Tecnico(t.id,t.nome) FROM Tecnico t "
-		     		+ "WHERE t.id in(SELECT d.id.tecnico.id FROM TecnicoContrato d WHERE d.ativo = 1 AND d.id.contrato.sigla LIKE '%MULT%' AND id.eleicao.ativo = 1) ", 
+		     		+ "WHERE t.id in(SELECT d.id.tecnico.id FROM TecnicoContrato d WHERE d.ativo = 1 AND d.id.contrato.sigla LIKE '%MULT%' AND id.eleicao.ativo = 1) ORDER BY t.nome", 
 		    		 Tecnico.class);		     	
 			  lista = query.getResultList();
 		  }
