@@ -43,6 +43,10 @@ public class TecnicoContrato implements Serializable{
 		return id.getTecnico();
 	}
 	
+	public Eleicao getEleicao() {
+		return id.getEleicao();
+	}
+	
 	public TecnicoContratoPK getId() {
 		return id;
 	}
