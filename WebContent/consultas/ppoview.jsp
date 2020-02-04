@@ -10,7 +10,7 @@
       <form action="" class="form-inline" name="frmConsultaPonto" id="frmConsultaPonto">	
   		<strong>Protocolo Padrão Obrigatório &nbsp</strong>   
   		
-  				<select class="form-control form-control" id="ZonaMunic" name="codZonaMunic">
+  				<select class="form-control form-control" id="codZonaMunic" name="codZonaMunic">
 									<option value="0">Selecione</option>
 				</select>&nbsp
 				Téc Responsável&nbsp
@@ -23,11 +23,9 @@
 				</button>
 
          </form>
-                     
- </div>
+  </div>
   <div class="card-body">
-   
-    <table id="tabPontoTransmissao" class="table table-sm table-hover">
+    <table id="tabPpo" class="table table-sm table-hover">
 		<thead>
 			<tr>
 				<th width="5%">Zona</th>
@@ -102,41 +100,21 @@
 
 
 <jsp:include page = "/javascripts.jsp" />
+<script src="${pageContext.request.contextPath}/js/commonutils.js" charset="utf-8"></script>
 <script>
- var codZonaMunic = '${codZonaMunic}';
- var select = $('#ZonaMunic');
- select.find('option').remove();
-	$.getJSON('../elo/listarJsonZonaEleitoralCBX', 
-		function(jsonResponse) {
-			$('<option>').val(-1).text("Informe a Zona").appendTo(select);
-			$('<option>').val('9999;9999').text("Listar todos").appendTo(select);
-			$.each(jsonResponse, function(key, value) {				
-				$('<option>').val(value.id.zona + ";" + value.id.codmunic).text(
-					value.fzona + " - " + value.municipio)
-						.appendTo(select);
-			});
-			$('#ZonaMunic  option[value="'+codZonaMunic+'"]').prop("selected", true);
-		});
-	
-function CarregaTecnicoResp(){	
-  var select = $('#idTecnicoResponsavel');
-  var idTecnicoResponsavel = '${idTecnicoResponsavel}';
-  select.find('option').remove();
- 	$.getJSON('../tecnico/listarJsonResponsavel',function(jsonResponse) {
-    	  $('<option>').val(9999).text("Todos").appendTo(select);
-               $.each(jsonResponse, function(key, value) {
-               $('<option>').val(value.id).text(value.nome).appendTo(select);
-        });
-       $('#idTecnicoResponsavel  option[value="'+idTecnicoResponsavel+'"]').prop("selected", true);          
-	});
-}	
+var URLSIS = "${pageContext.request.contextPath}";	
+var idTecResponsavel = '${idTecnicoResponsavel}';
+var codZonaMunic = '${codZonaMunic}';
 
-CarregaTecnicoResp();
+	$(document).ready(function() {
+		 carregaZonaEleitoralCBX(codZonaMunic);
+		 carregarTecnicoResponsavel(idTecResponsavel);			
+		$('#tabPpo').dataTable({
+			"order" : [ [ 0, "des" ], [ 1, "des" ] ]
+		});
+	});
 </script>
 
-
 <script src="${pageContext.request.contextPath}/js/pontotransmissao.js" charset="utf-8"></script>
-
 <jsp:include page = "/consultas/ponto-transmissao-detalhes.jsp" />
-
 <jsp:include page = "/mainfooter.inc.jsp" />

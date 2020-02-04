@@ -15,16 +15,18 @@ import br.jus.tream.DAO.EncerramentoDAO;
 import br.jus.tream.DAO.EncerramentoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.Encerramento;
+import br.jus.tream.dominio.VWEncerramento;
+import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 
 @SuppressWarnings("serial")
 @Namespace("/encerramento")
 @ResultPath(value = "/")
 @ParentPackage(value = "default")
 public class ActionEncerramento extends ActionSupport{
-	private List<Encerramento> lstEncerramento;
+	private List<VWEncerramento> lstEncerramento;
 	private Encerramento encerramento;
-	private Integer zona;
-	private Integer codmunic;
+	private String codZonaMunic;
+	private Integer idTecnicoResponsavel;
 	private BeanResult result;
 	private final static EncerramentoDAO dao = EncerramentoDAOImpl.getInstance();
 	private final static Permissao permissao = Permissao.getInstance();
@@ -34,7 +36,21 @@ public class ActionEncerramento extends ActionSupport{
 	)
 	public String listar() {
 		try {
-			this.lstEncerramento = dao.listar(this.zona, this.codmunic);
+			CadZonaEleitoralPK pkze = null;
+			if (this.codZonaMunic==null) {
+				codZonaMunic = "9999;9999";
+				pkze = new CadZonaEleitoralPK(codZonaMunic);
+			}else {
+			     pkze = new CadZonaEleitoralPK(this.codZonaMunic); }
+			if (permissao.getAdmin()) {
+				if (pkze.getZona()==9999) {
+					this.lstEncerramento = dao.listar();
+				}else {
+				   this.lstEncerramento = dao.listar(pkze);
+				}
+			}else {
+				this.lstEncerramento = dao.listar(permissao.getZona());
+			}
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";
@@ -43,10 +59,11 @@ public class ActionEncerramento extends ActionSupport{
 	}
 	
 	@Action(value = "listarJson", results = { @Result(name = "success", type = "json", params = { "root", "lstEncerramento" }),
-			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+			@Result(name = "error", location = "/pages/resultAjax.jsp")})
 	public String listarJson() {
 		try {
-			this.lstEncerramento = dao.listar(this.zona, this.codmunic);
+			CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(this.codZonaMunic);
+			this.lstEncerramento = dao.listar(pkze);
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";
@@ -71,8 +88,6 @@ public class ActionEncerramento extends ActionSupport{
 		}
 		return "success";
 	}
-	
-
 	
 	@Action(value = "adicionar", results = { @Result(name = "success", type = "json", params = { "root", "result" }),
 			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
@@ -144,11 +159,11 @@ public class ActionEncerramento extends ActionSupport{
 	  return "success";
 	}
 
-	public List<Encerramento> getLstEncerramento() {
+	public List<VWEncerramento> getLstEncerramento() {
 		return lstEncerramento;
 	}
 
-	public void setLstEncerramento(List<Encerramento> lstEncerramento) {
+	public void setLstEncerramento(List<VWEncerramento> lstEncerramento) {
 		this.lstEncerramento = lstEncerramento;
 	}
 
@@ -160,20 +175,12 @@ public class ActionEncerramento extends ActionSupport{
 		this.encerramento = encerramento;
 	}
 
-	public Integer getZona() {
-		return zona;
+	public String getCodZonaMunic() {
+		return codZonaMunic;
 	}
 
-	public void setZona(Integer zona) {
-		this.zona = zona;
-	}
-
-	public Integer getCodmunic() {
-		return codmunic;
-	}
-
-	public void setCodmunic(Integer codmunic) {
-		this.codmunic = codmunic;
+	public void setCodZonaMunic(String codZonaMunic) {
+		this.codZonaMunic = codZonaMunic;
 	}
 
 	public BeanResult getResult() {
@@ -183,6 +190,13 @@ public class ActionEncerramento extends ActionSupport{
 	public void setResult(BeanResult result) {
 		this.result = result;
 	}
-	
+
+	public Integer getIdTecnicoResponsavel() {
+		return idTecnicoResponsavel;
+	}
+
+	public void setIdTecnicoResponsavel(Integer idTecnicoResponsavel) {
+		this.idTecnicoResponsavel = idTecnicoResponsavel;
+	}
 
 }

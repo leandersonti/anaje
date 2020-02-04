@@ -69,8 +69,8 @@
 	          <li class="nav-item dropdown ${monitoramento}">
 	            <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Monitoramento</a>
 	            <div class="dropdown-menu" aria-labelledby="dropdown01">
-	              <a class="dropdown-item" href="${pageContext.request.contextPath}/ppo/listarView?codZonaMunic=9999;9999&idTecnicoResponsavel=9999">PPO</a>
-	              <a class="dropdown-item" href="#">Encerramento</a>
+	              <a class="dropdown-item" href="${pageContext.request.contextPath}/ppo/listarView">PPO</a>
+	              <a class="dropdown-item" href="${pageContext.request.contextPath}/encerramento/listar">Encerramento</a>
 	              <a class="dropdown-item" href="#">Equipamentos</a>
 	              <a class="dropdown-item" href="${pageContext.request.contextPath}/ppo/frmSetupReinicializa">Reinicia PPO</a>
 	              

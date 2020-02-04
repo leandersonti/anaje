@@ -98,4 +98,9 @@ public class Encerramento implements Serializable {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "Encerramento [Ponto id=" + id.getId() + ", EleicaoID=" + id.getEleicao().getId() + ", codigo=" + codigo + ", dataCad=" + dataCad + ", status=" + status + "]";
+	}
+
 }

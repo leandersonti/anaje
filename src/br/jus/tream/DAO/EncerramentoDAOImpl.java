@@ -6,8 +6,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import br.jus.tream.dominio.Eleicao;
 import br.jus.tream.dominio.Encerramento;
+import br.jus.tream.dominio.VWEncerramento;
+import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 import br.jus.tream.dominio.pk.PontoTransmissaoPK;
 
 public class EncerramentoDAOImpl implements EncerramentoDAO {
@@ -24,39 +25,97 @@ public class EncerramentoDAOImpl implements EncerramentoDAO {
 	}
 
 	@Override
-	public Encerramento getBean(PontoTransmissaoPK id) throws Exception {
-		Encerramento encerramento = new Encerramento();
+	public VWEncerramento getBean(PontoTransmissaoPK id) throws Exception {
+		VWEncerramento encerramento = new VWEncerramento();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
-			TypedQuery<Encerramento> query = em.createQuery("SELECT e FROM Encerramento e WHERE e.id.eleicao.ativo=1 "
-					+ "AND e.id.id=?1 AND e.id.eleicao.id=?2", Encerramento.class);
-			 query.setParameter(1, id.getId());
-			 query.setParameter(2, id.getIdEleicao());
-			 encerramento = query.getSingleResult();
+			TypedQuery<VWEncerramento> query = em.createQuery("SELECT e FROM VWEncerramento e WHERE e.id.idus=?1 "
+					+ "AND e.id.idEleicao=?2", VWEncerramento.class);
+			query.setParameter(1, id.getId());
+			query.setParameter(2, id.getIdEleicao());
+			encerramento = query.getSingleResult();
 		} catch (Exception e) {
 			em.close();
-			 e.printStackTrace();
+			e.printStackTrace();
 		} finally {
 			em.close();
 		}
-		
+
 		return encerramento;
 	}
 
 	@Override
-	public List<Encerramento> listar(int zona,int codmunic) throws Exception {
-		List<Encerramento> lista = new ArrayList<Encerramento>();
+	public List<VWEncerramento> listarPorZona(Integer zona) throws Exception{
+		List<VWEncerramento> lista = new ArrayList<VWEncerramento>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
-			TypedQuery<Encerramento> query = em.createQuery("SELECT e FROM Encerramento e WHERE e.id.eleicao.ativo=1 "
-					+ "AND e.id.id IN (SELECT us.id.id FROM PontoTransmissao us "
-					+ " WHERE us.zona=?1 AND us.codmunic=?2 AND us.id.eleicao.ativo=1)",Encerramento.class);
-			 query.setParameter(1, zona);
-			 query.setParameter(2, codmunic);
+			TypedQuery<VWEncerramento> query = em.createQuery("SELECT e FROM VWEncerramento e WHERE e.zona=?1 ORDER BY e.nome", 
+					             VWEncerramento.class);
+			query.setParameter(1, zona);
 			lista = query.getResultList();
 		} catch (Exception e) {
 			em.close();
-			 e.printStackTrace();
+			e.printStackTrace();
+		} finally {
+			em.close();
+		}
+		return lista;
+	}
+	
+	@Override
+	public List<VWEncerramento> listar(CadZonaEleitoralPK pkze) throws Exception {
+		List<VWEncerramento> lista = new ArrayList<VWEncerramento>();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		try {
+			TypedQuery<VWEncerramento> query = em.createQuery("SELECT e FROM VWEncerramento e WHERE e.zona=?1 AND e.codmunic=?2 ORDER BY e.nome", 
+					             VWEncerramento.class);
+			query.setParameter(1, pkze.getZona());
+			query.setParameter(2, pkze.getCodmunic());
+			lista = query.getResultList();
+		} catch (Exception e) {
+			em.close();
+			e.printStackTrace();
+		} finally {
+			em.close();
+		}
+		return lista;
+	}
+	
+	@Override	
+	public List<VWEncerramento> listar(int tecnicoResponsavel) throws Exception {
+		List<VWEncerramento> lista = new ArrayList<VWEncerramento>();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		try {
+			TypedQuery<VWEncerramento> query = em.createQuery("SELECT e FROM VWEncerramento e WHERE e.idTecnicoResp=?1 ORDER BY e.nome", 
+					 VWEncerramento.class);
+			query.setParameter(1, tecnicoResponsavel);
+			lista = query.getResultList();
+		} catch (Exception e) {
+			em.close();
+			e.printStackTrace();
+		} finally {
+			em.close();
+		}
+		return lista;
+	}
+	
+
+	@Override
+	public List<VWEncerramento> listar() throws Exception {
+		List<VWEncerramento> lista = new ArrayList<VWEncerramento>();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		try {
+			TypedQuery<VWEncerramento> query = em.createQuery("SELECT e FROM VWEncerramento e ORDER BY e.zona, e.codmunic, e.nome",
+					VWEncerramento.class);
+			// + " AND e.id.id IN (SELECT us.id.id FROM PontoTransmissao us "
+			// + " WHERE us.zona=?1 AND us.codmunic=?2 AND
+			// us.id.eleicao.ativo=1)",Encerramento.class);
+			// query.setParameter(1, zona);
+			// query.setParameter(2, codmunic);
+			lista = query.getResultList();
+		} catch (Exception e) {
+			em.close();
+			e.printStackTrace();
 		} finally {
 			em.close();
 		}
@@ -67,7 +126,7 @@ public class EncerramentoDAOImpl implements EncerramentoDAO {
 	public int adicionar(Encerramento encerramento) throws Exception {
 		int ret = 0;
 		try {
-			encerramento.setCodigo(dao.gerarCodigoAlpha()); 
+			encerramento.setCodigo(dao.gerarCodigoAlpha());
 			ret = dao.adicionar(encerramento);
 		} catch (Exception e) {
 			// e.printStackTrace();
@@ -98,23 +157,23 @@ public class EncerramentoDAOImpl implements EncerramentoDAO {
 	}
 
 	public static void main(String[] args) throws Exception {
-		Encerramento e = new Encerramento();
+
 		EncerramentoDAO dao = EncerramentoDAOImpl.getInstance();
-		Eleicao eleicao = new Eleicao();
-		eleicao.setId(12019);
-		PontoTransmissaoPK pk = new PontoTransmissaoPK();
-		pk.setId(842020);
-		pk.setEleicao(eleicao);
-		e = dao.getBean(pk);
-		System.out.println("Encerramento " + e.getId().getId() + " " + e.getCodigo());
+		 /*
+		  VWEncerramento e = new VWEncerramento(); 
+		  Eleicao eleicao = new Eleicao();
+		  eleicao.setId(12019); 
+		  PontoTransmissaoPK pk = new PontoTransmissaoPK();
+		  pk.setId(2412020); pk.setEleicao(eleicao); 
+		  e = dao.getBean(pk);
+		  System.out.println("Encerramento " + e.toString());
+		 */
 		
-		
-		
-		/*
-		for(Encerramento e:dao.listar(33, 2038)) {
-			System.out.println("Status===" + e.getStatus());
-		}
-		*/
+		 
+		  for(VWEncerramento e: dao.listarPorZona(60)) { 
+			  System.out.println("Status===" +  e.toString()); 
+		  }
+		 
 
 	}
 }

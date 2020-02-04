@@ -49,8 +49,14 @@ public class ActionPpo extends ActionSupport {
 	)
 	public String listarView() {
 		try {
-			CadZonaEleitoralPK pkzona = new CadZonaEleitoralPK(codZonaMunic);
-			this.lstVWPpo = dao.listarView(pkzona, idTecnicoResponsavel);
+			CadZonaEleitoralPK pkze = null;
+			if (this.codZonaMunic==null) {
+				pkze = new CadZonaEleitoralPK("9999;99999");
+				idTecnicoResponsavel = 9999;
+			}else {
+			     pkze = new CadZonaEleitoralPK(this.codZonaMunic); }
+			//CadZonaEleitoralPK pkzona = new CadZonaEleitoralPK(codZonaMunic);
+			this.lstVWPpo = dao.listarView(pkze, idTecnicoResponsavel);
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";

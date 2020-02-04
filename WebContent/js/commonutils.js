@@ -1,6 +1,6 @@
 
 // CARREGAR ZONA ELEIRORAL COMBOX
-function carregaZonaEleitoralCBX(){
+function carregaZonaEleitoralCBX(codZonaMunic){
 	var select = $('#codZonaMunic');
 	select.find('option').remove();
 	$.getJSON(URLSIS + '/elo/listarJsonZonaEleitoralCBX', 
@@ -12,6 +12,8 @@ function carregaZonaEleitoralCBX(){
 					value.fzona + " - " + value.municipio)
 					.appendTo(select);
 			});
+	}).done(function( data ) {
+		$('#codZonaMunic  option[value="'+codZonaMunic+'"]').prop("selected", true);
 	}); 	
 }
 
@@ -31,6 +33,20 @@ function carregarPontoTransmissao(){
     }else{
    	 $('<option>').val(-1).text("Informe o Ponto de Transmissao").appendTo(cbxpt);
     }
+}
+
+//CARREGAR TECNICOS RESPONSÁVEIS
+function carregarTecnicoResponsavel(idTecResponsavel){	
+  var select = $('#idTecnicoResponsavel');
+  select.find('option').remove();
+	 	$.getJSON('../tecnico/listarJsonResponsavel',function(jsonResponse) {
+	    	  $('<option>').val(9999).text("Todos").appendTo(select);
+	               $.each(jsonResponse, function(key, value) {
+	               $('<option>').val(value.id).text(value.nome).appendTo(select);
+	        });
+		}).done(function( data ) {
+			$('#idTecnicoResponsavel  option[value="'+idTecResponsavel+'"]').prop("selected", true);
+		});
 }
 
 //CARREGAR PONTOS NÃO OFICIALIZADOS
