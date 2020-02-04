@@ -20,6 +20,8 @@ public interface EncerramentoDAO {
 	public VWEncerramento getBean(PontoTransmissaoPK id) throws Exception;
 
 	public int adicionar(Encerramento encerramento) throws Exception;
+	
+	public int reinicializar(CadZonaEleitoralPK pkzona, PontoTransmissaoPK ponto) throws Exception;
 
 	public int atualizar(Encerramento encerramento) throws Exception;
 

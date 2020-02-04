@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureQuery;
 import javax.persistence.TypedQuery;
 
 import br.jus.tream.dominio.Encerramento;
@@ -99,7 +101,30 @@ public class EncerramentoDAOImpl implements EncerramentoDAO {
 		return lista;
 	}
 	
-
+	@Override
+	public int reinicializar(CadZonaEleitoralPK pkzona, PontoTransmissaoPK ponto) throws Exception{
+		int ret = 0;
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		try {
+			StoredProcedureQuery query = em
+				    .createStoredProcedureQuery("reinicializar_encerramento")
+				    .registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN)
+				    .registerStoredProcedureParameter(2, Integer.class, ParameterMode.IN)
+				    .registerStoredProcedureParameter(3, Integer.class, ParameterMode.IN)
+				    .registerStoredProcedureParameter(4, Integer.class, ParameterMode.OUT)
+				    .setParameter(1, pkzona.getZona())
+				    .setParameter(2, pkzona.getCodmunic())
+				    .setParameter(3, ponto.getId());
+			query.execute();
+			ret = (int) query.getOutputParameterValue(4);
+		} catch (Exception e) {
+			em.close();
+		} finally {
+			em.close();
+		}
+		return ret;
+	}
+	
 	@Override
 	public List<VWEncerramento> listar() throws Exception {
 		List<VWEncerramento> lista = new ArrayList<VWEncerramento>();
