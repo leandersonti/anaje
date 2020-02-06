@@ -80,12 +80,25 @@ public class PpoDAOImpl implements PpoDAO {
 		}
 		return lista;
 	}
+	public List<VWPpo> listarView(int zona) throws Exception{
+		List<VWPpo> lista = new ArrayList<VWPpo>();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		try {
+			TypedQuery<VWPpo> query = em.createQuery("SELECT p FROM VWPpo p WHERE p.zona=?1 ORDER BY p.nome", VWPpo.class);
+			lista = query.setParameter(1, zona).getResultList();					
+		} catch (Exception e) {
+			em.close();
+			// e.printStackTrace();
+		} finally {
+			em.close();
+		}
+		return lista;		
+	}
 	
 	public List<VWPpo> listarView(CadZonaEleitoralPK pkzona, int idTecResponsavel) throws Exception{
-		{
-			List<VWPpo> lista = new ArrayList<VWPpo>();
-			EntityManager em = EntityManagerProvider.getInstance().createManager();
-			TypedQuery<VWPpo> query = null;
+		List<VWPpo> lista = new ArrayList<VWPpo>();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		TypedQuery<VWPpo> query = null;
 			try {
 				if (pkzona.getZona()==9999 && idTecResponsavel==9999) {
 					query = em.createQuery("SELECT p FROM VWPpo p ORDER BY p.zona, p.codmunic, p.nome", VWPpo.class);	
@@ -114,7 +127,6 @@ public class PpoDAOImpl implements PpoDAO {
 				em.close();
 			}
 			return lista;
-		}
 	}
 	
 	@Override
@@ -228,7 +240,7 @@ public class PpoDAOImpl implements PpoDAO {
 		//DistribuicaoTecnico tec = DistribuicaoTecnicoDAOImpl.getInstance().getBean("037443852224");
 		//System.out.println(tec.getId().getTecnico().getNome());
 		
-		
+		/*
 		Ppo p = new Ppo();
 		Tecnico tec = new Tecnico();
 		tec.setId(1312018);		
@@ -246,7 +258,7 @@ public class PpoDAOImpl implements PpoDAO {
 		
 		int ret = dao.adicionar(p);
 		System.out.println("Retorno ..... " + ret);
-		
+		*/
 		
 		/*
 		Ppo p = new Ppo();
@@ -256,11 +268,11 @@ public class PpoDAOImpl implements PpoDAO {
 		System.out.println("Ret " + ret);
 		*/
 		
-		/*
-		for(Ppo ppo: dao.listar("037443852224")) {
-			System.out.println(ppo.getPpoTipo().getDescricao() + " "  + ppo.getTecnico().getNome() + " resp:" + ppo.getTecnicoResp().getNome() );
+		
+		for(VWPpo ppo: dao.listarView(60)) {
+			System.out.println( ppo.toString());
 		}
-		*/
+		
 		
 		/*
 		CadZonaEleitoralPK pkzona = new CadZonaEleitoralPK("9999;2895");

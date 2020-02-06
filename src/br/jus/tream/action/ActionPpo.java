@@ -30,13 +30,14 @@ public class ActionPpo extends ActionSupport {
 	private List<Ppo> lstPpo;
 	private List<VWPpo> lstVWPpo;
 	private Ppo ppo;
-	private String codZonaMunic;
+	private String codZonaMunic = "9999;9999";
 	private PontoTransmissaoPK pkPonto = new PontoTransmissaoPK();
 	private BeanResult result;
 	private String tituloEleitor;
-	private Integer idTecnicoResponsavel;
+	private Integer idTecnicoResponsavel = 9999;
 	private Integer id;
 	private final static PpoDAO dao = PpoDAOImpl.getInstance();
+	private final static Permissao permissao = Permissao.getInstance();
 	
 	@Action(value = "frmSetupReinicializa", results = { @Result(name = "success", location = "/forms/frmReinicializarPPO.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
@@ -49,14 +50,21 @@ public class ActionPpo extends ActionSupport {
 	)
 	public String listarView() {
 		try {
-			CadZonaEleitoralPK pkze = null;
-			if (this.codZonaMunic==null) {
-				pkze = new CadZonaEleitoralPK("9999;99999");
-				idTecnicoResponsavel = 9999;
+			CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(this.codZonaMunic);
+			
+			System.out.println("zona " + pkze.getZona() + "/" + pkze.getCodmunic() + " TecResp="+ idTecnicoResponsavel );
+			
+			if (permissao.getAdmin()) {			
+				this.lstVWPpo = dao.listarView(pkze, idTecnicoResponsavel);
 			}else {
-			     pkze = new CadZonaEleitoralPK(this.codZonaMunic); }
-			//CadZonaEleitoralPK pkzona = new CadZonaEleitoralPK(codZonaMunic);
-			this.lstVWPpo = dao.listarView(pkze, idTecnicoResponsavel);
+				if (pkze.getZona()==9999 && idTecnicoResponsavel==9999) {
+					this.lstVWPpo = dao.listarView(permissao.getZona());
+					System.out.println("Cheguei aqui!! ZE=" + pkze.getZona()  );
+				}	
+				else	
+				    this.lstVWPpo = dao.listarView(pkze, idTecnicoResponsavel);			
+			}
+			
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";

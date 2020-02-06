@@ -27,7 +27,7 @@ $(document).ready(function() {
 			printElement(document.getElementById("printThis"));		
     });
 
-	$( "[id*='detalhePontoTrans']" ).click(function(event) {
+$( "[id*='detalhePontoTrans']" ).click(function(event) {
 		var data = $(event.delegateTarget).data();	
 		var id = data.recordId;
 		var path = "${pageContext.request.contextPath}";	
@@ -42,4 +42,21 @@ $(document).ready(function() {
 	   $('#modalPontoTrans').modal('show');
 	});
 });
+
+// função para tabelas criadas dinamicamente
+// como usar:
+// <a href="#" onclick="showDetalhePontoTransmissao(this)" id="btnfoto122" class="btn btn-sm btn-danger" role="button" data-record-id="122">1040 Escola Catuaba</a>
+showDetalhePontoTransmissao = function(handler) {
+    var id = handler.getAttribute("data-record-id");
+    var path = "${pageContext.request.contextPath}";	
+	var URL = path+'/pontotrans/getBeanFull?id.id=' + id;
+    $.ajax({
+        type: "POST",
+        url: URL,
+        success: function (result) {     
+        	$('#result').html(result);
+        }
+    });
+    $('#modalPontoTrans').modal('show');
+  };
 </script>

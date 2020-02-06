@@ -7,7 +7,7 @@
 	<div class="card">
 
 		<div class="card-header">
-			<form action="listar" class="form-inline" name="frmConsultaPontoEncerrado" id="frmConsultaPontoEncerrado">	
+			<form action="listar" class="form-inline" name="frmConsultaPontoEncerrado" id="frmConsultaPontoEncerrado" method="post">	
 	  		<strong>Encerramento &nbsp</strong>   
 	  				<select class="form-control form-control" id="codZonaMunic" name="codZonaMunic">
 							<option value="0">Selecione</option>

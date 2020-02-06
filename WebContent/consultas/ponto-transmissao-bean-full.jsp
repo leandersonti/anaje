@@ -12,9 +12,12 @@
 			  ZE: ${pontoTransmissao.zona}	  		 				    			    			
 		</div>
 		<div class="col-md-8 mb-12">
-		   <label>
-		  	 Local: ${pontoTransmissao.codLocal} - ${pontoTransmissao.descricao}<br>		  
-			 Endereço: ${pontoTransmissao.endereco}</label>
+		   <p><small>Local: ${pontoTransmissao.codLocal} - ${pontoTransmissao.descricao}</small>
+		   <br>
+		      <small>Endereço: ${pontoTransmissao.endereco}</small></p>
+		   <!-- <label>
+		  	 <br>		  
+			 </label>  -->
 		</div>
 		</div>		
 	 	<table class="table table-hover table-sm">
@@ -31,11 +34,11 @@
 						<td><s:property value="nomeLocal" />						
 							<br/>								
 							<s:iterator value="secoesDistribuidas">																
-								<s:if test="%{dttotalizacao == null}" >		
-									[ ]									 
+								<s:if test="%{dataRecebimento == null}" >		
+									<i class="fa fa-square-o" aria-hidden="true"></i>									 
 								</s:if>	
 								<s:else>						
-									[x]									
+									<i class="fa fa-check-square-o" aria-hidden="true" style="color:green"></i>									
 								</s:else>
 									<s:property value="secao" />							
 							</s:iterator>	

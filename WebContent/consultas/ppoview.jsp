@@ -7,7 +7,7 @@
  <div class="container-fluid">   
  <div class="card">
   <div class="card-header">  
-      <form action="" class="form-inline" name="frmConsultaPonto" id="frmConsultaPonto">	
+      <form action="" class="form-inline" name="frmConsultaPpo" id="frmConsultaPpo">	
   		<strong>Protocolo Padrão Obrigatório &nbsp</strong>   
   		
   				<select class="form-control form-control" id="codZonaMunic" name="codZonaMunic">
@@ -18,7 +18,7 @@
 						<option value="9999">Todos</option>
 				</select>&nbsp
 									
-				<button class="btn btn-sm btn-primary" id="btnConsultar" type="submit"><i class="fa fa-search" aria-hidden="true"></i> 
+				<button class="btn btn-sm btn-primary" id="btnConsultar" type="button"><i class="fa fa-search" aria-hidden="true"></i> 
 				      Consultar
 				</button>
 
@@ -111,6 +111,16 @@ var codZonaMunic = '${codZonaMunic}';
 		 carregarTecnicoResponsavel(idTecResponsavel);			
 		$('#tabPpo').dataTable({
 			"order" : [ [ 0, "des" ], [ 1, "des" ] ]
+		});
+		
+		$("#btnConsultar").click(function() {
+			if ($("#codZonaMunic").val()==0){
+				swal("Ops!", "Informe a Zona Eleitoral", "error");
+			}else{
+				$("#frmConsultaPpo").submit();
+			}
+			//$("#frmConsultaPontoEncerrado").attr('action', 'listarNaoEncerradas');
+			// carregarNaoEncerradas();
 		});
 	});
 </script>

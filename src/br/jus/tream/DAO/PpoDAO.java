@@ -14,6 +14,8 @@ public interface PpoDAO {
 	
 	public List<Ppo> listar() throws Exception; // lista os ppo da eleição ativa
 		
+	public List<VWPpo> listarView(int pkzona) throws Exception;
+	
 	public List<VWPpo> listarView(CadZonaEleitoralPK pkzona, int idTecResponsavel) throws Exception;
 		
 	public List<Ppo> listar(Integer idTecnicoResponsavel) throws Exception;
