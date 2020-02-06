@@ -305,9 +305,14 @@ public class Tecnico implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
-	
 
+	@Override
+	public String toString() {
+		return "Tecnico [id=" + id + ", tituloEleitor=" + tituloEleitor + ", zona=" + zona + ", secao=" + secao
+				+ ", nome=" + nome + ", dataNasc=" + dataNasc + ", telefone=" + telefone + ", celular=" + celular
+				+ ", endereco=" + endereco + ", numCasa=" + numCasa + ", bairro=" + bairro + ", cep=" + cep
+				+ ", cidade=" + cidade + ", uf=" + uf + ", sexo=" + sexo + ", email=" + email + ", rg=" + rg
+				+ ", orgaoRg=" + orgaoRg + ", cpf=" + cpf + ", dataCad=" + dataCad + "]";
+	}
 	
 }

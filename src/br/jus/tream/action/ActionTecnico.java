@@ -50,7 +50,7 @@ public class ActionTecnico extends ActionSupport{
 		    return "success";
 		}else {
 			addActionError(getText("permissao.negada"));
-			return "success";
+			return "error";
 		}
 	}
 	
@@ -60,13 +60,18 @@ public class ActionTecnico extends ActionSupport{
 		BeanResult b = new BeanResult();
 		try {
 			int idContrato = tc.getId().getContrato().getId();
-			TecnicoContrato tecnicoContrato = TecnicoContratoDAOImpl.getInstance().getBean(tc.getTecnico().getId());
-			Contrato c = new Contrato();
-			c.setId(idContrato);
-			tecnicoContrato.getId().setContrato(c);
-			b.setRet(TecnicoContratoDAOImpl.getInstance().mudarCargo(tecnicoContrato));
-			b.setMensagem("Mudança de contrato realizado com sucesso!");
-			b.setType("success");
+			if (permissao.getAdmin()) {
+				TecnicoContrato tecnicoContrato = TecnicoContratoDAOImpl.getInstance().getBean(tc.getTecnico().getId());
+				Contrato c = new Contrato();
+				c.setId(idContrato);
+				tecnicoContrato.getId().setContrato(c);
+				b.setRet(TecnicoContratoDAOImpl.getInstance().mudarCargo(tecnicoContrato));
+				b.setMensagem("Mudança de contrato realizado com sucesso!");
+				b.setType("success");
+			}else {
+				addActionError(getText("permissao.negada"));
+				return "error";
+			}			
 		} catch (Exception e) {
 			b.setRet(0);
 			b.setType("error");
@@ -74,13 +79,12 @@ public class ActionTecnico extends ActionSupport{
 			this.result = b;
 			return "error";
 		}
-		this.result = b;
+		  this.result = b;
 		return "success";
 	}
 	
 	@Action(value = "listar", results = { @Result(name = "success", location = "/consultas/tecnico.jsp"),
-			@Result(name = "error", location = "/result.jsp") },interceptorRefs = @InterceptorRef("authStack") 
-	)
+			@Result(name = "error", location = "/result.jsp") },interceptorRefs = @InterceptorRef("authStack"))
 	public String listar() {
 		try {
 			this.lstTecnico = dao.listar();
@@ -139,7 +143,6 @@ public class ActionTecnico extends ActionSupport{
 		return "success";
 	}
 	
-	
 	@Action(value = "getBeanJson", results = { @Result(name = "success", type = "json", params = { "root", "tecnico" }),
 			@Result(name = "error", location = "/login.jsp")})
 	public String getBeanJson() {
@@ -156,15 +159,18 @@ public class ActionTecnico extends ActionSupport{
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String frmCadTecnico() {
 		try {
-			this.lstContrato = ContratoDAOImpl.getInstance().listar();
+			if (permissao.getAdmin()) {
+				this.lstContrato = ContratoDAOImpl.getInstance().listar();
+			    return "success";
+			}else {
+				addActionError(getText("permissao.negada"));
+				return "error";
+			}
 		} catch (Exception e) {
 			addActionError(getText("frmsetup.error"));
 			return "error";
 		}
-		return "success";
 	}
-	
-	
 	
 	@Action(value = "frmEditar", results = { @Result(name = "success", location = "/forms/frmTecnico.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
@@ -179,7 +185,6 @@ public class ActionTecnico extends ActionSupport{
 		return "success";
 	}
 
-	
 	@Action(value = "adicionar", results = { @Result(name = "success", type = "json", params = { "root", "result" }),
 			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String doAdicionar() throws ParseException {
@@ -219,26 +224,32 @@ public class ActionTecnico extends ActionSupport{
 		return "success";
 	}
 	
-	
 	@Action(value = "atualizar", results = { @Result(name = "success", type = "json", params = { "root", "result" }),
 			@Result(name = "error", location = "/pages/resultAjax.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
 	public String doAtualizar() throws ParseException {
 		BeanResult beanResult = new BeanResult();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Date datanasc = sdf.parse(DtNasc);
+		beanResult.setRet(0);
 		try {
-			tecnico.setDataNasc(datanasc);		
-			beanResult.setRet(dao.atualizar(this.tecnico));
-			if (beanResult.getRet()==1) {
-				beanResult.setMensagem(getText("alterar.sucesso"));
+			if (permissao.getAdmin()) {
+				tecnico.setDataNasc(datanasc);		
+				beanResult.setRet(dao.atualizar(this.tecnico));
+				if (beanResult.getRet()==1) {
+					beanResult.setMensagem(getText("alterar.sucesso"));
+				}else {
+					beanResult.setMensagem(getText("alterar.error")); 
+				}
+				
 			}else {
-				beanResult.setMensagem(getText("alterar.error")); 
+				 beanResult.setMensagem(getText("permissao.negada"));
+				this.result = beanResult;
 			}
-		} catch (Exception e) {
-			addActionError(getText("alterar.error") + " Error: " + e.getMessage());
+		}catch (Exception e) {
+			 addActionError(getText("alterar.error") + " Error: " + e.getMessage());
 			return "error";
 		}
-		 this.result = beanResult;
+		  this.result = beanResult;
 		return "success";
 	}
 	

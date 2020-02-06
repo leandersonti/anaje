@@ -63,17 +63,21 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-   $('#codZonaMunic').change(function(event) {	
+	$( "#idequipamento").select2({
+	    theme: "bootstrap4"
+	});
+	
+	 $('#codZonaMunic').change(function(event) {	
 		  CarregaPontoTransmissao();				     
 	 });
 		    
 	 $('#tipoEquipamento').change(function(event) {	
-			  CarregaEquipamento();			     
+		  CarregaEquipamento();			     
 	 });
 	 
 	 $('#us').change(function(event) {	
 		  CarregaEquipamentosDistribuidos();			     
-});
+     });
 
 	 $("#btnSave").click(function() {
 		if (verificaDados()){

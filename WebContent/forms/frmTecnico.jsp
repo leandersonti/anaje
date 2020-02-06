@@ -21,8 +21,10 @@
 									name="contrato.id"  id="codZonaMunic" theme="simple"
 									cssClass="form-control" />  
 						</div>					
-						<div class="col-md-3 mb-3"></div>
-						<div class="col-md-3 mb-3"></div>
+						<div class="col-md-6 mb-3">
+							<label for="email">E-mail:</label> 
+						    <input type="text" class="form-control" id="descricao" name="tecnico.email"	placeholder="E-mail" value="${tecnico.email}">
+						</div>
 					</div>
 				</s:else>
 				
@@ -84,31 +86,31 @@
 				
 				
 				<div class="form-row">
-					<div class="col-md-3 mb-3">
+					<div class="col-md-4 mb-3">
 						<label for="rg">Título:</label> 
 						<input type="text" class="form-control" id="titulo" name="tecnico.tituloEleitor" placeholder="titulo" value="${tecnico.tituloEleitor}">
 					</div>
 					
-					<div class="col-md-3 mb-3">
+					<div class="col-md-4 mb-3">
 						<label for="cpf">Zona:</label> 
 						<input type="text" class="form-control" id="zona" name="tecnico.zona"	placeholder="Informe a zona" value="${tecnico.zona}">
 					</div>
-					<div class="col-md-3 mb-3">
+					<div class="col-md-4 mb-3">
 						<label for="secao">Seção:</label> 
 						<input type="text" class="form-control" id="secao" name="tecnico.secao" placeholder="Seção" value="${tecnico.secao}">
 					</div>					
 				</div>
 				
 				<div class="form-row">
-					<div class="col-md-3 mb-3">
+					<div class="col-md-4 mb-3">
 						<label for="rg">Rg:</label> 
 						<input type="text" class="form-control" id="rg" name="tecnico.rg" placeholder="Rg" value="${tecnico.rg}">
 					</div>
-					<div class="col-md-3 mb-3">
+					<div class="col-md-4 mb-3">
 						<label for="orgaoRg">Orgão Expedidor:</label> 
 						<input type="text" class="form-control" id="orgaoRg" name="tecnico.orgaoRg" placeholder="Orgão Expedidor" value="${tecnico.orgaoRg}">
 					</div>
-					<div class="col-md-3 mb-3">
+					<div class="col-md-4 mb-3">
 						<label for="cpf">Cpf:</label> 
 						<input type="text" class="form-control" id="cpf" name="tecnico.cpf"	placeholder="Informe o cpf" value="${tecnico.cpf}">
 					</div>
@@ -126,13 +128,9 @@
 				</div>
 				
 				<div class="form-row">
-					<label for="email">E-mail:</label> 
-					<input type="text" class="form-control" id="descricao" name="tecnico.email"	placeholder="E-mail" value="${tecnico.email}">
-					
-				</div>
-				<br>		
-				<br>
-				<button class="btn btn-primary" id="btnSave" type="button">Enviar</button>
+						<label for="btnSave"></label> 
+						<button class="btn btn-primary" id="btnSave" type="button">Enviar</button>					
+				</div>				
 			</form>
 		</div>
 	</div>
@@ -149,31 +147,31 @@ $(document).ready(function() {
 		if ( $('#id').length ) { URL = "atualizar"; }
 		else{ URL = "adicionar";  }	
 		if (verificaDados()){
-			 Swal.fire({
+			 swal({
 		         title: "Confirma ?",
 		         text: "Confirma " + URL + "?",
-		         type: 'warning',
-		         showCancelButton: true,
-				  confirmButtonText: 'Incluir'
+		         icon: "warning",
+	 	         buttons: [true, "Sim"]
 		         }).then((result) => {
-					if (result.value) { 
-						var frm = $("#form1").serialize();						
+					if (result) { 
+						var frm = $("#form1").serialize();
+						console.log(frm);
 						$.getJSON({
 							url: URL,
 							data: frm
 					    }).done(function( data ) {
 					    	console.log(data);
 					    	if(data.ret==1)
-					    		Swal.fire(URL, data.mensagem, "success");
+					    		swal(URL, data.mensagem, "success");
 					    	else 
-					    		Swal.fire(URL, data.mensagem, "error");
+					    		swal(URL, data.mensagem, "error");
 						}).fail(function() {
-								Swal.fire("Adicionar", "Ocorreu um erro ao incluir", "error");
+								swal("Adicionar", "Ocorreu um erro ao incluir", "error");
 						});
 				      } 
 			   }); // -- FIM SWAL --
 		   }else{
-			   Swal.fire("Dados", "Verifique os campos obrigatórios ", "error");
+			   swal("Dados", "Verifique os campos obrigatórios ", "error");
 		   }
 	 	}); // -- FIM btnSave --
 	 
@@ -196,11 +194,3 @@ $(document).ready(function() {
 </script>
 	
 <jsp:include page="/mainfooter.inc.jsp" />
-
-
-
-
-
-
-
-
