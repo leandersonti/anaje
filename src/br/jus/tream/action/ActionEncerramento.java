@@ -40,7 +40,6 @@ public class ActionEncerramento extends ActionSupport{
 	public String listar() {
 		try {
 			CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
-			System.out.println("zona " + pkze.getZona() + "/" + pkze.getCodmunic() + " TecResp="+ tecResponsavel.getId() + " estado: " + estadoRecebimento);
 			if (pkze.getZona()==9999 && tecResponsavel.getId()==9999) {
 				if (permissao.getAdmin()) {
 					this.lstEncerramento = dao.listar(estadoRecebimento);	
