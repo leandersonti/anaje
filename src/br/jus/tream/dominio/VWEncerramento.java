@@ -127,7 +127,7 @@ public class VWEncerramento implements Serializable{
 
 	@Override
 	public String toString() {
-		return "VWPpo [idUS =" + id.getIdus() + ", idEleicao=" + id.getIdEleicao() + ", idTecnicoResp=" + idTecnicoResp + ","  
+		return "VWPpo [idUS =" + id.getIdus() + ", idEleicao=" + id.getIdEleicao() + ", idTecnicoResp=" + idTecnicoResp  
 				+ ", pontoTransmissao=" + pontoTransmissao + ", status=" + status + ", dataEleicao=" + dataCad + ",  nome=" + nome + ", zona="
 				+ zona + ", codmunic=" + codmunic + "]";
 	}

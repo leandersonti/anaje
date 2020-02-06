@@ -9,6 +9,7 @@ import javax.persistence.StoredProcedureQuery;
 import javax.persistence.TypedQuery;
 
 import br.jus.tream.dominio.Encerramento;
+import br.jus.tream.dominio.Tecnico;
 import br.jus.tream.dominio.VWEncerramento;
 import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 import br.jus.tream.dominio.pk.PontoTransmissaoPK;
@@ -45,14 +46,31 @@ public class EncerramentoDAOImpl implements EncerramentoDAO {
 
 		return encerramento;
 	}
-
+	
 	@Override
-	public List<VWEncerramento> listarPorZona(Integer zona) throws Exception{
+	public List<VWEncerramento> listar() throws Exception{
 		List<VWEncerramento> lista = new ArrayList<VWEncerramento>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
-			TypedQuery<VWEncerramento> query = em.createQuery("SELECT e FROM VWEncerramento e WHERE e.zona=?1 ORDER BY e.nome", 
+			TypedQuery<VWEncerramento> query = em.createQuery("SELECT e FROM VWEncerramento e ORDER BY e.zona, e.codmunic, e.nome", 
 					             VWEncerramento.class);
+			lista = query.getResultList();
+		} catch (Exception e) {
+			em.close();
+			e.printStackTrace();
+		} finally {
+			em.close();
+		}
+		return lista;
+	}
+	
+	@Override
+	public List<VWEncerramento> listar(Integer zona, String estadoRecebimento) throws Exception{
+		List<VWEncerramento> lista = new ArrayList<VWEncerramento>();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		try {
+			TypedQuery<VWEncerramento> query = em.createQuery("SELECT e FROM VWEncerramento e WHERE e.dataCad "
+						                   + estadoRecebimento + " AND e.zona=?1 ORDER BY e.nome", VWEncerramento.class);
 			query.setParameter(1, zona);
 			lista = query.getResultList();
 		} catch (Exception e) {
@@ -65,14 +83,40 @@ public class EncerramentoDAOImpl implements EncerramentoDAO {
 	}
 	
 	@Override
-	public List<VWEncerramento> listar(CadZonaEleitoralPK pkze) throws Exception {
+	public List<VWEncerramento> listar(CadZonaEleitoralPK pkze, String estadoRecebimento) throws Exception {
+		
 		List<VWEncerramento> lista = new ArrayList<VWEncerramento>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
-			TypedQuery<VWEncerramento> query = em.createQuery("SELECT e FROM VWEncerramento e WHERE e.zona=?1 AND e.codmunic=?2 ORDER BY e.nome", 
-					             VWEncerramento.class);
-			query.setParameter(1, pkze.getZona());
-			query.setParameter(2, pkze.getCodmunic());
+			TypedQuery<VWEncerramento> query = null;
+			String sql = "SELECT e FROM VWEncerramento e WHERE e.dataCad "+ estadoRecebimento + " ORDER BY e.zona, e.codmunic, e.nome";
+			if (pkze.getZona()!=9999) {
+				sql = "SELECT e FROM VWEncerramento e WHERE e.dataCad " + estadoRecebimento + " AND e.zona=?1 AND e.codmunic=?2 ORDER BY e.nome";
+				query = em.createQuery(sql,	VWEncerramento.class);
+				query.setParameter(1, pkze.getZona());
+				query.setParameter(2, pkze.getCodmunic());
+			}else {
+				query = em.createQuery(sql,	VWEncerramento.class);	
+			}
+			lista = query.getResultList();
+		} catch (Exception e) {
+			em.close();
+			e.printStackTrace();
+		} finally {
+			em.close();
+		}
+		return lista;
+	
+	}
+	
+	@Override	
+	public List<VWEncerramento> listar(Tecnico tecnicoResponsavel, String estadoRecebimento) throws Exception {
+		List<VWEncerramento> lista = new ArrayList<VWEncerramento>();
+		EntityManager em = EntityManagerProvider.getInstance().createManager();
+		try {
+			TypedQuery<VWEncerramento> query = em.createQuery("SELECT e FROM VWEncerramento e WHERE e.dataCad "+ 
+						estadoRecebimento + " AND e.idTecnicoResp=?1 ORDER BY e.nome", VWEncerramento.class);
+			query.setParameter(1, tecnicoResponsavel.getId());
 			lista = query.getResultList();
 		} catch (Exception e) {
 			em.close();
@@ -83,14 +127,13 @@ public class EncerramentoDAOImpl implements EncerramentoDAO {
 		return lista;
 	}
 	
-	@Override	
-	public List<VWEncerramento> listar(int tecnicoResponsavel) throws Exception {
+	@Override
+	public List<VWEncerramento> listar(Tecnico tecnicoResponsavel) throws Exception{
 		List<VWEncerramento> lista = new ArrayList<VWEncerramento>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
-			TypedQuery<VWEncerramento> query = em.createQuery("SELECT e FROM VWEncerramento e WHERE e.idTecnicoResp=?1 ORDER BY e.nome", 
-					 VWEncerramento.class);
-			query.setParameter(1, tecnicoResponsavel);
+			TypedQuery<VWEncerramento> query = em.createQuery("SELECT e FROM VWEncerramento e WHERE e.idTecnicoResp=?1 ORDER BY e.nome", VWEncerramento.class);
+			query.setParameter(1, tecnicoResponsavel.getId());
 			lista = query.getResultList();
 		} catch (Exception e) {
 			em.close();
@@ -125,18 +168,14 @@ public class EncerramentoDAOImpl implements EncerramentoDAO {
 		return ret;
 	}
 	
+	
 	@Override
-	public List<VWEncerramento> listar() throws Exception {
+	public List<VWEncerramento> listar(String estadoRecebimento) throws Exception {
 		List<VWEncerramento> lista = new ArrayList<VWEncerramento>();
 		EntityManager em = EntityManagerProvider.getInstance().createManager();
 		try {
-			TypedQuery<VWEncerramento> query = em.createQuery("SELECT e FROM VWEncerramento e ORDER BY e.zona, e.codmunic, e.nome",
-					VWEncerramento.class);
-			// + " AND e.id.id IN (SELECT us.id.id FROM PontoTransmissao us "
-			// + " WHERE us.zona=?1 AND us.codmunic=?2 AND
-			// us.id.eleicao.ativo=1)",Encerramento.class);
-			// query.setParameter(1, zona);
-			// query.setParameter(2, codmunic);
+			TypedQuery<VWEncerramento> query = em.createQuery("SELECT e FROM VWEncerramento e WHERE e.dataCad "+ estadoRecebimento 
+					+" ORDER BY e.zona, e.codmunic, e.nome",VWEncerramento.class);
 			lista = query.getResultList();
 		} catch (Exception e) {
 			em.close();
@@ -194,8 +233,9 @@ public class EncerramentoDAOImpl implements EncerramentoDAO {
 		  System.out.println("Encerramento " + e.toString());
 		 */
 		
-		 
-		  for(VWEncerramento e: dao.listarPorZona(60)) { 
+		  // CadZonaEleitoralPK pkze = new CadZonaEleitoralPK("60;2895");
+		Tecnico tecresp = new Tecnico(1432018,"");
+		  for(VWEncerramento e: dao.listar(tecresp)) { 
 			  System.out.println("Status===" +  e.toString()); 
 		  }
 		 

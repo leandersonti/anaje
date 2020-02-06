@@ -15,6 +15,7 @@ import br.jus.tream.DAO.EncerramentoDAO;
 import br.jus.tream.DAO.EncerramentoDAOImpl;
 import br.jus.tream.dominio.BeanResult;
 import br.jus.tream.dominio.Encerramento;
+import br.jus.tream.dominio.Tecnico;
 import br.jus.tream.dominio.VWEncerramento;
 import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 
@@ -25,8 +26,10 @@ import br.jus.tream.dominio.pk.CadZonaEleitoralPK;
 public class ActionEncerramento extends ActionSupport{
 	private List<VWEncerramento> lstEncerramento;
 	private Encerramento encerramento;
-	private String codZonaMunic;
-	private Integer idTecnicoResponsavel;
+	private Tecnico tecResponsavel = new Tecnico(0,"");
+	private String codZonaMunic = "0;0";
+	private String estadoRecebimento = "is not null";
+	//private Integer idTecnicoResponsavel;
 	private BeanResult result;
 	private final static EncerramentoDAO dao = EncerramentoDAOImpl.getInstance();
 	private final static Permissao permissao = Permissao.getInstance();
@@ -36,20 +39,22 @@ public class ActionEncerramento extends ActionSupport{
 	)
 	public String listar() {
 		try {
-			CadZonaEleitoralPK pkze = null;
-			if (this.codZonaMunic==null) {
-				codZonaMunic = "9999;9999";
-				pkze = new CadZonaEleitoralPK(codZonaMunic);
-			}else {
-			     pkze = new CadZonaEleitoralPK(this.codZonaMunic); }
-			if (permissao.getAdmin()) {
-				if (pkze.getZona()==9999) {
-					this.lstEncerramento = dao.listar();
+			CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
+			System.out.println("zona " + pkze.getZona() + "/" + pkze.getCodmunic() + " TecResp="+ tecResponsavel.getId() + " estado: " + estadoRecebimento);
+			if (pkze.getZona()==9999 && tecResponsavel.getId()==9999) {
+				if (permissao.getAdmin()) {
+					this.lstEncerramento = dao.listar(estadoRecebimento);	
 				}else {
-				   this.lstEncerramento = dao.listar(pkze);
-				}
+					this.lstEncerramento = dao.listar(permissao.getZona(), estadoRecebimento);
+				}					
 			}else {
-				this.lstEncerramento = dao.listar(permissao.getZona());
+				if (pkze.getZona()!=9999 && tecResponsavel.getId()==9999) {
+				       this.lstEncerramento = dao.listar(pkze, estadoRecebimento);
+			     }else {
+			    	 if (pkze.getZona()==9999 && tecResponsavel.getId()!=9999) {
+			    		 this.lstEncerramento = dao.listar(tecResponsavel, estadoRecebimento);
+			    	 }
+			     }
 			}
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
@@ -57,19 +62,21 @@ public class ActionEncerramento extends ActionSupport{
 		}
 		return "success";
 	}
+		
 	
 	@Action(value = "listarJson", results = { @Result(name = "success", type = "json", params = { "root", "lstEncerramento" }),
 			@Result(name = "error", location = "/pages/resultAjax.jsp")})
 	public String listarJson() {
 		try {
-			CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(this.codZonaMunic);
-			this.lstEncerramento = dao.listar(pkze);
+			CadZonaEleitoralPK	pkze = new CadZonaEleitoralPK(codZonaMunic);
+			this.lstEncerramento = dao.listar(pkze, estadoRecebimento);
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));
 			return "error";
 		}
 		return "success";
 	}
+	
 	
 	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmEncerramento.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
@@ -191,12 +198,20 @@ public class ActionEncerramento extends ActionSupport{
 		this.result = result;
 	}
 
-	public Integer getIdTecnicoResponsavel() {
-		return idTecnicoResponsavel;
+	public Tecnico getTecResponsavel() {
+		return tecResponsavel;
 	}
 
-	public void setIdTecnicoResponsavel(Integer idTecnicoResponsavel) {
-		this.idTecnicoResponsavel = idTecnicoResponsavel;
+	public void setTecResponsavel(Tecnico tecResponsavel) {
+		this.tecResponsavel = tecResponsavel;
+	}
+
+	public String getEstadoRecebimento() {
+		return estadoRecebimento;
+	}
+
+	public void setEstadoRecebimento(String estadoRecebimento) {
+		this.estadoRecebimento = estadoRecebimento;
 	}
 
 }
