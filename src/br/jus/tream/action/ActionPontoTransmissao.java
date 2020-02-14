@@ -16,6 +16,7 @@ import br.jus.tream.DAO.DistribuicaoEquipamentoDAOImpl;
 import br.jus.tream.DAO.DistribuicaoSecaoDAOImpl;
 import br.jus.tream.DAO.DistribuicaoTecnicoDAOImpl;
 import br.jus.tream.DAO.EleicaoDAOImpl;
+import br.jus.tream.DAO.EncerramentoDAOImpl;
 import br.jus.tream.DAO.PontoTransmissaoDAO;
 import br.jus.tream.DAO.PontoTransmissaoDAOImpl;
 import br.jus.tream.DAO.PpoDAOImpl;
@@ -335,7 +336,9 @@ public class ActionPontoTransmissao extends ActionSupport {
 			id.setEleicao(eleicao);
 			CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(codZonaMunic);
 			
-			if (id.getId()==999999) {	    
+			if (id.getId()==999999) {
+				// REINICIALIZA ENCERRAMENTO
+				EncerramentoDAOImpl.getInstance().reinicializar(pkze, id);
 				// REINICIALIZAR PPO
 			    PpoDAOImpl.getInstance().reinicializar(pkze, id);
 			 // OFICIALIZA TODOS OS PONTOS
