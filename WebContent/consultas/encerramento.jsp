@@ -6,7 +6,7 @@
 <div class="container-fluid">
 	<div class="card">
 
-		<div class="card-header">
+		<div class="card-header text-white bg-info">
 			<form action="listar" class="form-inline" name="frmConsultaPontoEncerrado" id="frmConsultaPontoEncerrado" method="post">	
 	  		<strong>Encerramento &nbsp</strong>   
 	  				<select class="form-control form-control" id="codZonaMunic" name="codZonaMunic">

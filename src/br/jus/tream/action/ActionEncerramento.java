@@ -34,6 +34,13 @@ public class ActionEncerramento extends ActionSupport{
 	private final static EncerramentoDAO dao = EncerramentoDAOImpl.getInstance();
 	private final static Permissao permissao = Permissao.getInstance();
 	
+	
+	@Action(value = "frmSetupReinicializa", results = { @Result(name = "success", location = "/forms/frmReinicializarEncerramento.jsp"),
+			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
+	public String frmCad() {
+		return "success";
+	}
+	
 	@Action(value = "listar", results = { @Result(name = "success", location = "/consultas/encerramento.jsp"),
 			@Result(name = "error", location = "/result.jsp")}, interceptorRefs = @InterceptorRef("authStack")
 	)
@@ -76,12 +83,6 @@ public class ActionEncerramento extends ActionSupport{
 		return "success";
 	}
 	
-	
-	@Action(value = "frmCad", results = { @Result(name = "success", location = "/forms/frmEncerramento.jsp"),
-			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))
-	public String frmCadEleicao() {	
-		return "success";
-	}
 	
 	@Action(value = "frmEditar", results = { @Result(name = "success", location = "/forms/frmDataEleicao.jsp"),
 			@Result(name = "error", location = "/pages/error.jsp") }, interceptorRefs = @InterceptorRef("authStack"))

@@ -51,15 +51,11 @@ public class ActionPpo extends ActionSupport {
 	public String listarView() {
 		try {
 			CadZonaEleitoralPK pkze = new CadZonaEleitoralPK(this.codZonaMunic);
-			
-			System.out.println("zona " + pkze.getZona() + "/" + pkze.getCodmunic() + " TecResp="+ idTecnicoResponsavel );
-			
 			if (permissao.getAdmin()) {			
 				this.lstVWPpo = dao.listarView(pkze, idTecnicoResponsavel);
 			}else {
 				if (pkze.getZona()==9999 && idTecnicoResponsavel==9999) {
 					this.lstVWPpo = dao.listarView(permissao.getZona());
-					System.out.println("Cheguei aqui!! ZE=" + pkze.getZona()  );
 				}	
 				else	
 				    this.lstVWPpo = dao.listarView(pkze, idTecnicoResponsavel);			
@@ -77,7 +73,6 @@ public class ActionPpo extends ActionSupport {
 			@Result(name = "error", location = "/pages/resultAjax.jsp") })
 	public String listarJsonByTitulo() {
 		try {
-			//System.out.println("==" + tituloEleitor);
 			this.lstPpo = dao.listar(tituloEleitor);
 		} catch (Exception e) {
 			addActionError(getText("listar.error"));

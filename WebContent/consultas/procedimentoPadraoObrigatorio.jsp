@@ -6,7 +6,7 @@
 
 <div class="container-fluid">
 	<div class="card">
-		<div class="card-header">Protocolo Padrão Obrigatório -
+		<div class="card-header text-white bg-info">Protocolo Padrão Obrigatório -
 			Técnicos: 247 |<a href="consultaPormultiplicador.jsp"> Consulta por multiplicador </a></div>
 		<div class="card-body">
 

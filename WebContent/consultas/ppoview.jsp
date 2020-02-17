@@ -6,7 +6,7 @@
 <div class="container-full"> 
  <div class="container-fluid">   
  <div class="card">
-  <div class="card-header">  
+  <div class="card-header text-white bg-info">  
       <form action="" class="form-inline" name="frmConsultaPpo" id="frmConsultaPpo">	
   		<strong>Protocolo Padrão Obrigatório &nbsp</strong>   
   		

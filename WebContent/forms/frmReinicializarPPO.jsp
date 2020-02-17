@@ -4,7 +4,7 @@
 	
 	
 	<div class="card">
-		<div class="card-header text-white bg-dark">
+		<div class="card-header text-black bg-warning">
 			<b>Reinicializar PPO</b>
 		</div>
 		<div class="card-body">

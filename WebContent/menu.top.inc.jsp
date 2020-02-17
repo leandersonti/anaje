@@ -72,7 +72,9 @@
 	              <a class="dropdown-item" href="${pageContext.request.contextPath}/ppo/listarView">PPO</a>
 	              <a class="dropdown-item" href="${pageContext.request.contextPath}/encerramento/listar">Encerramento</a>
 	              <a class="dropdown-item" href="#">Equipamentos</a>
+	              <div class="dropdown-divider"></div>
 	              <a class="dropdown-item" href="${pageContext.request.contextPath}/ppo/frmSetupReinicializa">Reinicia PPO</a>
+	              <a class="dropdown-item" href="${pageContext.request.contextPath}/encerramento/frmSetupReinicializa">Reinicia Encerramento</a>
 	              
 	            </div>
 	          </li>   
